@@ -17,7 +17,7 @@
       "name_zh": "套餐",
       "name_fr": "Menus",
       "icon": "🍱",
-      "cover": "https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop",
       "items": [
         {"id": "SM01", "name_zh": "午市套餐", "name_fr": "Menu Midi", "price": 26.00},
         {"id": "SM02", "name_zh": "午市套餐2", "name_fr": "Menu Midi 2", "price": 29.00},
@@ -33,7 +33,7 @@
       "name_zh": "汤类和沙拉",
       "name_fr": "Soupes et Salades",
       "icon": "🥣",
-      "cover": "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop",
       "items": [
         {"id": "S1", "name_zh": "鸡肉玉米汤", "name_fr": "Soupe poulet maïs", "price": 16.50},
         {"id": "S2", "name_zh": "蟹肉芦笋汤", "name_fr": "Soupe crabe asperges", "price": 18.50},
@@ -52,7 +52,7 @@
       "name_zh": "点心",
       "name_fr": "Dim Sum",
       "icon": "🥟",
-      "cover": "https://images.unsplash.com/photo-1563245372-f21724e3856d?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=400&h=300&fit=crop",
       "items": [
         {"id": "V1", "name_zh": "虾饺", "name_fr": "Raviolis aux crevettes", "price": 16.50},
         {"id": "V2", "name_zh": "烧卖", "name_fr": "Siu Mai", "price": 16.50},
@@ -75,7 +75,7 @@
       "name_zh": "炸品",
       "name_fr": "Fritures",
       "icon": "🍤",
-      "cover": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop",
       "items": [
         {"id": "F1", "name_zh": "鸡春卷", "name_fr": "Nems au poulet", "price": 15.00},
         {"id": "F2", "name_zh": "虾春卷", "name_fr": "Nems aux crevettes", "price": 16.50},
@@ -91,7 +91,7 @@
       "name_zh": "虾蟹类",
       "name_fr": "Fruits de Mer",
       "icon": "🦐",
-      "cover": "https://images.unsplash.com/photo-1615361200141-f45040f367be?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&h=300&fit=crop",
       "items": [
         {"id": "C1", "name_zh": "干烧虾", "name_fr": "Crevettes sautées piquantes", "price": 35.00},
         {"id": "C2", "name_zh": "椒盐明虾", "name_fr": "Gambas sel et poivre", "price": 37.00},
@@ -112,7 +112,7 @@
       "name_zh": "肉类",
       "name_fr": "Viandes",
       "icon": "🥩",
-      "cover": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
       "items": [
         {"id": "M1", "name_zh": "宫保鸡", "name_fr": "Poulet Kung Pao", "price": 28.00},
         {"id": "M2", "name_zh": "咕咾鸡", "name_fr": "Poulet aigre-doux", "price": 28.00},
@@ -135,7 +135,7 @@
       "name_zh": "鱼类",
       "name_fr": "Poissons",
       "icon": "🐟",
-      "cover": "https://images.unsplash.com/photo-1580476262798-bddd9f4b7369?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1534766555764-ce878a4e947d?w=400&h=300&fit=crop",
       "items": [
         {"id": "P1", "name_zh": "清蒸鲈鱼", "name_fr": "Bar vapeur", "price": 40.00},
         {"id": "P2", "name_zh": "泰式煎鲈鱼", "name_fr": "Bar grillé thaï", "price": 40.00},
@@ -156,7 +156,7 @@
       "name_zh": "泰餐·汤沙拉",
       "name_fr": "Thaï — Soupes & Salades",
       "icon": "🌶️",
-      "cover": "https://images.unsplash.com/photo-1562565652-a0d8f0c59eb4?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop",
       "items": [
         {"id": "T201", "name_zh": "冬阴功海鲜汤", "name_fr": "Tom Yum fruits de mer", "price": 20.00},
         {"id": "T202", "name_zh": "冬阴功虾汤", "name_fr": "Tom Yum crevettes", "price": 18.00},
@@ -173,7 +173,7 @@
       "name_zh": "泰餐·主菜",
       "name_fr": "Thaï — Plats Principaux",
       "icon": "🍛",
-      "cover": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=300&fit=crop",
       "items": [
         {"id": "T218", "name_zh": "串烧鸡（3件）", "name_fr": "Brochettes poulet (3 pcs)", "price": 18.00},
         {"id": "T219", "name_zh": "串烧牛（3件）", "name_fr": "Brochettes bœuf (3 pcs)", "price": 20.00},
@@ -195,7 +195,7 @@
       "name_zh": "素餐",
       "name_fr": "Végétarien",
       "icon": "🥦",
-      "cover": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
       "items": [
         {"id": "A1", "name_zh": "粉丝菜汤", "name_fr": "Soupe vermicelles légumes", "price": 16.50},
         {"id": "A2", "name_zh": "酸辣汤", "name_fr": "Soupe piquante", "price": 16.50},
@@ -218,7 +218,7 @@
       "name_zh": "配饭",
       "name_fr": "Riz et Nouilles",
       "icon": "🍚",
-      "cover": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&h=300&fit=crop",
       "items": [
         {"id": "A15", "name_zh": "白饭", "name_fr": "Riz blanc", "price": 6.00},
         {"id": "A16", "name_zh": "糯米饭", "name_fr": "Riz gluant", "price": 8.00},
@@ -233,7 +233,7 @@
       "name_zh": "甜点",
       "name_fr": "Desserts",
       "icon": "🍮",
-      "cover": "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop",
       "items": [
         {"id": "D01", "name_zh": "冰淇淋2球", "name_fr": "Glace 2 boules", "price": 10.00},
         {"id": "D02", "name_zh": "冰淇淋1球", "name_fr": "Glace 1 boule", "price": 6.00},
@@ -262,7 +262,7 @@
       "name_zh": "饮品",
       "name_fr": "Boissons",
       "icon": "🍵",
-      "cover": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop",
       "items": [
         {"id": "B01", "name_zh": "茶", "name_fr": "Thé chinois", "price": 8.00},
         {"id": "B02", "name_zh": "咖啡/低因", "name_fr": "Café/Déca", "price": 5.00},
@@ -281,7 +281,7 @@
       "name_zh": "龙虾专区",
       "name_fr": "Homard & Langouste",
       "icon": "🦞",
-      "cover": "https://images.unsplash.com/photo-1533682805518-4e4d2ba1e9b3?w=600&q=80",
+      "cover": "https://images.unsplash.com/photo-1553247407-23251ce81f59?w=400&h=300&fit=crop",
       "items": [
         {"id": "L01", "name_zh": "龙虾 (500g)", "name_fr": "Homard (500g)", "price": 90.00},
         {"id": "L02", "name_zh": "龙虾 (600g)", "name_fr": "Homard (600g)", "price": 98.00},
