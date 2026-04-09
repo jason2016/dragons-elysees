@@ -70,7 +70,7 @@
   color: var(--text-primary);
 }
 
-.lineNameFr {
+.lineNameSub {
   font-size: 0.75rem;
   color: var(--text-secondary);
 }
@@ -245,3 +245,15 @@
 }
 
 .backBtn:hover { color: var(--text-secondary); }
+
+/* Mobile 375px */
+@media (max-width: 390px) {
+  .page { padding: 72px 10px 32px; }
+  .container { gap: 12px; }
+  .card { padding: 14px; }
+  .title { font-size: 1.3rem; }
+  .lineItem { gap: 6px; }
+  .lineName { font-size: 0.85rem; }
+  .linePrice { font-size: 0.85rem; }
+  .summaryTotal { font-size: 0.95rem; }
+}

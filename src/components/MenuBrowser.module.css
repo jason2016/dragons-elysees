@@ -25,12 +25,12 @@
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* Category nav */
+/* ── Category nav ── */
 .catNavWrap {
   position: sticky;
   top: 60px;
   z-index: 80;
-  background: rgba(10, 10, 10, 0.95);
+  background: rgba(10, 10, 10, 0.96);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-color);
 }
@@ -38,7 +38,7 @@
 .catNav {
   display: flex;
   gap: 4px;
-  padding: 8px 16px;
+  padding: 8px 12px;
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -49,11 +49,11 @@
 .catBtn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 7px 14px;
+  gap: 5px;
+  padding: 6px 12px;
   border-radius: 20px;
   white-space: nowrap;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-secondary);
   transition: var(--transition-fast);
@@ -71,85 +71,86 @@
   border: 1px solid var(--border-gold);
 }
 
-.catIcon { font-size: 1rem; }
+.catIcon { font-size: 0.95rem; }
 
-/* Content */
+/* ── Content ── */
 .content {
   max-width: 900px;
   margin: 0 auto;
-  padding: 0 16px 120px;
+  padding: 0 12px 140px;
 }
 
-/* Section */
+/* ── Section header (gradient banner) ── */
 .section {
-  margin-top: 40px;
+  margin-top: 36px;
 }
 
 .sectionHeader {
   position: relative;
-  height: 140px;
+  height: 100px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
 }
 
-.sectionCover {
+.sectionHeaderOverlay {
   position: absolute;
   inset: 0;
+  background: rgba(0, 0, 0, 0.35);
 }
 
-.sectionCover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.sectionCoverOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, rgba(10,10,10,0.85) 40%, rgba(10,10,10,0.3) 100%);
+.sectionEmoji {
+  position: relative;
+  z-index: 1;
+  font-size: 2.4rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
 }
 
 .sectionTitles {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 20px 24px;
+  position: relative;
+  z-index: 1;
 }
 
-.sectionZh {
+.sectionPrimary {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: var(--accent-gold);
+  font-size: 1.3rem;
+  color: #fff;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
 }
 
-.sectionFr {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
+.sectionSecondary {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.7);
   margin-top: 2px;
 }
 
-/* Items grid */
+/* ── Items grid ── */
 .itemsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 540px) {
   .itemsGrid { grid-template-columns: 1fr; }
 }
 
-/* Dish card */
+/* ── Dish card ── */
 .card {
   display: flex;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   overflow: hidden;
-  transition: var(--transition-fast);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+  min-height: 80px;
 }
 
 .card:hover {
@@ -157,42 +158,45 @@
   background: var(--bg-card-hover);
 }
 
-.cardImg {
+/* Gradient thumbnail */
+.cardThumb {
   flex-shrink: 0;
-  width: 90px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cardImg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.cardThumbEmoji {
+  font-size: 1.8rem;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
 }
 
+/* Card body */
 .cardBody {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 12px 14px;
+  padding: 10px 12px;
   min-width: 0;
 }
 
 .cardNames {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
-.cardZh {
-  font-family: var(--font-body);
+.cardPrimary {
   font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--accent-gold-light);
+  font-size: 0.9rem;
+  color: var(--text-primary);
   line-height: 1.3;
 }
 
-.cardFr {
-  font-size: 0.8rem;
+.cardSecondary {
+  font-size: 0.75rem;
   color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
@@ -200,7 +204,7 @@
 }
 
 .cardNote {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
   font-style: italic;
 }
@@ -209,19 +213,19 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .cardPrice {
   font-family: var(--font-price);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
-  color: var(--text-primary);
+  color: var(--accent-gold);
 }
 
 .addBtn {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: var(--radius-sm);
   background: var(--accent-gold-dim);
   color: var(--accent-gold);
@@ -237,6 +241,7 @@
   background: var(--accent-gold);
   color: #0a0a0a;
   border-color: var(--accent-gold);
+  transform: scale(1.05);
 }
 
 .addBtnAdded {
@@ -245,22 +250,22 @@
   color: white !important;
 }
 
-/* Wine note */
+/* ── Wine note ── */
 .wineNote {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 48px;
-  padding: 16px 20px;
+  margin-top: 40px;
+  padding: 14px 18px;
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-style: italic;
 }
 
-/* Cart bar */
+/* ── Cart bar (bottom sticky) ── */
 .cartBar {
   position: fixed;
   bottom: 0;
@@ -270,11 +275,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 14px 20px;
   background: var(--accent-gold);
   color: #0a0a0a;
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: background var(--transition-fast);
+  border: none;
+  width: 100%;
+  /* safe area for notch phones */
+  padding-bottom: max(14px, env(safe-area-inset-bottom));
 }
 
 .cartBar:hover {
@@ -284,18 +293,18 @@
 .cartBarLeft {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.93rem;
 }
 
 .cartBarBadge {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background: #0a0a0a;
   color: var(--accent-gold);
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -305,5 +314,23 @@
 .cartBarTotal {
   font-family: var(--font-price);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.95rem;
+}
+
+/* ── Mobile 375px ── */
+@media (max-width: 390px) {
+  .content { padding: 0 8px 140px; }
+
+  .sectionHeader { height: 80px; padding: 0 14px; gap: 10px; }
+  .sectionEmoji { font-size: 1.8rem; }
+  .sectionPrimary { font-size: 1.1rem; }
+
+  .catBtn { padding: 5px 10px; font-size: 0.75rem; }
+  .catIcon { font-size: 0.85rem; }
+
+  .cardThumb { width: 70px; }
+  .cardThumbEmoji { font-size: 1.5rem; }
+  .cardBody { padding: 8px 10px; }
+  .cardPrimary { font-size: 0.85rem; }
+  .cardPrice { font-size: 0.85rem; }
 }

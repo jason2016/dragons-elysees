@@ -58,6 +58,13 @@
   .logoDivider { display: none; }
 }
 
+@media (max-width: 390px) {
+  .inner { padding: 0 12px; }
+  .navLink { padding: 6px 8px; font-size: 0.82rem; }
+  .langBtn { padding: 4px 8px; font-size: 0.7rem; }
+  .cartBtn { width: 36px; height: 36px; }
+}
+
 .nav {
   display: flex;
   align-items: center;
@@ -89,6 +96,23 @@
   flex-shrink: 0;
 }
 
+.langBtn {
+  padding: 5px 10px;
+  border-radius: 12px;
+  background: rgba(201, 168, 76, 0.12);
+  border: 1px solid var(--border-gold);
+  color: var(--accent-gold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: var(--transition-fast);
+  margin: 0 2px;
+}
+
+.langBtn:hover {
+  background: rgba(201, 168, 76, 0.25);
+}
+
 .cartBtn {
   position: relative;
   display: flex;
@@ -99,7 +123,7 @@
   color: var(--text-primary);
   border-radius: var(--radius-md);
   transition: var(--transition-fast);
-  margin-left: 4px;
+  margin-left: 2px;
 }
 
 .cartBtn:hover {

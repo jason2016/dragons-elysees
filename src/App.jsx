@@ -1,7 +1,9 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './hooks/useCart'
 import { AuthProvider } from './hooks/useAuth'
+import { LangProvider } from './hooks/useLang'
 import Header from './components/Header'
+import Cart from './components/Cart'
 import HomePage from './components/HomePage'
 import MenuBrowser from './components/MenuBrowser'
 import Checkout from './components/Checkout'
@@ -14,11 +16,13 @@ import AdminPanel from './components/AdminPanel'
 export default function App() {
   return (
     <HashRouter>
-      <AuthProvider>
-        <CartProvider>
-          <AppRoutes />
-        </CartProvider>
-      </AuthProvider>
+      <LangProvider>
+        <AuthProvider>
+          <CartProvider>
+            <AppRoutes />
+          </CartProvider>
+        </AuthProvider>
+      </LangProvider>
     </HashRouter>
   )
 }
@@ -27,6 +31,7 @@ function AppRoutes() {
   return (
     <>
       <Header />
+      <Cart />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/menu" element={<MenuBrowser />} />

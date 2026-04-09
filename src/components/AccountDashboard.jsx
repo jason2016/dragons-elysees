@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
+import { useLang } from '../hooks/useLang'
 import { api, formatPrice } from '../utils/api'
 import styles from './AccountDashboard.module.css'
 
 export default function AccountDashboard() {
   const { customer, isLoggedIn, logout } = useAuth()
+  const { t } = useLang()
   const navigate = useNavigate()
   const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(true)
@@ -41,20 +43,18 @@ export default function AccountDashboard() {
           </div>
         </div>
 
-        {/* Balance */}
         <div className={styles.balanceCard}>
-          <div className={styles.balanceLabel}>Solde Balance</div>
+          <div className={styles.balanceLabel}>Balance</div>
           <div className={styles.balanceValue}>{formatPrice(customer?.balance || 0)}</div>
-          <div className={styles.balanceSub}>Utilisable sur votre prochaine commande</div>
+          <div className={styles.balanceSub}>{t('balanceSub')}</div>
         </div>
 
-        {/* Transactions */}
         <div className={styles.card}>
-          <h2 className={styles.sectionTitle}>Historique des transactions</h2>
+          <h2 className={styles.sectionTitle}>{t('txHistory')}</h2>
           {loading ? (
-            <div className={styles.loading}>Chargement…</div>
+            <div className={styles.loading}>{t('txLoading')}</div>
           ) : transactions.length === 0 ? (
-            <div className={styles.empty}>Aucune transaction pour l'instant.</div>
+            <div className={styles.empty}>{t('txEmpty')}</div>
           ) : (
             <div className={styles.txList}>
               {transactions.map(tx => (
@@ -78,7 +78,7 @@ export default function AccountDashboard() {
             <polyline points="16 17 21 12 16 7"/>
             <line x1="21" y1="12" x2="9" y2="12"/>
           </svg>
-          Se déconnecter
+          {t('logout')}
         </button>
       </div>
     </div>

@@ -1,11 +1,13 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
+import { useLang } from '../hooks/useLang'
 import styles from './Header.module.css'
 
 export default function Header() {
-  const { count } = useCart()
+  const { count, openCart } = useCart()
   const { isLoggedIn, customer } = useAuth()
+  const { lang, toggle, t } = useLang()
   const location = useLocation()
   const isHome = location.pathname === '/'
 
@@ -20,8 +22,9 @@ export default function Header() {
 
         <nav className={styles.nav}>
           <Link to="/menu" className={styles.navLink}>
-            Menu
+            {t('menu')}
           </Link>
+
           {isLoggedIn ? (
             <Link to="/account" className={styles.navLink}>
               <span className={styles.accountDot} />
@@ -29,17 +32,33 @@ export default function Header() {
             </Link>
           ) : (
             <Link to="/account/login" className={styles.navLink}>
-              Connexion
+              {t('login')}
             </Link>
           )}
-          <Link to="/menu" className={styles.cartBtn} aria-label="Panier">
+
+          {/* Language toggle */}
+          <button
+            className={styles.langBtn}
+            onClick={toggle}
+            aria-label="Changer la langue"
+            title={lang === 'fr' ? '切换中文' : 'Passer en français'}
+          >
+            {lang === 'fr' ? '中文' : 'FR'}
+          </button>
+
+          {/* Cart */}
+          <button
+            className={styles.cartBtn}
+            onClick={openCart}
+            aria-label={t('cartTitle')}
+          >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
               <line x1="3" y1="6" x2="21" y2="6"/>
               <path d="M16 10a4 4 0 01-8 0"/>
             </svg>
             {count > 0 && <span className={styles.cartBadge}>{count}</span>}
-          </Link>
+          </button>
         </nav>
       </div>
     </header>
