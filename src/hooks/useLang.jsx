@@ -2,18 +2,32 @@ import { createContext, useContext, useState } from 'react'
 
 const LangContext = createContext(null)
 
-// All UI strings — add keys as needed
 const translations = {
   fr: {
-    // Nav
+    // ── Header ──
     menu: 'Menu',
     login: 'Connexion',
     myAccount: 'Mon compte',
-    // Menu page
+
+    // ── Home page ──
+    heroEyebrow: '11 Rue de Berri · Paris 8e',
+    heroSub: 'Cuisine Chinoise & Thaïlandaise raffinée\naux portes des Champs-Élysées',
+    viewMenu: 'Voir le menu',
+    hoursLabel: 'Lun–Dim · 11h–14h & 18h–23h',
+    cashbackStrip: '10% cashback sur chaque commande',
+    feat1Title: 'Commander en ligne',
+    feat1Desc: 'Scannez le QR code à votre table, choisissez vos plats et payez en un clic.',
+    feat2Title: 'Balance Cashback',
+    feat2Desc: '10% de vos dépenses sont crédités sur votre compte et utilisables à la prochaine visite.',
+    feat3Title: 'Vos avis comptent',
+    feat3Desc: 'Après chaque repas, aidez-nous à progresser en laissant votre avis sur Google.',
+
+    // ── Menu page ──
     loading: 'Chargement du menu…',
     wineNote: 'Carte des vins et boissons alcoolisées disponible auprès du serveur',
     viewCart: 'Voir mon panier',
-    // Cart
+
+    // ── Cart ──
     cartTitle: 'Mon Panier',
     cartEmpty: 'Votre panier est vide',
     browseMenu: 'Parcourir le menu',
@@ -21,7 +35,8 @@ const translations = {
     cashbackEarn: (amount) => `Vous gagnerez ${amount} de cashback`,
     order: 'Commander',
     clearCart: 'Vider le panier',
-    // Checkout
+
+    // ── Checkout ──
     checkoutTitle: 'Récapitulatif de commande',
     yourDishes: 'Vos plats',
     info: 'Informations',
@@ -43,7 +58,8 @@ const translations = {
     emptyCart: 'Votre panier est vide.',
     backToMenu: 'Retour au menu',
     editOrder: '← Modifier ma commande',
-    // Payment success
+
+    // ── Payment success ──
     confirmed: 'Commande confirmée !',
     orderNumber: 'Numéro de commande',
     waitHint: 'Veuillez patienter, nous préparons vos plats',
@@ -57,7 +73,8 @@ const translations = {
     reviewSub: "Votre avis aide d'autres gourmets à découvrir notre restaurant.",
     leaveReview: 'Laisser un avis sur Google',
     newOrder: 'Passer une nouvelle commande',
-    // Account login
+
+    // ── Account login ──
     myAccountTitle: 'Mon Compte',
     loginSubEmail: 'Entrez votre adresse e-mail pour vous connecter ou créer un compte.',
     loginSubOtp: (email) => `Code envoyé à ${email} — vérifiez vos spams si besoin.`,
@@ -71,20 +88,40 @@ const translations = {
     resend: 'Renvoyer le code',
     changeEmail: "Changer d'adresse",
     loginFooter: 'Pas de compte ? En vous connectant, un compte est créé automatiquement.',
-    // Account dashboard
+
+    // ── Account dashboard ──
     balanceSub: 'Utilisable sur votre prochaine commande',
     txHistory: 'Historique des transactions',
     txLoading: 'Chargement…',
-    txEmpty: 'Aucune transaction pour l\'instant.',
+    txEmpty: "Aucune transaction pour l'instant.",
     logout: 'Se déconnecter',
   },
+
   zh: {
+    // ── Header ──
     menu: '菜单',
     login: '登录',
     myAccount: '我的账户',
+
+    // ── Home page ──
+    heroEyebrow: '巴黎香榭丽舍旁 · 11 Rue de Berri',
+    heroSub: '精致中法泰三国料理\n巴黎香榭丽舍旁的高端中餐厅',
+    viewMenu: '查看菜单',
+    hoursLabel: '周一至周日 · 11h–14h & 18h–23h',
+    cashbackStrip: '每单消费10%返点到账户',
+    feat1Title: '在线点餐',
+    feat1Desc: '扫描桌上二维码，选菜、下单、支付一步完成。',
+    feat2Title: '余额返现',
+    feat2Desc: '每次消费10%自动返点，下次到店直接抵扣。',
+    feat3Title: '您的评价很重要',
+    feat3Desc: '用餐后在Google地图留下评价，帮助更多食客发现我们。',
+
+    // ── Menu page ──
     loading: '菜单加载中…',
     wineNote: '酒水单请咨询服务员',
     viewCart: '查看购物车',
+
+    // ── Cart ──
     cartTitle: '购物车',
     cartEmpty: '购物车为空',
     browseMenu: '浏览菜单',
@@ -92,6 +129,8 @@ const translations = {
     cashbackEarn: (amount) => `将获得 ${amount} 返点`,
     order: '去结账',
     clearCart: '清空购物车',
+
+    // ── Checkout ──
     checkoutTitle: '订单确认',
     yourDishes: '已选菜品',
     info: '用餐信息',
@@ -100,7 +139,7 @@ const translations = {
     notes: '备注（过敏、口味等）',
     notesPlaceholder: '例：不要太辣，不含麸质…',
     useBalance: '使用余额抵扣',
-    balanceAvailable: (amount) => `可用：${amount}`,
+    balanceAvailable: (amount) => `可用余额：${amount}`,
     balanceDeducted: (amount) => `已抵扣 ${amount}`,
     loginForCashback: (amount) => `以使用余额并获得 ${amount} 返点`,
     connect: '请登录',
@@ -113,6 +152,8 @@ const translations = {
     emptyCart: '购物车为空。',
     backToMenu: '返回菜单',
     editOrder: '← 修改订单',
+
+    // ── Payment success ──
     confirmed: '订单已确认！',
     orderNumber: '取餐号',
     waitHint: '请稍候，我们正在为您准备',
@@ -126,6 +167,8 @@ const translations = {
     reviewSub: '您的评价帮助更多食客发现我们的餐厅。',
     leaveReview: '在Google Maps上评价',
     newOrder: '继续点餐',
+
+    // ── Account login ──
     myAccountTitle: '我的账户',
     loginSubEmail: '输入邮箱登录或创建账户。',
     loginSubOtp: (email) => `验证码已发送至 ${email}，请查收（注意垃圾邮件）。`,
@@ -139,6 +182,8 @@ const translations = {
     resend: '重新发送验证码',
     changeEmail: '更换邮箱',
     loginFooter: '没有账户？登录时将自动创建。',
+
+    // ── Account dashboard ──
     balanceSub: '可在下次消费时使用',
     txHistory: '交易记录',
     txLoading: '加载中…',
@@ -150,16 +195,19 @@ const translations = {
 export function LangProvider({ children }) {
   const [lang, setLang] = useState('fr')
   const toggle = () => setLang(l => l === 'fr' ? 'zh' : 'fr')
+
   const t = (key, ...args) => {
     const val = translations[lang][key]
     if (typeof val === 'function') return val(...args)
     return val ?? key
   }
-  // Helper: pick the right name field
+
+  // Primary name in current lang; secondary = the other lang
   const name = (item) => item?.[`name_${lang}`] || item?.name_fr || ''
+  const altName = (item) => item?.[lang === 'fr' ? 'name_zh' : 'name_fr'] || ''
 
   return (
-    <LangContext.Provider value={{ lang, toggle, t, name }}>
+    <LangContext.Provider value={{ lang, toggle, t, name, altName }}>
       {children}
     </LangContext.Provider>
   )
