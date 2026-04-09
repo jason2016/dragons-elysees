@@ -1,0 +1,206 @@
+.lockScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+}
+
+.lockBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  width: 320px;
+}
+
+.lockIcon { font-size: 2.5rem; }
+
+.lockTitle {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+
+.lockInput {
+  width: 100%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0.1em;
+}
+
+.lockInput:focus { outline: none; border-color: var(--accent-gold); }
+
+/* Main screen */
+.page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.topTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--accent-gold);
+}
+
+.topSub {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.refreshBtn {
+  padding: 8px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  transition: var(--transition-fast);
+}
+
+.refreshBtn:hover { color: var(--accent-gold); border-color: var(--border-gold); }
+
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  flex: 1;
+  background: var(--border-color);
+}
+
+@media (max-width: 700px) {
+  .columns { grid-template-columns: 1fr; }
+}
+
+.column {
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.colHeader {
+  padding: 14px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.colFire { color: #ff9944; background: rgba(255, 153, 68, 0.06); }
+.colReady { color: #4caf7d; background: rgba(76, 175, 125, 0.06); }
+
+.colBody {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.colEmpty {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* Order card */
+.orderCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.blink { animation: blink 2s ease infinite; }
+@keyframes blink {
+  0%, 100% { border-color: var(--border-color); }
+  50% { border-color: var(--accent-gold); box-shadow: 0 0 12px rgba(201,168,76,0.2); }
+}
+
+.orderNum {
+  font-family: var(--font-price);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  margin-bottom: 4px;
+}
+
+.tableNum {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.orderItems {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.orderItem {
+  display: flex;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.itemQty {
+  color: var(--accent-gold);
+  font-weight: 700;
+  min-width: 24px;
+}
+
+.orderNote {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.03);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.actionBtn {
+  width: 100%;
+  padding: 10px;
+  background: var(--accent-gold-dim);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-sm);
+  color: var(--accent-gold);
+  font-weight: 600;
+  font-size: 0.88rem;
+  transition: var(--transition-fast);
+}
+
+.actionBtn:hover {
+  background: var(--accent-gold);
+  color: #0a0a0a;
+}

@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv useCart.js useCart.jsx)",
+      "Bash(mv useAuth.js useAuth.jsx)"
+    ]
+  }
+}

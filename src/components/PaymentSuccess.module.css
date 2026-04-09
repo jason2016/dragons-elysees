@@ -1,0 +1,191 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 80px 16px 60px;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.successRing {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-gold);
+  animation: ringPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes ringPop {
+  from { transform: scale(0.5); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.checkIcon { stroke: var(--accent-gold); }
+
+.icon { font-size: 3rem; }
+
+.title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.orderNum {
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.ticketNum {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.waitHint {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Card */
+.card {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.green { color: var(--accent-green); }
+
+.bold {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1rem;
+  padding-top: 4px;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Cashback */
+.cashbackCard {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.05));
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+}
+
+.cashbackCardGhost {
+  composes: cashbackCard;
+  background: rgba(255,255,255,0.03);
+  border-color: var(--border-color);
+}
+
+.cashbackIcon { font-size: 2rem; flex-shrink: 0; }
+
+.cashbackTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--accent-gold);
+  margin-bottom: 4px;
+}
+
+.cashbackSub {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.loginLink {
+  color: var(--accent-gold);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Review */
+.reviewCard {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.reviewStars { font-size: 1.4rem; letter-spacing: 2px; }
+
+.reviewTitle {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.reviewSub {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.reviewBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 13px 24px;
+  background: white;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  width: 100%;
+  justify-content: center;
+}
+
+.reviewBtn:hover {
+  background: #f5f5f5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255,255,255,0.1);
+}
