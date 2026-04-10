@@ -30,32 +30,16 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.logoZh {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--accent-gold);
-  letter-spacing: 0.05em;
-}
-
-.logoDivider {
-  color: var(--text-muted);
-  font-size: 1rem;
-}
-
-.logoFr {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  font-style: italic;
+.logoImg {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
 }
 
 @media (max-width: 480px) {
-  .logoFr { display: none; }
-  .logoDivider { display: none; }
+  .logoImg { height: 32px; }
 }
 
 @media (max-width: 390px) {

@@ -12,6 +12,7 @@ import AccountLogin from './components/AccountLogin'
 import AccountDashboard from './components/AccountDashboard'
 import KitchenDisplay from './components/KitchenDisplay'
 import AdminPanel from './components/AdminPanel'
+import InstallPrompt from './components/InstallPrompt'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ function AppRoutes() {
     <>
       <Header />
       <Cart />
+      <InstallPrompt />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/menu" element={<MenuBrowser />} />

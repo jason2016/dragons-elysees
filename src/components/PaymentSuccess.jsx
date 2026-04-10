@@ -1,21 +1,79 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
-import { formatPrice } from '../utils/api'
+import { api, formatPrice } from '../utils/api'
 import styles from './PaymentSuccess.module.css'
 
 const GOOGLE_REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJGZMEfMFv5kcRwVHuMf-SVS4'
 
 export default function PaymentSuccess() {
-  const { isLoggedIn, customer } = useAuth()
+  const { isLoggedIn, customer, updateBalance } = useAuth()
   const { t } = useLang()
+  const location = useLocation()
   const [order, setOrder] = useState(null)
 
   useEffect(() => {
-    const saved = sessionStorage.getItem('de-last-order')
-    if (saved) setOrder(JSON.parse(saved))
-  }, [])
+    async function init() {
+      // HashRouter: React Router puts ?order= into location.search for internal navigates.
+      // But when Stancer redirects back to:
+      //   https://host/dragons-elysees/#/payment-success?order=DRG-008
+      // the browser treats everything after # as the hash fragment, so React Router
+      // correctly parses ?order= into location.search.
+      // Belt-and-suspenders: also parse directly from window.location.hash.
+      let orderNum = new URLSearchParams(location.search).get('order') || ''
+      if (!orderNum) {
+        const hashQuery = window.location.hash.split('?')[1] || ''
+        orderNum = new URLSearchParams(hashQuery).get('order') || ''
+      }
+
+      // Load cached order written by Checkout before navigating away
+      let cached = null
+      try {
+        const raw = sessionStorage.getItem('de-last-order')
+        if (raw) cached = JSON.parse(raw)
+      } catch (_) {}
+
+      // Path A: cache matches (or no URL order param to check against)
+      if (cached?.id && (!orderNum || cached.order_number === orderNum)) {
+        // Always PATCH to paid — triggers cashback; idempotent on backend
+        try {
+          const paidOrder = await api.updateOrderStatus(cached.id, 'paid')
+          const refreshed = toDisplay(paidOrder)
+          setOrder(refreshed)
+          sessionStorage.setItem('de-last-order', JSON.stringify(refreshed))
+          if (isLoggedIn) {
+            try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
+          }
+        } catch (_) {
+          setOrder(cached)
+        }
+        return
+      }
+
+      // Path B: no matching cache → fetch from backend by order_number, then PATCH
+      if (orderNum) {
+        try {
+          const result = await api.getOrders({ order_number: orderNum })
+          const found = result?.orders?.[0]
+          if (found) {
+            try {
+              const paidOrder = await api.updateOrderStatus(found.id, 'paid')
+              const refreshed = toDisplay(paidOrder)
+              setOrder(refreshed)
+              sessionStorage.setItem('de-last-order', JSON.stringify(refreshed))
+              if (isLoggedIn) {
+                try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
+              }
+            } catch (_) {
+              setOrder(toDisplay(found))
+            }
+          }
+        } catch (_) {}
+      }
+    }
+    init()
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!order) {
     return (
@@ -29,7 +87,9 @@ export default function PaymentSuccess() {
     )
   }
 
-  const orderNum = order.order_number?.replace('DRG-', '') || '—'
+  const orderNum = (order.order_number || '').replace('DRG-', '') || '—'
+  const balanceUsed = order.balance_used ?? 0
+  const cashbackEarned = order.cashback_earned ?? 0
 
   return (
     <div className={styles.page}>
@@ -45,15 +105,16 @@ export default function PaymentSuccess() {
         <div className={styles.ticketNum}>#{orderNum}</div>
         <p className={styles.waitHint}>{t('waitHint')}</p>
 
+        {/* Amount breakdown */}
         <div className={styles.card}>
           <div className={styles.detailRow}>
             <span>{t('subtotal')}</span>
             <span>{formatPrice(order.subtotal)}</span>
           </div>
-          {order.balance_used > 0 && (
+          {balanceUsed > 0 && (
             <div className={`${styles.detailRow} ${styles.green}`}>
               <span>{t('balanceUsed')}</span>
-              <span>− {formatPrice(order.balance_used)}</span>
+              <span>− {formatPrice(balanceUsed)}</span>
             </div>
           )}
           <div className={`${styles.detailRow} ${styles.bold}`}>
@@ -62,12 +123,13 @@ export default function PaymentSuccess() {
           </div>
         </div>
 
-        {order.cashback_earned > 0 && isLoggedIn && (
+        {/* Cashback earned */}
+        {cashbackEarned > 0 && isLoggedIn && (
           <div className={styles.cashbackCard}>
             <div className={styles.cashbackIcon}>🎁</div>
             <div>
               <div className={styles.cashbackTitle}>
-                {t('cashbackEarned', formatPrice(order.cashback_earned))}
+                {t('cashbackEarned', formatPrice(cashbackEarned))}
               </div>
               <div className={styles.cashbackSub}>
                 {t('cashbackCredited', formatPrice(customer?.balance || 0))}
@@ -76,12 +138,13 @@ export default function PaymentSuccess() {
           </div>
         )}
 
-        {order.cashback_earned > 0 && !isLoggedIn && (
+        {/* Prompt non-logged-in users */}
+        {cashbackEarned > 0 && !isLoggedIn && (
           <div className={styles.cashbackCardGhost}>
             <div className={styles.cashbackIcon}>💡</div>
             <div>
               <div className={styles.cashbackTitle}>
-                {t('loginForCashbackSuccess', formatPrice(order.cashback_earned))}
+                {t('loginForCashbackSuccess', formatPrice(cashbackEarned))}
               </div>
               <div className={styles.cashbackSub}>
                 <Link to="/account/login" className={styles.loginLink}>{t('createAccount')}</Link>
@@ -90,6 +153,7 @@ export default function PaymentSuccess() {
           </div>
         )}
 
+        {/* Google review */}
         <div className={styles.reviewCard}>
           <div className={styles.reviewStars}>⭐⭐⭐⭐⭐</div>
           <h2 className={styles.reviewTitle}>{t('howWasIt')}</h2>
@@ -116,4 +180,16 @@ export default function PaymentSuccess() {
       </div>
     </div>
   )
+}
+
+// Normalize backend order → display shape (unified field names)
+function toDisplay(order) {
+  return {
+    id: order.id,
+    order_number: order.order_number,
+    subtotal: order.subtotal,
+    balance_used: order.cashback_used ?? order.balance_used ?? 0,
+    total_paid: order.total_paid,
+    cashback_earned: order.cashback_earned ?? 0,
+  }
 }

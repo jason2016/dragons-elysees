@@ -12,11 +12,11 @@ export default function HomePage() {
         <div className={styles.heroBg} />
         <div className={styles.heroContent}>
           <p className={styles.heroEyebrow}>{t('heroEyebrow')}</p>
-          <h1 className={styles.heroTitle}>
-            <span className={styles.titleZh}>龙城酒楼</span>
-            <span className={styles.titleSep}>·</span>
-            <span className={styles.titleFr}>Dragons Elysées</span>
-          </h1>
+          <img
+            src="https://longcheng.futushow.org/assets/images/logo5.png"
+            alt="Dragons Elysées 龙城酒楼"
+            className={styles.heroLogo}
+          />
           <div className={styles.goldDivider} />
           <p className={styles.heroSub}>
             {t('heroSub').split('\n').map((line, i) => (

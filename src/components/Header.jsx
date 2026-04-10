@@ -15,9 +15,11 @@ export default function Header() {
     <header className={`${styles.header} ${isHome ? styles.transparent : styles.solid}`}>
       <div className={styles.inner}>
         <Link to="/" className={styles.logo}>
-          <span className={styles.logoZh}>龙城酒楼</span>
-          <span className={styles.logoDivider}>·</span>
-          <span className={styles.logoFr}>Dragons Elysées</span>
+          <img
+            src="https://longcheng.futushow.org/assets/images/logo5.png"
+            alt="Dragons Elysées 龙城酒楼"
+            className={styles.logoImg}
+          />
         </Link>
 
         <nav className={styles.nav}>

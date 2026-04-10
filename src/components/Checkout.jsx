@@ -3,22 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
-import { formatPrice, generateOrderNumber } from '../utils/api'
+import { api, formatPrice } from '../utils/api'
 import styles from './Checkout.module.css'
 
 export default function Checkout() {
   const { items, total, clearCart } = useCart()
-  const { isLoggedIn, customer } = useAuth()
-  const { t, name } = useLang()
+  const { isLoggedIn, customer, updateBalance } = useAuth()
+  const { t, name, lang } = useLang()
   const navigate = useNavigate()
   const [tableNumber, setTableNumber] = useState('')
   const [note, setNote] = useState('')
   const [useBalance, setUseBalance] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const balance = customer?.balance || 0
   const balanceApplied = useBalance && isLoggedIn ? Math.min(balance, total) : 0
-  const amountToPay = total - balanceApplied
+  const amountToPay = Math.round((total - balanceApplied) * 100) / 100
+  const isFullBalancePayment = amountToPay === 0
   const cashbackEarned = amountToPay >= 15 ? Math.round(amountToPay * 0.10 * 100) / 100 : 0
 
   if (items.length === 0) {
@@ -32,29 +34,55 @@ export default function Checkout() {
 
   const handlePay = async () => {
     setLoading(true)
+    setError(null)
     try {
-      const orderNumber = generateOrderNumber()
-      const orderData = {
-        order_number: orderNumber,
+      // Step 1: create order in backend
+      const order = await api.createOrder({
         items,
-        subtotal: total,
-        balance_used: balanceApplied,
-        total_paid: amountToPay,
-        cashback_earned: cashbackEarned,
-        payment_method: balanceApplied >= total ? 'balance' : balanceApplied > 0 ? 'mixed' : 'stancer',
+        customer_id: customer?.id || null,
+        cashback_use: balanceApplied,
+        payment_method: isFullBalancePayment ? 'balance' : balanceApplied > 0 ? 'mixed' : 'stancer',
         table_number: tableNumber,
         note,
-        status: 'paid',
-        created_at: new Date().toISOString(),
+      })
+
+      // Step 2: full balance payment → mark paid immediately
+      if (order.total_paid === 0) {
+        const paidOrder = await api.updateOrderStatus(order.id, 'paid')
+        if (isLoggedIn) {
+          try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
+        }
+        sessionStorage.setItem('de-last-order', JSON.stringify(toCache(paidOrder)))
+        clearCart()
+        navigate(`/payment-success?order=${paidOrder.order_number}`)
+        return
       }
-      sessionStorage.setItem('de-last-order', JSON.stringify(orderData))
-      if (amountToPay > 0) {
-        await new Promise(r => setTimeout(r, 1200))
+
+      // Step 3: try Stancer payment
+      try {
+        const returnUrl = `${window.location.origin}${import.meta.env.BASE_URL}#/payment-success?order=${order.order_number}`
+        const pay = await api.createPayment({ order_id: order.id, amount: order.total_paid, return_url: returnUrl })
+        if (pay.payment_url) {
+          // Save so PaymentSuccess can PATCH paid on return
+          sessionStorage.setItem('de-last-order', JSON.stringify(toCache(order)))
+          clearCart()
+          window.location.href = pay.payment_url
+          return
+        }
+      } catch (_) {
+        // Stancer unavailable — fall through to immediate paid
       }
+
+      // Step 4: fallback — mark paid directly
+      const paidOrder = await api.updateOrderStatus(order.id, 'paid')
+      if (isLoggedIn) {
+        try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
+      }
+      sessionStorage.setItem('de-last-order', JSON.stringify(toCache(paidOrder)))
       clearCart()
-      navigate('/payment-success')
+      navigate(`/payment-success?order=${paidOrder.order_number}`)
     } catch (err) {
-      alert('Erreur lors du paiement: ' + err.message)
+      setError(lang === 'zh' ? '支付失败，请重试' : 'Erreur de paiement, veuillez réessayer')
     } finally {
       setLoading(false)
     }
@@ -107,14 +135,17 @@ export default function Checkout() {
           </div>
         </div>
 
-        {/* Balance toggle */}
+        {/* Balance toggle — only if logged in and balance > 0 */}
         {isLoggedIn && balance > 0 && (
           <div className={styles.card}>
+            <div className={styles.balanceHeader}>
+              <span className={styles.balanceHeaderIcon}>🎁</span>
+              <span className={styles.balanceHeaderText}>
+                {lang === 'zh' ? '您的余额' : 'Votre solde'} : {formatPrice(balance)}
+              </span>
+            </div>
             <div className={styles.balanceToggle}>
-              <div>
-                <div className={styles.balanceLabel}>{t('useBalance')}</div>
-                <div className={styles.balanceAmount}>{t('balanceAvailable', formatPrice(balance))}</div>
-              </div>
+              <div className={styles.balanceLabel}>{t('useBalance')}</div>
               <label className={styles.toggle}>
                 <input type="checkbox" checked={useBalance} onChange={e => setUseBalance(e.target.checked)} />
                 <span className={styles.toggleSlider} />
@@ -126,7 +157,7 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Login hint */}
+        {/* Login hint — only if not logged in */}
         {!isLoggedIn && (
           <div className={styles.loginHint}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -160,6 +191,9 @@ export default function Checkout() {
           )}
         </div>
 
+        {/* Error */}
+        {error && <div className={styles.errorMsg}>{error}</div>}
+
         <button
           className="btn-gold"
           style={{ width: '100%', padding: '16px', fontSize: '1rem' }}
@@ -168,7 +202,7 @@ export default function Checkout() {
         >
           {loading
             ? t('processing')
-            : amountToPay === 0
+            : isFullBalancePayment
               ? t('payBalance')
               : t('pay', formatPrice(amountToPay))}
         </button>
@@ -179,4 +213,16 @@ export default function Checkout() {
       </div>
     </div>
   )
+}
+
+// Normalize backend order → sessionStorage cache shape
+function toCache(order) {
+  return {
+    id: order.id,
+    order_number: order.order_number,
+    subtotal: order.subtotal,
+    balance_used: order.cashback_used ?? 0,
+    total_paid: order.total_paid,
+    cashback_earned: order.cashback_earned ?? 0,
+  }
 }

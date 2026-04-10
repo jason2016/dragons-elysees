@@ -2,7 +2,21 @@
   "permissions": {
     "allow": [
       "Bash(mv useCart.js useCart.jsx)",
-      "Bash(mv useAuth.js useAuth.jsx)"
+      "Bash(mv useAuth.js useAuth.jsx)",
+      "Bash(wc -l \"c:\\\\Users\\\\luqia\\\\OneDrive\\\\Development\\\\ClawShow-Workspace\\\\repos\\\\clawshow-mcp-server\\\\tools\"/*.py)",
+      "Bash(ssh root@51.77.201.82 \"systemctl restart clawshow-mcp && sleep 3 && systemctl status clawshow-mcp --no-pager -l\")",
+      "Bash(curl -s -X POST https://mcp.clawshow.ai/api/dragons-elysees/auth/send-otp -H \"Content-Type: application/json\" -d '{\"email\":\"jasonlu612@gmail.com\"}')",
+      "Bash(curl -s -X POST https://mcp.clawshow.ai/api/dragons-elysees/orders -H \"Content-Type: application/json\" -d '{\"items\":[{\"id\":\"V1\",\"name_zh\":\"虾饺\",\"name_fr\":\"Raviolis aux crevettes\",\"qty\":2,\"price\":16.50}],\"payment_method\":\"stancer\"}')",
+      "Bash(curl -s \"https://mcp.clawshow.ai/api/dragons-elysees/orders?status=pending\")",
+      "Bash(curl -s https://mcp.clawshow.ai/api/dragons-elysees/orders/1)",
+      "Bash(curl -s -X PATCH https://mcp.clawshow.ai/api/dragons-elysees/orders/1 -H \"Content-Type: application/json\" -d '{\"status\":\"paid\"}')",
+      "Bash(ssh root@51.77.201.82 \"sqlite3 /opt/clawshow-mcp-server/data/dragons-elysees.db '.headers on' '.mode column' 'SELECT id, order_number, customer_id, subtotal, cashback_used, total_paid, cashback_earned, payment_method, payment_id, status, created_at FROM orders ORDER BY id DESC LIMIT 10;'\")",
+      "Bash(ssh root@51.77.201.82 'python3 -c \":*)",
+      "Bash(curl -s -X POST https://mcp.clawshow.ai/api/dragons-elysees/auth/verify-otp -H 'Content-Type: application/json' -d '{\"email\":\"luqiao2015@gmail.com\",\"code\":\"000000\"}')",
+      "Bash(ssh root@51.77.201.82 \"cd /opt/clawshow-mcp-server && git pull origin main && systemctl restart clawshow-mcp && sleep 2 && systemctl is-active clawshow-mcp\")",
+      "Bash(curl -s -X PATCH https://mcp.clawshow.ai/api/dragons-elysees/orders/8 -H 'Content-Type: application/json' -d '{\"status\":\"paid\"}')",
+      "Bash(node scripts/gen-icons.js)",
+      "Bash(curl -L -o \"public/icons/logo5.png\" \"https://longcheng.futushow.org/assets/images/logo5.png\")"
     ]
   }
 }
