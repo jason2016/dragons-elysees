@@ -106,8 +106,21 @@
   background: var(--border-color);
 }
 
+.columns4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 1px;
+  flex: 1;
+  background: var(--border-color);
+}
+
+@media (max-width: 900px) {
+  .columns4 { grid-template-columns: 1fr 1fr; }
+}
+
 @media (max-width: 700px) {
   .columns { grid-template-columns: 1fr; }
+  .columns4 { grid-template-columns: 1fr; }
 }
 
 .column {
@@ -124,8 +137,10 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.colFire { color: #ff9944; background: rgba(255, 153, 68, 0.06); }
-.colReady { color: #4caf7d; background: rgba(76, 175, 125, 0.06); }
+.colNew      { color: #c9a84c; background: rgba(201, 168, 76, 0.06); }
+.colFire     { color: #ff9944; background: rgba(255, 153, 68, 0.06); }
+.colReady    { color: #4caf7d; background: rgba(76, 175, 125, 0.06); }
+.colDelivery { color: #4285F4; background: rgba(66, 133, 244, 0.06); }
 
 .colBody {
   flex: 1;
@@ -185,6 +200,15 @@
   background: rgba(66,133,244,0.1);
   padding: 2px 8px;
   border-radius: 12px;
+}
+
+.customerInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
 }
 
 .deliveryAddr {

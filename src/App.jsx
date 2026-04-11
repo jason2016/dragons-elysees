@@ -2,6 +2,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './hooks/useCart'
 import { AuthProvider } from './hooks/useAuth'
 import { LangProvider } from './hooks/useLang'
+import { OrderTypeProvider } from './hooks/useOrderType'
 import Header from './components/Header'
 import Cart from './components/Cart'
 import HomePage from './components/HomePage'
@@ -13,18 +14,21 @@ import AccountDashboard from './components/AccountDashboard'
 import KitchenDisplay from './components/KitchenDisplay'
 import AdminPanel from './components/AdminPanel'
 import DeliveryPanel from './components/DeliveryPanel'
+import OrderTrack from './components/OrderTrack'
 import InstallPrompt from './components/InstallPrompt'
 
 export default function App() {
   return (
     <HashRouter>
-      <LangProvider>
-        <AuthProvider>
-          <CartProvider>
-            <AppRoutes />
-          </CartProvider>
-        </AuthProvider>
-      </LangProvider>
+      <OrderTypeProvider>
+        <LangProvider>
+          <AuthProvider>
+            <CartProvider>
+              <AppRoutes />
+            </CartProvider>
+          </AuthProvider>
+        </LangProvider>
+      </OrderTypeProvider>
     </HashRouter>
   )
 }
@@ -45,6 +49,7 @@ function AppRoutes() {
         <Route path="/kitchen" element={<KitchenDisplay />} />
         <Route path="/admin" element={<AdminPanel />} />
         <Route path="/delivery" element={<DeliveryPanel />} />
+        <Route path="/track/:orderNumber" element={<OrderTrack />} />
       </Routes>
     </>
   )

@@ -189,3 +189,66 @@
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(255,255,255,0.1);
 }
+
+/* Register prompt (non-logged-in after order) */
+.registerCard {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(201,168,76,0.04));
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.registerTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.registerDesc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.registerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--accent-gold), #b8973a);
+  color: #0a0a0a;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  align-self: center;
+}
+.registerBtn:hover { background: var(--accent-gold-light); transform: translateY(-1px); }
+
+.trackLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  color: var(--accent-gold);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: var(--transition-fast);
+  width: 100%;
+}
+
+.trackLink:hover {
+  background: var(--accent-gold-dim);
+}
+

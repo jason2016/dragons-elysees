@@ -3,29 +3,42 @@ import { useNavigate } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
+import { useOrderType } from '../hooks/useOrderType'
 import { api, formatPrice } from '../utils/api'
+import AddressAutocomplete from './AddressAutocomplete'
 import styles from './Checkout.module.css'
 
-const DELIVERY_FEE = 5.00
+const DELIVERY_CONFIG = { base_fee: 5.00, free_threshold: 50.00 }
 
 export default function Checkout() {
   const { items, total, clearCart } = useCart()
   const { isLoggedIn, customer, updateBalance } = useAuth()
   const { t, name, lang } = useLang()
+  const { orderType, setOrderType } = useOrderType()
   const navigate = useNavigate()
 
-  const [orderType, setOrderType] = useState('dine_in')
+  const isDelivery = orderType === 'delivery'
+
+  // Guest info (pre-fill from account if logged in)
+  const [guestName, setGuestName] = useState(customer?.name || '')
+  const [guestPhone, setGuestPhone] = useState(customer?.phone || '')
+  const [guestEmail, setGuestEmail] = useState(customer?.email || '')
+
+  // Order info
   const [tableNumber, setTableNumber] = useState('')
   const [note, setNote] = useState('')
   const [deliveryAddress, setDeliveryAddress] = useState('')
-  const [deliveryPhone, setDeliveryPhone] = useState('')
+  const [deliveryPhone, setDeliveryPhone] = useState(customer?.phone || '')
   const [deliveryInstructions, setDeliveryInstructions] = useState('')
+
   const [useBalance, setUseBalance] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [errors, setErrors] = useState({})
+  const [showLoginBanner, setShowLoginBanner] = useState(!isLoggedIn)
 
-  const isDelivery = orderType === 'delivery'
-  const deliveryFee = isDelivery ? DELIVERY_FEE : 0
+  const deliveryFee = isDelivery
+    ? (total >= DELIVERY_CONFIG.free_threshold ? 0 : DELIVERY_CONFIG.base_fee)
+    : 0
   const balance = customer?.balance || 0
   const balanceApplied = useBalance && isLoggedIn ? Math.min(balance, total + deliveryFee) : 0
   const amountToPay = Math.round((total + deliveryFee - balanceApplied) * 100) / 100
@@ -41,17 +54,23 @@ export default function Checkout() {
     )
   }
 
+  const validate = () => {
+    const errs = {}
+    if (!guestName.trim() || guestName.trim().length < 2) errs.name = t('nameRequired')
+    if (!guestPhone.trim()) errs.phone = t('phoneRequired')
+    if (!isDelivery && !tableNumber.trim()) errs.table = t('tableRequiredMsg')
+    if (isDelivery && !deliveryAddress.trim()) errs.address = t('deliveryAddress').replace(' *', '') + ' ' + (lang === 'zh' ? '必填' : 'requis')
+    return errs
+  }
+
   const handlePay = async () => {
-    if (isDelivery && !deliveryAddress.trim()) {
-      setError(lang === 'zh' ? '请填写配送地址' : 'Veuillez entrer une adresse de livraison')
+    const errs = validate()
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs)
       return
     }
-    if (isDelivery && !deliveryPhone.trim()) {
-      setError(lang === 'zh' ? '请填写联系电话' : 'Veuillez entrer un numéro de téléphone')
-      return
-    }
+    setErrors({})
     setLoading(true)
-    setError(null)
     try {
       const order = await api.createOrder({
         items,
@@ -62,9 +81,11 @@ export default function Checkout() {
         note,
         order_type: orderType,
         delivery_address: deliveryAddress,
-        delivery_phone: deliveryPhone,
+        delivery_phone: isDelivery ? deliveryPhone : guestPhone,
         delivery_instructions: deliveryInstructions,
         delivery_fee: deliveryFee,
+        guest_name: isLoggedIn ? (customer?.name || guestName) : guestName,
+        guest_phone: isLoggedIn ? (customer?.phone || guestPhone) : guestPhone,
       })
 
       if (order.total_paid === 0) {
@@ -73,6 +94,8 @@ export default function Checkout() {
           try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
         }
         sessionStorage.setItem('de-last-order', JSON.stringify(toCache(paidOrder)))
+        // Pass guest email for potential registration
+        if (!isLoggedIn && guestEmail) sessionStorage.setItem('de-guest-email', guestEmail)
         clearCart()
         navigate(`/payment-success?order=${paidOrder.order_number}`)
         return
@@ -83,6 +106,7 @@ export default function Checkout() {
         const pay = await api.createPayment({ order_id: order.id, amount: order.total_paid, return_url: returnUrl })
         if (pay.payment_url) {
           sessionStorage.setItem('de-last-order', JSON.stringify(toCache(order)))
+          if (!isLoggedIn && guestEmail) sessionStorage.setItem('de-guest-email', guestEmail)
           clearCart()
           window.location.href = pay.payment_url
           return
@@ -94,10 +118,11 @@ export default function Checkout() {
         try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
       }
       sessionStorage.setItem('de-last-order', JSON.stringify(toCache(paidOrder)))
+      if (!isLoggedIn && guestEmail) sessionStorage.setItem('de-guest-email', guestEmail)
       clearCart()
       navigate(`/payment-success?order=${paidOrder.order_number}`)
     } catch (err) {
-      setError(lang === 'zh' ? '支付失败，请重试' : 'Erreur de paiement, veuillez réessayer')
+      setErrors({ submit: lang === 'zh' ? '支付失败，请重试' : 'Erreur de paiement, veuillez réessayer' })
     } finally {
       setLoading(false)
     }
@@ -107,6 +132,34 @@ export default function Checkout() {
     <div className={styles.page}>
       <div className={styles.container}>
         <h1 className={styles.title}>{t('checkoutTitle')}</h1>
+
+        {/* Login banner for non-logged-in users */}
+        {showLoginBanner && (
+          <div className={styles.loginBanner}>
+            <span className={styles.loginBannerText}>
+              ⭐ {lang === 'zh'
+                ? '登录即享10%返点'
+                : 'Connectez-vous pour bénéficier de 10% de cashback'}
+            </span>
+            <div className={styles.loginBannerActions}>
+              <button
+                className={styles.loginBannerBtn}
+                onClick={() => {
+                  sessionStorage.setItem('de-checkout-return', '1')
+                  navigate('/account/login')
+                }}
+              >
+                {lang === 'zh' ? '登录 →' : 'Se connecter →'}
+              </button>
+              <button
+                className={styles.loginBannerDismiss}
+                onClick={() => setShowLoginBanner(false)}
+              >
+                {lang === 'zh' ? '不登录继续' : 'Continuer sans compte'}
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Order type toggle */}
         <div className={styles.typeToggle}>
@@ -141,19 +194,62 @@ export default function Checkout() {
           </div>
         </div>
 
+        {/* Guest / contact info */}
+        <div className={styles.card}>
+          <h2 className={styles.sectionTitle}>{t('yourInfo')}</h2>
+          <div className={styles.formRow}>
+            <label className={styles.label}>{t('guestName')}</label>
+            <input
+              type="text"
+              className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
+              placeholder={t('guestNamePlaceholder')}
+              value={guestName}
+              onChange={e => { setGuestName(e.target.value); setErrors(p => ({ ...p, name: '' })) }}
+            />
+            {errors.name && <span className={styles.fieldError}>{errors.name}</span>}
+          </div>
+          <div className={styles.formRow}>
+            <label className={styles.label}>{t('guestPhone')}</label>
+            <input
+              type="tel"
+              className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
+              placeholder={t('guestPhonePlaceholder')}
+              value={guestPhone}
+              onChange={e => { setGuestPhone(e.target.value); setErrors(p => ({ ...p, phone: '' })) }}
+            />
+            {errors.phone && <span className={styles.fieldError}>{errors.phone}</span>}
+          </div>
+          {!isLoggedIn && (
+            <>
+              <div className={styles.formRow}>
+                <label className={styles.label}>{t('guestEmail')}</label>
+                <input
+                  type="email"
+                  className={styles.input}
+                  placeholder={t('guestEmailPlaceholder')}
+                  value={guestEmail}
+                  onChange={e => setGuestEmail(e.target.value)}
+                />
+              </div>
+              <div className={styles.emailHint}>{t('guestEmailHint')}</div>
+            </>
+          )}
+        </div>
+
         {/* Dine-in: table & note */}
         {!isDelivery && (
           <div className={styles.card}>
             <h2 className={styles.sectionTitle}>{t('info')}</h2>
             <div className={styles.formRow}>
-              <label className={styles.label}>{t('tableNumber')}</label>
+              <label className={styles.label}>{t('tableNumberRequired')}</label>
               <input
                 type="text"
-                className={styles.input}
+                className={`${styles.input} ${errors.table ? styles.inputError : ''}`}
                 placeholder={t('tablePlaceholder')}
                 value={tableNumber}
-                onChange={e => setTableNumber(e.target.value)}
+                onChange={e => { setTableNumber(e.target.value); setErrors(p => ({ ...p, table: '' })) }}
               />
+              {errors.table && <span className={styles.fieldError}>{errors.table}</span>}
             </div>
             <div className={styles.formRow}>
               <label className={styles.label}>{t('notes')}</label>
@@ -162,7 +258,7 @@ export default function Checkout() {
                 placeholder={t('notesPlaceholder')}
                 value={note}
                 onChange={e => setNote(e.target.value)}
-                rows={3}
+                rows={2}
               />
             </div>
           </div>
@@ -174,23 +270,16 @@ export default function Checkout() {
             <h2 className={styles.sectionTitle}>{t('deliverySection')}</h2>
             <div className={styles.formRow}>
               <label className={styles.label}>{t('deliveryAddress')}</label>
-              <input
-                type="text"
-                className={styles.input}
-                placeholder={t('deliveryAddressPlaceholder')}
+              <AddressAutocomplete
                 value={deliveryAddress}
-                onChange={e => setDeliveryAddress(e.target.value)}
+                onChange={v => { setDeliveryAddress(v); setErrors(p => ({ ...p, address: '' })) }}
+                onDistanceError={msg => setErrors(p => ({ ...p, distance: msg }))}
+                placeholder={t('deliveryAddressPlaceholder')}
+                hasError={!!errors.address}
+                lang={lang}
               />
-            </div>
-            <div className={styles.formRow}>
-              <label className={styles.label}>{t('deliveryPhone')}</label>
-              <input
-                type="tel"
-                className={styles.input}
-                placeholder={t('deliveryPhonePlaceholder')}
-                value={deliveryPhone}
-                onChange={e => setDeliveryPhone(e.target.value)}
-              />
+              {errors.address && <span className={styles.fieldError}>{errors.address}</span>}
+              {errors.distance && <span className={styles.fieldError}>{errors.distance}</span>}
             </div>
             <div className={styles.formRow}>
               <label className={styles.label}>{t('deliveryInstructions')}</label>
@@ -227,19 +316,6 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Login hint */}
-        {!isLoggedIn && (
-          <div className={styles.loginHint}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            <span>
-              <button className={styles.loginLink} onClick={() => navigate('/account/login')}>{t('connect')}</button>
-              {' '}{t('loginForCashback', formatPrice(total * 0.1))}
-            </span>
-          </div>
-        )}
-
         {/* Summary */}
         <div className={styles.card}>
           <div className={styles.summaryRow}>
@@ -249,7 +325,20 @@ export default function Checkout() {
           {isDelivery && (
             <div className={styles.summaryRow}>
               <span>{t('deliveryFee')}</span>
-              <span>{formatPrice(deliveryFee)}</span>
+              <span>
+                {deliveryFee === 0
+                  ? <span className={styles.freeDelivery}>{formatPrice(0)} ✅ {lang === 'zh' ? '免运费！' : 'Livraison offerte !'}</span>
+                  : formatPrice(deliveryFee)
+                }
+              </span>
+            </div>
+          )}
+          {isDelivery && deliveryFee > 0 && (
+            <div className={styles.deliveryHint}>
+              💡 {lang === 'zh'
+                ? `再加 ${formatPrice(DELIVERY_CONFIG.free_threshold - total)} 即可免运费`
+                : `Plus que ${formatPrice(DELIVERY_CONFIG.free_threshold - total)} pour la livraison gratuite`
+              }
             </div>
           )}
           {balanceApplied > 0 && (
@@ -267,7 +356,7 @@ export default function Checkout() {
           )}
         </div>
 
-        {error && <div className={styles.errorMsg}>{error}</div>}
+        {errors.submit && <div className={styles.errorMsg}>{errors.submit}</div>}
 
         <button
           className="btn-gold"
@@ -294,9 +383,15 @@ function toCache(order) {
   return {
     id: order.id,
     order_number: order.order_number,
+    order_type: order.order_type,
     subtotal: order.subtotal,
+    delivery_fee: order.delivery_fee ?? 0,
+    delivery_address: order.delivery_address ?? '',
     balance_used: order.cashback_used ?? 0,
     total_paid: order.total_paid,
     cashback_earned: order.cashback_earned ?? 0,
+    status: order.status,
+    table_number: order.table_number ?? '',
+    items: order.items ?? [],
   }
 }

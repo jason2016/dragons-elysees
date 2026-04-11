@@ -223,6 +223,49 @@
 
 .clearBtn:hover { color: var(--accent-red); }
 
+.freeDelivery { color: #4caf7d; font-weight: 600; }
+
+.freeHint {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.03);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.loginPrompt {
+  background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.05));
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.loginPromptText {
+  font-size: 0.82rem;
+  color: var(--accent-gold);
+  line-height: 1.4;
+}
+
+.loginPromptBtn {
+  align-self: flex-start;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.loginPromptBtn:hover { opacity: 0.75; }
+
 /* Mobile 375px */
 @media (max-width: 390px) {
   .drawer { width: 100vw; }

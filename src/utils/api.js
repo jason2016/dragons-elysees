@@ -42,6 +42,10 @@ export const api = {
     const qs = date ? `?date=${date}` : ''
     return request(`/stats${qs}`)
   },
+
+  // Tracking (public, no auth)
+  trackOrder: (orderNumber) => request(`/orders/track/${encodeURIComponent(orderNumber)}`),
+  getDeliveryConfig: () => request('/delivery-config'),
 }
 
 export function formatPrice(amount) {

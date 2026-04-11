@@ -5,7 +5,6 @@ import styles from './KitchenDisplay.module.css'
 
 const KITCHEN_PASSWORD = 'dragons2026'
 const POLL_INTERVAL = 5000
-const READY_AUTO_COMPLETE_MS = 10 * 60 * 1000 // 10 min
 
 function playSound() {
   try {
@@ -28,30 +27,33 @@ export default function KitchenDisplay() {
   const [unlocked, setUnlocked] = useState(false)
   const [pwd, setPwd] = useState('')
   const [pwdError, setPwdError] = useState(false)
-  const [preparing, setPreparing] = useState([])
-  const [ready, setReady] = useState([])
+  const [newOrders, setNewOrders] = useState([])       // status=paid
+  const [cooking, setCooking] = useState([])            // status=preparing
+  const [readyDineIn, setReadyDineIn] = useState([])   // status=ready, dine_in
+  const [readyDelivery, setReadyDelivery] = useState([]) // status=ready, delivery
   const [soundOn, setSoundOn] = useState(true)
-  const prevPrepCount = useRef(0)
+  const prevNewCount = useRef(0)
   const intervalRef = useRef(null)
 
   const fetchOrders = useCallback(async () => {
     try {
       const today = new Date().toISOString().split('T')[0]
-      const [paidRes, readyRes] = await Promise.all([
+      const [paidRes, preparingRes, readyRes] = await Promise.all([
         api.getOrders({ status: 'paid', date: today }),
+        api.getOrders({ status: 'preparing', date: today }),
         api.getOrders({ status: 'ready', date: today }),
       ])
-      const newPreparing = paidRes.orders || []
-      const newReady = readyRes.orders || []
+      const newOrd = paidRes.orders || []
+      const prepOrd = preparingRes.orders || []
+      const readyOrd = readyRes.orders || []
 
-      // Sound on new paid orders
-      if (newPreparing.length > prevPrepCount.current && soundOn) {
-        playSound()
-      }
-      prevPrepCount.current = newPreparing.length
+      if (newOrd.length > prevNewCount.current && soundOn) playSound()
+      prevNewCount.current = newOrd.length
 
-      setPreparing(newPreparing)
-      setReady(newReady)
+      setNewOrders(newOrd)
+      setCooking(prepOrd)
+      setReadyDineIn(readyOrd.filter(o => o.order_type !== 'delivery'))
+      setReadyDelivery(readyOrd.filter(o => o.order_type === 'delivery'))
     } catch (_) {}
   }, [soundOn])
 
@@ -62,27 +64,9 @@ export default function KitchenDisplay() {
     return () => clearInterval(intervalRef.current)
   }, [unlocked, fetchOrders])
 
-  // Auto-complete ready orders older than 10 min
-  useEffect(() => {
-    if (!unlocked || ready.length === 0) return
-    const now = Date.now()
-    ready.forEach(order => {
-      const age = now - new Date(order.updated_at).getTime()
-      if (age > READY_AUTO_COMPLETE_MS) {
-        api.updateOrderStatus(order.id, 'completed').catch(() => {})
-      }
-    })
-  }, [ready, unlocked])
-
-  const markReady = async (orderId) => {
-    await api.updateOrderStatus(orderId, 'ready').catch(() => {})
-    setPreparing(prev => prev.filter(o => o.id !== orderId))
+  const markStatus = async (orderId, status, changedBy = 'kitchen') => {
+    await api.updateOrderStatus(orderId, status).catch(() => {})
     fetchOrders()
-  }
-
-  const markCompleted = async (orderId) => {
-    await api.updateOrderStatus(orderId, 'completed').catch(() => {})
-    setReady(prev => prev.filter(o => o.id !== orderId))
   }
 
   const handleUnlock = () => {
@@ -133,51 +117,73 @@ export default function KitchenDisplay() {
         </div>
       </div>
 
-      <div className={styles.columns}>
-        {/* Left: preparing */}
-        <div className={styles.column}>
-          <div className={`${styles.colHeader} ${styles.colFire}`}>
-            🔥 {t('kitchenPreparing')} ({preparing.length})
-          </div>
-          <div className={styles.colBody}>
-            {preparing.length === 0
-              ? <div className={styles.colEmpty}>{t('kitchenNoOrders')}</div>
-              : preparing.map(order => (
-                <OrderCard
-                  key={order.id}
-                  order={order}
-                  onAction={() => markReady(order.id)}
-                  actionLabel={t('kitchenMarkReady')}
-                />
-              ))
-            }
-          </div>
-        </div>
+      <div className={styles.columns4}>
+        {/* Column 1: New orders */}
+        <KitchenColumn
+          header={`📥 ${t('kitchenNewOrders')} (${newOrders.length})`}
+          colorClass={styles.colNew}
+          orders={newOrders}
+          actionLabel={t('kitchenStartCooking')}
+          onAction={id => markStatus(id, 'preparing')}
+          emptyMsg={t('kitchenNoOrders')}
+        />
 
-        {/* Right: ready */}
-        <div className={styles.column}>
-          <div className={`${styles.colHeader} ${styles.colReady}`}>
-            ✅ {t('kitchenReady')} ({ready.length})
-          </div>
-          <div className={styles.colBody}>
-            {ready.length === 0
-              ? <div className={styles.colEmpty}>{t('kitchenNoReady')}</div>
-              : ready.map(order => (
-                <OrderCard
-                  key={order.id}
-                  order={order}
-                  onAction={() => markCompleted(order.id)}
-                  actionLabel={t('kitchenMarkDone')}
-                  blink
-                />
-              ))
-            }
-          </div>
-        </div>
+        {/* Column 2: Cooking */}
+        <KitchenColumn
+          header={`🔥 ${t('kitchenCooking')} (${cooking.length})`}
+          colorClass={styles.colFire}
+          orders={cooking}
+          actionLabel={t('kitchenMarkReady')}
+          onAction={id => markStatus(id, 'ready')}
+          emptyMsg={t('kitchenNoOrders')}
+          blink
+        />
+
+        {/* Column 3: Ready – dine-in */}
+        <KitchenColumn
+          header={`✅ ${t('kitchenReadyPickup')} (${readyDineIn.length})`}
+          colorClass={styles.colReady}
+          orders={readyDineIn}
+          actionLabel={t('kitchenMarkDone')}
+          onAction={id => markStatus(id, 'completed')}
+          emptyMsg={t('kitchenNoReady')}
+        />
+
+        {/* Column 4: Ready – delivery waiting */}
+        <KitchenColumn
+          header={`🚗 ${t('kitchenWaitingDelivery')} (${readyDelivery.length})`}
+          colorClass={styles.colDelivery}
+          orders={readyDelivery}
+          actionLabel={null}
+          onAction={null}
+          emptyMsg={t('kitchenNoReady')}
+        />
       </div>
 
       <div className={styles.footer}>
-        🔄 {t('kitchenPreparing').toLowerCase()} — actualisation auto 5s
+        🔄 actualisation auto 5s
+      </div>
+    </div>
+  )
+}
+
+function KitchenColumn({ header, colorClass, orders, actionLabel, onAction, emptyMsg, blink }) {
+  return (
+    <div className={styles.column}>
+      <div className={`${styles.colHeader} ${colorClass}`}>{header}</div>
+      <div className={styles.colBody}>
+        {orders.length === 0
+          ? <div className={styles.colEmpty}>{emptyMsg}</div>
+          : orders.map(order => (
+            <OrderCard
+              key={order.id}
+              order={order}
+              onAction={onAction ? () => onAction(order.id) : null}
+              actionLabel={actionLabel}
+              blink={blink}
+            />
+          ))
+        }
       </div>
     </div>
   )
@@ -187,8 +193,8 @@ function OrderCard({ order, onAction, actionLabel, blink }) {
   const items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items || []
   const num = order.order_number?.replace('DRG-', '') || order.id
   const isDelivery = order.order_type === 'delivery'
-  const readyAt = order.updated_at ? new Date(order.updated_at) : null
-  const minutesAgo = readyAt ? Math.floor((Date.now() - readyAt.getTime()) / 60000) : null
+  const updatedAt = order.updated_at ? new Date(order.updated_at) : null
+  const minutesAgo = updatedAt ? Math.floor((Date.now() - updatedAt.getTime()) / 60000) : null
 
   return (
     <div className={`${styles.orderCard} ${blink ? styles.blink : ''}`}>
@@ -201,6 +207,13 @@ function OrderCard({ order, onAction, actionLabel, blink }) {
             : null
         }
       </div>
+
+      {(order.guest_name || order.delivery_address) && (
+        <div className={styles.customerInfo}>
+          {order.guest_name && <span>👤 {order.guest_name}</span>}
+          {order.guest_phone && <span>📞 {order.guest_phone}</span>}
+        </div>
+      )}
 
       {isDelivery && order.delivery_address && (
         <div className={styles.deliveryAddr}>📍 {order.delivery_address.slice(0, 40)}</div>
@@ -222,7 +235,9 @@ function OrderCard({ order, onAction, actionLabel, blink }) {
           {new Date(order.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
           {blink && minutesAgo !== null && ` · ${minutesAgo}min`}
         </span>
-        <button className={styles.actionBtn} onClick={onAction}>{actionLabel}</button>
+        {onAction && actionLabel && (
+          <button className={styles.actionBtn} onClick={onAction}>{actionLabel}</button>
+        )}
       </div>
     </div>
   )

@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
 import { api, formatPrice } from '../utils/api'
+import OrderProgress from './OrderProgress'
 import styles from './PaymentSuccess.module.css'
 
 const GOOGLE_REVIEW_URL = 'https://search.google.com/local/writereview?placeid=ChIJGZMEfMFv5kcRwVHuMf-SVS4'
 
 export default function PaymentSuccess() {
   const { isLoggedIn, customer, updateBalance } = useAuth()
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const location = useLocation()
+  const navigate = useNavigate()
   const [order, setOrder] = useState(null)
+  const guestEmail = sessionStorage.getItem('de-guest-email') || ''
 
   useEffect(() => {
     async function init() {
@@ -90,6 +93,7 @@ export default function PaymentSuccess() {
   const orderNum = (order.order_number || '').replace('DRG-', '') || '—'
   const balanceUsed = order.balance_used ?? 0
   const cashbackEarned = order.cashback_earned ?? 0
+  const isDelivery = order.order_type === 'delivery'
 
   return (
     <div className={styles.page}>
@@ -104,6 +108,23 @@ export default function PaymentSuccess() {
         <p className={styles.orderNum}>{t('orderNumber')}</p>
         <div className={styles.ticketNum}>#{orderNum}</div>
         <p className={styles.waitHint}>{t('waitHint')}</p>
+
+        {/* Order progress bar */}
+        {order.status && (
+          <div className={styles.card}>
+            <OrderProgress order={order} lang={lang} />
+          </div>
+        )}
+
+        {/* Tracking link */}
+        {order.order_number && (
+          <Link
+            to={`/track/${order.order_number}`}
+            className={styles.trackLink}
+          >
+            📋 {lang === 'zh' ? '追踪我的订单' : 'Suivre ma commande'}
+          </Link>
+        )}
 
         {/* Amount breakdown */}
         <div className={styles.card}>
@@ -138,18 +159,22 @@ export default function PaymentSuccess() {
           </div>
         )}
 
-        {/* Prompt non-logged-in users */}
+        {/* Register prompt for non-logged-in users */}
         {cashbackEarned > 0 && !isLoggedIn && (
-          <div className={styles.cashbackCardGhost}>
-            <div className={styles.cashbackIcon}>💡</div>
-            <div>
-              <div className={styles.cashbackTitle}>
-                {t('loginForCashbackSuccess', formatPrice(cashbackEarned))}
-              </div>
-              <div className={styles.cashbackSub}>
-                <Link to="/account/login" className={styles.loginLink}>{t('createAccount')}</Link>
-              </div>
+          <div className={styles.registerCard}>
+            <div className={styles.registerTitle}>
+              {t('registerPromptTitle', formatPrice(cashbackEarned))}
             </div>
+            <div className={styles.registerDesc}>{t('registerPromptDesc')}</div>
+            <button
+              className={styles.registerBtn}
+              onClick={() => {
+                if (guestEmail) sessionStorage.setItem('de-prefill-email', guestEmail)
+                navigate('/account/login')
+              }}
+            >
+              {t('registerButton')}
+            </button>
           </div>
         )}
 
@@ -187,9 +212,15 @@ function toDisplay(order) {
   return {
     id: order.id,
     order_number: order.order_number,
+    order_type: order.order_type ?? 'dine_in',
     subtotal: order.subtotal,
+    delivery_fee: order.delivery_fee ?? 0,
+    delivery_address: order.delivery_address ?? '',
     balance_used: order.cashback_used ?? order.balance_used ?? 0,
     total_paid: order.total_paid,
     cashback_earned: order.cashback_earned ?? 0,
+    status: order.status ?? 'paid',
+    table_number: order.table_number ?? '',
+    items: order.items ?? [],
   }
 }

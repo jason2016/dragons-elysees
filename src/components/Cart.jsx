@@ -1,14 +1,23 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
+import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
+import { useOrderType } from '../hooks/useOrderType'
 import { formatPrice } from '../utils/api'
 import styles from './Cart.module.css'
 
+const DELIVERY_CONFIG = { base_fee: 5.00, free_threshold: 50.00 }
+
 export default function Cart() {
   const { items, updateQty, clearCart, total, count, cartOpen, closeCart } = useCart()
-  const { t, name } = useLang()
+  const { isLoggedIn } = useAuth()
+  const { t, lang, name } = useLang()
+  const { orderType } = useOrderType()
   const navigate = useNavigate()
+  const isDelivery = orderType === 'delivery'
+  const deliveryFee = isDelivery ? (total >= DELIVERY_CONFIG.free_threshold ? 0 : DELIVERY_CONFIG.base_fee) : 0
+  const grandTotal = total + deliveryFee
 
   useEffect(() => {
     document.body.style.overflow = cartOpen ? 'hidden' : ''
@@ -79,14 +88,51 @@ export default function Cart() {
                 <span className={styles.summaryLabel}>{t('subtotal')}</span>
                 <span className={styles.summaryValue}>{formatPrice(total)}</span>
               </div>
-              <div className={styles.cashbackHint}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-                {t('cashbackEarn', formatPrice(total * 0.10))}
-              </div>
+              {isDelivery && (
+                <div className={styles.summary}>
+                  <span className={styles.summaryLabel}>🚗 {t('deliveryFee')}</span>
+                  <span className={styles.summaryValue}>
+                    {deliveryFee === 0
+                      ? <span className={styles.freeDelivery}>{lang === 'zh' ? '免运费 ✅' : 'Offerte ✅'}</span>
+                      : formatPrice(deliveryFee)
+                    }
+                  </span>
+                </div>
+              )}
+              {isDelivery && deliveryFee > 0 && (
+                <div className={styles.freeHint}>
+                  💡 {lang === 'zh'
+                    ? `再加 ${formatPrice(DELIVERY_CONFIG.free_threshold - total)} 即可免运费`
+                    : `Plus que ${formatPrice(DELIVERY_CONFIG.free_threshold - total)} pour la livraison gratuite`
+                  }
+                </div>
+              )}
+              {!isLoggedIn && (
+                <div className={styles.loginPrompt}>
+                  <div className={styles.loginPromptText}>
+                    ⭐ {lang === 'zh'
+                      ? `登录后可获得 ${formatPrice(grandTotal * 0.10)} 返点！`
+                      : `Connectez-vous et gagnez ${formatPrice(grandTotal * 0.10)} de cashback !`
+                    }
+                  </div>
+                  <button
+                    className={styles.loginPromptBtn}
+                    onClick={() => { closeCart(); navigate('/account/login') }}
+                  >
+                    {lang === 'zh' ? '立即登录 →' : 'Se connecter →'}
+                  </button>
+                </div>
+              )}
+              {isLoggedIn && (
+                <div className={styles.cashbackHint}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  {t('cashbackEarn', formatPrice(grandTotal * 0.10))}
+                </div>
+              )}
               <button className="btn-gold" style={{ width: '100%' }} onClick={handleCheckout}>
-                {t('order')} · {formatPrice(total)}
+                {t('order')} · {formatPrice(grandTotal)}
               </button>
               <button className={styles.clearBtn} onClick={clearCart}>
                 {t('clearCart')}

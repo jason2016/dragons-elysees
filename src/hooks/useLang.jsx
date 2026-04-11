@@ -96,9 +96,31 @@ const translations = {
     txEmpty: "Aucune transaction pour l'instant.",
     logout: 'Se déconnecter',
 
-    // ── Checkout delivery ──
+    // ── Guest checkout ──
+    yourInfo: 'Vos coordonnées',
+    guestName: 'Nom *',
+    guestNamePlaceholder: 'M. Dupont',
+    guestPhone: 'Téléphone *',
+    guestPhonePlaceholder: '06 12 34 56 78',
+    guestEmail: 'Email (optionnel)',
+    guestEmailPlaceholder: 'votre@email.com',
+    guestEmailHint: '💡 Créez un compte pour bénéficier de 10% cashback',
+    nameRequired: 'Le nom est requis (2 caractères min)',
+    phoneRequired: 'Le téléphone est requis (ex: 06 12 34 56 78)',
+    tableRequiredMsg: 'Le numéro de table est requis',
+    tableNumberRequired: 'Numéro de table *',
+
+    // ── Order type (HomePage + MenuBrowser) ──
     orderTypeDineIn: 'Sur place',
     orderTypeDelivery: 'Livraison',
+    orderTypeDineInDesc: 'Commander sur place',
+    orderTypeDeliveryDesc: 'Se faire livrer',
+    deliveryBanner: '🚗 Mode livraison · Frais de livraison : 5,00 €',
+
+    // ── Success page register prompt ──
+    registerPromptTitle: (amount) => `🎁 Vous auriez gagné ${amount} de cashback !`,
+    registerPromptDesc: 'Créez votre compte en 30 secondes pour en profiter dès maintenant.',
+    registerButton: 'Créer mon compte →',
     deliveryAddress: 'Adresse de livraison *',
     deliveryAddressPlaceholder: '15 rue de Berri, 75008 Paris',
     deliveryPhone: 'Téléphone *',
@@ -116,8 +138,13 @@ const translations = {
     kitchenDelivery: 'Livraison',
     kitchenNoOrders: 'Aucune commande en attente',
     kitchenNoReady: 'Aucun plat prêt',
-    kitchenMarkReady: '✓ Prêt',
+    kitchenMarkReady: '✓ Terminé',
     kitchenMarkDone: '✓ Remis',
+    kitchenNewOrders: 'Nouvelles',
+    kitchenCooking: 'En préparation',
+    kitchenReadyPickup: 'Prêt — À récupérer',
+    kitchenWaitingDelivery: 'Attente livreur',
+    kitchenStartCooking: '▶ Commencer',
 
     // ── Admin ──
     adminTitle: 'Administration',
@@ -232,9 +259,31 @@ const translations = {
     txEmpty: '暂无交易记录。',
     logout: '退出登录',
 
-    // ── Checkout delivery ──
-    orderTypeDineIn: '堂食',
-    orderTypeDelivery: '外送',
+    // ── Guest checkout ──
+    yourInfo: '您的信息',
+    guestName: '姓名 *',
+    guestNamePlaceholder: '您的姓名',
+    guestPhone: '电话 *',
+    guestPhonePlaceholder: '06 12 34 56 78',
+    guestEmail: '邮箱（选填）',
+    guestEmailPlaceholder: 'your@email.com',
+    guestEmailHint: '💡 注册账户即享每次消费10%返点',
+    nameRequired: '请填写姓名（至少2个字符）',
+    phoneRequired: '请填写电话号码',
+    tableRequiredMsg: '请填写桌号',
+    tableNumberRequired: '桌号 *',
+
+    // ── Order type (HomePage + MenuBrowser) ──
+    orderTypeDineIn: '堂食点餐',
+    orderTypeDelivery: '外卖配送',
+    orderTypeDineInDesc: '堂食点餐',
+    orderTypeDeliveryDesc: '外卖配送',
+    deliveryBanner: '🚗 外卖模式 · 配送费：5,00 €',
+
+    // ── Success page register prompt ──
+    registerPromptTitle: (amount) => `🎁 您本次消费可获得 ${amount} 返点！`,
+    registerPromptDesc: '30秒注册账户，立即享受每次消费10%返点优惠。',
+    registerButton: '立即注册 →',
     deliveryAddress: '配送地址 *',
     deliveryAddressPlaceholder: '15 rue de Berri, 75008 Paris',
     deliveryPhone: '联系电话 *',
@@ -254,6 +303,11 @@ const translations = {
     kitchenNoReady: '暂无已完成订单',
     kitchenMarkReady: '✓ 完成',
     kitchenMarkDone: '✓ 已取',
+    kitchenNewOrders: '新订单',
+    kitchenCooking: '制作中',
+    kitchenReadyPickup: '请取餐',
+    kitchenWaitingDelivery: '等待配送',
+    kitchenStartCooking: '▶ 开始制作',
 
     // ── Admin ──
     adminTitle: '管理后台',
