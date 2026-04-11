@@ -12,6 +12,35 @@
   gap: 16px;
 }
 
+/* Order type toggle */
+.typeToggle {
+  display: flex;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.typeBtn {
+  flex: 1;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  transition: var(--transition-fast);
+  font-family: var(--font-body);
+}
+
+.typeBtnActive {
+  background: var(--accent-gold-dim);
+  color: var(--accent-gold);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+}
+
 .empty {
   display: flex;
   flex-direction: column;

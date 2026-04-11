@@ -16,7 +16,16 @@
       "Bash(ssh root@51.77.201.82 \"cd /opt/clawshow-mcp-server && git pull origin main && systemctl restart clawshow-mcp && sleep 2 && systemctl is-active clawshow-mcp\")",
       "Bash(curl -s -X PATCH https://mcp.clawshow.ai/api/dragons-elysees/orders/8 -H 'Content-Type: application/json' -d '{\"status\":\"paid\"}')",
       "Bash(node scripts/gen-icons.js)",
-      "Bash(curl -L -o \"public/icons/logo5.png\" \"https://longcheng.futushow.org/assets/images/logo5.png\")"
+      "Bash(curl -L -o \"public/icons/logo5.png\" \"https://longcheng.futushow.org/assets/images/logo5.png\")",
+      "Bash(ssh -o StrictHostKeyChecking=no root@51.77.201.82 \"sqlite3 /opt/clawshow-mcp-server/data/dragons-elysees.db \\\\\"PRAGMA table_info\\(orders\\);\\\\\"\")",
+      "Bash(ssh root@51.77.201.82 \"python3 -c \\\\\"import sqlite3; conn=sqlite3.connect\\('/opt/clawshow-mcp-server/data/dragons-elysees.db'\\); print\\([r[1] for r in conn.execute\\('PRAGMA table_info\\(orders\\)'\\).fetchall\\(\\)]\\)\\\\\"\")",
+      "Bash(ssh root@51.77.201.82 \"grep -n 'dragons.elys\\\\|de_create_order\\\\|de_get_orders\\\\|de_update_order\\\\|de_get_stats\\\\|def de_' /opt/clawshow-mcp-server/server.py | head -60\")",
+      "Bash(ssh root@51.77.201.82 \"sed -n '1955,2015p' /opt/clawshow-mcp-server/server.py\")",
+      "Bash(scp \"c:/Users/luqia/OneDrive/Development/ClawShow-Workspace/repos/clawshow-mcp-server/tools/dragons_elysees_db.py\" root@51.77.201.82:/opt/clawshow-mcp-server/tools/dragons_elysees_db.py)",
+      "Bash(scp \"c:/Users/luqia/OneDrive/Development/ClawShow-Workspace/repos/clawshow-mcp-server/server.py\" root@51.77.201.82:/opt/clawshow-mcp-server/server.py)",
+      "Bash(ssh root@51.77.201.82 \"systemctl restart clawshow-mcp && sleep 3 && systemctl is-active clawshow-mcp\")",
+      "Bash(curl -s \"https://mcp.clawshow.ai/api/dragons-elysees/stats?date=2026-04-11\")",
+      "Bash(xargs -I{} basename {})"
     ]
   }
 }

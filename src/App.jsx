@@ -12,6 +12,7 @@ import AccountLogin from './components/AccountLogin'
 import AccountDashboard from './components/AccountDashboard'
 import KitchenDisplay from './components/KitchenDisplay'
 import AdminPanel from './components/AdminPanel'
+import DeliveryPanel from './components/DeliveryPanel'
 import InstallPrompt from './components/InstallPrompt'
 
 export default function App() {
@@ -43,6 +44,7 @@ function AppRoutes() {
         <Route path="/account/login" element={<AccountLogin />} />
         <Route path="/kitchen" element={<KitchenDisplay />} />
         <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/delivery" element={<DeliveryPanel />} />
       </Routes>
     </>
   )

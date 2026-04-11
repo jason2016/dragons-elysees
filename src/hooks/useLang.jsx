@@ -95,6 +95,48 @@ const translations = {
     txLoading: 'Chargement…',
     txEmpty: "Aucune transaction pour l'instant.",
     logout: 'Se déconnecter',
+
+    // ── Checkout delivery ──
+    orderTypeDineIn: 'Sur place',
+    orderTypeDelivery: 'Livraison',
+    deliveryAddress: 'Adresse de livraison *',
+    deliveryAddressPlaceholder: '15 rue de Berri, 75008 Paris',
+    deliveryPhone: 'Téléphone *',
+    deliveryPhonePlaceholder: '06 12 34 56 78',
+    deliveryInstructions: 'Instructions (optionnel)',
+    deliveryInstructionsPlaceholder: '3ème étage, code 1234…',
+    deliveryFee: 'Frais de livraison',
+    deliverySection: 'Informations de livraison',
+
+    // ── Kitchen ──
+    kitchenPreparing: 'En préparation',
+    kitchenReady: 'Prêt — À récupérer',
+    kitchenDone: 'Terminé',
+    kitchenTable: 'Table',
+    kitchenDelivery: 'Livraison',
+    kitchenNoOrders: 'Aucune commande en attente',
+    kitchenNoReady: 'Aucun plat prêt',
+    kitchenMarkReady: '✓ Prêt',
+    kitchenMarkDone: '✓ Remis',
+
+    // ── Admin ──
+    adminTitle: 'Administration',
+    adminOrders: 'Commandes',
+    adminRevenue: 'Chiffre d\'affaires',
+    adminCashback: 'Cashback distribué',
+    adminDineIn: 'Sur place',
+    adminDelivery: 'Livraison',
+    adminBalance: 'Balance seule',
+    adminAllStatuses: 'Tous statuts',
+
+    // ── Delivery panel ──
+    deliveryTitle: 'Livraisons en cours',
+    deliveryPickup: '📦 Récupéré',
+    deliveryDelivered: '✅ Livré',
+    deliveryCall: '📞 Appeler',
+    deliveryNoOrders: 'Aucune livraison en cours',
+    deliveryWaiting: 'En attente',
+    deliveryEnRoute: 'En route',
   },
 
   zh: {
@@ -189,6 +231,48 @@ const translations = {
     txLoading: '加载中…',
     txEmpty: '暂无交易记录。',
     logout: '退出登录',
+
+    // ── Checkout delivery ──
+    orderTypeDineIn: '堂食',
+    orderTypeDelivery: '外送',
+    deliveryAddress: '配送地址 *',
+    deliveryAddressPlaceholder: '15 rue de Berri, 75008 Paris',
+    deliveryPhone: '联系电话 *',
+    deliveryPhonePlaceholder: '06 12 34 56 78',
+    deliveryInstructions: '配送说明（可选）',
+    deliveryInstructionsPlaceholder: '3楼，门码1234…',
+    deliveryFee: '配送费',
+    deliverySection: '配送信息',
+
+    // ── Kitchen ──
+    kitchenPreparing: '待制作',
+    kitchenReady: '请取餐',
+    kitchenDone: '已完成',
+    kitchenTable: '桌号',
+    kitchenDelivery: '外送',
+    kitchenNoOrders: '暂无待制作订单',
+    kitchenNoReady: '暂无已完成订单',
+    kitchenMarkReady: '✓ 完成',
+    kitchenMarkDone: '✓ 已取',
+
+    // ── Admin ──
+    adminTitle: '管理后台',
+    adminOrders: '订单',
+    adminRevenue: '营业额',
+    adminCashback: '返点发放',
+    adminDineIn: '堂食',
+    adminDelivery: '外送',
+    adminBalance: '纯余额支付',
+    adminAllStatuses: '全部状态',
+
+    // ── Delivery panel ──
+    deliveryTitle: '外送订单',
+    deliveryPickup: '📦 已取餐',
+    deliveryDelivered: '✅ 已送达',
+    deliveryCall: '📞 拨打',
+    deliveryNoOrders: '暂无外送订单',
+    deliveryWaiting: '等待取餐',
+    deliveryEnRoute: '配送中',
   },
 }
 

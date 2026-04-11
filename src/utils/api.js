@@ -36,6 +36,12 @@ export const api = {
 
   // Payment
   createPayment: (data) => request('/payment/create', { method: 'POST', body: JSON.stringify(data) }),
+
+  // Stats
+  getStats: (date) => {
+    const qs = date ? `?date=${date}` : ''
+    return request(`/stats${qs}`)
+  },
 }
 
 export function formatPrice(amount) {

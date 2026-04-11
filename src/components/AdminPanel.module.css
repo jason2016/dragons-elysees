@@ -38,6 +38,9 @@
 }
 
 .input:focus { outline: none; border-color: var(--accent-gold); }
+.inputError { border-color: var(--accent-red) !important; }
+.errorMsg { font-size: 0.8rem; color: var(--accent-red); margin: -8px 0; }
+.lockTitle { font-family: var(--font-display); font-size: 1.3rem; color: var(--text-primary); }
 
 .page {
   min-height: 100vh;
@@ -80,6 +83,17 @@
 }
 
 .dateInput:focus { outline: none; border-color: var(--accent-gold); }
+.topRight { display: flex; align-items: center; gap: 8px; }
+.statusSelect {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 6px 10px;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-family: var(--font-body);
+}
+.statusSelect:focus { outline: none; border-color: var(--accent-gold); }
 
 .content {
   max-width: 1200px;
@@ -101,9 +115,10 @@
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 24px 20px;
+  padding: 20px 16px;
   text-align: center;
 }
+.statIcon { font-size: 1.5rem; margin-bottom: 8px; }
 
 .statValue {
   font-family: var(--font-price);
@@ -188,7 +203,29 @@
 }
 
 .tableRow:last-child { border-bottom: none; }
-.tableRow:hover { background: rgba(255,255,255,0.02); }
+.tableRow:hover { background: rgba(255,255,255,0.02); cursor: pointer; }
+.typeBadge { font-size: 1rem; }
+
+.orderDetail {
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border-color);
+}
+.detailItems { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.detailItem {
+  display: flex; justify-content: space-between;
+  font-size: 0.85rem; color: var(--text-secondary);
+}
+.detailMeta {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  font-size: 0.78rem; color: var(--text-muted);
+}
+.detailMeta span {
+  background: var(--bg-secondary);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
 
 .orderNum {
   font-family: var(--font-price);
