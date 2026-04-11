@@ -107,21 +107,27 @@ export default function PaymentSuccess() {
         <h1 className={styles.title}>{t('confirmed')}</h1>
         <p className={styles.orderNum}>{t('orderNumber')}</p>
         <div className={styles.ticketNum}>#{orderNum}</div>
-        <p className={styles.waitHint}>{t('waitHint')}</p>
+        {/* Dine-in: table number + wait hint */}
+        {!isDelivery && order.table_number && (
+          <p className={styles.tableHint}>
+            🍽️ {lang === 'zh' ? `桌号 ${order.table_number}` : `Table ${order.table_number}`}
+          </p>
+        )}
+        <p className={styles.waitHint}>
+          {isDelivery
+            ? (lang === 'zh' ? '我们正在为您准备外送订单' : 'Votre commande est en cours de préparation')
+            : t('waitHint')
+          }
+        </p>
 
-        {/* Order progress bar */}
-        {order.status && (
+        {/* Delivery only: progress bar + tracking link */}
+        {isDelivery && order.status && (
           <div className={styles.card}>
             <OrderProgress order={order} lang={lang} />
           </div>
         )}
-
-        {/* Tracking link */}
-        {order.order_number && (
-          <Link
-            to={`/track/${order.order_number}`}
-            className={styles.trackLink}
-          >
+        {isDelivery && order.order_number && (
+          <Link to={`/track/${order.order_number}`} className={styles.trackLink}>
             📋 {lang === 'zh' ? '追踪我的订单' : 'Suivre ma commande'}
           </Link>
         )}

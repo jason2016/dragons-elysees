@@ -56,10 +56,14 @@ export default function Checkout() {
 
   const validate = () => {
     const errs = {}
-    if (!guestName.trim() || guestName.trim().length < 2) errs.name = t('nameRequired')
-    if (!guestPhone.trim()) errs.phone = t('phoneRequired')
+    // Delivery: name + phone + address required
+    if (isDelivery) {
+      if (!guestName.trim() || guestName.trim().length < 2) errs.name = t('nameRequired')
+      if (!guestPhone.trim()) errs.phone = t('phoneRequired')
+      if (!deliveryAddress.trim()) errs.address = lang === 'zh' ? '配送地址必填' : 'Adresse de livraison requise'
+    }
+    // Dine-in: only table required
     if (!isDelivery && !tableNumber.trim()) errs.table = t('tableRequiredMsg')
-    if (isDelivery && !deliveryAddress.trim()) errs.address = t('deliveryAddress').replace(' *', '') + ' ' + (lang === 'zh' ? '必填' : 'requis')
     return errs
   }
 
@@ -194,11 +198,15 @@ export default function Checkout() {
           </div>
         </div>
 
-        {/* Guest / contact info */}
+        {/* Contact info */}
         <div className={styles.card}>
           <h2 className={styles.sectionTitle}>{t('yourInfo')}</h2>
+
+          {/* Name */}
           <div className={styles.formRow}>
-            <label className={styles.label}>{t('guestName')}</label>
+            <label className={styles.label}>
+              {isDelivery ? t('guestName') : (lang === 'zh' ? '姓名（选填）' : 'Nom (optionnel)')}
+            </label>
             <input
               type="text"
               className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
@@ -208,8 +216,12 @@ export default function Checkout() {
             />
             {errors.name && <span className={styles.fieldError}>{errors.name}</span>}
           </div>
+
+          {/* Phone */}
           <div className={styles.formRow}>
-            <label className={styles.label}>{t('guestPhone')}</label>
+            <label className={styles.label}>
+              {isDelivery ? t('guestPhone') : (lang === 'zh' ? '电话（选填）' : 'Téléphone (optionnel)')}
+            </label>
             <input
               type="tel"
               className={`${styles.input} ${errors.phone ? styles.inputError : ''}`}
@@ -219,7 +231,9 @@ export default function Checkout() {
             />
             {errors.phone && <span className={styles.fieldError}>{errors.phone}</span>}
           </div>
-          {!isLoggedIn && (
+
+          {/* Email — delivery only, non-logged-in */}
+          {isDelivery && !isLoggedIn && (
             <>
               <div className={styles.formRow}>
                 <label className={styles.label}>{t('guestEmail')}</label>
@@ -233,6 +247,13 @@ export default function Checkout() {
               </div>
               <div className={styles.emailHint}>{t('guestEmailHint')}</div>
             </>
+          )}
+
+          {/* Dine-in cashback hint (no email field) */}
+          {!isDelivery && !isLoggedIn && (
+            <div className={styles.emailHint}>
+              💡 {lang === 'zh' ? '注册账户，每单消费返10%到账户' : 'Créez un compte pour 10% de cashback sur chaque commande'}
+            </div>
           )}
         </div>
 
