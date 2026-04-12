@@ -135,7 +135,7 @@
       "name_zh": "鱼类",
       "name_fr": "Poissons",
       "icon": "🐟",
-      "cover": "https://images.unsplash.com/photo-1534766555764-ce878a4e947d?w=400&h=300&fit=crop",
+      "cover": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop",
       "items": [
         {"id": "P1", "name_zh": "清蒸鲈鱼", "name_fr": "Bar vapeur", "price": 40.00},
         {"id": "P2", "name_zh": "泰式煎鲈鱼", "name_fr": "Bar grillé thaï", "price": 40.00},
