@@ -3,6 +3,7 @@ import { useCart } from '../hooks/useCart'
 import { useLang } from '../hooks/useLang'
 import { useOrderType } from '../hooks/useOrderType'
 import { formatPrice } from '../utils/api'
+import { FEATURES } from '../config'
 import styles from './MenuBrowser.module.css'
 
 const DELIVERY_FEE = 5.00
@@ -29,10 +30,10 @@ export default function MenuBrowser() {
   const scrollToCategory = (id) => {
     const el = categoryRefs.current[id]
     if (!el) { setActiveCategory(id); return }
-    // Offset: header (60px) + sticky nav (~115px) + small gap
-    const navHeight = (navRef.current?.closest('[class*="catNavWrap"]') || navRef.current?.parentElement)?.offsetHeight || 110
-    const offset = 60 + navHeight + 8
-    const top = el.getBoundingClientRect().top + window.scrollY - offset
+    // header 60px + sticky nav height (read from DOM) + 8px gap
+    const navWrap = navRef.current?.parentElement
+    const navHeight = navWrap ? navWrap.offsetHeight : 100
+    const top = el.getBoundingClientRect().top + window.scrollY - (60 + navHeight + 8)
     window.scrollTo({ top, behavior: 'smooth' })
     setActiveCategory(id)
   }
@@ -69,30 +70,34 @@ export default function MenuBrowser() {
     )
   }
 
-  const isDelivery = orderType === 'delivery'
+  const isDelivery = FEATURES.delivery && orderType === 'delivery'
   const cartTotal = isDelivery ? total + DELIVERY_FEE : total
 
   return (
     <div className={styles.page}>
       {/* Sticky category nav */}
       <div className={styles.catNavWrap}>
-        {/* Order type toggle */}
-        <div className={styles.typeToggle}>
-          <button
-            className={`${styles.typeBtn} ${!isDelivery ? styles.typeBtnActive : ''}`}
-            onClick={() => setOrderType('dine_in')}
-          >
-            🍽️ {t('orderTypeDineIn')}
-          </button>
-          <button
-            className={`${styles.typeBtn} ${isDelivery ? styles.typeBtnActive : ''}`}
-            onClick={() => setOrderType('delivery')}
-          >
-            🚗 {t('orderTypeDelivery')}
-          </button>
-        </div>
-        {isDelivery && (
-          <div className={styles.deliveryBanner}>{t('deliveryBanner')}</div>
+        {/* Order type toggle — delivery feature only */}
+        {FEATURES.delivery && (
+          <>
+            <div className={styles.typeToggle}>
+              <button
+                className={`${styles.typeBtn} ${!isDelivery ? styles.typeBtnActive : ''}`}
+                onClick={() => setOrderType('dine_in')}
+              >
+                🍽️ {t('orderTypeDineIn')}
+              </button>
+              <button
+                className={`${styles.typeBtn} ${isDelivery ? styles.typeBtnActive : ''}`}
+                onClick={() => setOrderType('delivery')}
+              >
+                🚗 {t('orderTypeDelivery')}
+              </button>
+            </div>
+            {isDelivery && (
+              <div className={styles.deliveryBanner}>{t('deliveryBanner')}</div>
+            )}
+          </>
         )}
         <div className={styles.catNav} ref={navRef}>
           {menu.categories.map(cat => (

@@ -1,9 +1,18 @@
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useLang } from '../hooks/useLang'
+import { useOrderType } from '../hooks/useOrderType'
+import { FEATURES } from '../config'
 import styles from './HomePage.module.css'
 
 export default function HomePage() {
   const { t } = useLang()
+  const { setOrderType } = useOrderType()
+  const navigate = useNavigate()
+
+  const goMenu = (type) => {
+    setOrderType(type)
+    navigate('/menu')
+  }
 
   return (
     <div className={styles.page}>
@@ -24,16 +33,24 @@ export default function HomePage() {
             ))}
           </p>
           <div className={styles.heroCtas}>
-            <Link to="/menu" className="btn-gold">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-              </svg>
-              {t('viewMenu')}
-            </Link>
-            <a href="tel:0144072617" className="btn-ghost">
-              01 44 07 26 17
-            </a>
+            {FEATURES.delivery ? (
+              <>
+                <button className="btn-gold" onClick={() => goMenu('dine_in')}>
+                  🍽️ {t('orderTypeDineInDesc')}
+                </button>
+                <button className={styles.btnDelivery} onClick={() => goMenu('delivery')}>
+                  🚗 {t('orderTypeDeliveryDesc')}
+                </button>
+              </>
+            ) : (
+              <button className="btn-gold" onClick={() => goMenu('dine_in')}>
+                {t('viewMenu')}
+              </button>
+            )}
           </div>
+          <a href="tel:0144072617" className={styles.phoneLink}>
+            📞 01 44 07 26 17
+          </a>
         </div>
       </section>
 

@@ -16,6 +16,7 @@ import AdminPanel from './components/AdminPanel'
 import DeliveryPanel from './components/DeliveryPanel'
 import OrderTrack from './components/OrderTrack'
 import InstallPrompt from './components/InstallPrompt'
+import { FEATURES } from './config'
 
 export default function App() {
   return (
@@ -48,7 +49,7 @@ function AppRoutes() {
         <Route path="/account/login" element={<AccountLogin />} />
         <Route path="/kitchen" element={<KitchenDisplay />} />
         <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/delivery" element={<DeliveryPanel />} />
+        {FEATURES.delivery && <Route path="/delivery" element={<DeliveryPanel />} />}
         <Route path="/track/:orderNumber" element={<OrderTrack />} />
       </Routes>
     </>

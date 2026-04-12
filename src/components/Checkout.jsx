@@ -6,6 +6,7 @@ import { useLang } from '../hooks/useLang'
 import { useOrderType } from '../hooks/useOrderType'
 import { api, formatPrice } from '../utils/api'
 import AddressAutocomplete from './AddressAutocomplete'
+import { FEATURES } from '../config'
 import styles from './Checkout.module.css'
 
 const DELIVERY_CONFIG = { base_fee: 5.00, free_threshold: 50.00 }
@@ -17,7 +18,7 @@ export default function Checkout() {
   const { orderType, setOrderType } = useOrderType()
   const navigate = useNavigate()
 
-  const isDelivery = orderType === 'delivery'
+  const isDelivery = FEATURES.delivery && orderType === 'delivery'
 
   // Guest info (pre-fill from account if logged in)
   const [guestName, setGuestName] = useState(customer?.name || '')
@@ -165,21 +166,23 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Order type toggle */}
-        <div className={styles.typeToggle}>
-          <button
-            className={`${styles.typeBtn} ${!isDelivery ? styles.typeBtnActive : ''}`}
-            onClick={() => setOrderType('dine_in')}
-          >
-            🍽️ {t('orderTypeDineIn')}
-          </button>
-          <button
-            className={`${styles.typeBtn} ${isDelivery ? styles.typeBtnActive : ''}`}
-            onClick={() => setOrderType('delivery')}
-          >
-            🚗 {t('orderTypeDelivery')}
-          </button>
-        </div>
+        {/* Order type toggle — delivery feature only */}
+        {FEATURES.delivery && (
+          <div className={styles.typeToggle}>
+            <button
+              className={`${styles.typeBtn} ${!isDelivery ? styles.typeBtnActive : ''}`}
+              onClick={() => setOrderType('dine_in')}
+            >
+              🍽️ {t('orderTypeDineIn')}
+            </button>
+            <button
+              className={`${styles.typeBtn} ${isDelivery ? styles.typeBtnActive : ''}`}
+              onClick={() => setOrderType('delivery')}
+            >
+              🚗 {t('orderTypeDelivery')}
+            </button>
+          </div>
+        )}
 
         {/* Order items */}
         <div className={styles.card}>

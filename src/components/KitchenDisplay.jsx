@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { api } from '../utils/api'
 import { useLang } from '../hooks/useLang'
+import { FEATURES } from '../config'
 import styles from './KitchenDisplay.module.css'
 
 const KITCHEN_PASSWORD = 'dragons2026'
@@ -117,7 +118,7 @@ export default function KitchenDisplay() {
         </div>
       </div>
 
-      <div className={styles.columns4}>
+      <div className={FEATURES.delivery ? styles.columns4 : styles.columns}>
         {/* Column 1: New orders */}
         <KitchenColumn
           header={`📥 ${t('kitchenNewOrders')} (${newOrders.length})`}
@@ -149,15 +150,17 @@ export default function KitchenDisplay() {
           emptyMsg={t('kitchenNoReady')}
         />
 
-        {/* Column 4: Ready – delivery waiting */}
-        <KitchenColumn
-          header={`🚗 ${t('kitchenWaitingDelivery')} (${readyDelivery.length})`}
-          colorClass={styles.colDelivery}
-          orders={readyDelivery}
-          actionLabel={null}
-          onAction={null}
-          emptyMsg={t('kitchenNoReady')}
-        />
+        {/* Column 4: Ready – delivery waiting (delivery feature only) */}
+        {FEATURES.delivery && (
+          <KitchenColumn
+            header={`🚗 ${t('kitchenWaitingDelivery')} (${readyDelivery.length})`}
+            colorClass={styles.colDelivery}
+            orders={readyDelivery}
+            actionLabel={null}
+            onAction={null}
+            emptyMsg={t('kitchenNoReady')}
+          />
+        )}
       </div>
 
       <div className={styles.footer}>
