@@ -118,40 +118,37 @@ export default function KitchenDisplay() {
         </div>
       </div>
 
-      <div className={FEATURES.delivery ? styles.columns4 : styles.columns}>
-        {/* Column 1: New orders */}
-        <KitchenColumn
-          header={`📥 ${t('kitchenNewOrders')} (${newOrders.length})`}
-          colorClass={styles.colNew}
-          orders={newOrders}
-          actionLabel={t('kitchenStartCooking')}
-          onAction={id => markStatus(id, 'preparing')}
-          emptyMsg={t('kitchenNoOrders')}
-        />
-
-        {/* Column 2: Cooking */}
-        <KitchenColumn
-          header={`🔥 ${t('kitchenCooking')} (${cooking.length})`}
-          colorClass={styles.colFire}
-          orders={cooking}
-          actionLabel={t('kitchenMarkReady')}
-          onAction={id => markStatus(id, 'ready')}
-          emptyMsg={t('kitchenNoOrders')}
-          blink
-        />
-
-        {/* Column 3: Ready – dine-in */}
-        <KitchenColumn
-          header={`✅ ${t('kitchenReadyPickup')} (${readyDineIn.length})`}
-          colorClass={styles.colReady}
-          orders={readyDineIn}
-          actionLabel={t('kitchenMarkDone')}
-          onAction={id => markStatus(id, 'completed')}
-          emptyMsg={t('kitchenNoReady')}
-        />
-
-        {/* Column 4: Ready – delivery waiting (delivery feature only) */}
-        {FEATURES.delivery && (
+      {FEATURES.delivery ? (
+        <div className={styles.columns4}>
+          {/* Column 1: New orders */}
+          <KitchenColumn
+            header={`📥 ${t('kitchenNewOrders')} (${newOrders.length})`}
+            colorClass={styles.colNew}
+            orders={newOrders}
+            actionLabel={t('kitchenStartCooking')}
+            onAction={id => markStatus(id, 'preparing')}
+            emptyMsg={t('kitchenNoOrders')}
+          />
+          {/* Column 2: Cooking */}
+          <KitchenColumn
+            header={`🔥 ${t('kitchenCooking')} (${cooking.length})`}
+            colorClass={styles.colFire}
+            orders={cooking}
+            actionLabel={t('kitchenMarkReady')}
+            onAction={id => markStatus(id, 'ready')}
+            emptyMsg={t('kitchenNoOrders')}
+            blink
+          />
+          {/* Column 3: Ready – dine-in */}
+          <KitchenColumn
+            header={`✅ ${t('kitchenReadyPickup')} (${readyDineIn.length})`}
+            colorClass={styles.colReady}
+            orders={readyDineIn}
+            actionLabel={t('kitchenMarkDone')}
+            onAction={id => markStatus(id, 'completed')}
+            emptyMsg={t('kitchenNoReady')}
+          />
+          {/* Column 4: Ready – delivery waiting */}
           <KitchenColumn
             header={`🚗 ${t('kitchenWaitingDelivery')} (${readyDelivery.length})`}
             colorClass={styles.colDelivery}
@@ -160,8 +157,42 @@ export default function KitchenDisplay() {
             onAction={null}
             emptyMsg={t('kitchenNoReady')}
           />
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className={styles.columns}>
+          {/* Left: En préparation (new + cooking merged) */}
+          <div className={styles.column}>
+            <div className={`${styles.colHeader} ${styles.colFire}`}>
+              🔥 En préparation ({newOrders.length + cooking.length})
+            </div>
+            <div className={styles.colBody}>
+              {newOrders.length === 0 && cooking.length === 0
+                ? <div className={styles.colEmpty}>{t('kitchenNoOrders')}</div>
+                : [...newOrders, ...cooking]
+                    .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+                    .map(order => (
+                      <OrderCard
+                        key={order.id}
+                        order={order}
+                        blink={order.status === 'preparing'}
+                        actionLabel={order.status === 'paid' ? t('kitchenStartCooking') : t('kitchenMarkReady')}
+                        onAction={() => markStatus(order.id, order.status === 'paid' ? 'preparing' : 'ready')}
+                      />
+                    ))
+              }
+            </div>
+          </div>
+          {/* Right: Prêt — À récupérer */}
+          <KitchenColumn
+            header={`✅ Prêt — À récupérer (${readyDineIn.length})`}
+            colorClass={styles.colReady}
+            orders={readyDineIn}
+            actionLabel={t('kitchenMarkDone')}
+            onAction={id => markStatus(id, 'completed')}
+            emptyMsg={t('kitchenNoReady')}
+          />
+        </div>
+      )}
 
       <div className={styles.footer}>
         🔄 actualisation auto 5s

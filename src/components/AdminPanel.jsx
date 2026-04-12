@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { api, formatPrice } from '../utils/api'
 import { useLang } from '../hooks/useLang'
 import styles from './AdminPanel.module.css'
@@ -185,6 +185,8 @@ function StatCard({ icon, value, label }) {
 
 function OrderDetail({ order, lang }) {
   const items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items || []
+  const [showInvoiceForm, setShowInvoiceForm] = useState(false)
+
   return (
     <div className={styles.orderDetail}>
       <div className={styles.detailItems}>
@@ -196,13 +198,95 @@ function OrderDetail({ order, lang }) {
         ))}
       </div>
       <div className={styles.detailMeta}>
-        {order.table_number && <span>Table {order.table_number}</span>}
+        {order.guest_name && <span>👤 {order.guest_name}</span>}
+        {order.guest_phone && <span>📞 {order.guest_phone}</span>}
+        {order.table_number && <span>🍽️ Table {order.table_number}</span>}
         {order.delivery_address && <span>📍 {order.delivery_address}</span>}
-        {order.delivery_phone && <span>📞 {order.delivery_phone}</span>}
+        {order.delivery_phone && order.delivery_phone !== order.guest_phone && <span>📞 {order.delivery_phone}</span>}
         {order.note && <span>📝 {order.note}</span>}
         <span>💳 {order.payment_method}</span>
         {order.cashback_used > 0 && <span>🎁 Balance: −{formatPrice(order.cashback_used)}</span>}
         {order.cashback_earned > 0 && <span>✨ Cashback: +{formatPrice(order.cashback_earned)}</span>}
+      </div>
+      {/* Receipt / Invoice actions */}
+      <div className={styles.detailActions}>
+        <a
+          href={api.getReceiptUrl(order.id)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.pdfBtn}
+          download
+        >
+          📄 Reçu
+        </a>
+        <button className={styles.pdfBtn} onClick={() => setShowInvoiceForm(v => !v)}>
+          📄 Facture
+        </button>
+      </div>
+      {showInvoiceForm && (
+        <InvoiceForm orderId={order.id} onClose={() => setShowInvoiceForm(false)} />
+      )}
+    </div>
+  )
+}
+
+function InvoiceForm({ orderId, onClose }) {
+  const [company, setCompany] = useState('')
+  const [address, setAddress] = useState('')
+  const [vat, setVat] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const handleGenerate = async () => {
+    if (!company.trim() || !address.trim()) { setError('Entreprise et adresse requis'); return }
+    setLoading(true); setError('')
+    try {
+      const blob = await api.createInvoice(orderId, {
+        client_company: company,
+        client_address: address,
+        client_vat_number: vat,
+      })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `facture-${orderId}.pdf`
+      a.click()
+      URL.revokeObjectURL(url)
+      onClose()
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div className={styles.invoiceForm}>
+      <h4 className={styles.invoiceTitle}>📄 Générer une facture</h4>
+      <input
+        className={styles.invoiceInput}
+        placeholder="Entreprise *"
+        value={company}
+        onChange={e => setCompany(e.target.value)}
+      />
+      <input
+        className={styles.invoiceInput}
+        placeholder="Adresse *"
+        value={address}
+        onChange={e => setAddress(e.target.value)}
+      />
+      <input
+        className={styles.invoiceInput}
+        placeholder="N° TVA (optionnel)"
+        value={vat}
+        onChange={e => setVat(e.target.value)}
+      />
+      {error && <span className={styles.invoiceError}>{error}</span>}
+      <div className={styles.invoiceActions}>
+        <button className={styles.invoiceGenBtn} onClick={handleGenerate} disabled={loading}>
+          {loading ? '…' : 'Générer la facture'}
+        </button>
+        <button className={styles.invoiceCancelBtn} onClick={onClose}>Annuler</button>
       </div>
     </div>
   )

@@ -71,7 +71,38 @@
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
+  margin-bottom: 16px;
 }
+
+.btnDelivery {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: transparent;
+  color: var(--accent-gold);
+  border: 1px solid var(--border-gold);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+  letter-spacing: 0.02em;
+}
+.btnDelivery:hover {
+  background: var(--accent-gold-dim);
+  transform: translateY(-1px);
+}
+
+.phoneLink {
+  display: block;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+  transition: var(--transition-fast);
+}
+.phoneLink:hover { color: var(--accent-gold); }
 
 /* Info strip */
 .infoStrip {

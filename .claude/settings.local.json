@@ -25,7 +25,29 @@
       "Bash(scp \"c:/Users/luqia/OneDrive/Development/ClawShow-Workspace/repos/clawshow-mcp-server/server.py\" root@51.77.201.82:/opt/clawshow-mcp-server/server.py)",
       "Bash(ssh root@51.77.201.82 \"systemctl restart clawshow-mcp && sleep 3 && systemctl is-active clawshow-mcp\")",
       "Bash(curl -s \"https://mcp.clawshow.ai/api/dragons-elysees/stats?date=2026-04-11\")",
-      "Bash(xargs -I{} basename {})"
+      "Bash(xargs -I{} basename {})",
+      "Bash(ssh root@51.77.201.82 \"systemctl restart clawshow-mcp && sleep 2 && systemctl is-active clawshow-mcp\")",
+      "Bash(ssh -o ConnectTimeout=10 jason@51.77.201.82 \"echo connected\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 -o ConnectTimeout=10 ubuntu@51.77.201.82 \"echo connected\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 -o ConnectTimeout=10 root@51.77.201.82 \"echo connected\")",
+      "Bash(ssh -i '~/.ssh/id_ed25519' root@51.77.201.82 'python3 -c \":*)",
+      "Bash(scp -i ~/.ssh/id_ed25519 \"c:/Users/luqia/OneDrive/Development/ClawShow-Workspace/repos/clawshow-mcp-server/tools/dragons_elysees_db.py\" root@51.77.201.82:/opt/clawshow-mcp-server/tools/dragons_elysees_db.py)",
+      "Bash(scp -i ~/.ssh/id_ed25519 \"c:/Users/luqia/OneDrive/Development/ClawShow-Workspace/repos/clawshow-mcp-server/server.py\" root@51.77.201.82:/opt/clawshow-mcp-server/server.py)",
+      "Bash(ssh -i ~/.ssh/id_ed25519 root@51.77.201.82 \"systemctl restart clawshow-mcp && sleep 2 && systemctl status clawshow-mcp --no-pager | head -15\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 root@51.77.201.82 \"cat /opt/clawshow-mcp-server/tools/dragons_elysees_db.py | head -100\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 root@51.77.201.82 \"cat /opt/clawshow-mcp-server/tools/dragons_elysees_db.py\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 root@51.77.201.82 \"grep -n 'de_\\\\|dragons-elysees\\\\|@app.route\\\\|async def ' /opt/clawshow-mcp-server/src/server.py | head -80\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 root@51.77.201.82 \"find /opt/clawshow-mcp-server -name 'server.py' -o -name 'app.py' -o -name 'main.py' 2>/dev/null | head -5\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 root@51.77.201.82 \"ls /opt/clawshow-mcp-server/ && ls /opt/clawshow-mcp-server/tools/\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 root@51.77.201.82 \"grep -n 'dragons.elysees\\\\|de_\\\\|receipt\\\\|invoice' /opt/clawshow-mcp-server/server.py | head -60\")",
+      "Bash(ssh -i ~/.ssh/id_ed25519 root@51.77.201.82 \"grep -n 'Route\\\\|dragons-elysees' /opt/clawshow-mcp-server/server.py | tail -60\")",
+      "Bash(ssh -i:*)",
+      "Bash(scp -i ~/.ssh/id_ed25519 C:/tmp/receipt_generator.py root@51.77.201.82:/opt/clawshow-mcp-server/tools/receipt_generator.py)",
+      "Bash(scp -i ~/.ssh/id_ed25519 C:/tmp/de_db_append.py root@51.77.201.82:/tmp/de_db_append.py)",
+      "Bash(scp -i ~/.ssh/id_ed25519 C:/tmp/patch_server.py root@51.77.201.82:/tmp/patch_server.py)"
+    ],
+    "additionalDirectories": [
+      "C:\\tmp"
     ]
   }
 }

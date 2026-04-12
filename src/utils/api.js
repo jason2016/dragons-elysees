@@ -46,6 +46,17 @@ export const api = {
   // Tracking (public, no auth)
   trackOrder: (orderNumber) => request(`/orders/track/${encodeURIComponent(orderNumber)}`),
   getDeliveryConfig: () => request('/delivery-config'),
+
+  // Receipt & Invoice (return PDF blob)
+  getReceiptUrl: (orderId) => `${BASE_URL}/orders/${orderId}/receipt`,
+  getInvoiceUrl: (orderId) => `${BASE_URL}/orders/${orderId}/invoice`,
+  createInvoice: async (orderId, data) => {
+    const token = localStorage.getItem('de-token')
+    const headers = { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) }
+    const res = await fetch(`${BASE_URL}/orders/${orderId}/invoice`, { method: 'POST', headers, body: JSON.stringify(data) })
+    if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.error || `HTTP ${res.status}`) }
+    return res.blob()
+  },
 }
 
 export function formatPrice(amount) {

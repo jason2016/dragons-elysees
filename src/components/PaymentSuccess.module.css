@@ -259,3 +259,25 @@
   background: var(--accent-gold-dim);
 }
 
+
+.receiptBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: var(--transition-fast);
+  width: 100%;
+  text-decoration: none;
+}
+
+.receiptBtn:hover {
+  border-color: var(--border-gold);
+  color: var(--accent-gold);
+}
