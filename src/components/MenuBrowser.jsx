@@ -1,8 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { useCart } from '../hooks/useCart'
 import { useLang } from '../hooks/useLang'
+import { useOrderType } from '../hooks/useOrderType'
 import { formatPrice } from '../utils/api'
 import styles from './MenuBrowser.module.css'
+
+const DELIVERY_FEE = 5.00
 
 export default function MenuBrowser() {
   const [menu, setMenu] = useState(null)
@@ -10,6 +13,7 @@ export default function MenuBrowser() {
   const [addedId, setAddedId] = useState(null)
   const { addItem, count, total, openCart } = useCart()
   const { t, name, altName } = useLang()
+  const { orderType, setOrderType } = useOrderType()
   const categoryRefs = useRef({})
   const navRef = useRef(null)
 
@@ -24,10 +28,12 @@ export default function MenuBrowser() {
 
   const scrollToCategory = (id) => {
     const el = categoryRefs.current[id]
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 120
-      window.scrollTo({ top, behavior: 'smooth' })
-    }
+    if (!el) { setActiveCategory(id); return }
+    // Offset: header (60px) + sticky nav (~115px) + small gap
+    const navHeight = (navRef.current?.closest('[class*="catNavWrap"]') || navRef.current?.parentElement)?.offsetHeight || 110
+    const offset = 60 + navHeight + 8
+    const top = el.getBoundingClientRect().top + window.scrollY - offset
+    window.scrollTo({ top, behavior: 'smooth' })
     setActiveCategory(id)
   }
 
@@ -63,10 +69,31 @@ export default function MenuBrowser() {
     )
   }
 
+  const isDelivery = orderType === 'delivery'
+  const cartTotal = isDelivery ? total + DELIVERY_FEE : total
+
   return (
     <div className={styles.page}>
       {/* Sticky category nav */}
       <div className={styles.catNavWrap}>
+        {/* Order type toggle */}
+        <div className={styles.typeToggle}>
+          <button
+            className={`${styles.typeBtn} ${!isDelivery ? styles.typeBtnActive : ''}`}
+            onClick={() => setOrderType('dine_in')}
+          >
+            🍽️ {t('orderTypeDineIn')}
+          </button>
+          <button
+            className={`${styles.typeBtn} ${isDelivery ? styles.typeBtnActive : ''}`}
+            onClick={() => setOrderType('delivery')}
+          >
+            🚗 {t('orderTypeDelivery')}
+          </button>
+        </div>
+        {isDelivery && (
+          <div className={styles.deliveryBanner}>{t('deliveryBanner')}</div>
+        )}
         <div className={styles.catNav} ref={navRef}>
           {menu.categories.map(cat => (
             <button
@@ -138,7 +165,10 @@ export default function MenuBrowser() {
             <span className={styles.cartBarBadge}>{count}</span>
             <span>{t('viewCart')}</span>
           </div>
-          <span className={styles.cartBarTotal}>{formatPrice(total)}</span>
+          <div className={styles.cartBarRight}>
+            {isDelivery && <span className={styles.cartBarDelivery}>+ 🚗 {formatPrice(DELIVERY_FEE)}</span>}
+            <span className={styles.cartBarTotal}>{formatPrice(cartTotal)}</span>
+          </div>
         </button>
       )}
     </div>
