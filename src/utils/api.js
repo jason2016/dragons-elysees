@@ -1,4 +1,4 @@
-const BASE_URL = 'https://mcp.clawshow.ai/api/dragons-elysees'
+const BASE_URL = `${import.meta.env.VITE_API_BASE}/api/dragons-elysees`
 
 async function request(path, options = {}) {
   const token = localStorage.getItem('de-token')
