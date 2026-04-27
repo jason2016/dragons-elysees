@@ -42,7 +42,7 @@ function Stars({ rating }) {
 }
 
 export default function HomePage() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const { setOrderType } = useOrderType()
   const navigate = useNavigate()
 
