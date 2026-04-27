@@ -18,7 +18,10 @@ async function request(path, options = {}) {
 export const api = {
   // Auth
   sendOtp: (email) => request('/auth/send-otp', { method: 'POST', body: JSON.stringify({ email }) }),
-  verifyOtp: (email, code) => request('/auth/verify-otp', { method: 'POST', body: JSON.stringify({ email, code }) }),
+  verifyOtp: (email, code, referralCode = null) => request('/auth/verify-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email, code, ...(referralCode ? { referral_code: referralCode } : {}) }),
+  }),
   getMe: () => request('/auth/me'),
 
   // Orders
@@ -46,6 +49,15 @@ export const api = {
   // Tracking (public, no auth)
   trackOrder: (orderNumber) => request(`/orders/track/${encodeURIComponent(orderNumber)}`),
   getDeliveryConfig: () => request('/delivery-config'),
+
+  // Referral & balance history
+  getReferral: (customerId) => request(`/customer/${customerId}/referral`),
+  getBalanceHistory: (customerId) => request(`/customer/${customerId}/balance/history?limit=50`),
+  completeOrder: (data) => request('/order/complete', { method: 'POST', body: JSON.stringify(data) }),
+
+  // Admin demo (remove after 5/19)
+  getAdminCustomers: () => request('/admin/customers-with-orders'),
+  simulateGoogleReview: (data) => request('/admin/simulate-google-review', { method: 'POST', body: JSON.stringify(data) }),
 
   // Receipt & Invoice (return PDF blob)
   getReceiptUrl: (orderId) => `${BASE_URL}/orders/${orderId}/receipt`,

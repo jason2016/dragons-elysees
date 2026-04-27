@@ -45,6 +45,14 @@ export default function PaymentSuccess() {
           const refreshed = toDisplay(paidOrder)
           setOrder(refreshed)
           sessionStorage.setItem('de-last-order', JSON.stringify(refreshed))
+          // Trigger referral reward for referrer (non-blocking)
+          try {
+            await api.completeOrder({
+              order_id: paidOrder.id,
+              customer_id: paidOrder.customer_id ?? null,
+              order_amount: paidOrder.total_paid,
+            })
+          } catch (_) {}
           if (isLoggedIn) {
             try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
           }
@@ -65,6 +73,14 @@ export default function PaymentSuccess() {
               const refreshed = toDisplay(paidOrder)
               setOrder(refreshed)
               sessionStorage.setItem('de-last-order', JSON.stringify(refreshed))
+              // Trigger referral reward for referrer (non-blocking)
+              try {
+                await api.completeOrder({
+                  order_id: paidOrder.id,
+                  customer_id: paidOrder.customer_id ?? null,
+                  order_amount: paidOrder.total_paid,
+                })
+              } catch (_) {}
               if (isLoggedIn) {
                 try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
               }

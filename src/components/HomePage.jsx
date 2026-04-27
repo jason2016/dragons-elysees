@@ -4,6 +4,43 @@ import { useOrderType } from '../hooks/useOrderType'
 import { FEATURES } from '../config'
 import styles from './HomePage.module.css'
 
+const DEMO_REVIEWS = [
+  {
+    id: 1,
+    author_name: 'Marie L.',
+    rating: 5,
+    text: 'Excellent restaurant ! Les raviolis vapeur et le canard laqué sont absolument délicieux. Service impeccable et cadre élégant. Je recommande vivement !',
+    date: '2026-04-15',
+    is_loyalty_member: false,
+  },
+  {
+    id: 2,
+    author_name: 'Thomas D.',
+    rating: 5,
+    text: 'Une adresse incontournable à Paris. La cuisine est raffinée et authentique. Le programme de fidélité est vraiment avantageux.',
+    date: '2026-04-10',
+    is_loyalty_member: true,
+  },
+  {
+    id: 3,
+    author_name: '李明',
+    rating: 5,
+    text: '非常正宗的中国料理！环境优雅，服务热情。身在巴黎，却感受到了家乡的味道。强烈推荐！',
+    date: '2026-04-05',
+    is_loyalty_member: false,
+  },
+]
+
+function Stars({ rating }) {
+  return (
+    <span className={styles.stars}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <span key={i} className={i < rating ? styles.starFilled : styles.starEmpty}>★</span>
+      ))}
+    </span>
+  )
+}
+
 export default function HomePage() {
   const { t } = useLang()
   const { setOrderType } = useOrderType()
@@ -95,6 +132,44 @@ export default function HomePage() {
             <div className={styles.featureIcon}>⭐</div>
             <h3>{t('feat3Title')}</h3>
             <p>{t('feat3Desc')}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews section */}
+      <section className={styles.reviewsSection}>
+        <div className={styles.reviewsInner}>
+          <h2 className={styles.reviewsTitle}>
+            {lang === 'zh' ? '顾客评价' : 'Avis de nos clients'}
+          </h2>
+          <div className={styles.reviewsGrid}>
+            {DEMO_REVIEWS.map(review => (
+              <div key={review.id} className={styles.reviewCard}>
+                <div className={styles.reviewCardHeader}>
+                  <div className={styles.reviewMeta}>
+                    <span className={styles.reviewAuthor}>{review.author_name}</span>
+                    <Stars rating={review.rating} />
+                  </div>
+                  {review.is_loyalty_member && (
+                    <span className={styles.loyaltyBadge} title="Ce client est membre du programme fidélité Dragons">
+                      ℹ️ {lang === 'zh' ? '会员' : 'Membre fidélité'}
+                    </span>
+                  )}
+                </div>
+                <p className={styles.reviewText}>{review.text}</p>
+                <div className={styles.reviewDate}>
+                  {new Date(review.date).toLocaleDateString('fr-FR')}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Compliance disclaimer */}
+          <div className={styles.reviewDisclaimer}>
+            <strong>{lang === 'zh' ? '透明声明：' : 'Transparence : '}</strong>
+            {lang === 'zh'
+              ? '部分顾客是我们龙城忠诚计划的会员，在分享用餐体验时可获得到店消费积分。所有评价均真实反映顾客个人感受，不受此优惠影响。'
+              : 'Certains de nos clients sont membres de notre programme fidélité Dragons et peuvent recevoir un crédit utilisable sur place lorsqu\'ils partagent leur expérience. Les avis reflètent leurs opinions personnelles et ne sont pas influencés par cet avantage.'}
           </div>
         </div>
       </section>

@@ -1,0 +1,135 @@
+.page {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  padding-bottom: 40px;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  /* push below fixed app Header (≈56px) */
+  padding-top: calc(env(safe-area-inset-top) + 72px);
+}
+
+.backBtn {
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.balanceBanner {
+  background: linear-gradient(135deg, var(--accent-red-dark) 0%, #5a0d0d 100%);
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.balanceBannerLabel {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.65);
+  margin-bottom: 6px;
+}
+
+.balanceBannerValue {
+  font-family: var(--font-price);
+  font-size: 2.6rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.balanceBannerSub {
+  font-size: 0.78rem;
+  color: rgba(245, 240, 232, 0.5);
+  margin-top: 4px;
+}
+
+.listWrap {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.stateIcon {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+}
+
+.stateSub {
+  font-size: 0.82rem;
+  margin-top: 6px;
+  color: var(--text-muted);
+}
+
+.txRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 8px;
+}
+
+.txLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.txType {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.txNote {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.txDate {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.txAmount {
+  font-family: var(--font-price);
+  font-size: 1rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.positive { color: var(--accent-green); }
+.negative { color: var(--accent-red); }
+.neutral  { color: var(--text-secondary); }

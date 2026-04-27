@@ -1,19 +1,23 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
 import { api } from '../utils/api'
 import styles from './AccountLogin.module.css'
 
 export default function AccountLogin() {
+  const [searchParams] = useSearchParams()
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
+  const [referralCode, setReferralCode] = useState(
+    searchParams.get('ref')?.toUpperCase() || ''
+  )
   const [step, setStep] = useState('email')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [resendCooldown, setResendCooldown] = useState(0)
   const { login } = useAuth()
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const navigate = useNavigate()
 
   const sendOtp = async (e) => {
@@ -48,9 +52,24 @@ export default function AccountLogin() {
     setError('')
     setLoading(true)
     try {
-      const res = await api.verifyOtp(email.trim().toLowerCase(), code.trim())
+      const res = await api.verifyOtp(
+        email.trim().toLowerCase(),
+        code.trim(),
+        referralCode.trim().toUpperCase() || null
+      )
       login(res.customer, res.token)
-      navigate('/account')
+      if (res.referred_by) {
+        alert(lang === 'zh'
+          ? '欢迎！您已通过推荐码加入，推荐人将获得奖励 🎉'
+          : 'Bienvenue ! Vous bénéficiez du programme de recommandation 🎉')
+      }
+      const returnTo = sessionStorage.getItem('de-checkout-return')
+      if (returnTo) {
+        sessionStorage.removeItem('de-checkout-return')
+        navigate('/checkout')
+      } else {
+        navigate('/account')
+      }
     } catch (err) {
       setError(err.message || 'Code invalide')
     } finally {
@@ -104,6 +123,27 @@ export default function AccountLogin() {
               required
               autoFocus
             />
+
+            {/* Referral code field */}
+            <div className={styles.referralWrap}>
+              <label className={styles.referralLabel}>
+                {lang === 'zh' ? '推荐码（选填）' : 'Code de recommandation (optionnel)'}
+              </label>
+              <input
+                type="text"
+                className={`${styles.input} ${styles.referralInput}`}
+                placeholder={lang === 'zh' ? '例：ABC12345' : 'Ex: ABC12345'}
+                maxLength={8}
+                value={referralCode}
+                onChange={e => setReferralCode(e.target.value.toUpperCase())}
+              />
+              <p className={styles.referralHint}>
+                {lang === 'zh'
+                  ? '如果朋友推荐了您，请填写他的推荐码，他将获得奖励。'
+                  : 'Si un ami vous a recommandé Dragons, saisissez son code pour qu\'il gagne du crédit.'}
+              </p>
+            </div>
+
             {error && <p className={styles.error}>{error}</p>}
             <button type="submit" className="btn-gold" style={{ width: '100%' }} disabled={loading}>
               {loading ? t('verifying') : t('verifyCode')}
