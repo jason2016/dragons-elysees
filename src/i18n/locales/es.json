@@ -1,1 +1,40 @@
-{}
+{
+  "cart": {
+    "freeDelivery": null,
+    "freeDeliveryHint": null,
+    "loginPrompt": null,
+    "loginBtn": null
+  },
+
+  "checkout": {
+    "addressRequired": null,
+    "payError": null,
+    "loginBannerText": null,
+    "loginBannerBtn": null,
+    "continueGuest": null,
+    "nameOptional": null,
+    "phoneOptional": null,
+    "registerHint": null,
+    "yourBalance": null,
+    "freeDelivery": null,
+    "freeDeliveryHint": null
+  },
+
+  "success": {
+    "tableHint": null,
+    "deliveryPreparing": null,
+    "trackOrder": null,
+    "downloadReceipt": null
+  },
+
+  "track": {
+    "loading": null,
+    "notFound": null,
+    "notFoundDesc": null,
+    "title": null,
+    "deliveryBadge": null,
+    "deliveryAddr": null,
+    "details": null,
+    "autoRefresh": null
+  }
+}

@@ -131,5 +131,44 @@
   "deliveryCall": "📞 拨打",
   "deliveryNoOrders": "暂无外送订单",
   "deliveryWaiting": "等待取餐",
-  "deliveryEnRoute": "配送中"
+  "deliveryEnRoute": "配送中",
+
+  "cart": {
+    "freeDelivery": "免运费 ✅",
+    "freeDeliveryHint": "再加 {{amount}} 即可免运费",
+    "loginPrompt": "登录后可获得 {{amount}} 返点！",
+    "loginBtn": "立即登录 →"
+  },
+
+  "checkout": {
+    "addressRequired": "配送地址必填",
+    "payError": "支付失败，请重试",
+    "loginBannerText": "登录即享10%返点",
+    "loginBannerBtn": "登录 →",
+    "continueGuest": "不登录继续",
+    "nameOptional": "姓名（选填）",
+    "phoneOptional": "电话（选填）",
+    "registerHint": "注册账户，每单消费返10%到账户",
+    "yourBalance": "您的余额",
+    "freeDelivery": "免运费！",
+    "freeDeliveryHint": "再加 {{amount}} 即可免运费"
+  },
+
+  "success": {
+    "tableHint": "桌号 {{table}}",
+    "deliveryPreparing": "我们正在为您准备外送订单",
+    "trackOrder": "追踪我的订单",
+    "downloadReceipt": "下载收据 PDF"
+  },
+
+  "track": {
+    "loading": "加载中…",
+    "notFound": "找不到订单",
+    "notFoundDesc": "订单 {{number}} 不存在",
+    "title": "订单追踪",
+    "deliveryBadge": "外送",
+    "deliveryAddr": "配送地址",
+    "details": "订单详情",
+    "autoRefresh": "每10秒自动刷新"
+  }
 }

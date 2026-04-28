@@ -131,5 +131,44 @@
   "deliveryCall": "📞 Appeler",
   "deliveryNoOrders": "Aucune livraison en cours",
   "deliveryWaiting": "En attente",
-  "deliveryEnRoute": "En route"
+  "deliveryEnRoute": "En route",
+
+  "cart": {
+    "freeDelivery": "Offerte ✅",
+    "freeDeliveryHint": "Plus que {{amount}} pour la livraison gratuite",
+    "loginPrompt": "Connectez-vous et gagnez {{amount}} de cashback !",
+    "loginBtn": "Se connecter →"
+  },
+
+  "checkout": {
+    "addressRequired": "Adresse de livraison requise",
+    "payError": "Erreur de paiement, veuillez réessayer",
+    "loginBannerText": "Connectez-vous pour bénéficier de 10% de cashback",
+    "loginBannerBtn": "Se connecter →",
+    "continueGuest": "Continuer sans compte",
+    "nameOptional": "Nom (optionnel)",
+    "phoneOptional": "Téléphone (optionnel)",
+    "registerHint": "Créez un compte pour 10% de cashback sur chaque commande",
+    "yourBalance": "Votre solde",
+    "freeDelivery": "Livraison offerte !",
+    "freeDeliveryHint": "Plus que {{amount}} pour la livraison gratuite"
+  },
+
+  "success": {
+    "tableHint": "Table {{table}}",
+    "deliveryPreparing": "Votre commande est en cours de préparation",
+    "trackOrder": "Suivre ma commande",
+    "downloadReceipt": "Télécharger le reçu"
+  },
+
+  "track": {
+    "loading": "Chargement…",
+    "notFound": "Commande introuvable",
+    "notFoundDesc": "La commande {{number}} est introuvable.",
+    "title": "Suivi de commande",
+    "deliveryBadge": "Livraison",
+    "deliveryAddr": "Livraison à",
+    "details": "Détails de la commande",
+    "autoRefresh": "Actualisation automatique toutes les 10s"
+  }
 }

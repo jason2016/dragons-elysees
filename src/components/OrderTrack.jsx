@@ -42,7 +42,7 @@ export default function OrderTrack() {
       <div className={styles.page}>
         <div className={styles.container}>
           <div className={styles.loading}>
-            {lang === 'zh' ? '加载中…' : 'Chargement…'}
+            {t('track.loading')}
           </div>
         </div>
       </div>
@@ -55,8 +55,8 @@ export default function OrderTrack() {
         <div className={styles.container}>
           <div className={styles.notFound}>
             <div className={styles.notFoundIcon}>🔍</div>
-            <h2>{lang === 'zh' ? '找不到订单' : 'Commande introuvable'}</h2>
-            <p>{lang === 'zh' ? `订单 ${orderNumber} 不存在` : `La commande ${orderNumber} est introuvable.`}</p>
+            <h2>{t('track.notFound')}</h2>
+            <p>{t('track.notFoundDesc', { number: orderNumber })}</p>
             <Link to="/menu" className="btn-gold">{t('backToMenu')}</Link>
           </div>
         </div>
@@ -72,11 +72,11 @@ export default function OrderTrack() {
     <div className={styles.page}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <div className={styles.headerSub}>{lang === 'zh' ? '订单追踪' : 'Suivi de commande'}</div>
+          <div className={styles.headerSub}>{t('track.title')}</div>
           <div className={styles.orderNum}>
             #{orderNum}
             {isDelivery
-              ? <span className={styles.typeBadge}>🚗 {lang === 'zh' ? '外送' : 'Livraison'}</span>
+              ? <span className={styles.typeBadge}>🚗 {t('track.deliveryBadge')}</span>
               : order.table_number
                 ? <span className={styles.tableBadge}>Table {order.table_number}</span>
                 : null
@@ -91,14 +91,14 @@ export default function OrderTrack() {
         {isDelivery && order.delivery_address && (
           <div className={styles.card}>
             <div className={styles.infoRow}>
-              <span className={styles.infoLabel}>📍 {lang === 'zh' ? '配送地址' : 'Livraison à'}</span>
+              <span className={styles.infoLabel}>📍 {t('track.deliveryAddr')}</span>
               <span className={styles.infoVal}>{order.delivery_address}</span>
             </div>
           </div>
         )}
 
         <div className={styles.card}>
-          <div className={styles.sectionTitle}>{lang === 'zh' ? '订单详情' : 'Détails de la commande'}</div>
+          <div className={styles.sectionTitle}>{t('track.details')}</div>
           <div className={styles.items}>
             {items.map((item, i) => (
               <div key={i} className={styles.itemRow}>
@@ -112,18 +112,18 @@ export default function OrderTrack() {
           </div>
           {order.delivery_fee > 0 && (
             <div className={styles.feeRow}>
-              <span>{lang === 'zh' ? '配送费' : 'Frais de livraison'}</span>
+              <span>{t('deliveryFee')}</span>
               <span>{formatPrice(order.delivery_fee)}</span>
             </div>
           )}
           <div className={styles.totalRow}>
-            <span>{lang === 'zh' ? '实付' : 'Total payé'}</span>
+            <span>{t('paid')}</span>
             <span>{formatPrice(order.total_paid)}</span>
           </div>
         </div>
 
         <div className={styles.refreshNote}>
-          🔄 {lang === 'zh' ? '每10秒自动刷新' : 'Actualisation automatique toutes les 10s'}
+          🔄 {t('track.autoRefresh')}
         </div>
 
         <Link to="/menu" className="btn-ghost">{t('newOrder')}</Link>

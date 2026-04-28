@@ -61,7 +61,7 @@ export default function Checkout() {
     if (isDelivery) {
       if (!guestName.trim() || guestName.trim().length < 2) errs.name = t('nameRequired')
       if (!guestPhone.trim()) errs.phone = t('phoneRequired')
-      if (!deliveryAddress.trim()) errs.address = lang === 'zh' ? '配送地址必填' : 'Adresse de livraison requise'
+      if (!deliveryAddress.trim()) errs.address = t('checkout.addressRequired')
     }
     // Dine-in: only table required
     if (!isDelivery && !tableNumber.trim()) errs.table = t('tableRequiredMsg')
@@ -127,7 +127,7 @@ export default function Checkout() {
       clearCart()
       navigate(`/payment-success?order=${paidOrder.order_number}`)
     } catch (err) {
-      setErrors({ submit: lang === 'zh' ? '支付失败，请重试' : 'Erreur de paiement, veuillez réessayer' })
+      setErrors({ submit: t('checkout.payError') })
     } finally {
       setLoading(false)
     }
@@ -142,9 +142,7 @@ export default function Checkout() {
         {showLoginBanner && (
           <div className={styles.loginBanner}>
             <span className={styles.loginBannerText}>
-              ⭐ {lang === 'zh'
-                ? '登录即享10%返点'
-                : 'Connectez-vous pour bénéficier de 10% de cashback'}
+              ⭐ {t('checkout.loginBannerText')}
             </span>
             <div className={styles.loginBannerActions}>
               <button
@@ -154,13 +152,13 @@ export default function Checkout() {
                   navigate('/account/login')
                 }}
               >
-                {lang === 'zh' ? '登录 →' : 'Se connecter →'}
+                {t('checkout.loginBannerBtn')}
               </button>
               <button
                 className={styles.loginBannerDismiss}
                 onClick={() => setShowLoginBanner(false)}
               >
-                {lang === 'zh' ? '不登录继续' : 'Continuer sans compte'}
+                {t('checkout.continueGuest')}
               </button>
             </div>
           </div>
@@ -208,7 +206,7 @@ export default function Checkout() {
           {/* Name */}
           <div className={styles.formRow}>
             <label className={styles.label}>
-              {isDelivery ? t('guestName') : (lang === 'zh' ? '姓名（选填）' : 'Nom (optionnel)')}
+              {isDelivery ? t('guestName') : t('checkout.nameOptional')}
             </label>
             <input
               type="text"
@@ -223,7 +221,7 @@ export default function Checkout() {
           {/* Phone */}
           <div className={styles.formRow}>
             <label className={styles.label}>
-              {isDelivery ? t('guestPhone') : (lang === 'zh' ? '电话（选填）' : 'Téléphone (optionnel)')}
+              {isDelivery ? t('guestPhone') : t('checkout.phoneOptional')}
             </label>
             <input
               type="tel"
@@ -255,7 +253,7 @@ export default function Checkout() {
           {/* Dine-in cashback hint (no email field) */}
           {!isDelivery && !isLoggedIn && (
             <div className={styles.emailHint}>
-              💡 {lang === 'zh' ? '注册账户，每单消费返10%到账户' : 'Créez un compte pour 10% de cashback sur chaque commande'}
+              💡 {t('checkout.registerHint')}
             </div>
           )}
         </div>
@@ -324,7 +322,7 @@ export default function Checkout() {
             <div className={styles.balanceHeader}>
               <span className={styles.balanceHeaderIcon}>🎁</span>
               <span className={styles.balanceHeaderText}>
-                {lang === 'zh' ? '您的余额' : 'Votre solde'} : {formatPrice(balance)}
+                {t('checkout.yourBalance')} : {formatPrice(balance)}
               </span>
             </div>
             <div className={styles.balanceToggle}>
@@ -351,7 +349,7 @@ export default function Checkout() {
               <span>{t('deliveryFee')}</span>
               <span>
                 {deliveryFee === 0
-                  ? <span className={styles.freeDelivery}>{formatPrice(0)} ✅ {lang === 'zh' ? '免运费！' : 'Livraison offerte !'}</span>
+                  ? <span className={styles.freeDelivery}>{formatPrice(0)} ✅ {t('checkout.freeDelivery')}</span>
                   : formatPrice(deliveryFee)
                 }
               </span>
@@ -359,10 +357,7 @@ export default function Checkout() {
           )}
           {isDelivery && deliveryFee > 0 && (
             <div className={styles.deliveryHint}>
-              💡 {lang === 'zh'
-                ? `再加 ${formatPrice(DELIVERY_CONFIG.free_threshold - total)} 即可免运费`
-                : `Plus que ${formatPrice(DELIVERY_CONFIG.free_threshold - total)} pour la livraison gratuite`
-              }
+              💡 {t('checkout.freeDeliveryHint', { amount: formatPrice(DELIVERY_CONFIG.free_threshold - total) })}
             </div>
           )}
           {balanceApplied > 0 && (

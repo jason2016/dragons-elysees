@@ -12,7 +12,7 @@ const DELIVERY_CONFIG = { base_fee: 5.00, free_threshold: 50.00 }
 export default function Cart() {
   const { items, updateQty, clearCart, total, count, cartOpen, closeCart } = useCart()
   const { isLoggedIn } = useAuth()
-  const { t, lang, name } = useLang()
+  const { t, name } = useLang()
   const { orderType } = useOrderType()
   const navigate = useNavigate()
   const isDelivery = orderType === 'delivery'
@@ -93,7 +93,7 @@ export default function Cart() {
                   <span className={styles.summaryLabel}>🚗 {t('deliveryFee')}</span>
                   <span className={styles.summaryValue}>
                     {deliveryFee === 0
-                      ? <span className={styles.freeDelivery}>{lang === 'zh' ? '免运费 ✅' : 'Offerte ✅'}</span>
+                      ? <span className={styles.freeDelivery}>{t('cart.freeDelivery')}</span>
                       : formatPrice(deliveryFee)
                     }
                   </span>
@@ -101,25 +101,19 @@ export default function Cart() {
               )}
               {isDelivery && deliveryFee > 0 && (
                 <div className={styles.freeHint}>
-                  💡 {lang === 'zh'
-                    ? `再加 ${formatPrice(DELIVERY_CONFIG.free_threshold - total)} 即可免运费`
-                    : `Plus que ${formatPrice(DELIVERY_CONFIG.free_threshold - total)} pour la livraison gratuite`
-                  }
+                  💡 {t('cart.freeDeliveryHint', { amount: formatPrice(DELIVERY_CONFIG.free_threshold - total) })}
                 </div>
               )}
               {!isLoggedIn && (
                 <div className={styles.loginPrompt}>
                   <div className={styles.loginPromptText}>
-                    ⭐ {lang === 'zh'
-                      ? `登录后可获得 ${formatPrice(grandTotal * 0.10)} 返点！`
-                      : `Connectez-vous et gagnez ${formatPrice(grandTotal * 0.10)} de cashback !`
-                    }
+                    ⭐ {t('cart.loginPrompt', { amount: formatPrice(grandTotal * 0.10) })}
                   </div>
                   <button
                     className={styles.loginPromptBtn}
                     onClick={() => { closeCart(); navigate('/account/login') }}
                   >
-                    {lang === 'zh' ? '立即登录 →' : 'Se connecter →'}
+                    {t('cart.loginBtn')}
                   </button>
                 </div>
               )}
