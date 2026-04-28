@@ -192,7 +192,7 @@ function OrderDetail({ order, lang }) {
       <div className={styles.detailItems}>
         {items.map((item, i) => (
           <div key={i} className={styles.detailItem}>
-            <span>{item.qty}× {lang === 'zh' ? (item.name_zh || item.name_fr) : (item.name_fr || item.name_zh)}</span>
+            <span>{item.qty}× {item.name?.zh || item.name_zh} / {item.name?.fr || item.name_fr}</span>
             <span>{formatPrice(item.price * item.qty)}</span>
           </div>
         ))}

@@ -174,7 +174,7 @@ function DeliveryCard({ order, lang, t, onPickup, onDelivering, onDelivered }) {
 
       <div className={styles.items}>
         📦 {items.map((item, i) => (
-          <span key={i}>{item.qty}× {item.name_zh || item.name_fr}{i < items.length - 1 ? ', ' : ''}</span>
+          <span key={i}>{item.qty}× {item.name?.zh || item.name_zh} / {item.name?.fr || item.name_fr}{i < items.length - 1 ? ', ' : ''}</span>
         ))}
       </div>
 

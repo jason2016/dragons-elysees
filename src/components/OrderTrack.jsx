@@ -104,7 +104,7 @@ export default function OrderTrack() {
               <div key={i} className={styles.itemRow}>
                 <span className={styles.itemQty}>{item.qty}×</span>
                 <span className={styles.itemName}>
-                  {lang === 'zh' ? (item.name_zh || item.name_fr) : (item.name_fr || item.name_zh)}
+                  {item.name?.[lang] || item.name?.fr || item.name_fr}
                 </span>
                 <span className={styles.itemPrice}>{formatPrice(item.price * item.qty)}</span>
               </div>

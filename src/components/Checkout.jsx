@@ -193,7 +193,7 @@ export default function Checkout() {
                 <span className={styles.lineQty}>{item.qty}×</span>
                 <span className={styles.lineName}>
                   <span>{name(item)}</span>
-                  <span className={styles.lineNameSub}>{item.name_zh}</span>
+                  <span className={styles.lineNameSub}>{item.name?.zh || item.name_zh}</span>
                 </span>
                 <span className={styles.linePrice}>{formatPrice(item.price * item.qty)}</span>
               </div>
