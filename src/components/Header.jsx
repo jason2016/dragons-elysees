@@ -7,7 +7,7 @@ import styles from './Header.module.css'
 export default function Header() {
   const { count, openCart } = useCart()
   const { isLoggedIn, customer } = useAuth()
-  const { lang, toggle, t } = useLang()
+  const { toggle, t } = useLang()
   const location = useLocation()
   const isHome = location.pathname === '/'
 
@@ -43,9 +43,9 @@ export default function Header() {
             className={styles.langBtn}
             onClick={toggle}
             aria-label="Changer la langue"
-            title={lang === 'fr' ? '切换中文' : 'Passer en français'}
+            title={t('header.langTooltip')}
           >
-            {lang === 'fr' ? '中文' : 'FR'}
+            {t('header.langLabel')}
           </button>
 
           {/* Cart */}

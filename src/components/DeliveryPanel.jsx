@@ -186,7 +186,7 @@ function DeliveryCard({ order, lang, t, onPickup, onDelivering, onDelivered }) {
         )}
         {order.status === 'picked_up' && (
           <button className={styles.btnDelivering} onClick={onDelivering}>
-            {lang === 'zh' ? '🛵 配送中' : '🛵 En livraison'}
+            🛵 配送中 · En livraison
           </button>
         )}
         {order.status === 'delivering' && (
@@ -201,7 +201,7 @@ function DeliveryCard({ order, lang, t, onPickup, onDelivering, onDelivered }) {
         )}
         {(order.status === 'picked_up' || order.status === 'delivering') && order.delivery_address && (
           <a href={mapsUrl} target="_blank" rel="noopener noreferrer" className={styles.btnNav}>
-            {lang === 'zh' ? '📍 导航' : '📍 Naviguer'}
+            📍 导航 · Naviguer
           </a>
         )}
       </div>

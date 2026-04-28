@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useLang } from '../hooks/useLang'
 
 export default function InstallPrompt() {
-  const { lang } = useLang()
+  const { t } = useLang()
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [showPrompt, setShowPrompt] = useState(false)
 
@@ -57,15 +57,10 @@ export default function InstallPrompt() {
     }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ color: '#f5f0e8', fontWeight: 600, fontSize: '14px' }}>
-          🐉 {lang === 'zh' ? '添加到主屏幕' : "Ajouter à l'écran d'accueil"}
+          🐉 {t('install.addToHome')}
         </div>
         <div style={{ color: '#a09882', fontSize: '12px', marginTop: '4px' }}>
-          {isIOS
-            ? (lang === 'zh'
-                ? '点击 ⎙ 分享按钮，然后选择"添加到主屏幕"'
-                : 'Appuyez sur ⎙ Partager puis "Sur l\'écran d\'accueil"')
-            : (lang === 'zh' ? '快速访问菜单和点餐' : 'Accédez rapidement au menu')
-          }
+          {isIOS ? t('install.iosHint') : t('install.androidHint')}
         </div>
       </div>
       <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
@@ -75,7 +70,7 @@ export default function InstallPrompt() {
             padding: '8px 16px', borderRadius: '6px', fontWeight: 600, cursor: 'pointer',
             fontSize: '14px'
           }}>
-            {lang === 'zh' ? '安装' : 'Installer'}
+            {t('install.installBtn')}
           </button>
         )}
         <button onClick={handleDismiss} style={{

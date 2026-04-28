@@ -14,7 +14,7 @@ const DELIVERY_CONFIG = { base_fee: 5.00, free_threshold: 50.00 }
 export default function Checkout() {
   const { items, total, clearCart } = useCart()
   const { isLoggedIn, customer, updateBalance } = useAuth()
-  const { t, name, lang } = useLang()
+  const { t, name } = useLang()
   const { orderType, setOrderType } = useOrderType()
   const navigate = useNavigate()
 
@@ -298,7 +298,6 @@ export default function Checkout() {
                 onDistanceError={msg => setErrors(p => ({ ...p, distance: msg }))}
                 placeholder={t('deliveryAddressPlaceholder')}
                 hasError={!!errors.address}
-                lang={lang}
               />
               {errors.address && <span className={styles.fieldError}>{errors.address}</span>}
               {errors.distance && <span className={styles.fieldError}>{errors.distance}</span>}

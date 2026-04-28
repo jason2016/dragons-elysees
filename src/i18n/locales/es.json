@@ -19,7 +19,8 @@
     "phoneOptional": "[ES] Téléphone (optionnel)",
     "registerHint": "[ES] Créez un compte pour 10% de cashback sur chaque commande",
     "yourBalance": "[ES] Votre solde",
-    "freeDelivery": "[ES] Livraison offerte !"
+    "freeDelivery": "[ES] Livraison offerte !",
+    "distanceError": "[ES] Désolé, cette adresse est hors de notre zone de livraison (5 km)"
   },
 
   "success": {
@@ -70,6 +71,18 @@
     "usableNote": "[ES] Utilisable sur place uniquement",
     "empty": "[ES] Aucune transaction pour le moment",
     "emptyHint": "[ES] Recommandez vos amis pour gagner du crédit !"
+  },
+
+  "install": {
+    "addToHome": "[ES] Ajouter à l'écran d'accueil",
+    "iosHint": "[ES] Appuyez sur ⎙ Partager puis \"Sur l'écran d'accueil\"",
+    "androidHint": "[ES] Accédez rapidement au menu",
+    "installBtn": "[ES] Installer"
+  },
+
+  "header": {
+    "langLabel": "[ES] 中文",
+    "langTooltip": "[ES] 切换中文"
   },
 
   "home": {

@@ -153,7 +153,8 @@
     "phoneOptional": "电话（选填）",
     "registerHint": "注册账户，每单消费返10%到账户",
     "yourBalance": "您的余额",
-    "freeDelivery": "免运费！"
+    "freeDelivery": "免运费！",
+    "distanceError": "抱歉，该地址超出配送范围（5公里）"
   },
 
   "success": {
@@ -204,6 +205,18 @@
     "usableNote": "可在下次消费时使用",
     "empty": "暂无记录",
     "emptyHint": "推荐朋友即可获得积分！"
+  },
+
+  "install": {
+    "addToHome": "添加到主屏幕",
+    "iosHint": "点击 ⎙ 分享按钮，然后选择「添加到主屏幕」",
+    "androidHint": "快速访问菜单和点餐",
+    "installBtn": "安装"
+  },
+
+  "header": {
+    "langLabel": "FR",
+    "langTooltip": "Passer en français"
   },
 
   "home": {

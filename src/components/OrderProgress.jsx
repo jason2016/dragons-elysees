@@ -64,7 +64,7 @@ export default function OrderProgress({ order, lang }) {
                 )}
               </div>
               <div className={`${styles.label} ${done ? styles.labelDone : ''}`}>
-                {lang === 'zh' ? step.zh : step.fr}
+                {step[lang] || step.fr}
               </div>
             </div>
           )

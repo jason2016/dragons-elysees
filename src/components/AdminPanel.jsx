@@ -109,10 +109,7 @@ export default function AdminPanel() {
         <div className={styles.card}>
           <div className={styles.cardHeader}>
             <h2 className={styles.cardTitle}>
-              {lang === 'zh'
-                ? `${new Date(dateFilter + 'T00:00:00').toLocaleDateString('zh-CN')} 订单`
-                : `Commandes du ${new Date(dateFilter + 'T00:00:00').toLocaleDateString('fr-FR')}`
-              }
+              {`Commandes du ${new Date(dateFilter + 'T00:00:00').toLocaleDateString('fr-FR')} · ${new Date(dateFilter + 'T00:00:00').toLocaleDateString('zh-CN')} 订单`}
             </h2>
             <select
               className={styles.statusSelect}
