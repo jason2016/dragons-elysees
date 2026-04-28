@@ -1,7 +1,8 @@
 {
   "common": {
     "freeDeliveryHint": "[EN] Plus que {{amount}} pour la livraison gratuite",
-    "connectBtn": "[EN] Se connecter →"
+    "connectBtn": "[EN] Se connecter →",
+    "loading": "[EN] Chargement…"
   },
 
   "cart": {
@@ -29,7 +30,6 @@
   },
 
   "track": {
-    "loading": "[EN] Chargement…",
     "notFound": "[EN] Commande introuvable",
     "notFoundDesc": "[EN] La commande {{number}} est introuvable.",
     "title": "[EN] Suivi de commande",
@@ -68,7 +68,6 @@
     "title": "[EN] Historique du crédit",
     "currentBalance": "[EN] Solde actuel",
     "usableNote": "[EN] Utilisable sur place uniquement",
-    "loading": "[EN] Chargement…",
     "empty": "[EN] Aucune transaction pour le moment",
     "emptyHint": "[EN] Recommandez vos amis pour gagner du crédit !"
   },

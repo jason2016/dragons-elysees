@@ -135,7 +135,8 @@
 
   "common": {
     "freeDeliveryHint": "再加 {{amount}} 即可免运费",
-    "connectBtn": "登录 →"
+    "connectBtn": "登录 →",
+    "loading": "加载中…"
   },
 
   "cart": {
@@ -163,7 +164,6 @@
   },
 
   "track": {
-    "loading": "加载中…",
     "notFound": "找不到订单",
     "notFoundDesc": "订单 {{number}} 不存在",
     "title": "订单追踪",
@@ -202,7 +202,6 @@
     "title": "余额流水",
     "currentBalance": "当前余额",
     "usableNote": "可在下次消费时使用",
-    "loading": "加载中…",
     "empty": "暂无记录",
     "emptyHint": "推荐朋友即可获得积分！"
   },

@@ -42,7 +42,7 @@ export default function OrderTrack() {
       <div className={styles.page}>
         <div className={styles.container}>
           <div className={styles.loading}>
-            {t('track.loading')}
+            {t('common.loading')}
           </div>
         </div>
       </div>

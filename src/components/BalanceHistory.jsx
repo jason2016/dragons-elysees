@@ -59,7 +59,7 @@ export default function BalanceHistory() {
       <div className={styles.listWrap}>
         {loading ? (
           <div className={styles.state}>
-            {t('balance.loading')}
+            {t('common.loading')}
           </div>
         ) : !data || data.transactions?.length === 0 ? (
           <div className={styles.state}>

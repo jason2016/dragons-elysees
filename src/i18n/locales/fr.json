@@ -135,7 +135,8 @@
 
   "common": {
     "freeDeliveryHint": "Plus que {{amount}} pour la livraison gratuite",
-    "connectBtn": "Se connecter →"
+    "connectBtn": "Se connecter →",
+    "loading": "Chargement…"
   },
 
   "cart": {
@@ -163,7 +164,6 @@
   },
 
   "track": {
-    "loading": "Chargement…",
     "notFound": "Commande introuvable",
     "notFoundDesc": "La commande {{number}} est introuvable.",
     "title": "Suivi de commande",
@@ -202,7 +202,6 @@
     "title": "Historique du crédit",
     "currentBalance": "Solde actuel",
     "usableNote": "Utilisable sur place uniquement",
-    "loading": "Chargement…",
     "empty": "Aucune transaction pour le moment",
     "emptyHint": "Recommandez vos amis pour gagner du crédit !"
   },
