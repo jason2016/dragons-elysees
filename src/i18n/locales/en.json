@@ -1,40 +1,40 @@
 {
   "cart": {
-    "freeDelivery": null,
-    "freeDeliveryHint": null,
-    "loginPrompt": null,
-    "loginBtn": null
+    "freeDelivery": "[EN] Offerte ✅",
+    "freeDeliveryHint": "[EN] Plus que {{amount}} pour la livraison gratuite",
+    "loginPrompt": "[EN] Connectez-vous et gagnez {{amount}} de cashback !",
+    "loginBtn": "[EN] Se connecter →"
   },
 
   "checkout": {
-    "addressRequired": null,
-    "payError": null,
-    "loginBannerText": null,
-    "loginBannerBtn": null,
-    "continueGuest": null,
-    "nameOptional": null,
-    "phoneOptional": null,
-    "registerHint": null,
-    "yourBalance": null,
-    "freeDelivery": null,
-    "freeDeliveryHint": null
+    "addressRequired": "[EN] Adresse de livraison requise",
+    "payError": "[EN] Erreur de paiement, veuillez réessayer",
+    "loginBannerText": "[EN] Connectez-vous pour bénéficier de 10% de cashback",
+    "loginBannerBtn": "[EN] Se connecter →",
+    "continueGuest": "[EN] Continuer sans compte",
+    "nameOptional": "[EN] Nom (optionnel)",
+    "phoneOptional": "[EN] Téléphone (optionnel)",
+    "registerHint": "[EN] Créez un compte pour 10% de cashback sur chaque commande",
+    "yourBalance": "[EN] Votre solde",
+    "freeDelivery": "[EN] Livraison offerte !",
+    "freeDeliveryHint": "[EN] Plus que {{amount}} pour la livraison gratuite"
   },
 
   "success": {
-    "tableHint": null,
-    "deliveryPreparing": null,
-    "trackOrder": null,
-    "downloadReceipt": null
+    "tableHint": "[EN] Table {{table}}",
+    "deliveryPreparing": "[EN] Votre commande est en cours de préparation",
+    "trackOrder": "[EN] Suivre ma commande",
+    "downloadReceipt": "[EN] Télécharger le reçu"
   },
 
   "track": {
-    "loading": null,
-    "notFound": null,
-    "notFoundDesc": null,
-    "title": null,
-    "deliveryBadge": null,
-    "deliveryAddr": null,
-    "details": null,
-    "autoRefresh": null
+    "loading": "[EN] Chargement…",
+    "notFound": "[EN] Commande introuvable",
+    "notFoundDesc": "[EN] La commande {{number}} est introuvable.",
+    "title": "[EN] Suivi de commande",
+    "deliveryBadge": "[EN] Livraison",
+    "deliveryAddr": "[EN] Livraison à",
+    "details": "[EN] Détails de la commande",
+    "autoRefresh": "[EN] Actualisation automatique toutes les 10s"
   }
 }
