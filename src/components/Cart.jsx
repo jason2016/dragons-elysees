@@ -101,7 +101,7 @@ export default function Cart() {
               )}
               {isDelivery && deliveryFee > 0 && (
                 <div className={styles.freeHint}>
-                  💡 {t('cart.freeDeliveryHint', { amount: formatPrice(DELIVERY_CONFIG.free_threshold - total) })}
+                  💡 {t('common.freeDeliveryHint', { amount: formatPrice(DELIVERY_CONFIG.free_threshold - total) })}
                 </div>
               )}
               {!isLoggedIn && (
@@ -113,7 +113,7 @@ export default function Cart() {
                     className={styles.loginPromptBtn}
                     onClick={() => { closeCart(); navigate('/account/login') }}
                   >
-                    {t('cart.loginBtn')}
+                    {t('common.connectBtn')}
                   </button>
                 </div>
               )}

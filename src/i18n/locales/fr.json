@@ -133,25 +133,26 @@
   "deliveryWaiting": "En attente",
   "deliveryEnRoute": "En route",
 
+  "common": {
+    "freeDeliveryHint": "Plus que {{amount}} pour la livraison gratuite",
+    "connectBtn": "Se connecter →"
+  },
+
   "cart": {
     "freeDelivery": "Offerte ✅",
-    "freeDeliveryHint": "Plus que {{amount}} pour la livraison gratuite",
-    "loginPrompt": "Connectez-vous et gagnez {{amount}} de cashback !",
-    "loginBtn": "Se connecter →"
+    "loginPrompt": "Connectez-vous et gagnez {{amount}} de cashback !"
   },
 
   "checkout": {
     "addressRequired": "Adresse de livraison requise",
     "payError": "Erreur de paiement, veuillez réessayer",
     "loginBannerText": "Connectez-vous pour bénéficier de 10% de cashback",
-    "loginBannerBtn": "Se connecter →",
     "continueGuest": "Continuer sans compte",
     "nameOptional": "Nom (optionnel)",
     "phoneOptional": "Téléphone (optionnel)",
     "registerHint": "Créez un compte pour 10% de cashback sur chaque commande",
     "yourBalance": "Votre solde",
-    "freeDelivery": "Livraison offerte !",
-    "freeDeliveryHint": "Plus que {{amount}} pour la livraison gratuite"
+    "freeDelivery": "Livraison offerte !"
   },
 
   "success": {
@@ -170,5 +171,46 @@
     "deliveryAddr": "Livraison à",
     "details": "Détails de la commande",
     "autoRefresh": "Actualisation automatique toutes les 10s"
+  },
+
+  "account": {
+    "balanceTitle": "Balance",
+    "viewHistory": "Voir l'historique →",
+    "viewAllTx": "Voir les {{count}} transactions →",
+    "referralTitle": "Recommandez Dragons Elysées",
+    "yourCode": "Votre code",
+    "scanOrShare": "Scannez ou partagez le lien",
+    "shareWhatsApp": "Partager sur WhatsApp",
+    "howItWorks": "Comment ça marche ?",
+    "step1": "Partagez votre code avec vos amis",
+    "step2": "Ils saisissent le code à leur première commande",
+    "step3": "Vous recevez 10% de leur commande en crédit Dragons",
+    "step4": "Utilisez votre crédit lors de vos prochaines visites",
+    "statReferred": "Amis recommandés",
+    "statEarned": "Total gagné",
+    "statPending": "En attente"
+  },
+
+  "login": {
+    "referralWelcome": "Bienvenue ! Vous bénéficiez du programme de recommandation 🎉",
+    "referralLabel": "Code de recommandation (optionnel)",
+    "referralPlaceholder": "Ex: ABC12345",
+    "referralHint": "Si un ami vous a recommandé Dragons, saisissez son code pour qu'il gagne du crédit."
+  },
+
+  "balance": {
+    "title": "Historique du crédit",
+    "currentBalance": "Solde actuel",
+    "usableNote": "Utilisable sur place uniquement",
+    "loading": "Chargement…",
+    "empty": "Aucune transaction pour le moment",
+    "emptyHint": "Recommandez vos amis pour gagner du crédit !"
+  },
+
+  "home": {
+    "reviewsTitle": "Avis de nos clients",
+    "loyaltyBadge": "Membre fidélité",
+    "disclaimer": "Transparence : ",
+    "disclaimerText": "Certains de nos clients sont membres de notre programme fidélité Dragons et peuvent recevoir un crédit utilisable sur place lorsqu'ils partagent leur expérience. Les avis reflètent leurs opinions personnelles et ne sont pas influencés par cet avantage."
   }
 }

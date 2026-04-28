@@ -133,25 +133,26 @@
   "deliveryWaiting": "等待取餐",
   "deliveryEnRoute": "配送中",
 
+  "common": {
+    "freeDeliveryHint": "再加 {{amount}} 即可免运费",
+    "connectBtn": "登录 →"
+  },
+
   "cart": {
     "freeDelivery": "免运费 ✅",
-    "freeDeliveryHint": "再加 {{amount}} 即可免运费",
-    "loginPrompt": "登录后可获得 {{amount}} 返点！",
-    "loginBtn": "立即登录 →"
+    "loginPrompt": "登录后可获得 {{amount}} 返点！"
   },
 
   "checkout": {
     "addressRequired": "配送地址必填",
     "payError": "支付失败，请重试",
     "loginBannerText": "登录即享10%返点",
-    "loginBannerBtn": "登录 →",
     "continueGuest": "不登录继续",
     "nameOptional": "姓名（选填）",
     "phoneOptional": "电话（选填）",
     "registerHint": "注册账户，每单消费返10%到账户",
     "yourBalance": "您的余额",
-    "freeDelivery": "免运费！",
-    "freeDeliveryHint": "再加 {{amount}} 即可免运费"
+    "freeDelivery": "免运费！"
   },
 
   "success": {
@@ -170,5 +171,46 @@
     "deliveryAddr": "配送地址",
     "details": "订单详情",
     "autoRefresh": "每10秒自动刷新"
+  },
+
+  "account": {
+    "balanceTitle": "余额",
+    "viewHistory": "查看流水 →",
+    "viewAllTx": "查看全部 {{count}} 条记录 →",
+    "referralTitle": "推荐朋友",
+    "yourCode": "您的推荐码",
+    "scanOrShare": "扫码或分享链接",
+    "shareWhatsApp": "分享到 WhatsApp",
+    "howItWorks": "如何运作？",
+    "step1": "将您的码分享给朋友",
+    "step2": "朋友首次下单时输入您的码",
+    "step3": "您将获得其订单10%的龙城积分",
+    "step4": "在下次到店消费时使用积分",
+    "statReferred": "已推荐",
+    "statEarned": "总获得",
+    "statPending": "待确认"
+  },
+
+  "login": {
+    "referralWelcome": "欢迎！您已通过推荐码加入，推荐人将获得奖励 🎉",
+    "referralLabel": "推荐码（选填）",
+    "referralPlaceholder": "例：ABC12345",
+    "referralHint": "如果朋友推荐了您，请填写他的推荐码，他将获得奖励。"
+  },
+
+  "balance": {
+    "title": "余额流水",
+    "currentBalance": "当前余额",
+    "usableNote": "可在下次消费时使用",
+    "loading": "加载中…",
+    "empty": "暂无记录",
+    "emptyHint": "推荐朋友即可获得积分！"
+  },
+
+  "home": {
+    "reviewsTitle": "顾客评价",
+    "loyaltyBadge": "会员",
+    "disclaimer": "透明声明：",
+    "disclaimerText": "部分顾客是我们龙城忠诚计划的会员，在分享用餐体验时可获得到店消费积分。所有评价均真实反映顾客个人感受，不受此优惠影响。"
   }
 }

@@ -152,7 +152,7 @@ export default function Checkout() {
                   navigate('/account/login')
                 }}
               >
-                {t('checkout.loginBannerBtn')}
+                {t('common.connectBtn')}
               </button>
               <button
                 className={styles.loginBannerDismiss}
@@ -357,7 +357,7 @@ export default function Checkout() {
           )}
           {isDelivery && deliveryFee > 0 && (
             <div className={styles.deliveryHint}>
-              💡 {t('checkout.freeDeliveryHint', { amount: formatPrice(DELIVERY_CONFIG.free_threshold - total) })}
+              💡 {t('common.freeDeliveryHint', { amount: formatPrice(DELIVERY_CONFIG.free_threshold - total) })}
             </div>
           )}
           {balanceApplied > 0 && (
