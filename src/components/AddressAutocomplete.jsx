@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { useLang } from '../hooks/useLang'
 import styles from './AddressAutocomplete.module.css'
 
 const RESTAURANT = { lat: 48.8738, lng: 2.3065 }
@@ -13,7 +14,8 @@ function haversine(lat1, lng1, lat2, lng2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
 }
 
-export default function AddressAutocomplete({ value, onChange, onDistanceError, placeholder, hasError, lang }) {
+export default function AddressAutocomplete({ value, onChange, onDistanceError, placeholder, hasError }) {
+  const { t } = useLang()
   const [suggestions, setSuggestions] = useState([])
   const [open, setOpen] = useState(false)
   const debounceRef = useRef(null)
@@ -51,11 +53,7 @@ export default function AddressAutocomplete({ value, onChange, onDistanceError, 
     if (onDistanceError) {
       const dist = haversine(RESTAURANT.lat, RESTAURANT.lng, s.lat, s.lng)
       if (dist > MAX_DISTANCE_KM) {
-        onDistanceError(
-          lang === 'zh'
-            ? `抱歉，该地址超出配送范围（5公里）`
-            : `Désolé, cette adresse est hors de notre zone de livraison (5 km)`
-        )
+        onDistanceError(t('checkout.distanceError'))
       }
     }
   }

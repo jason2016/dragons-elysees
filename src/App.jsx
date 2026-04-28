@@ -11,6 +11,8 @@ import Checkout from './components/Checkout'
 import PaymentSuccess from './components/PaymentSuccess'
 import AccountLogin from './components/AccountLogin'
 import AccountDashboard from './components/AccountDashboard'
+import BalanceHistory from './components/BalanceHistory'
+import AdminSimulateReview from './components/AdminSimulateReview'
 import KitchenDisplay from './components/KitchenDisplay'
 import AdminPanel from './components/AdminPanel'
 import DeliveryPanel from './components/DeliveryPanel'
@@ -47,6 +49,8 @@ function AppRoutes() {
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/account" element={<AccountDashboard />} />
         <Route path="/account/login" element={<AccountLogin />} />
+        <Route path="/balance/history" element={<BalanceHistory />} />
+        <Route path="/admin/simulate-review" element={<AdminSimulateReview />} />
         <Route path="/kitchen" element={<KitchenDisplay />} />
         <Route path="/admin" element={<AdminPanel />} />
         {FEATURES.delivery && <Route path="/delivery" element={<DeliveryPanel />} />}

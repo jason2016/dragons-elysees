@@ -257,7 +257,7 @@ function OrderCard({ order, onAction, actionLabel, blink }) {
         {items.map((item, i) => (
           <div key={i} className={styles.orderItem}>
             <span className={styles.itemQty}>{item.qty}×</span>
-            <span>{item.name_zh || item.name_fr}</span>
+            <span>{item.name?.zh || item.name_zh} / {item.name?.fr || item.name_fr}</span>
           </div>
         ))}
       </div>

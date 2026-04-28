@@ -122,6 +122,32 @@
 
 .changeEmail:hover { color: var(--text-secondary); }
 
+.referralWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.referralLabel {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.referralInput {
+  font-family: var(--font-price) !important;
+  font-size: 1rem !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase;
+}
+
+.referralHint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
 .footer {
   font-size: 0.78rem;
   color: var(--text-muted);

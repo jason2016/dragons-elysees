@@ -126,7 +126,7 @@ export default function MenuBrowser() {
             <div className={styles.sectionBanner}>
               <img
                 src={cat.cover}
-                alt={cat.name_fr}
+                alt={cat.name?.fr || cat.name_fr}
                 className={styles.sectionBannerImg}
                 loading="lazy"
               />

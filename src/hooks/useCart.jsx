@@ -17,12 +17,20 @@ export function CartProvider({ children }) {
   }, [items])
 
   const addItem = (item) => {
+    const normalized = { ...item }
+    // Back-compat: if old cart data has flat name_zh/name_fr but no name object, build it
+    if (!normalized.name && normalized.name_zh) {
+      normalized.name = { zh: normalized.name_zh, fr: normalized.name_fr || '' }
+    }
+    if (!normalized.note && normalized.note_zh) {
+      normalized.note = { zh: normalized.note_zh, fr: normalized.note_fr || '' }
+    }
     setItems(prev => {
-      const existing = prev.find(i => i.id === item.id)
+      const existing = prev.find(i => i.id === normalized.id)
       if (existing) {
-        return prev.map(i => i.id === item.id ? { ...i, qty: i.qty + 1 } : i)
+        return prev.map(i => i.id === normalized.id ? { ...i, qty: i.qty + 1 } : i)
       }
-      return [...prev, { ...item, qty: 1 }]
+      return [...prev, { ...normalized, qty: 1 }]
     })
   }
 

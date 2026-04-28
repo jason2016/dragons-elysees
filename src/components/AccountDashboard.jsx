@@ -11,6 +11,8 @@ export default function AccountDashboard() {
   const navigate = useNavigate()
   const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(true)
+  const [referralData, setReferralData] = useState(null)
+  const [copyDone, setCopyDone] = useState(false)
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -23,9 +25,30 @@ export default function AccountDashboard() {
       .finally(() => setLoading(false))
   }, [isLoggedIn, navigate])
 
+  useEffect(() => {
+    if (!customer?.id) return
+    api.getReferral(customer.id)
+      .then(setReferralData)
+      .catch(() => {})
+  }, [customer?.id])
+
   const handleLogout = () => {
     logout()
     navigate('/')
+  }
+
+  const copyReferralCode = () => {
+    if (!referralData?.referral_code) return
+    navigator.clipboard.writeText(referralData.referral_code).then(() => {
+      setCopyDone(true)
+      setTimeout(() => setCopyDone(false), 2000)
+    })
+  }
+
+  const shareWhatsApp = () => {
+    if (!referralData) return
+    const text = `Découvrez Dragons Elysées ! Utilisez mon code ${referralData.referral_code} et nous gagnons tous les deux ! ${referralData.referral_url}`
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
 
   if (!isLoggedIn) return null
@@ -33,6 +56,8 @@ export default function AccountDashboard() {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
+
+        {/* Profile card */}
         <div className={styles.profileCard}>
           <div className={styles.avatar}>
             {(customer?.name || customer?.email || '?')[0].toUpperCase()}
@@ -43,12 +68,17 @@ export default function AccountDashboard() {
           </div>
         </div>
 
+        {/* Balance card */}
         <div className={styles.balanceCard}>
-          <div className={styles.balanceLabel}>Balance</div>
+          <div className={styles.balanceLabel}>{t('account.balanceTitle')}</div>
           <div className={styles.balanceValue}>{formatPrice(customer?.balance || 0)}</div>
           <div className={styles.balanceSub}>{t('balanceSub')}</div>
+          <button className={styles.historyLink} onClick={() => navigate('/balance/history')}>
+            {t('account.viewHistory')}
+          </button>
         </div>
 
+        {/* Recent transactions */}
         <div className={styles.card}>
           <h2 className={styles.sectionTitle}>{t('txHistory')}</h2>
           {loading ? (
@@ -57,7 +87,7 @@ export default function AccountDashboard() {
             <div className={styles.empty}>{t('txEmpty')}</div>
           ) : (
             <div className={styles.txList}>
-              {transactions.map(tx => (
+              {transactions.slice(0, 5).map(tx => (
                 <div key={tx.id} className={styles.txRow}>
                   <div className={styles.txInfo}>
                     <span className={styles.txDesc}>{tx.description || tx.type}</span>
@@ -68,9 +98,95 @@ export default function AccountDashboard() {
                   </span>
                 </div>
               ))}
+              {transactions.length > 5 && (
+                <button className={styles.historyLink} onClick={() => navigate('/balance/history')}>
+                  {t('account.viewAllTx', { count: transactions.length })}
+                </button>
+              )}
             </div>
           )}
         </div>
+
+        {/* Referral section */}
+        {referralData && (
+          <div className={styles.card}>
+            <h2 className={styles.sectionTitle}>
+              {t('account.referralTitle')}
+            </h2>
+
+            {/* Referral code */}
+            <div className={styles.referralCodeBox}>
+              <div className={styles.referralCodeLabel}>
+                {t('account.yourCode')}
+              </div>
+              <div className={styles.referralCodeRow}>
+                <span className={styles.referralCode}>{referralData.referral_code}</span>
+                <button className={styles.copyBtn} onClick={copyReferralCode}>
+                  {copyDone ? '✓ Copié' : '📋 Copier'}
+                </button>
+              </div>
+            </div>
+
+            {/* QR code */}
+            {referralData.qr_code_url && (
+              <div className={styles.referralQR}>
+                <img src={referralData.qr_code_url} alt="QR Code recommandation" />
+                <p className={styles.referralQRSub}>
+                  {t('account.scanOrShare')}
+                </p>
+              </div>
+            )}
+
+            {/* Referral URL */}
+            {referralData.referral_url && (
+              <div className={styles.referralUrl}>{referralData.referral_url}</div>
+            )}
+
+            {/* WhatsApp share */}
+            <button className={styles.shareWhatsApp} onClick={shareWhatsApp}>
+              💬 {t('account.shareWhatsApp')}
+            </button>
+
+            {/* How it works */}
+            <div className={styles.referralInfo}>
+              <div className={styles.referralInfoTitle}>
+                {t('account.howItWorks')}
+              </div>
+              <ol className={styles.referralInfoList}>
+                <li>{t('account.step1')}</li>
+                <li>{t('account.step2')}</li>
+                <li>{t('account.step3')}</li>
+                <li>{t('account.step4')}</li>
+              </ol>
+            </div>
+
+            {/* Stats */}
+            {referralData.stats && (
+              <div className={styles.referralStats}>
+                <div className={styles.referralStatItem}>
+                  <div className={styles.referralStatValue}>{referralData.stats.total_referred ?? 0}</div>
+                  <div className={styles.referralStatLabel}>
+                    {t('account.statReferred')}
+                  </div>
+                </div>
+                <div className={styles.referralStatItem}>
+                  <div className={`${styles.referralStatValue} ${styles.positive}`}>
+                    {formatPrice(referralData.stats.total_earned ?? 0)}
+                  </div>
+                  <div className={styles.referralStatLabel}>
+                    {t('account.statEarned')}
+                  </div>
+                </div>
+                <div className={styles.referralStatItem}>
+                  <div className={styles.referralStatValue}>{referralData.stats.pending_referrals ?? 0}</div>
+                  <div className={styles.referralStatLabel}>
+                    {t('account.statPending')}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         <button className={styles.logoutBtn} onClick={handleLogout}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

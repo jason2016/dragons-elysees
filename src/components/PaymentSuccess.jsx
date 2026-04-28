@@ -45,6 +45,14 @@ export default function PaymentSuccess() {
           const refreshed = toDisplay(paidOrder)
           setOrder(refreshed)
           sessionStorage.setItem('de-last-order', JSON.stringify(refreshed))
+          // Trigger referral reward for referrer (non-blocking)
+          try {
+            await api.completeOrder({
+              order_id: paidOrder.id,
+              customer_id: paidOrder.customer_id ?? null,
+              order_amount: paidOrder.total_paid,
+            })
+          } catch (_) {}
           if (isLoggedIn) {
             try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
           }
@@ -65,6 +73,14 @@ export default function PaymentSuccess() {
               const refreshed = toDisplay(paidOrder)
               setOrder(refreshed)
               sessionStorage.setItem('de-last-order', JSON.stringify(refreshed))
+              // Trigger referral reward for referrer (non-blocking)
+              try {
+                await api.completeOrder({
+                  order_id: paidOrder.id,
+                  customer_id: paidOrder.customer_id ?? null,
+                  order_amount: paidOrder.total_paid,
+                })
+              } catch (_) {}
               if (isLoggedIn) {
                 try { const me = await api.getMe(); updateBalance(me.balance) } catch (_) {}
               }
@@ -110,14 +126,11 @@ export default function PaymentSuccess() {
         {/* Dine-in: table number + wait hint */}
         {!isDelivery && order.table_number && (
           <p className={styles.tableHint}>
-            🍽️ {lang === 'zh' ? `桌号 ${order.table_number}` : `Table ${order.table_number}`}
+            🍽️ {t('success.tableHint', { table: order.table_number })}
           </p>
         )}
         <p className={styles.waitHint}>
-          {isDelivery
-            ? (lang === 'zh' ? '我们正在为您准备外送订单' : 'Votre commande est en cours de préparation')
-            : t('waitHint')
-          }
+          {isDelivery ? t('success.deliveryPreparing') : t('waitHint')}
         </p>
 
         {/* Delivery only: progress bar + tracking link */}
@@ -128,7 +141,7 @@ export default function PaymentSuccess() {
         )}
         {isDelivery && order.order_number && (
           <Link to={`/track/${order.order_number}`} className={styles.trackLink}>
-            📋 {lang === 'zh' ? '追踪我的订单' : 'Suivre ma commande'}
+            📋 {t('success.trackOrder')}
           </Link>
         )}
 
@@ -147,7 +160,7 @@ export default function PaymentSuccess() {
               <line x1="12" y1="11" x2="12" y2="17"/>
               <polyline points="9 14 12 17 15 14"/>
             </svg>
-            {lang === 'zh' ? '下载收据 PDF' : 'Télécharger le reçu'}
+            {t('success.downloadReceipt')}
           </a>
         )}
 

@@ -80,7 +80,14 @@
   flex-shrink: 0;
 }
 
+.langDropdown {
+  position: relative;
+}
+
 .langBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 5px 10px;
   border-radius: 12px;
   background: rgba(201, 168, 76, 0.12);
@@ -91,10 +98,64 @@
   letter-spacing: 0.05em;
   transition: var(--transition-fast);
   margin: 0 2px;
+  min-height: 32px;
 }
 
 .langBtn:hover {
   background: rgba(201, 168, 76, 0.25);
+}
+
+.langArrow {
+  font-size: 0.55rem;
+  margin-left: 1px;
+  opacity: 0.8;
+}
+
+.langMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #1a1a1a;
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-md);
+  min-width: 130px;
+  list-style: none;
+  padding: 4px 0;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+}
+
+.langOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 16px;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-fast);
+}
+
+.langOption:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.langOptionActive {
+  color: var(--accent-gold);
+}
+
+.langCheck {
+  width: 14px;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--accent-gold);
 }
 
 .cartBtn {

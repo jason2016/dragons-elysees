@@ -109,10 +109,7 @@ export default function AdminPanel() {
         <div className={styles.card}>
           <div className={styles.cardHeader}>
             <h2 className={styles.cardTitle}>
-              {lang === 'zh'
-                ? `${new Date(dateFilter + 'T00:00:00').toLocaleDateString('zh-CN')} 订单`
-                : `Commandes du ${new Date(dateFilter + 'T00:00:00').toLocaleDateString('fr-FR')}`
-              }
+              {`Commandes du ${new Date(dateFilter + 'T00:00:00').toLocaleDateString('fr-FR')} · ${new Date(dateFilter + 'T00:00:00').toLocaleDateString('zh-CN')} 订单`}
             </h2>
             <select
               className={styles.statusSelect}
@@ -192,7 +189,7 @@ function OrderDetail({ order, lang }) {
       <div className={styles.detailItems}>
         {items.map((item, i) => (
           <div key={i} className={styles.detailItem}>
-            <span>{item.qty}× {lang === 'zh' ? (item.name_zh || item.name_fr) : (item.name_fr || item.name_zh)}</span>
+            <span>{item.qty}× {item.name?.zh || item.name_zh} / {item.name?.fr || item.name_fr}</span>
             <span>{formatPrice(item.price * item.qty)}</span>
           </div>
         ))}

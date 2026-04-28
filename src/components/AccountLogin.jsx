@@ -8,6 +8,9 @@ import styles from './AccountLogin.module.css'
 export default function AccountLogin() {
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
+  const [referralCode, setReferralCode] = useState(
+    new URLSearchParams(window.location.search).get('ref')?.toUpperCase() || ''
+  )
   const [step, setStep] = useState('email')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -48,9 +51,22 @@ export default function AccountLogin() {
     setError('')
     setLoading(true)
     try {
-      const res = await api.verifyOtp(email.trim().toLowerCase(), code.trim())
+      const res = await api.verifyOtp(
+        email.trim().toLowerCase(),
+        code.trim(),
+        referralCode.trim().toUpperCase() || null
+      )
       login(res.customer, res.token)
-      navigate('/account')
+      if (res.referred_by) {
+        alert(t('login.referralWelcome'))
+      }
+      const returnTo = sessionStorage.getItem('de-checkout-return')
+      if (returnTo) {
+        sessionStorage.removeItem('de-checkout-return')
+        navigate('/checkout')
+      } else {
+        navigate('/account')
+      }
     } catch (err) {
       setError(err.message || 'Code invalide')
     } finally {
@@ -104,6 +120,25 @@ export default function AccountLogin() {
               required
               autoFocus
             />
+
+            {/* Referral code field */}
+            <div className={styles.referralWrap}>
+              <label className={styles.referralLabel}>
+                {t('login.referralLabel')}
+              </label>
+              <input
+                type="text"
+                className={`${styles.input} ${styles.referralInput}`}
+                placeholder={t('login.referralPlaceholder')}
+                maxLength={8}
+                value={referralCode}
+                onChange={e => setReferralCode(e.target.value.toUpperCase())}
+              />
+              <p className={styles.referralHint}>
+                {t('login.referralHint')}
+              </p>
+            </div>
+
             {error && <p className={styles.error}>{error}</p>}
             <button type="submit" className="btn-gold" style={{ width: '100%' }} disabled={loading}>
               {loading ? t('verifying') : t('verifyCode')}
