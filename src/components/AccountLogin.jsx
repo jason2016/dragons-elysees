@@ -1,16 +1,15 @@
 import { useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
 import { api } from '../utils/api'
 import styles from './AccountLogin.module.css'
 
 export default function AccountLogin() {
-  const [searchParams] = useSearchParams()
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [referralCode, setReferralCode] = useState(
-    searchParams.get('ref')?.toUpperCase() || ''
+    new URLSearchParams(window.location.search).get('ref')?.toUpperCase() || ''
   )
   const [step, setStep] = useState('email')
   const [loading, setLoading] = useState(false)
