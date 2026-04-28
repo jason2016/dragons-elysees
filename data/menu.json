@@ -8,288 +8,1734 @@
     "google_place_id": "ChIJGZMEfMFv5kcRwVHuMf-SVS4",
     "logo_url": "https://ams3.digitaloceanspaces.com/tmi-images/dragons_elysees_龙城酒楼_376/logo/ef2bc4cd-8673-4207-bb8d-996975b823b3.png",
     "namespace": "dragons-elysees",
-    "cashback_rate": 0.10,
+    "cashback_rate": 0.1,
     "cashback_min_order": 15
   },
   "categories": [
     {
       "id": "set-menus",
-      "name_zh": "套餐",
-      "name_fr": "Menus",
       "icon": "🍱",
       "cover": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop",
       "items": [
-        {"id": "SM01", "name_zh": "午市套餐", "name_fr": "Menu Midi", "price": 26.00},
-        {"id": "SM02", "name_zh": "午市套餐2", "name_fr": "Menu Midi 2", "price": 29.00},
-        {"id": "SM03", "name_zh": "35号套餐", "name_fr": "Menu 35", "price": 35.00},
-        {"id": "SM04", "name_zh": "39号套餐", "name_fr": "Menu 39", "price": 39.00},
-        {"id": "SM05", "name_zh": "龙城套餐", "name_fr": "Menu Dragon", "price": 56.00},
-        {"id": "SM06", "name_zh": "品鉴套餐", "name_fr": "Menu Découverte", "price": 150.00},
-        {"id": "SM07", "name_zh": "鸭套餐", "name_fr": "Menu Canard", "price": 150.00}
-      ]
+        {
+          "id": "SM01",
+          "price": 26,
+          "name": {
+            "zh": "午市套餐",
+            "fr": "Menu Midi",
+            "en": "Lunch Set",
+            "es": "Menú del Almuerzo"
+          }
+        },
+        {
+          "id": "SM02",
+          "price": 29,
+          "name": {
+            "zh": "午市套餐2",
+            "fr": "Menu Midi 2",
+            "en": "Lunch Set 2",
+            "es": "Menú del Almuerzo 2"
+          }
+        },
+        {
+          "id": "SM03",
+          "price": 35,
+          "name": {
+            "zh": "35号套餐",
+            "fr": "Menu 35",
+            "en": "Set Menu 35",
+            "es": "Menú 35"
+          }
+        },
+        {
+          "id": "SM04",
+          "price": 39,
+          "name": {
+            "zh": "39号套餐",
+            "fr": "Menu 39",
+            "en": "Set Menu 39",
+            "es": "Menú 39"
+          }
+        },
+        {
+          "id": "SM05",
+          "price": 56,
+          "name": {
+            "zh": "龙城套餐",
+            "fr": "Menu Dragon",
+            "en": "Dragon Set Menu",
+            "es": "Menú Dragón"
+          }
+        },
+        {
+          "id": "SM06",
+          "price": 150,
+          "name": {
+            "zh": "品鉴套餐",
+            "fr": "Menu Découverte",
+            "en": "Discovery Tasting Menu",
+            "es": "Menú Degustación"
+          }
+        },
+        {
+          "id": "SM07",
+          "price": 150,
+          "name": {
+            "zh": "鸭套餐",
+            "fr": "Menu Canard",
+            "en": "Duck Set Menu",
+            "es": "Menú Pato"
+          }
+        }
+      ],
+      "name": {
+        "zh": "套餐",
+        "fr": "Menus",
+        "en": "Set Menus",
+        "es": "Menús"
+      }
     },
     {
       "id": "soups-salads",
-      "name_zh": "汤类和沙拉",
-      "name_fr": "Soupes et Salades",
       "icon": "🥣",
       "cover": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=300&fit=crop",
       "items": [
-        {"id": "S1", "name_zh": "鸡肉玉米汤", "name_fr": "Soupe poulet maïs", "price": 16.50},
-        {"id": "S2", "name_zh": "蟹肉芦笋汤", "name_fr": "Soupe crabe asperges", "price": 18.50},
-        {"id": "S3", "name_zh": "北京酸辣汤", "name_fr": "Soupe Pékinoise piquante", "price": 16.50},
-        {"id": "S4", "name_zh": "粉丝鸡汤", "name_fr": "Soupe poulet vermicelles", "price": 16.50},
-        {"id": "S5", "name_zh": "云吞汤", "name_fr": "Soupe wonton", "price": 18.50},
-        {"id": "S6", "name_zh": "鱼翅汤", "name_fr": "Soupe aux ailerons", "price": 38.00},
-        {"id": "S7", "name_zh": "蟹沙拉", "name_fr": "Salade de crabe", "price": 18.00},
-        {"id": "S8", "name_zh": "鸡沙拉", "name_fr": "Salade de poulet", "price": 16.00},
-        {"id": "S9", "name_zh": "虾沙拉", "name_fr": "Salade de crevettes", "price": 18.00},
-        {"id": "S10", "name_zh": "生春卷", "name_fr": "Rouleaux de printemps frais", "price": 16.00}
-      ]
+        {
+          "id": "S1",
+          "price": 16.5,
+          "name": {
+            "zh": "鸡肉玉米汤",
+            "fr": "Soupe poulet maïs",
+            "en": "Chicken & Sweet Corn Soup",
+            "es": "Sopa de Pollo y Maíz"
+          }
+        },
+        {
+          "id": "S2",
+          "price": 18.5,
+          "name": {
+            "zh": "蟹肉芦笋汤",
+            "fr": "Soupe crabe asperges",
+            "en": "Crab & Asparagus Soup",
+            "es": "Sopa de Cangrejo y Espárragos"
+          }
+        },
+        {
+          "id": "S3",
+          "price": 16.5,
+          "name": {
+            "zh": "北京酸辣汤",
+            "fr": "Soupe Pékinoise piquante",
+            "en": "Beijing Hot & Sour Soup",
+            "es": "Sopa Picante de Pekín"
+          }
+        },
+        {
+          "id": "S4",
+          "price": 16.5,
+          "name": {
+            "zh": "粉丝鸡汤",
+            "fr": "Soupe poulet vermicelles",
+            "en": "Chicken Vermicelli Soup",
+            "es": "Sopa de Pollo con Fideos"
+          }
+        },
+        {
+          "id": "S5",
+          "price": 18.5,
+          "name": {
+            "zh": "云吞汤",
+            "fr": "Soupe wonton",
+            "en": "Wonton Soup",
+            "es": "Sopa Wonton"
+          }
+        },
+        {
+          "id": "S6",
+          "price": 38,
+          "name": {
+            "zh": "鱼翅汤",
+            "fr": "Soupe aux ailerons",
+            "en": "Shark Fin Soup",
+            "es": "Sopa de Aleta de Tiburón"
+          }
+        },
+        {
+          "id": "S7",
+          "price": 18,
+          "name": {
+            "zh": "蟹沙拉",
+            "fr": "Salade de crabe",
+            "en": "Crab Salad",
+            "es": "Ensalada de Cangrejo"
+          }
+        },
+        {
+          "id": "S8",
+          "price": 16,
+          "name": {
+            "zh": "鸡沙拉",
+            "fr": "Salade de poulet",
+            "en": "Chicken Salad",
+            "es": "Ensalada de Pollo"
+          }
+        },
+        {
+          "id": "S9",
+          "price": 18,
+          "name": {
+            "zh": "虾沙拉",
+            "fr": "Salade de crevettes",
+            "en": "Prawn Salad",
+            "es": "Ensalada de Gambas"
+          }
+        },
+        {
+          "id": "S10",
+          "price": 16,
+          "name": {
+            "zh": "生春卷",
+            "fr": "Rouleaux de printemps frais",
+            "en": "Fresh Spring Rolls",
+            "es": "Rollitos de Primavera Frescos"
+          }
+        }
+      ],
+      "name": {
+        "zh": "汤类和沙拉",
+        "fr": "Soupes et Salades",
+        "en": "Soups & Salads",
+        "es": "Sopas y Ensaladas"
+      }
     },
     {
       "id": "dim-sum",
-      "name_zh": "点心",
-      "name_fr": "Dim Sum",
       "icon": "🥟",
       "cover": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=400&h=300&fit=crop",
       "items": [
-        {"id": "V1", "name_zh": "虾饺", "name_fr": "Raviolis aux crevettes", "price": 16.50},
-        {"id": "V2", "name_zh": "烧卖", "name_fr": "Siu Mai", "price": 16.50},
-        {"id": "V3", "name_zh": "干贝烧卖", "name_fr": "Siu Mai St-Jacques", "price": 19.50},
-        {"id": "V4", "name_zh": "粉果", "name_fr": "Fun Gor", "price": 16.50},
-        {"id": "V5", "name_zh": "点心拼盘", "name_fr": "Assortiment Dim Sum", "price": 19.50},
-        {"id": "V6", "name_zh": "鸡冠饺", "name_fr": "Raviolis crête de coq", "price": 16.50},
-        {"id": "V7", "name_zh": "金不换鸡饺", "name_fr": "Raviolis poulet basilic", "price": 16.50},
-        {"id": "V8", "name_zh": "素饺", "name_fr": "Raviolis végétariens", "price": 15.00},
-        {"id": "V9", "name_zh": "鱼饺", "name_fr": "Raviolis au poisson", "price": 18.50},
-        {"id": "V10", "name_zh": "锅贴", "name_fr": "Gyoza grillés", "price": 16.50},
-        {"id": "V11", "name_zh": "鸡肉小笼包", "name_fr": "Xiao Long Bao poulet", "price": 16.50},
-        {"id": "V12", "name_zh": "香煎鸡肉小笼包", "name_fr": "Xiao Long Bao grillé", "price": 16.50},
-        {"id": "V13", "name_zh": "糯米鸡", "name_fr": "Riz gluant au poulet", "price": 18.50},
-        {"id": "V14", "name_zh": "越式肠粉", "name_fr": "Bánh cuốn", "price": 15.00}
-      ]
+        {
+          "id": "V1",
+          "price": 16.5,
+          "name": {
+            "zh": "虾饺",
+            "fr": "Raviolis aux crevettes",
+            "en": "Har Gow (Shrimp Dumplings)",
+            "es": "Empanadillas de Gambas"
+          }
+        },
+        {
+          "id": "V2",
+          "price": 16.5,
+          "name": {
+            "zh": "烧卖",
+            "fr": "Siu Mai",
+            "en": "Siu Mai",
+            "es": "Siu Mai"
+          }
+        },
+        {
+          "id": "V3",
+          "price": 19.5,
+          "name": {
+            "zh": "干贝烧卖",
+            "fr": "Siu Mai St-Jacques",
+            "en": "Scallop Siu Mai",
+            "es": "Siu Mai de Vieiras"
+          }
+        },
+        {
+          "id": "V4",
+          "price": 16.5,
+          "name": {
+            "zh": "粉果",
+            "fr": "Fun Gor",
+            "en": "Fun Gor Dumplings",
+            "es": "Empanadillas Fun Gor"
+          }
+        },
+        {
+          "id": "V5",
+          "price": 19.5,
+          "name": {
+            "zh": "点心拼盘",
+            "fr": "Assortiment Dim Sum",
+            "en": "Dim Sum Platter",
+            "es": "Surtido de Dim Sum"
+          }
+        },
+        {
+          "id": "V6",
+          "price": 16.5,
+          "name": {
+            "zh": "鸡冠饺",
+            "fr": "Raviolis crête de coq",
+            "en": "Crested Dumplings",
+            "es": "Empanadillas Crestadas"
+          }
+        },
+        {
+          "id": "V7",
+          "price": 16.5,
+          "name": {
+            "zh": "金不换鸡饺",
+            "fr": "Raviolis poulet basilic",
+            "en": "Chicken & Basil Dumplings",
+            "es": "Empanadillas de Pollo y Albahaca"
+          }
+        },
+        {
+          "id": "V8",
+          "price": 15,
+          "name": {
+            "zh": "素饺",
+            "fr": "Raviolis végétariens",
+            "en": "Vegetable Dumplings",
+            "es": "Empanadillas Vegetarianas"
+          }
+        },
+        {
+          "id": "V9",
+          "price": 18.5,
+          "name": {
+            "zh": "鱼饺",
+            "fr": "Raviolis au poisson",
+            "en": "Fish Dumplings",
+            "es": "Empanadillas de Pescado"
+          }
+        },
+        {
+          "id": "V10",
+          "price": 16.5,
+          "name": {
+            "zh": "锅贴",
+            "fr": "Gyoza grillés",
+            "en": "Pan-fried Gyoza",
+            "es": "Gyoza a la Plancha"
+          }
+        },
+        {
+          "id": "V11",
+          "price": 16.5,
+          "name": {
+            "zh": "鸡肉小笼包",
+            "fr": "Xiao Long Bao poulet",
+            "en": "Chicken Xiao Long Bao",
+            "es": "Xiao Long Bao de Pollo"
+          }
+        },
+        {
+          "id": "V12",
+          "price": 16.5,
+          "name": {
+            "zh": "香煎鸡肉小笼包",
+            "fr": "Xiao Long Bao grillé",
+            "en": "Pan-fried Xiao Long Bao",
+            "es": "Xiao Long Bao a la Plancha"
+          }
+        },
+        {
+          "id": "V13",
+          "price": 18.5,
+          "name": {
+            "zh": "糯米鸡",
+            "fr": "Riz gluant au poulet",
+            "en": "Sticky Rice with Chicken",
+            "es": "Arroz Glutinoso con Pollo"
+          }
+        },
+        {
+          "id": "V14",
+          "price": 15,
+          "name": {
+            "zh": "越式肠粉",
+            "fr": "Bánh cuốn",
+            "en": "Vietnamese Bánh Cuốn",
+            "es": "Bánh Cuốn Vietnamita"
+          }
+        }
+      ],
+      "name": {
+        "zh": "点心",
+        "fr": "Dim Sum",
+        "en": "Dim Sum",
+        "es": "Dim Sum"
+      }
     },
     {
       "id": "fried",
-      "name_zh": "炸品",
-      "name_fr": "Fritures",
       "icon": "🍤",
       "cover": "https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop",
       "items": [
-        {"id": "F1", "name_zh": "鸡春卷", "name_fr": "Nems au poulet", "price": 15.00},
-        {"id": "F2", "name_zh": "虾春卷", "name_fr": "Nems aux crevettes", "price": 16.50},
-        {"id": "F3", "name_zh": "龙虾饺", "name_fr": "Raviolis au homard frits", "price": 16.50},
-        {"id": "F4", "name_zh": "炸虾", "name_fr": "Crevettes frites", "price": 18.00},
-        {"id": "F5", "name_zh": "鱼多士", "name_fr": "Toasts au poisson", "price": 18.00},
-        {"id": "F6", "name_zh": "虾多士", "name_fr": "Toasts aux crevettes", "price": 18.00},
-        {"id": "F7", "name_zh": "百花蟹钳（两件）", "name_fr": "Pinces de crabe farcies (2 pcs)", "price": 26.50}
-      ]
+        {
+          "id": "F1",
+          "price": 15,
+          "name": {
+            "zh": "鸡春卷",
+            "fr": "Nems au poulet",
+            "en": "Chicken Spring Rolls",
+            "es": "Rollitos de Pollo"
+          }
+        },
+        {
+          "id": "F2",
+          "price": 16.5,
+          "name": {
+            "zh": "虾春卷",
+            "fr": "Nems aux crevettes",
+            "en": "Shrimp Spring Rolls",
+            "es": "Rollitos de Gambas"
+          }
+        },
+        {
+          "id": "F3",
+          "price": 16.5,
+          "name": {
+            "zh": "龙虾饺",
+            "fr": "Raviolis au homard frits",
+            "en": "Fried Lobster Dumplings",
+            "es": "Empanadillas Fritas de Bogavante"
+          }
+        },
+        {
+          "id": "F4",
+          "price": 18,
+          "name": {
+            "zh": "炸虾",
+            "fr": "Crevettes frites",
+            "en": "Fried Prawns",
+            "es": "Gambas Fritas"
+          }
+        },
+        {
+          "id": "F5",
+          "price": 18,
+          "name": {
+            "zh": "鱼多士",
+            "fr": "Toasts au poisson",
+            "en": "Fish Toast",
+            "es": "Tostadas de Pescado"
+          }
+        },
+        {
+          "id": "F6",
+          "price": 18,
+          "name": {
+            "zh": "虾多士",
+            "fr": "Toasts aux crevettes",
+            "en": "Shrimp Toast",
+            "es": "Tostadas de Gambas"
+          }
+        },
+        {
+          "id": "F7",
+          "price": 26.5,
+          "name": {
+            "zh": "百花蟹钳（两件）",
+            "fr": "Pinces de crabe farcies (2 pcs)",
+            "en": "Stuffed Crab Claws (2 pcs)",
+            "es": "Pinzas de Cangrejo Rellenas (2 uds)"
+          }
+        }
+      ],
+      "name": {
+        "zh": "炸品",
+        "fr": "Fritures",
+        "en": "Fried Specialties",
+        "es": "Frituras"
+      }
     },
     {
       "id": "seafood",
-      "name_zh": "虾蟹类",
-      "name_fr": "Fruits de Mer",
       "icon": "🦐",
       "cover": "https://images.unsplash.com/photo-1559737558-2f5a35f4523b?w=400&h=300&fit=crop",
       "items": [
-        {"id": "C1", "name_zh": "干烧虾", "name_fr": "Crevettes sautées piquantes", "price": 35.00},
-        {"id": "C2", "name_zh": "椒盐明虾", "name_fr": "Gambas sel et poivre", "price": 37.00},
-        {"id": "C3", "name_zh": "咕咾虾", "name_fr": "Crevettes aigre-douce", "price": 35.00},
-        {"id": "C4", "name_zh": "铁板姜葱明虾", "name_fr": "Gambas gingembre ciboule", "price": 37.00},
-        {"id": "C5", "name_zh": "鲜菠萝腰果虾", "name_fr": "Crevettes ananas cajou", "price": 37.00},
-        {"id": "C6", "name_zh": "豉汁蒸明虾", "name_fr": "Gambas vapeur sauce soja", "price": 37.00},
-        {"id": "C7", "name_zh": "干烧蟹钳", "name_fr": "Pinces de crabe sautées", "price": 37.00},
-        {"id": "C8", "name_zh": "椒盐蟹钳", "name_fr": "Pinces de crabe sel poivre", "price": 37.00},
-        {"id": "C9", "name_zh": "椒盐鲜鱿鱼", "name_fr": "Calamars sel et poivre", "price": 28.00},
-        {"id": "C10", "name_zh": "椒盐田鸡腿", "name_fr": "Cuisses de grenouille sel poivre", "price": 33.00},
-        {"id": "C11", "name_zh": "椒盐软壳蟹", "name_fr": "Crabe mou sel et poivre", "price": 35.00},
-        {"id": "C12", "name_zh": "龙虾", "name_fr": "Homard", "price": 108.00, "note_zh": "姜葱/椒盐/干烧", "note_fr": "Gingembre/Sel-poivre/Piquant"}
-      ]
+        {
+          "id": "C1",
+          "price": 35,
+          "name": {
+            "zh": "干烧虾",
+            "fr": "Crevettes sautées piquantes",
+            "en": "Spicy Sautéed Prawns",
+            "es": "Gambas Salteadas Picantes"
+          }
+        },
+        {
+          "id": "C2",
+          "price": 37,
+          "name": {
+            "zh": "椒盐明虾",
+            "fr": "Gambas sel et poivre",
+            "en": "Salt & Pepper Gambas",
+            "es": "Gambas a la Sal y Pimienta"
+          }
+        },
+        {
+          "id": "C3",
+          "price": 35,
+          "name": {
+            "zh": "咕咾虾",
+            "fr": "Crevettes aigre-douce",
+            "en": "Sweet & Sour Prawns",
+            "es": "Gambas Agridulces"
+          }
+        },
+        {
+          "id": "C4",
+          "price": 37,
+          "name": {
+            "zh": "铁板姜葱明虾",
+            "fr": "Gambas gingembre ciboule",
+            "en": "Ginger Scallion Gambas",
+            "es": "Gambas con Jengibre y Cebollino"
+          }
+        },
+        {
+          "id": "C5",
+          "price": 37,
+          "name": {
+            "zh": "鲜菠萝腰果虾",
+            "fr": "Crevettes ananas cajou",
+            "en": "Pineapple Cashew Prawns",
+            "es": "Gambas con Piña y Anacardos"
+          }
+        },
+        {
+          "id": "C6",
+          "price": 37,
+          "name": {
+            "zh": "豉汁蒸明虾",
+            "fr": "Gambas vapeur sauce soja",
+            "en": "Steamed Gambas in Soy Sauce",
+            "es": "Gambas al Vapor con Soja"
+          }
+        },
+        {
+          "id": "C7",
+          "price": 37,
+          "name": {
+            "zh": "干烧蟹钳",
+            "fr": "Pinces de crabe sautées",
+            "en": "Spicy Crab Claws",
+            "es": "Pinzas de Cangrejo Picantes"
+          }
+        },
+        {
+          "id": "C8",
+          "price": 37,
+          "name": {
+            "zh": "椒盐蟹钳",
+            "fr": "Pinces de crabe sel poivre",
+            "en": "Salt & Pepper Crab Claws",
+            "es": "Pinzas de Cangrejo a la Sal y Pimienta"
+          }
+        },
+        {
+          "id": "C9",
+          "price": 28,
+          "name": {
+            "zh": "椒盐鲜鱿鱼",
+            "fr": "Calamars sel et poivre",
+            "en": "Salt & Pepper Squid",
+            "es": "Calamares a la Sal y Pimienta"
+          }
+        },
+        {
+          "id": "C10",
+          "price": 33,
+          "name": {
+            "zh": "椒盐田鸡腿",
+            "fr": "Cuisses de grenouille sel poivre",
+            "en": "Salt & Pepper Frog Legs",
+            "es": "Ancas de Rana a la Sal y Pimienta"
+          }
+        },
+        {
+          "id": "C11",
+          "price": 35,
+          "name": {
+            "zh": "椒盐软壳蟹",
+            "fr": "Crabe mou sel et poivre",
+            "en": "Salt & Pepper Soft Shell Crab",
+            "es": "Cangrejo de Caparazón Blando a la Sal"
+          }
+        },
+        {
+          "id": "C12",
+          "price": 108,
+          "name": {
+            "zh": "龙虾",
+            "fr": "Homard",
+            "en": "Lobster",
+            "es": "Bogavante"
+          },
+          "note": {
+            "zh": "姜葱/椒盐/干烧",
+            "fr": "Gingembre/Sel-poivre/Piquant",
+            "en": "Ginger-Scallion / Salt-Pepper / Spicy",
+            "es": "Jengibre-Cebollino / Sal-Pimienta / Picante"
+          }
+        }
+      ],
+      "name": {
+        "zh": "虾蟹类",
+        "fr": "Fruits de Mer",
+        "en": "Seafood",
+        "es": "Mariscos"
+      }
     },
     {
       "id": "meat",
-      "name_zh": "肉类",
-      "name_fr": "Viandes",
       "icon": "🥩",
       "cover": "https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop",
       "items": [
-        {"id": "M1", "name_zh": "宫保鸡", "name_fr": "Poulet Kung Pao", "price": 28.00},
-        {"id": "M2", "name_zh": "咕咾鸡", "name_fr": "Poulet aigre-doux", "price": 28.00},
-        {"id": "M3", "name_zh": "拔丝鸡", "name_fr": "Poulet caramélisé", "price": 28.00},
-        {"id": "M4", "name_zh": "油淋鸡", "name_fr": "Poulet croustillant", "price": 28.00},
-        {"id": "M5", "name_zh": "铁板洋葱牛柳", "name_fr": "Bœuf plancha oignons", "price": 35.00},
-        {"id": "M6", "name_zh": "铁板宫保牛柳", "name_fr": "Bœuf Kung Pao plancha", "price": 35.00},
-        {"id": "M7", "name_zh": "铁板沙茶牛柳", "name_fr": "Bœuf satay plancha", "price": 35.00},
-        {"id": "M8", "name_zh": "铁板黑椒牛柳", "name_fr": "Bœuf poivre noir plancha", "price": 35.00},
-        {"id": "M9", "name_zh": "铁板姜葱牛柳", "name_fr": "Bœuf gingembre plancha", "price": 35.00},
-        {"id": "M10", "name_zh": "龙城牛柳", "name_fr": "Bœuf Dragons Elysées", "price": 35.00},
-        {"id": "M11", "name_zh": "泰式牛柳", "name_fr": "Bœuf thaï", "price": 35.00},
-        {"id": "M12", "name_zh": "广东烧鸭", "name_fr": "Canard rôti cantonais (demi)", "price": 45.00},
-        {"id": "M13a", "name_zh": "北京片皮鸭（整只）", "name_fr": "Canard laqué pékinois (entier)", "price": 135.00},
-        {"id": "M13b", "name_zh": "北京片皮鸭（半只）", "name_fr": "Canard laqué pékinois (demi)", "price": 68.00}
-      ]
+        {
+          "id": "M1",
+          "price": 28,
+          "name": {
+            "zh": "宫保鸡",
+            "fr": "Poulet Kung Pao",
+            "en": "Kung Pao Chicken",
+            "es": "Pollo Kung Pao"
+          }
+        },
+        {
+          "id": "M2",
+          "price": 28,
+          "name": {
+            "zh": "咕咾鸡",
+            "fr": "Poulet aigre-doux",
+            "en": "Sweet & Sour Chicken",
+            "es": "Pollo Agridulce"
+          }
+        },
+        {
+          "id": "M3",
+          "price": 28,
+          "name": {
+            "zh": "拔丝鸡",
+            "fr": "Poulet caramélisé",
+            "en": "Caramelized Chicken",
+            "es": "Pollo Caramelizado"
+          }
+        },
+        {
+          "id": "M4",
+          "price": 28,
+          "name": {
+            "zh": "油淋鸡",
+            "fr": "Poulet croustillant",
+            "en": "Crispy Chicken",
+            "es": "Pollo Crujiente"
+          }
+        },
+        {
+          "id": "M5",
+          "price": 35,
+          "name": {
+            "zh": "铁板洋葱牛柳",
+            "fr": "Bœuf plancha oignons",
+            "en": "Sizzling Beef with Onions",
+            "es": "Ternera a la Plancha con Cebolla"
+          }
+        },
+        {
+          "id": "M6",
+          "price": 35,
+          "name": {
+            "zh": "铁板宫保牛柳",
+            "fr": "Bœuf Kung Pao plancha",
+            "en": "Kung Pao Beef Sizzling",
+            "es": "Ternera Kung Pao a la Plancha"
+          }
+        },
+        {
+          "id": "M7",
+          "price": 35,
+          "name": {
+            "zh": "铁板沙茶牛柳",
+            "fr": "Bœuf satay plancha",
+            "en": "Satay Beef Sizzling",
+            "es": "Ternera Satay a la Plancha"
+          }
+        },
+        {
+          "id": "M8",
+          "price": 35,
+          "name": {
+            "zh": "铁板黑椒牛柳",
+            "fr": "Bœuf poivre noir plancha",
+            "en": "Black Pepper Beef Sizzling",
+            "es": "Ternera al Pimiento Negro a la Plancha"
+          }
+        },
+        {
+          "id": "M9",
+          "price": 35,
+          "name": {
+            "zh": "铁板姜葱牛柳",
+            "fr": "Bœuf gingembre plancha",
+            "en": "Ginger Scallion Beef",
+            "es": "Ternera con Jengibre y Cebollino"
+          }
+        },
+        {
+          "id": "M10",
+          "price": 35,
+          "name": {
+            "zh": "龙城牛柳",
+            "fr": "Bœuf Dragons Elysées",
+            "en": "Dragons Elysées Beef",
+            "es": "Ternera Dragons Elysées"
+          }
+        },
+        {
+          "id": "M11",
+          "price": 35,
+          "name": {
+            "zh": "泰式牛柳",
+            "fr": "Bœuf thaï",
+            "en": "Thai Beef",
+            "es": "Ternera Tailandesa"
+          }
+        },
+        {
+          "id": "M12",
+          "price": 45,
+          "name": {
+            "zh": "广东烧鸭",
+            "fr": "Canard rôti cantonais (demi)",
+            "en": "Cantonese Roast Duck (Half)",
+            "es": "Pato Asado Cantonés (Medio)"
+          }
+        },
+        {
+          "id": "M13a",
+          "price": 135,
+          "name": {
+            "zh": "北京片皮鸭（整只）",
+            "fr": "Canard laqué pékinois (entier)",
+            "en": "Peking Duck (Whole)",
+            "es": "Pato Pekinés (Entero)"
+          }
+        },
+        {
+          "id": "M13b",
+          "price": 68,
+          "name": {
+            "zh": "北京片皮鸭（半只）",
+            "fr": "Canard laqué pékinois (demi)",
+            "en": "Peking Duck (Half)",
+            "es": "Pato Pekinés (Medio)"
+          }
+        }
+      ],
+      "name": {
+        "zh": "肉类",
+        "fr": "Viandes",
+        "en": "Meat Dishes",
+        "es": "Carnes"
+      }
     },
     {
       "id": "fish",
-      "name_zh": "鱼类",
-      "name_fr": "Poissons",
       "icon": "🐟",
       "cover": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=400&h=300&fit=crop",
       "items": [
-        {"id": "P1", "name_zh": "清蒸鲈鱼", "name_fr": "Bar vapeur", "price": 40.00},
-        {"id": "P2", "name_zh": "泰式煎鲈鱼", "name_fr": "Bar grillé thaï", "price": 40.00},
-        {"id": "P3", "name_zh": "干烧鲷鱼", "name_fr": "Daurade sautée piquante", "price": 40.00},
-        {"id": "P4", "name_zh": "清蒸龙利鱼", "name_fr": "Sole vapeur", "price": 43.00},
-        {"id": "P5", "name_zh": "椒盐龙利鱼", "name_fr": "Sole sel et poivre", "price": 43.00},
-        {"id": "P6", "name_zh": "黑椒龙利鱼", "name_fr": "Sole poivre noir", "price": 43.00},
-        {"id": "P7", "name_zh": "拔丝龙利鱼", "name_fr": "Sole caramélisée", "price": 43.00},
-        {"id": "P8", "name_zh": "糖醋龙利鱼", "name_fr": "Sole aigre-douce", "price": 43.00},
-        {"id": "P9", "name_zh": "多宝鱼（清蒸/椒盐）", "name_fr": "Turbot (vapeur/sel-poivre)", "price": 128.00},
-        {"id": "P10", "name_zh": "清蒸扇贝（4只）", "name_fr": "St-Jacques vapeur (4 pcs)", "price": 36.00},
-        {"id": "P11", "name_zh": "干烧干贝", "name_fr": "St-Jacques sautées piquantes", "price": 36.00},
-        {"id": "P12", "name_zh": "椒盐干贝", "name_fr": "St-Jacques sel et poivre", "price": 36.00, "image_url": "https://ams3.digitaloceanspaces.com/tmi-images/dragons_elysees_龙城酒楼_376/menu/dishes/FurLyAxyRNsXgjm4K.jpg"}
-      ]
+        {
+          "id": "P1",
+          "price": 40,
+          "name": {
+            "zh": "清蒸鲈鱼",
+            "fr": "Bar vapeur",
+            "en": "Steamed Sea Bass",
+            "es": "Lubina al Vapor"
+          }
+        },
+        {
+          "id": "P2",
+          "price": 40,
+          "name": {
+            "zh": "泰式煎鲈鱼",
+            "fr": "Bar grillé thaï",
+            "en": "Thai Grilled Sea Bass",
+            "es": "Lubina a la Plancha Tailandesa"
+          }
+        },
+        {
+          "id": "P3",
+          "price": 40,
+          "name": {
+            "zh": "干烧鲷鱼",
+            "fr": "Daurade sautée piquante",
+            "en": "Spicy Sautéed Sea Bream",
+            "es": "Dorada Salteada Picante"
+          }
+        },
+        {
+          "id": "P4",
+          "price": 43,
+          "name": {
+            "zh": "清蒸龙利鱼",
+            "fr": "Sole vapeur",
+            "en": "Steamed Sole",
+            "es": "Lenguado al Vapor"
+          }
+        },
+        {
+          "id": "P5",
+          "price": 43,
+          "name": {
+            "zh": "椒盐龙利鱼",
+            "fr": "Sole sel et poivre",
+            "en": "Salt & Pepper Sole",
+            "es": "Lenguado a la Sal y Pimienta"
+          }
+        },
+        {
+          "id": "P6",
+          "price": 43,
+          "name": {
+            "zh": "黑椒龙利鱼",
+            "fr": "Sole poivre noir",
+            "en": "Black Pepper Sole",
+            "es": "Lenguado al Pimiento Negro"
+          }
+        },
+        {
+          "id": "P7",
+          "price": 43,
+          "name": {
+            "zh": "拔丝龙利鱼",
+            "fr": "Sole caramélisée",
+            "en": "Caramelized Sole",
+            "es": "Lenguado Caramelizado"
+          }
+        },
+        {
+          "id": "P8",
+          "price": 43,
+          "name": {
+            "zh": "糖醋龙利鱼",
+            "fr": "Sole aigre-douce",
+            "en": "Sweet & Sour Sole",
+            "es": "Lenguado Agridulce"
+          }
+        },
+        {
+          "id": "P9",
+          "price": 128,
+          "name": {
+            "zh": "多宝鱼（清蒸/椒盐）",
+            "fr": "Turbot (vapeur/sel-poivre)",
+            "en": "Turbot (Steamed/Salt-Pepper)",
+            "es": "Rodaballo (Vapor/Sal-Pimienta)"
+          }
+        },
+        {
+          "id": "P10",
+          "price": 36,
+          "name": {
+            "zh": "清蒸扇贝（4只）",
+            "fr": "St-Jacques vapeur (4 pcs)",
+            "en": "Steamed Scallops (4 pcs)",
+            "es": "Vieiras al Vapor (4 uds)"
+          }
+        },
+        {
+          "id": "P11",
+          "price": 36,
+          "name": {
+            "zh": "干烧干贝",
+            "fr": "St-Jacques sautées piquantes",
+            "en": "Spicy Sautéed Scallops",
+            "es": "Vieiras Salteadas Picantes"
+          }
+        },
+        {
+          "id": "P12",
+          "price": 36,
+          "image_url": "https://ams3.digitaloceanspaces.com/tmi-images/dragons_elysees_龙城酒楼_376/menu/dishes/FurLyAxyRNsXgjm4K.jpg",
+          "name": {
+            "zh": "椒盐干贝",
+            "fr": "St-Jacques sel et poivre",
+            "en": "Salt & Pepper Scallops",
+            "es": "Vieiras a la Sal y Pimienta"
+          }
+        }
+      ],
+      "name": {
+        "zh": "鱼类",
+        "fr": "Poissons",
+        "en": "Fish",
+        "es": "Pescados"
+      }
     },
     {
       "id": "thai-soups",
-      "name_zh": "泰餐·汤沙拉",
-      "name_fr": "Thaï — Soupes & Salades",
       "icon": "🌶️",
       "cover": "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop",
       "items": [
-        {"id": "T201", "name_zh": "冬阴功海鲜汤", "name_fr": "Tom Yum fruits de mer", "price": 20.00},
-        {"id": "T202", "name_zh": "冬阴功虾汤", "name_fr": "Tom Yum crevettes", "price": 18.00},
-        {"id": "T203", "name_zh": "椰汁鸡汤", "name_fr": "Tom Kha Kai", "price": 16.00},
-        {"id": "T204", "name_zh": "椰汁虾汤", "name_fr": "Tom Kha crevettes", "price": 18.00},
-        {"id": "T205", "name_zh": "泰式牛沙拉", "name_fr": "Salade thaï bœuf", "price": 18.00},
-        {"id": "T206", "name_zh": "泰式芒果虾沙拉", "name_fr": "Salade mangue crevettes", "price": 18.00},
-        {"id": "T207", "name_zh": "泰式鲜菠萝海鲜沙拉", "name_fr": "Salade ananas fruits de mer", "price": 23.00},
-        {"id": "T208", "name_zh": "泰式虾春卷", "name_fr": "Nems thaï crevettes", "price": 16.50}
-      ]
+        {
+          "id": "T201",
+          "price": 20,
+          "name": {
+            "zh": "冬阴功海鲜汤",
+            "fr": "Tom Yum fruits de mer",
+            "en": "Tom Yum Seafood",
+            "es": "Tom Yum de Mariscos"
+          }
+        },
+        {
+          "id": "T202",
+          "price": 18,
+          "name": {
+            "zh": "冬阴功虾汤",
+            "fr": "Tom Yum crevettes",
+            "en": "Tom Yum Goong (Prawns)",
+            "es": "Tom Yum de Gambas"
+          }
+        },
+        {
+          "id": "T203",
+          "price": 16,
+          "name": {
+            "zh": "椰汁鸡汤",
+            "fr": "Tom Kha Kai",
+            "en": "Tom Kha Gai",
+            "es": "Tom Kha Gai (Pollo y Coco)"
+          }
+        },
+        {
+          "id": "T204",
+          "price": 18,
+          "name": {
+            "zh": "椰汁虾汤",
+            "fr": "Tom Kha crevettes",
+            "en": "Tom Kha with Prawns",
+            "es": "Tom Kha de Gambas"
+          }
+        },
+        {
+          "id": "T205",
+          "price": 18,
+          "name": {
+            "zh": "泰式牛沙拉",
+            "fr": "Salade thaï bœuf",
+            "en": "Thai Beef Salad",
+            "es": "Ensalada Tailandesa de Ternera"
+          }
+        },
+        {
+          "id": "T206",
+          "price": 18,
+          "name": {
+            "zh": "泰式芒果虾沙拉",
+            "fr": "Salade mangue crevettes",
+            "en": "Mango Prawn Salad",
+            "es": "Ensalada de Mango y Gambas"
+          }
+        },
+        {
+          "id": "T207",
+          "price": 23,
+          "name": {
+            "zh": "泰式鲜菠萝海鲜沙拉",
+            "fr": "Salade ananas fruits de mer",
+            "en": "Pineapple Seafood Salad",
+            "es": "Ensalada de Piña y Mariscos"
+          }
+        },
+        {
+          "id": "T208",
+          "price": 16.5,
+          "name": {
+            "zh": "泰式虾春卷",
+            "fr": "Nems thaï crevettes",
+            "en": "Thai Shrimp Spring Rolls",
+            "es": "Rollitos Tailandeses de Gambas"
+          }
+        }
+      ],
+      "name": {
+        "zh": "泰餐·汤沙拉",
+        "fr": "Thaï — Soupes & Salades",
+        "en": "Thai — Soups & Salads",
+        "es": "Tailandés — Sopas y Ensaladas"
+      }
     },
     {
       "id": "thai-mains",
-      "name_zh": "泰餐·主菜",
-      "name_fr": "Thaï — Plats Principaux",
       "icon": "🍛",
       "cover": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=300&fit=crop",
       "items": [
-        {"id": "T218", "name_zh": "串烧鸡（3件）", "name_fr": "Brochettes poulet (3 pcs)", "price": 18.00},
-        {"id": "T219", "name_zh": "串烧牛（3件）", "name_fr": "Brochettes bœuf (3 pcs)", "price": 20.00},
-        {"id": "T220", "name_zh": "串烧拼盘（4件）", "name_fr": "Assortiment brochettes (4 pcs)", "price": 25.00},
-        {"id": "T221", "name_zh": "咖喱鸡", "name_fr": "Curry de poulet", "price": 28.00},
-        {"id": "T222", "name_zh": "香茅鸡", "name_fr": "Poulet citronnelle", "price": 28.00},
-        {"id": "T223", "name_zh": "铁板金不换鸡", "name_fr": "Poulet basilic plancha", "price": 29.00},
-        {"id": "T224", "name_zh": "铁板金不换鸭", "name_fr": "Canard basilic plancha", "price": 32.00},
-        {"id": "T225", "name_zh": "铁板金不换田鸡腿", "name_fr": "Grenouille basilic plancha", "price": 33.00},
-        {"id": "T226", "name_zh": "铁板金不换虾", "name_fr": "Crevettes basilic plancha", "price": 37.00},
-        {"id": "T227", "name_zh": "铁板金不换牛", "name_fr": "Bœuf basilic plancha", "price": 35.00},
-        {"id": "T228", "name_zh": "铁板金不换干贝", "name_fr": "St-Jacques basilic plancha", "price": 36.00},
-        {"id": "T229", "name_zh": "咖喱干贝", "name_fr": "Curry de St-Jacques", "price": 36.00},
-        {"id": "T230", "name_zh": "串烧龙利鱼", "name_fr": "Brochettes de sole", "price": 38.00}
-      ]
+        {
+          "id": "T218",
+          "price": 18,
+          "name": {
+            "zh": "串烧鸡（3件）",
+            "fr": "Brochettes poulet (3 pcs)",
+            "en": "Chicken Skewers (3 pcs)",
+            "es": "Brochetas de Pollo (3 uds)"
+          }
+        },
+        {
+          "id": "T219",
+          "price": 20,
+          "name": {
+            "zh": "串烧牛（3件）",
+            "fr": "Brochettes bœuf (3 pcs)",
+            "en": "Beef Skewers (3 pcs)",
+            "es": "Brochetas de Ternera (3 uds)"
+          }
+        },
+        {
+          "id": "T220",
+          "price": 25,
+          "name": {
+            "zh": "串烧拼盘（4件）",
+            "fr": "Assortiment brochettes (4 pcs)",
+            "en": "Mixed Skewers (4 pcs)",
+            "es": "Brochetas Variadas (4 uds)"
+          }
+        },
+        {
+          "id": "T221",
+          "price": 28,
+          "name": {
+            "zh": "咖喱鸡",
+            "fr": "Curry de poulet",
+            "en": "Chicken Curry",
+            "es": "Curry de Pollo"
+          }
+        },
+        {
+          "id": "T222",
+          "price": 28,
+          "name": {
+            "zh": "香茅鸡",
+            "fr": "Poulet citronnelle",
+            "en": "Lemongrass Chicken",
+            "es": "Pollo a la Hierba Limón"
+          }
+        },
+        {
+          "id": "T223",
+          "price": 29,
+          "name": {
+            "zh": "铁板金不换鸡",
+            "fr": "Poulet basilic plancha",
+            "en": "Basil Chicken Sizzling",
+            "es": "Pollo a la Albahaca a la Plancha"
+          }
+        },
+        {
+          "id": "T224",
+          "price": 32,
+          "name": {
+            "zh": "铁板金不换鸭",
+            "fr": "Canard basilic plancha",
+            "en": "Basil Duck Sizzling",
+            "es": "Pato a la Albahaca a la Plancha"
+          }
+        },
+        {
+          "id": "T225",
+          "price": 33,
+          "name": {
+            "zh": "铁板金不换田鸡腿",
+            "fr": "Grenouille basilic plancha",
+            "en": "Basil Frog Legs Sizzling",
+            "es": "Ancas de Rana a la Albahaca a la Plancha"
+          }
+        },
+        {
+          "id": "T226",
+          "price": 37,
+          "name": {
+            "zh": "铁板金不换虾",
+            "fr": "Crevettes basilic plancha",
+            "en": "Basil Prawns Sizzling",
+            "es": "Gambas a la Albahaca a la Plancha"
+          }
+        },
+        {
+          "id": "T227",
+          "price": 35,
+          "name": {
+            "zh": "铁板金不换牛",
+            "fr": "Bœuf basilic plancha",
+            "en": "Basil Beef Sizzling",
+            "es": "Ternera a la Albahaca a la Plancha"
+          }
+        },
+        {
+          "id": "T228",
+          "price": 36,
+          "name": {
+            "zh": "铁板金不换干贝",
+            "fr": "St-Jacques basilic plancha",
+            "en": "Basil Scallops Sizzling",
+            "es": "Vieiras a la Albahaca a la Plancha"
+          }
+        },
+        {
+          "id": "T229",
+          "price": 36,
+          "name": {
+            "zh": "咖喱干贝",
+            "fr": "Curry de St-Jacques",
+            "en": "Scallop Curry",
+            "es": "Curry de Vieiras"
+          }
+        },
+        {
+          "id": "T230",
+          "price": 38,
+          "name": {
+            "zh": "串烧龙利鱼",
+            "fr": "Brochettes de sole",
+            "en": "Sole Skewers",
+            "es": "Brochetas de Lenguado"
+          }
+        }
+      ],
+      "name": {
+        "zh": "泰餐·主菜",
+        "fr": "Thaï — Plats Principaux",
+        "en": "Thai — Main Dishes",
+        "es": "Tailandés — Platos Principales"
+      }
     },
     {
       "id": "vegetarian",
-      "name_zh": "素餐",
-      "name_fr": "Végétarien",
       "icon": "🥦",
       "cover": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
       "items": [
-        {"id": "A1", "name_zh": "粉丝菜汤", "name_fr": "Soupe vermicelles légumes", "price": 16.50},
-        {"id": "A2", "name_zh": "酸辣汤", "name_fr": "Soupe piquante", "price": 16.50},
-        {"id": "A3", "name_zh": "泰式香茅沙拉", "name_fr": "Salade citronnelle thaï", "price": 16.50},
-        {"id": "A4", "name_zh": "素春卷", "name_fr": "Nems végétariens", "price": 15.50},
-        {"id": "A5", "name_zh": "素生春", "name_fr": "Rouleaux frais végétariens", "price": 15.50},
-        {"id": "A6", "name_zh": "素炒饭", "name_fr": "Riz sauté végétarien", "price": 9.50},
-        {"id": "A7", "name_zh": "素炒面", "name_fr": "Nouilles sautées végétariennes", "price": 12.00},
-        {"id": "A8", "name_zh": "越式肠粉", "name_fr": "Bánh cuốn végétarien", "price": 15.50},
-        {"id": "A9", "name_zh": "罗汉素煲", "name_fr": "Cassolette bouddha", "price": 22.00},
-        {"id": "A10", "name_zh": "清炒木耳", "name_fr": "Champignons noirs sautés", "price": 14.50},
-        {"id": "A11", "name_zh": "椒盐豆腐", "name_fr": "Tofu sel et poivre", "price": 16.00},
-        {"id": "A12", "name_zh": "麻婆豆腐", "name_fr": "Mapo Tofu", "price": 18.00},
-        {"id": "A13", "name_zh": "西兰花", "name_fr": "Brocoli sauté", "price": 18.00, "note_zh": "清炒/蒜蓉", "note_fr": "Sauté/Ail"},
-        {"id": "A14", "name_zh": "炒时蔬", "name_fr": "Légumes de saison sautés", "price": 18.00}
-      ]
+        {
+          "id": "A1",
+          "price": 16.5,
+          "name": {
+            "zh": "粉丝菜汤",
+            "fr": "Soupe vermicelles légumes",
+            "en": "Vegetable Vermicelli Soup",
+            "es": "Sopa de Verduras y Fideos"
+          }
+        },
+        {
+          "id": "A2",
+          "price": 16.5,
+          "name": {
+            "zh": "酸辣汤",
+            "fr": "Soupe piquante",
+            "en": "Hot & Sour Soup",
+            "es": "Sopa Agripicante"
+          }
+        },
+        {
+          "id": "A3",
+          "price": 16.5,
+          "name": {
+            "zh": "泰式香茅沙拉",
+            "fr": "Salade citronnelle thaï",
+            "en": "Thai Lemongrass Salad",
+            "es": "Ensalada Tailandesa de Hierba Limón"
+          }
+        },
+        {
+          "id": "A4",
+          "price": 15.5,
+          "name": {
+            "zh": "素春卷",
+            "fr": "Nems végétariens",
+            "en": "Vegetable Spring Rolls",
+            "es": "Rollitos Vegetarianos"
+          }
+        },
+        {
+          "id": "A5",
+          "price": 15.5,
+          "name": {
+            "zh": "素生春",
+            "fr": "Rouleaux frais végétariens",
+            "en": "Fresh Vegetable Rolls",
+            "es": "Rollitos Frescos Vegetarianos"
+          }
+        },
+        {
+          "id": "A6",
+          "price": 9.5,
+          "name": {
+            "zh": "素炒饭",
+            "fr": "Riz sauté végétarien",
+            "en": "Vegetable Fried Rice",
+            "es": "Arroz Salteado Vegetariano"
+          }
+        },
+        {
+          "id": "A7",
+          "price": 12,
+          "name": {
+            "zh": "素炒面",
+            "fr": "Nouilles sautées végétariennes",
+            "en": "Vegetable Stir-fried Noodles",
+            "es": "Fideos Salteados Vegetarianos"
+          }
+        },
+        {
+          "id": "A8",
+          "price": 15.5,
+          "name": {
+            "zh": "越式肠粉",
+            "fr": "Bánh cuốn végétarien",
+            "en": "Vegetarian Bánh Cuốn",
+            "es": "Bánh Cuốn Vegetariano"
+          }
+        },
+        {
+          "id": "A9",
+          "price": 22,
+          "name": {
+            "zh": "罗汉素煲",
+            "fr": "Cassolette bouddha",
+            "en": "Buddha Clay Pot",
+            "es": "Cazuela Buda"
+          }
+        },
+        {
+          "id": "A10",
+          "price": 14.5,
+          "name": {
+            "zh": "清炒木耳",
+            "fr": "Champignons noirs sautés",
+            "en": "Stir-fried Black Mushrooms",
+            "es": "Setas Negras Salteadas"
+          }
+        },
+        {
+          "id": "A11",
+          "price": 16,
+          "name": {
+            "zh": "椒盐豆腐",
+            "fr": "Tofu sel et poivre",
+            "en": "Salt & Pepper Tofu",
+            "es": "Tofu a la Sal y Pimienta"
+          }
+        },
+        {
+          "id": "A12",
+          "price": 18,
+          "name": {
+            "zh": "麻婆豆腐",
+            "fr": "Mapo Tofu",
+            "en": "Mapo Tofu",
+            "es": "Mapo Tofu"
+          }
+        },
+        {
+          "id": "A13",
+          "price": 18,
+          "name": {
+            "zh": "西兰花",
+            "fr": "Brocoli sauté",
+            "en": "Sautéed Broccoli",
+            "es": "Brócoli Salteado"
+          },
+          "note": {
+            "zh": "清炒/蒜蓉",
+            "fr": "Sauté/Ail",
+            "en": "Stir-fried / Garlic",
+            "es": "Salteado / Ajo"
+          }
+        },
+        {
+          "id": "A14",
+          "price": 18,
+          "name": {
+            "zh": "炒时蔬",
+            "fr": "Légumes de saison sautés",
+            "en": "Stir-fried Seasonal Vegetables",
+            "es": "Verduras de Temporada Salteadas"
+          }
+        }
+      ],
+      "name": {
+        "zh": "素餐",
+        "fr": "Végétarien",
+        "en": "Vegetarian",
+        "es": "Vegetariano"
+      }
     },
     {
       "id": "rice-noodles",
-      "name_zh": "配饭",
-      "name_fr": "Riz et Nouilles",
       "icon": "🍚",
       "cover": "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&h=300&fit=crop",
       "items": [
-        {"id": "A15", "name_zh": "白饭", "name_fr": "Riz blanc", "price": 6.00},
-        {"id": "A16", "name_zh": "糯米饭", "name_fr": "Riz gluant", "price": 8.00},
-        {"id": "A17", "name_zh": "广东炒饭", "name_fr": "Riz cantonais", "price": 10.00},
-        {"id": "A18", "name_zh": "素炒面", "name_fr": "Nouilles sautées", "price": 12.00},
-        {"id": "A19", "name_zh": "泰式虾炒饭", "name_fr": "Riz sauté thaï crevettes", "price": 12.00},
-        {"id": "A20", "name_zh": "杂炒", "name_fr": "Légumes sautés variés", "price": 16.00}
-      ]
+        {
+          "id": "A15",
+          "price": 6,
+          "name": {
+            "zh": "白饭",
+            "fr": "Riz blanc",
+            "en": "Steamed White Rice",
+            "es": "Arroz Blanco"
+          }
+        },
+        {
+          "id": "A16",
+          "price": 8,
+          "name": {
+            "zh": "糯米饭",
+            "fr": "Riz gluant",
+            "en": "Sticky Rice",
+            "es": "Arroz Glutinoso"
+          }
+        },
+        {
+          "id": "A17",
+          "price": 10,
+          "name": {
+            "zh": "广东炒饭",
+            "fr": "Riz cantonais",
+            "en": "Cantonese Fried Rice",
+            "es": "Arroz Cantonés"
+          }
+        },
+        {
+          "id": "A18",
+          "price": 12,
+          "name": {
+            "zh": "素炒面",
+            "fr": "Nouilles sautées",
+            "en": "Stir-fried Noodles",
+            "es": "Fideos Salteados"
+          }
+        },
+        {
+          "id": "A19",
+          "price": 12,
+          "name": {
+            "zh": "泰式虾炒饭",
+            "fr": "Riz sauté thaï crevettes",
+            "en": "Thai Shrimp Fried Rice",
+            "es": "Arroz Salteado Tailandés con Gambas"
+          }
+        },
+        {
+          "id": "A20",
+          "price": 16,
+          "name": {
+            "zh": "杂炒",
+            "fr": "Légumes sautés variés",
+            "en": "Mixed Stir-fried Vegetables",
+            "es": "Salteado Variado de Verduras"
+          }
+        }
+      ],
+      "name": {
+        "zh": "配饭",
+        "fr": "Riz et Nouilles",
+        "en": "Rice & Noodles",
+        "es": "Arroz y Fideos"
+      }
     },
     {
       "id": "desserts",
-      "name_zh": "甜点",
-      "name_fr": "Desserts",
       "icon": "🍮",
       "cover": "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=300&fit=crop",
       "items": [
-        {"id": "D01", "name_zh": "冰淇淋2球", "name_fr": "Glace 2 boules", "price": 10.00},
-        {"id": "D02", "name_zh": "冰淇淋1球", "name_fr": "Glace 1 boule", "price": 6.00},
-        {"id": "D03", "name_zh": "芭提雅杯", "name_fr": "Coupe Pattaya", "price": 14.00},
-        {"id": "D04", "name_zh": "太阳杯", "name_fr": "Coupe de Soleil", "price": 16.00},
-        {"id": "D05", "name_zh": "泰式杯", "name_fr": "Coupe Thaï", "price": 14.00},
-        {"id": "D06", "name_zh": "太平洋杯", "name_fr": "Coupe Pacifique", "price": 18.00},
-        {"id": "D07", "name_zh": "黑森林", "name_fr": "Forêt Noire", "price": 16.00},
-        {"id": "D08", "name_zh": "水果沙拉", "name_fr": "Salade de fruits", "price": 16.00},
-        {"id": "D09", "name_zh": "新鲜芒果", "name_fr": "Mangue fraîche", "price": 16.00},
-        {"id": "D10", "name_zh": "新鲜菠萝", "name_fr": "Ananas frais", "price": 14.00},
-        {"id": "D11", "name_zh": "芒果糯米饭", "name_fr": "Riz gluant mangue", "price": 18.00},
-        {"id": "D12", "name_zh": "泰式布丁", "name_fr": "Flan Thaï", "price": 12.00},
-        {"id": "D13", "name_zh": "芝麻汤圆", "name_fr": "Boules de riz sésame noir", "price": 10.00},
-        {"id": "D14", "name_zh": "火焰水果", "name_fr": "Beignets fruits flambés", "price": 18.00},
-        {"id": "D15", "name_zh": "炸水果", "name_fr": "Beignets de fruits", "price": 14.00},
-        {"id": "D16", "name_zh": "姜糖果仁", "name_fr": "Gingembres confits nougats", "price": 10.00},
-        {"id": "D17", "name_zh": "冰麻薯", "name_fr": "Mochis glacés", "price": 10.00},
-        {"id": "D18", "name_zh": "椰丝球", "name_fr": "Boules de coco", "price": 12.00},
-        {"id": "D19", "name_zh": "巧克力春卷", "name_fr": "Nem au chocolat", "price": 15.00},
-        {"id": "D20", "name_zh": "糖水荔枝", "name_fr": "Lychees en sirop", "price": 8.00}
-      ]
+        {
+          "id": "D01",
+          "price": 10,
+          "name": {
+            "zh": "冰淇淋2球",
+            "fr": "Glace 2 boules",
+            "en": "Ice Cream (2 scoops)",
+            "es": "Helado (2 bolas)"
+          }
+        },
+        {
+          "id": "D02",
+          "price": 6,
+          "name": {
+            "zh": "冰淇淋1球",
+            "fr": "Glace 1 boule",
+            "en": "Ice Cream (1 scoop)",
+            "es": "Helado (1 bola)"
+          }
+        },
+        {
+          "id": "D03",
+          "price": 14,
+          "name": {
+            "zh": "芭提雅杯",
+            "fr": "Coupe Pattaya",
+            "en": "Pattaya Sundae",
+            "es": "Copa Pattaya"
+          }
+        },
+        {
+          "id": "D04",
+          "price": 16,
+          "name": {
+            "zh": "太阳杯",
+            "fr": "Coupe de Soleil",
+            "en": "Sun Sundae",
+            "es": "Copa Sol"
+          }
+        },
+        {
+          "id": "D05",
+          "price": 14,
+          "name": {
+            "zh": "泰式杯",
+            "fr": "Coupe Thaï",
+            "en": "Thai Sundae",
+            "es": "Copa Tailandesa"
+          }
+        },
+        {
+          "id": "D06",
+          "price": 18,
+          "name": {
+            "zh": "太平洋杯",
+            "fr": "Coupe Pacifique",
+            "en": "Pacific Sundae",
+            "es": "Copa Pacífico"
+          }
+        },
+        {
+          "id": "D07",
+          "price": 16,
+          "name": {
+            "zh": "黑森林",
+            "fr": "Forêt Noire",
+            "en": "Black Forest",
+            "es": "Selva Negra"
+          }
+        },
+        {
+          "id": "D08",
+          "price": 16,
+          "name": {
+            "zh": "水果沙拉",
+            "fr": "Salade de fruits",
+            "en": "Fruit Salad",
+            "es": "Macedonia de Frutas"
+          }
+        },
+        {
+          "id": "D09",
+          "price": 16,
+          "name": {
+            "zh": "新鲜芒果",
+            "fr": "Mangue fraîche",
+            "en": "Fresh Mango",
+            "es": "Mango Fresco"
+          }
+        },
+        {
+          "id": "D10",
+          "price": 14,
+          "name": {
+            "zh": "新鲜菠萝",
+            "fr": "Ananas frais",
+            "en": "Fresh Pineapple",
+            "es": "Piña Fresca"
+          }
+        },
+        {
+          "id": "D11",
+          "price": 18,
+          "name": {
+            "zh": "芒果糯米饭",
+            "fr": "Riz gluant mangue",
+            "en": "Mango Sticky Rice",
+            "es": "Arroz Glutinoso con Mango"
+          }
+        },
+        {
+          "id": "D12",
+          "price": 12,
+          "name": {
+            "zh": "泰式布丁",
+            "fr": "Flan Thaï",
+            "en": "Thai Pudding",
+            "es": "Flan Tailandés"
+          }
+        },
+        {
+          "id": "D13",
+          "price": 10,
+          "name": {
+            "zh": "芝麻汤圆",
+            "fr": "Boules de riz sésame noir",
+            "en": "Black Sesame Rice Balls",
+            "es": "Bolas de Arroz con Sésamo Negro"
+          }
+        },
+        {
+          "id": "D14",
+          "price": 18,
+          "name": {
+            "zh": "火焰水果",
+            "fr": "Beignets fruits flambés",
+            "en": "Flambéed Fruit Fritters",
+            "es": "Buñuelos de Fruta Flameados"
+          }
+        },
+        {
+          "id": "D15",
+          "price": 14,
+          "name": {
+            "zh": "炸水果",
+            "fr": "Beignets de fruits",
+            "en": "Fruit Fritters",
+            "es": "Buñuelos de Fruta"
+          }
+        },
+        {
+          "id": "D16",
+          "price": 10,
+          "name": {
+            "zh": "姜糖果仁",
+            "fr": "Gingembres confits nougats",
+            "en": "Candied Ginger & Nuts",
+            "es": "Jengibre Confitado con Frutos Secos"
+          }
+        },
+        {
+          "id": "D17",
+          "price": 10,
+          "name": {
+            "zh": "冰麻薯",
+            "fr": "Mochis glacés",
+            "en": "Mochi Ice Cream",
+            "es": "Mochis Helados"
+          }
+        },
+        {
+          "id": "D18",
+          "price": 12,
+          "name": {
+            "zh": "椰丝球",
+            "fr": "Boules de coco",
+            "en": "Coconut Balls",
+            "es": "Bolas de Coco"
+          }
+        },
+        {
+          "id": "D19",
+          "price": 15,
+          "name": {
+            "zh": "巧克力春卷",
+            "fr": "Nem au chocolat",
+            "en": "Chocolate Spring Roll",
+            "es": "Rollito de Chocolate"
+          }
+        },
+        {
+          "id": "D20",
+          "price": 8,
+          "name": {
+            "zh": "糖水荔枝",
+            "fr": "Lychees en sirop",
+            "en": "Lychees in Syrup",
+            "es": "Lichis en Almíbar"
+          }
+        }
+      ],
+      "name": {
+        "zh": "甜点",
+        "fr": "Desserts",
+        "en": "Desserts",
+        "es": "Postres"
+      }
     },
     {
       "id": "drinks",
-      "name_zh": "饮品",
-      "name_fr": "Boissons",
       "icon": "🍵",
       "cover": "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop",
       "items": [
-        {"id": "B01", "name_zh": "茶", "name_fr": "Thé chinois", "price": 8.00},
-        {"id": "B02", "name_zh": "咖啡/低因", "name_fr": "Café/Déca", "price": 5.00},
-        {"id": "B03", "name_zh": "卡布奇诺", "name_fr": "Café crème", "price": 7.00},
-        {"id": "B04", "name_zh": "鲜榨橙汁", "name_fr": "Orange pressé", "price": 12.00},
-        {"id": "B05", "name_zh": "果汁", "name_fr": "Jus de fruit", "price": 6.50},
-        {"id": "B06", "name_zh": "冰茶/雪碧/橙汁汽水", "name_fr": "Ice tea/Sprite/Orangina", "price": 6.50},
-        {"id": "B07", "name_zh": "可乐/零度", "name_fr": "Coca/Coca Zéro", "price": 6.50},
-        {"id": "B08", "name_zh": "糖浆水", "name_fr": "Sirop", "price": 3.50},
-        {"id": "B09", "name_zh": "矿泉水（半瓶）", "name_fr": "1/2 Evian/SP", "price": 7.00},
-        {"id": "B10", "name_zh": "矿泉水（整瓶）", "name_fr": "Evian/SP", "price": 12.00}
-      ]
+        {
+          "id": "B01",
+          "price": 8,
+          "name": {
+            "zh": "茶",
+            "fr": "Thé chinois",
+            "en": "Chinese Tea",
+            "es": "Té Chino"
+          }
+        },
+        {
+          "id": "B02",
+          "price": 5,
+          "name": {
+            "zh": "咖啡/低因",
+            "fr": "Café/Déca",
+            "en": "Coffee / Decaf",
+            "es": "Café / Descafeinado"
+          }
+        },
+        {
+          "id": "B03",
+          "price": 7,
+          "name": {
+            "zh": "卡布奇诺",
+            "fr": "Café crème",
+            "en": "Cappuccino",
+            "es": "Café con Leche"
+          }
+        },
+        {
+          "id": "B04",
+          "price": 12,
+          "name": {
+            "zh": "鲜榨橙汁",
+            "fr": "Orange pressé",
+            "en": "Fresh Orange Juice",
+            "es": "Zumo de Naranja Natural"
+          }
+        },
+        {
+          "id": "B05",
+          "price": 6.5,
+          "name": {
+            "zh": "果汁",
+            "fr": "Jus de fruit",
+            "en": "Fruit Juice",
+            "es": "Zumo de Fruta"
+          }
+        },
+        {
+          "id": "B06",
+          "price": 6.5,
+          "name": {
+            "zh": "冰茶/雪碧/橙汁汽水",
+            "fr": "Ice tea/Sprite/Orangina",
+            "en": "Ice Tea / Sprite / Orangina",
+            "es": "Té Helado / Sprite / Orangina"
+          }
+        },
+        {
+          "id": "B07",
+          "price": 6.5,
+          "name": {
+            "zh": "可乐/零度",
+            "fr": "Coca/Coca Zéro",
+            "en": "Coke / Coke Zero",
+            "es": "Coca-Cola / Coca-Cola Zero"
+          }
+        },
+        {
+          "id": "B08",
+          "price": 3.5,
+          "name": {
+            "zh": "糖浆水",
+            "fr": "Sirop",
+            "en": "Flavored Syrup Water",
+            "es": "Agua con Sirope"
+          }
+        },
+        {
+          "id": "B09",
+          "price": 7,
+          "name": {
+            "zh": "矿泉水（半瓶）",
+            "fr": "1/2 Evian/SP",
+            "en": "Mineral Water (1/2 bottle)",
+            "es": "Agua Mineral (1/2 botella)"
+          }
+        },
+        {
+          "id": "B10",
+          "price": 12,
+          "name": {
+            "zh": "矿泉水（整瓶）",
+            "fr": "Evian/SP",
+            "en": "Mineral Water (bottle)",
+            "es": "Agua Mineral (botella)"
+          }
+        }
+      ],
+      "name": {
+        "zh": "饮品",
+        "fr": "Boissons",
+        "en": "Drinks",
+        "es": "Bebidas"
+      }
     },
     {
       "id": "lobster-special",
-      "name_zh": "龙虾专区",
-      "name_fr": "Homard & Langouste",
       "icon": "🦞",
       "cover": "https://images.unsplash.com/photo-1553247407-23251ce81f59?w=400&h=300&fit=crop",
       "items": [
-        {"id": "L01", "name_zh": "龙虾 (500g)", "name_fr": "Homard (500g)", "price": 90.00},
-        {"id": "L02", "name_zh": "龙虾 (600g)", "name_fr": "Homard (600g)", "price": 98.00},
-        {"id": "L03", "name_zh": "龙虾 (700g+)", "name_fr": "Homard (700g+)", "price": 120.00},
-        {"id": "L04", "name_zh": "龙虾（大）500g", "name_fr": "Langouste (500g)", "price": 280.00},
-        {"id": "L05", "name_zh": "龙虾（大）600g", "name_fr": "Langouste (600g)", "price": 350.00},
-        {"id": "L06", "name_zh": "龙虾（大）700g+", "name_fr": "Langouste (700g+)", "price": 380.00}
-      ]
+        {
+          "id": "L01",
+          "price": 90,
+          "name": {
+            "zh": "龙虾 (500g)",
+            "fr": "Homard (500g)",
+            "en": "Lobster (500g)",
+            "es": "Bogavante (500g)"
+          }
+        },
+        {
+          "id": "L02",
+          "price": 98,
+          "name": {
+            "zh": "龙虾 (600g)",
+            "fr": "Homard (600g)",
+            "en": "Lobster (600g)",
+            "es": "Bogavante (600g)"
+          }
+        },
+        {
+          "id": "L03",
+          "price": 120,
+          "name": {
+            "zh": "龙虾 (700g+)",
+            "fr": "Homard (700g+)",
+            "en": "Lobster (700g+)",
+            "es": "Bogavante (700g+)"
+          }
+        },
+        {
+          "id": "L04",
+          "price": 280,
+          "name": {
+            "zh": "龙虾（大）500g",
+            "fr": "Langouste (500g)",
+            "en": "Langoustine (500g)",
+            "es": "Langosta (500g)"
+          }
+        },
+        {
+          "id": "L05",
+          "price": 350,
+          "name": {
+            "zh": "龙虾（大）600g",
+            "fr": "Langouste (600g)",
+            "en": "Langoustine (600g)",
+            "es": "Langosta (600g)"
+          }
+        },
+        {
+          "id": "L06",
+          "price": 380,
+          "name": {
+            "zh": "龙虾（大）700g+",
+            "fr": "Langouste (700g+)",
+            "en": "Langoustine (700g+)",
+            "es": "Langosta (700g+)"
+          }
+        }
+      ],
+      "name": {
+        "zh": "龙虾专区",
+        "fr": "Homard & Langouste",
+        "en": "Lobster & Langoustine",
+        "es": "Langosta y Bogavante"
+      }
     }
   ]
 }
