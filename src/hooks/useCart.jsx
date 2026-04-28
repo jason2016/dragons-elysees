@@ -17,12 +17,24 @@ export function CartProvider({ children }) {
   }, [items])
 
   const addItem = (item) => {
+    // Flatten name:{zh,fr} → name_zh/name_fr so order/kitchen/delivery panels stay unchanged
+    const flat = { ...item }
+    if (flat.name && typeof flat.name === 'object') {
+      flat.name_zh = flat.name.zh || ''
+      flat.name_fr = flat.name.fr || ''
+      delete flat.name
+    }
+    if (flat.note && typeof flat.note === 'object') {
+      flat.note_zh = flat.note.zh || ''
+      flat.note_fr = flat.note.fr || ''
+      delete flat.note
+    }
     setItems(prev => {
-      const existing = prev.find(i => i.id === item.id)
+      const existing = prev.find(i => i.id === flat.id)
       if (existing) {
-        return prev.map(i => i.id === item.id ? { ...i, qty: i.qty + 1 } : i)
+        return prev.map(i => i.id === flat.id ? { ...i, qty: i.qty + 1 } : i)
       }
-      return [...prev, { ...item, qty: 1 }]
+      return [...prev, { ...flat, qty: 1 }]
     })
   }
 
