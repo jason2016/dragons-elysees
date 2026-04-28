@@ -214,11 +214,6 @@
     "installBtn": "安装"
   },
 
-  "header": {
-    "langLabel": "FR",
-    "langTooltip": "Passer en français"
-  },
-
   "home": {
     "reviewsTitle": "顾客评价",
     "loyaltyBadge": "会员",

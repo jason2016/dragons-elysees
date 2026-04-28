@@ -1,15 +1,36 @@
+import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
 import styles from './Header.module.css'
 
+const LANGUAGES = [
+  { code: 'fr', label: 'Français', short: 'FR'   },
+  { code: 'zh', label: '中文',     short: '中文'  },
+  { code: 'en', label: 'English',  short: 'EN'   },
+  { code: 'es', label: 'Español',  short: 'ES'   },
+]
+
 export default function Header() {
   const { count, openCart } = useCart()
   const { isLoggedIn, customer } = useAuth()
-  const { toggle, t } = useLang()
+  const { lang, changeLang, t } = useLang()
   const location = useLocation()
   const isHome = location.pathname === '/'
+
+  const [open, setOpen] = useState(false)
+  const dropRef = useRef(null)
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (dropRef.current && !dropRef.current.contains(e.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const current = LANGUAGES.find(l => l.code === lang) || LANGUAGES[0]
 
   return (
     <header className={`${styles.header} ${isHome ? styles.transparent : styles.solid}`}>
@@ -38,15 +59,39 @@ export default function Header() {
             </Link>
           )}
 
-          {/* Language toggle */}
-          <button
-            className={styles.langBtn}
-            onClick={toggle}
-            aria-label="Changer la langue"
-            title={t('header.langTooltip')}
-          >
-            {t('header.langLabel')}
-          </button>
+          {/* Language dropdown */}
+          <div className={styles.langDropdown} ref={dropRef}>
+            <button
+              className={styles.langBtn}
+              onClick={() => setOpen(o => !o)}
+              aria-haspopup="listbox"
+              aria-expanded={open}
+              aria-label="Select language"
+            >
+              {current.short}
+              <span className={styles.langArrow}>{open ? '▴' : '▾'}</span>
+            </button>
+
+            {open && (
+              <ul className={styles.langMenu} role="listbox" aria-label="Language">
+                {LANGUAGES.map(l => (
+                  <li key={l.code}>
+                    <button
+                      className={`${styles.langOption} ${l.code === lang ? styles.langOptionActive : ''}`}
+                      role="option"
+                      aria-selected={l.code === lang}
+                      onClick={() => { changeLang(l.code); setOpen(false) }}
+                    >
+                      <span className={styles.langCheck}>
+                        {l.code === lang ? '✓' : ''}
+                      </span>
+                      {l.label}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
           {/* Cart */}
           <button

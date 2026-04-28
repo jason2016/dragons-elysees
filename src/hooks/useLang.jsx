@@ -22,11 +22,16 @@ const INTERPOLATION_PARAMS = {
 export function LangProvider({ children }) {
   const [lang, setLang] = useState(() => localStorage.getItem('lang') || 'fr')
 
+  const changeLang = useCallback((code) => {
+    localStorage.setItem('lang', code)
+    i18n.changeLanguage(code)
+    setLang(code)
+  }, [])
+
+  // Retained for backward compatibility — no longer used internally
   const toggle = useCallback(() => {
-    const next = lang === 'fr' ? 'zh' : 'fr'
-    i18n.changeLanguage(next)
-    setLang(next)
-  }, [lang])
+    changeLang(lang === 'fr' ? 'zh' : 'fr')
+  }, [lang, changeLang])
 
   // Bridge: positional args → named i18next interpolation params
   const t = useCallback((key, ...args) => {
@@ -56,7 +61,7 @@ export function LangProvider({ children }) {
   }
 
   return (
-    <LangContext.Provider value={{ lang, toggle, t, name, altName }}>
+    <LangContext.Provider value={{ lang, changeLang, toggle, t, name, altName }}>
       {children}
     </LangContext.Provider>
   )

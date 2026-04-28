@@ -214,11 +214,6 @@
     "installBtn": "Installer"
   },
 
-  "header": {
-    "langLabel": "中文",
-    "langTooltip": "切换中文"
-  },
-
   "home": {
     "reviewsTitle": "Avis de nos clients",
     "loyaltyBadge": "Membre fidélité",
