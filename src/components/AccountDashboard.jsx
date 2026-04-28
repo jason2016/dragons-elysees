@@ -7,7 +7,7 @@ import styles from './AccountDashboard.module.css'
 
 export default function AccountDashboard() {
   const { customer, isLoggedIn, logout } = useAuth()
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const navigate = useNavigate()
   const [transactions, setTransactions] = useState([])
   const [loading, setLoading] = useState(true)
@@ -70,11 +70,11 @@ export default function AccountDashboard() {
 
         {/* Balance card */}
         <div className={styles.balanceCard}>
-          <div className={styles.balanceLabel}>{t('balanceSub').includes('prochaine') ? 'Balance' : '余额'}</div>
+          <div className={styles.balanceLabel}>{t('account.balanceTitle')}</div>
           <div className={styles.balanceValue}>{formatPrice(customer?.balance || 0)}</div>
           <div className={styles.balanceSub}>{t('balanceSub')}</div>
           <button className={styles.historyLink} onClick={() => navigate('/balance/history')}>
-            {lang === 'zh' ? '查看流水 →' : "Voir l'historique →"}
+            {t('account.viewHistory')}
           </button>
         </div>
 
@@ -100,7 +100,7 @@ export default function AccountDashboard() {
               ))}
               {transactions.length > 5 && (
                 <button className={styles.historyLink} onClick={() => navigate('/balance/history')}>
-                  {lang === 'zh' ? `查看全部 ${transactions.length} 条记录 →` : `Voir les ${transactions.length} transactions →`}
+                  {t('account.viewAllTx', { count: transactions.length })}
                 </button>
               )}
             </div>
@@ -111,13 +111,13 @@ export default function AccountDashboard() {
         {referralData && (
           <div className={styles.card}>
             <h2 className={styles.sectionTitle}>
-              {lang === 'zh' ? '推荐朋友' : 'Recommandez Dragons Elysées'}
+              {t('account.referralTitle')}
             </h2>
 
             {/* Referral code */}
             <div className={styles.referralCodeBox}>
               <div className={styles.referralCodeLabel}>
-                {lang === 'zh' ? '您的推荐码' : 'Votre code'}
+                {t('account.yourCode')}
               </div>
               <div className={styles.referralCodeRow}>
                 <span className={styles.referralCode}>{referralData.referral_code}</span>
@@ -132,7 +132,7 @@ export default function AccountDashboard() {
               <div className={styles.referralQR}>
                 <img src={referralData.qr_code_url} alt="QR Code recommandation" />
                 <p className={styles.referralQRSub}>
-                  {lang === 'zh' ? '扫码或分享链接' : 'Scannez ou partagez le lien'}
+                  {t('account.scanOrShare')}
                 </p>
               </div>
             )}
@@ -144,30 +144,19 @@ export default function AccountDashboard() {
 
             {/* WhatsApp share */}
             <button className={styles.shareWhatsApp} onClick={shareWhatsApp}>
-              💬 {lang === 'zh' ? '分享到 WhatsApp' : 'Partager sur WhatsApp'}
+              💬 {t('account.shareWhatsApp')}
             </button>
 
             {/* How it works */}
             <div className={styles.referralInfo}>
               <div className={styles.referralInfoTitle}>
-                {lang === 'zh' ? '如何运作？' : 'Comment ça marche ?'}
+                {t('account.howItWorks')}
               </div>
               <ol className={styles.referralInfoList}>
-                {lang === 'zh' ? (
-                  <>
-                    <li>将您的码分享给朋友</li>
-                    <li>朋友首次下单时输入您的码</li>
-                    <li>您将获得其订单10%的龙城积分</li>
-                    <li>在下次到店消费时使用积分</li>
-                  </>
-                ) : (
-                  <>
-                    <li>Partagez votre code avec vos amis</li>
-                    <li>Ils saisissent le code à leur première commande</li>
-                    <li>Vous recevez 10% de leur commande en crédit Dragons</li>
-                    <li>Utilisez votre crédit lors de vos prochaines visites</li>
-                  </>
-                )}
+                <li>{t('account.step1')}</li>
+                <li>{t('account.step2')}</li>
+                <li>{t('account.step3')}</li>
+                <li>{t('account.step4')}</li>
               </ol>
             </div>
 
@@ -177,7 +166,7 @@ export default function AccountDashboard() {
                 <div className={styles.referralStatItem}>
                   <div className={styles.referralStatValue}>{referralData.stats.total_referred ?? 0}</div>
                   <div className={styles.referralStatLabel}>
-                    {lang === 'zh' ? '已推荐' : 'Amis recommandés'}
+                    {t('account.statReferred')}
                   </div>
                 </div>
                 <div className={styles.referralStatItem}>
@@ -185,13 +174,13 @@ export default function AccountDashboard() {
                     {formatPrice(referralData.stats.total_earned ?? 0)}
                   </div>
                   <div className={styles.referralStatLabel}>
-                    {lang === 'zh' ? '总获得' : 'Total gagné'}
+                    {t('account.statEarned')}
                   </div>
                 </div>
                 <div className={styles.referralStatItem}>
                   <div className={styles.referralStatValue}>{referralData.stats.pending_referrals ?? 0}</div>
                   <div className={styles.referralStatLabel}>
-                    {lang === 'zh' ? '待确认' : 'En attente'}
+                    {t('account.statPending')}
                   </div>
                 </div>
               </div>

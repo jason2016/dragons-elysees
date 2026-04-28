@@ -16,7 +16,7 @@ export default function AccountLogin() {
   const [error, setError] = useState('')
   const [resendCooldown, setResendCooldown] = useState(0)
   const { login } = useAuth()
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const navigate = useNavigate()
 
   const sendOtp = async (e) => {
@@ -58,9 +58,7 @@ export default function AccountLogin() {
       )
       login(res.customer, res.token)
       if (res.referred_by) {
-        alert(lang === 'zh'
-          ? '欢迎！您已通过推荐码加入，推荐人将获得奖励 🎉'
-          : 'Bienvenue ! Vous bénéficiez du programme de recommandation 🎉')
+        alert(t('login.referralWelcome'))
       }
       const returnTo = sessionStorage.getItem('de-checkout-return')
       if (returnTo) {
@@ -126,20 +124,18 @@ export default function AccountLogin() {
             {/* Referral code field */}
             <div className={styles.referralWrap}>
               <label className={styles.referralLabel}>
-                {lang === 'zh' ? '推荐码（选填）' : 'Code de recommandation (optionnel)'}
+                {t('login.referralLabel')}
               </label>
               <input
                 type="text"
                 className={`${styles.input} ${styles.referralInput}`}
-                placeholder={lang === 'zh' ? '例：ABC12345' : 'Ex: ABC12345'}
+                placeholder={t('login.referralPlaceholder')}
                 maxLength={8}
                 value={referralCode}
                 onChange={e => setReferralCode(e.target.value.toUpperCase())}
               />
               <p className={styles.referralHint}>
-                {lang === 'zh'
-                  ? '如果朋友推荐了您，请填写他的推荐码，他将获得奖励。'
-                  : 'Si un ami vous a recommandé Dragons, saisissez son code pour qu\'il gagne du crédit.'}
+                {t('login.referralHint')}
               </p>
             </div>
 

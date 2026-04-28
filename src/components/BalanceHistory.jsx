@@ -19,7 +19,7 @@ function typeInfo(type) {
 
 export default function BalanceHistory() {
   const { customer, isLoggedIn } = useAuth()
-  const { lang } = useLang()
+  const { t } = useLang()
   const navigate = useNavigate()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -38,20 +38,20 @@ export default function BalanceHistory() {
       <header className={styles.header}>
         <button className={styles.backBtn} onClick={() => navigate('/account')}>←</button>
         <h1 className={styles.title}>
-          {lang === 'zh' ? '余额流水' : 'Historique du crédit'}
+          {t('balance.title')}
         </h1>
       </header>
 
       {data && (
         <div className={styles.balanceBanner}>
           <div className={styles.balanceBannerLabel}>
-            {lang === 'zh' ? '当前余额' : 'Solde actuel'}
+            {t('balance.currentBalance')}
           </div>
           <div className={styles.balanceBannerValue}>
             {formatPrice(data.current_balance ?? customer?.balance ?? 0)}
           </div>
           <div className={styles.balanceBannerSub}>
-            {lang === 'zh' ? '可在下次消费时使用' : 'Utilisable sur place uniquement'}
+            {t('balance.usableNote')}
           </div>
         </div>
       )}
@@ -59,16 +59,14 @@ export default function BalanceHistory() {
       <div className={styles.listWrap}>
         {loading ? (
           <div className={styles.state}>
-            {lang === 'zh' ? '加载中…' : 'Chargement…'}
+            {t('balance.loading')}
           </div>
         ) : !data || data.transactions?.length === 0 ? (
           <div className={styles.state}>
             <div className={styles.stateIcon}>💰</div>
-            <p>{lang === 'zh' ? '暂无记录' : 'Aucune transaction pour le moment'}</p>
+            <p>{t('balance.empty')}</p>
             <p className={styles.stateSub}>
-              {lang === 'zh'
-                ? '推荐朋友即可获得积分！'
-                : 'Recommandez vos amis pour gagner du crédit !'}
+              {t('balance.emptyHint')}
             </p>
           </div>
         ) : (

@@ -42,7 +42,7 @@ function Stars({ rating }) {
 }
 
 export default function HomePage() {
-  const { t, lang } = useLang()
+  const { t } = useLang()
   const { setOrderType } = useOrderType()
   const navigate = useNavigate()
 
@@ -140,7 +140,7 @@ export default function HomePage() {
       <section className={styles.reviewsSection}>
         <div className={styles.reviewsInner}>
           <h2 className={styles.reviewsTitle}>
-            {lang === 'zh' ? '顾客评价' : 'Avis de nos clients'}
+            {t('home.reviewsTitle')}
           </h2>
           <div className={styles.reviewsGrid}>
             {DEMO_REVIEWS.map(review => (
@@ -152,7 +152,7 @@ export default function HomePage() {
                   </div>
                   {review.is_loyalty_member && (
                     <span className={styles.loyaltyBadge} title="Ce client est membre du programme fidélité Dragons">
-                      ℹ️ {lang === 'zh' ? '会员' : 'Membre fidélité'}
+                      ℹ️ {t('home.loyaltyBadge')}
                     </span>
                   )}
                 </div>
@@ -166,10 +166,8 @@ export default function HomePage() {
 
           {/* Compliance disclaimer */}
           <div className={styles.reviewDisclaimer}>
-            <strong>{lang === 'zh' ? '透明声明：' : 'Transparence : '}</strong>
-            {lang === 'zh'
-              ? '部分顾客是我们龙城忠诚计划的会员，在分享用餐体验时可获得到店消费积分。所有评价均真实反映顾客个人感受，不受此优惠影响。'
-              : 'Certains de nos clients sont membres de notre programme fidélité Dragons et peuvent recevoir un crédit utilisable sur place lorsqu\'ils partagent leur expérience. Les avis reflètent leurs opinions personnelles et ne sont pas influencés par cet avantage.'}
+            <strong>{t('home.disclaimer')}</strong>
+            {t('home.disclaimerText')}
           </div>
         </div>
       </section>
