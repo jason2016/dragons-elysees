@@ -154,7 +154,14 @@
     "registerHint": "Create an account to earn 10% cashback on every order",
     "yourBalance": "Your credit",
     "freeDelivery": "Free delivery!",
-    "distanceError": "Sorry, this address is outside our delivery zone (5 km)"
+    "distanceError": "Sorry, this address is outside our delivery zone (5 km)",
+    "paymentMethod": "Payment method",
+    "paymentStancer": "Credit card (Stancer)",
+    "paymentSumup": "SumUp",
+    "paymentSumupOnline": "Online",
+    "paymentSumupSolo": "Solo Terminal (coming soon)",
+    "paymentSumupCaisse": "Cash register (coming soon)",
+    "paymentCash": "Cash"
   },
 
   "success": {

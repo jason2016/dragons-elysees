@@ -154,7 +154,14 @@
     "registerHint": "Créez un compte pour 10% de cashback sur chaque commande",
     "yourBalance": "Votre solde",
     "freeDelivery": "Livraison offerte !",
-    "distanceError": "Désolé, cette adresse est hors de notre zone de livraison (5 km)"
+    "distanceError": "Désolé, cette adresse est hors de notre zone de livraison (5 km)",
+    "paymentMethod": "Mode de paiement",
+    "paymentStancer": "Carte bancaire (Stancer)",
+    "paymentSumup": "SumUp",
+    "paymentSumupOnline": "En ligne",
+    "paymentSumupSolo": "Terminal Solo (à venir)",
+    "paymentSumupCaisse": "Caisse (à venir)",
+    "paymentCash": "Espèces"
   },
 
   "success": {

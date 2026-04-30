@@ -33,6 +33,8 @@ export default function Checkout() {
   const [deliveryInstructions, setDeliveryInstructions] = useState('')
 
   const [useBalance, setUseBalance] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState('stancer')
+  const [paymentMode, setPaymentMode] = useState('online')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
   const [showLoginBanner, setShowLoginBanner] = useState(!isLoggedIn)
@@ -81,7 +83,7 @@ export default function Checkout() {
         items,
         customer_id: customer?.id || null,
         cashback_use: balanceApplied,
-        payment_method: isFullBalancePayment ? 'balance' : balanceApplied > 0 ? 'mixed' : 'stancer',
+        payment_method: isFullBalancePayment ? 'balance' : balanceApplied > 0 ? 'mixed' : paymentMethod,
         table_number: tableNumber,
         note,
         order_type: orderType,
@@ -108,7 +110,13 @@ export default function Checkout() {
 
       try {
         const returnUrl = `${window.location.origin}${import.meta.env.BASE_URL}#/payment-success?order=${order.order_number}`
-        const pay = await api.createPayment({ order_id: order.id, amount: order.total_paid, return_url: returnUrl })
+        const pay = await api.createPayment({
+          order_id: order.id,
+          amount: order.total_paid,
+          return_url: returnUrl,
+          payment_method: paymentMethod,
+          ...(paymentMethod === 'sumup' ? { payment_mode: paymentMode } : {}),
+        })
         if (pay.payment_url) {
           sessionStorage.setItem('de-last-order', JSON.stringify(toCache(order)))
           if (!isLoggedIn && guestEmail) sessionStorage.setItem('de-guest-email', guestEmail)
@@ -116,6 +124,7 @@ export default function Checkout() {
           window.location.href = pay.payment_url
           return
         }
+        // SumUp cash: no redirect URL → fall through to mark as paid
       } catch (_) {}
 
       const paidOrder = await api.updateOrderStatus(order.id, 'paid')
@@ -373,6 +382,70 @@ export default function Checkout() {
             <div className={styles.cashbackHint}>{t('cashbackOnOrder', formatPrice(cashbackEarned))}</div>
           )}
         </div>
+
+        {/* Payment method selector */}
+        {!isFullBalancePayment && (
+          <div className={styles.card}>
+            <h2 className={styles.sectionTitle}>{t('checkout.paymentMethod')}</h2>
+
+            {/* Stancer */}
+            <label className={styles.payOption}>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="stancer"
+                checked={paymentMethod === 'stancer'}
+                onChange={() => setPaymentMethod('stancer')}
+              />
+              <span>{t('checkout.paymentStancer')}</span>
+            </label>
+
+            {/* SumUp */}
+            <label className={styles.payOption}>
+              <input
+                type="radio"
+                name="paymentMethod"
+                value="sumup"
+                checked={paymentMethod === 'sumup'}
+                onChange={() => setPaymentMethod('sumup')}
+              />
+              <span>{t('checkout.paymentSumup')}</span>
+            </label>
+
+            {paymentMethod === 'sumup' && (
+              <div className={styles.paySubOptions}>
+                <label className={styles.payOption}>
+                  <input
+                    type="radio"
+                    name="paymentMode"
+                    value="online"
+                    checked={paymentMode === 'online'}
+                    onChange={() => setPaymentMode('online')}
+                  />
+                  <span>{t('checkout.paymentSumupOnline')}</span>
+                </label>
+                <label className={`${styles.payOption} ${styles.payOptionDisabled}`}>
+                  <input type="radio" name="paymentMode" disabled />
+                  <span>{t('checkout.paymentSumupSolo')}</span>
+                </label>
+                <label className={`${styles.payOption} ${styles.payOptionDisabled}`}>
+                  <input type="radio" name="paymentMode" disabled />
+                  <span>{t('checkout.paymentSumupCaisse')}</span>
+                </label>
+                <label className={styles.payOption}>
+                  <input
+                    type="radio"
+                    name="paymentMode"
+                    value="cash"
+                    checked={paymentMode === 'cash'}
+                    onChange={() => setPaymentMode('cash')}
+                  />
+                  <span>{t('checkout.paymentCash')}</span>
+                </label>
+              </div>
+            )}
+          </div>
+        )}
 
         {errors.submit && <div className={styles.errorMsg}>{errors.submit}</div>}
 

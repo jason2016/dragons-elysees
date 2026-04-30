@@ -154,7 +154,14 @@
     "registerHint": "注册账户，每单消费返10%到账户",
     "yourBalance": "您的余额",
     "freeDelivery": "免运费！",
-    "distanceError": "抱歉，该地址超出配送范围（5公里）"
+    "distanceError": "抱歉，该地址超出配送范围（5公里）",
+    "paymentMethod": "支付方式",
+    "paymentStancer": "银行卡（Stancer）",
+    "paymentSumup": "SumUp",
+    "paymentSumupOnline": "在线支付",
+    "paymentSumupSolo": "Solo 终端（即将上线）",
+    "paymentSumupCaisse": "收银台（即将上线）",
+    "paymentCash": "现金"
   },
 
   "success": {
