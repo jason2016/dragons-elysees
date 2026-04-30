@@ -66,7 +66,7 @@ export default function Checkout() {
       if (!deliveryAddress.trim()) errs.address = t('checkout.addressRequired')
     }
     // Dine-in: only table required
-    if (!isDelivery && !tableNumber.trim()) errs.table = t('tableRequiredMsg')
+
     return errs
   }
 
@@ -272,7 +272,7 @@ export default function Checkout() {
           <div className={styles.card}>
             <h2 className={styles.sectionTitle}>{t('info')}</h2>
             <div className={styles.formRow}>
-              <label className={styles.label}>{t('tableNumberRequired')}</label>
+              <label className={styles.label}>{t('tableNumber')}</label>
               <input
                 type="text"
                 className={`${styles.input} ${errors.table ? styles.inputError : ''}`}
