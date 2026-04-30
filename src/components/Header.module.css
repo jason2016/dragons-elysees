@@ -80,6 +80,14 @@
   flex-shrink: 0;
 }
 
+.balanceBadge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  opacity: 0.85;
+  margin-left: 2px;
+}
+
 .langDropdown {
   position: relative;
 }

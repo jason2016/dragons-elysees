@@ -42,6 +42,10 @@ export function LangProvider({ children }) {
         params.forEach((name, i) => { opts[name] = args[i] })
         return i18n.t(key, opts)
       }
+      // Named-object args passed directly (e.g. t('key', { table: 12 }))
+      if (args[0] !== null && typeof args[0] === 'object' && !Array.isArray(args[0])) {
+        return i18n.t(key, args[0])
+      }
     }
     return i18n.t(key)
   }, [lang]) // eslint-disable-line react-hooks/exhaustive-deps

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
+import { formatPrice } from '../utils/api'
 import styles from './Header.module.css'
 
 const LANGUAGES = [
@@ -52,10 +53,13 @@ export default function Header() {
             <Link to="/account" className={styles.navLink}>
               <span className={styles.accountDot} />
               {customer?.name || customer?.email?.split('@')[0]}
+              {customer?.balance > 0 && (
+                <span className={styles.balanceBadge}>{formatPrice(customer.balance)}</span>
+              )}
             </Link>
           ) : (
             <Link to="/account/login" className={styles.navLink}>
-              {t('login')}
+              {t('signIn')}
             </Link>
           )}
 
