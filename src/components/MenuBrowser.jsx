@@ -129,6 +129,7 @@ export default function MenuBrowser() {
                 alt={cat.name?.fr || cat.name_fr}
                 className={styles.sectionBannerImg}
                 loading="lazy"
+                onError={e => { e.currentTarget.style.display = 'none' }}
               />
               <div className={styles.sectionBannerOverlay} />
               <div className={styles.sectionTitles}>
@@ -181,14 +182,24 @@ export default function MenuBrowser() {
 }
 
 function DishCard({ item, catCover, onAdd, added, primaryName, altNameStr }) {
-  // Use item's own image if available, else category cover
-  const imgSrc = item.image_url || catCover
+  // Fallback chain: dish photo -> category cover -> nothing (container shows dark fallback bg)
+  const sources = [item.image_url, catCover].filter(Boolean)
+  const [srcIdx, setSrcIdx] = useState(0)
+  const imgSrc = sources[srcIdx]
 
   return (
     <div className={styles.card}>
       {/* Real photo thumbnail with dark overlay */}
       <div className={styles.cardThumb}>
-        <img src={imgSrc} alt={primaryName} className={styles.cardThumbImg} loading="lazy" />
+        {imgSrc && (
+          <img
+            src={imgSrc}
+            alt={primaryName}
+            className={styles.cardThumbImg}
+            loading="lazy"
+            onError={() => setSrcIdx(i => i + 1)}
+          />
+        )}
         <div className={styles.cardThumbOverlay} />
       </div>
 

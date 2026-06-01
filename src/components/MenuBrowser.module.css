@@ -126,6 +126,8 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   margin-bottom: 12px;
+  /* fallback when banner image is missing / fails to load */
+  background: #1a1a1a;
 }
 
 .sectionBannerImg {
@@ -207,6 +209,8 @@
   flex-shrink: 0;
   width: 82px;
   overflow: hidden;
+  /* fallback when dish image is missing / fails to load */
+  background: #1a1a1a;
 }
 
 .cardThumbImg {
