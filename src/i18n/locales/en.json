@@ -225,5 +225,6 @@
   "setMenuNext": "Next",
   "setMenuBack": "Back",
   "setMenuAddCart": "Add to cart",
-  "setMenuYourChoice": "Your selection"
+  "setMenuYourChoice": "Your selection",
+  "addedToCart": "Added to cart ✓"
 }

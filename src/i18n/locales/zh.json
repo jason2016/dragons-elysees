@@ -225,5 +225,6 @@
   "setMenuNext": "下一步",
   "setMenuBack": "上一步",
   "setMenuAddCart": "加入购物车",
-  "setMenuYourChoice": "你的搭配"
+  "setMenuYourChoice": "你的搭配",
+  "addedToCart": "已加入购物车 ✓"
 }
