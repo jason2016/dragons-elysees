@@ -1820,7 +1820,8 @@
         "fr": "Homard & Langouste",
         "en": "Lobster & Langoustine",
         "es": "Langosta y Bogavante"
-      }
+      },
+      "hidden": true
     }
   ]
 }
