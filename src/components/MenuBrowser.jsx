@@ -5,6 +5,7 @@ import { useOrderType } from '../hooks/useOrderType'
 import { formatPrice } from '../utils/api'
 import { FEATURES } from '../config'
 import SetMenuSelector from './SetMenuSelector'
+import DishDetail from './DishDetail'
 import styles from './MenuBrowser.module.css'
 
 const DELIVERY_FEE = 5.00
@@ -14,6 +15,7 @@ export default function MenuBrowser() {
   const [activeCategory, setActiveCategory] = useState(null)
   const [addedId, setAddedId] = useState(null)
   const [activeSetMenu, setActiveSetMenu] = useState(null)
+  const [activeDish, setActiveDish] = useState(null)
   const { addItem, count, total, openCart, items: cartItems } = useCart()
   const { t, name, altName } = useLang()
   const { orderType, setOrderType } = useOrderType()
@@ -164,6 +166,7 @@ export default function MenuBrowser() {
                     item={item}
                     catCover={cat.cover}
                     onAdd={() => handleAdd(item)}
+                    onOpenDetail={() => setActiveDish({ item, catCover: cat.cover })}
                     added={addedId === item.id}
                     primaryName={name(item)}
                     altNameStr={altName(item)}
@@ -208,6 +211,16 @@ export default function MenuBrowser() {
           onAdd={(cartItem) => { addItem(cartItem); openCart() }}
         />
       )}
+
+      {/* À-la-carte dish detail (large image); the card "+" keeps direct-add */}
+      {activeDish && (
+        <DishDetail
+          dish={activeDish.item}
+          catCover={activeDish.catCover}
+          onClose={() => setActiveDish(null)}
+          onAdd={() => handleAdd(activeDish.item)}
+        />
+      )}
     </div>
   )
 }
@@ -248,14 +261,15 @@ function SetMenuCard({ item, catCover, onCompose, primaryName, altNameStr, compo
   )
 }
 
-function DishCard({ item, catCover, onAdd, added, primaryName, altNameStr }) {
+function DishCard({ item, catCover, onAdd, onOpenDetail, added, primaryName, altNameStr }) {
   // Fallback chain: dish photo -> category cover -> nothing (container shows dark fallback bg)
   const sources = [item.image_url, catCover].filter(Boolean)
   const [srcIdx, setSrcIdx] = useState(0)
   const imgSrc = sources[srcIdx]
 
   return (
-    <div className={styles.card}>
+    // Tapping the card opens the detail view; the "+" button stops propagation and adds directly.
+    <div className={styles.card} onClick={onOpenDetail} role="button" tabIndex={0}>
       {/* Real photo thumbnail with dark overlay */}
       <div className={styles.cardThumb}>
         {imgSrc && (
@@ -282,7 +296,7 @@ function DishCard({ item, catCover, onAdd, added, primaryName, altNameStr }) {
           <span className={styles.cardPrice}>{formatPrice(item.price)}</span>
           <button
             className={`${styles.addBtn} ${added ? styles.addBtnAdded : ''}`}
-            onClick={onAdd}
+            onClick={(e) => { e.stopPropagation(); onAdd() }}
             aria-label={`Ajouter ${primaryName}`}
           >
             {added ? (
