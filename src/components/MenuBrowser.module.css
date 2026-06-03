@@ -308,6 +308,40 @@
   color: white !important;
 }
 
+/* ── Set-menu card ── */
+.setCard {
+  cursor: pointer;
+  border: 1px solid var(--border-gold);
+}
+.setTag {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 1;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-gold);
+  color: #0a0a0a;
+  font-weight: 600;
+}
+.setComposeBtn {
+  background: var(--accent-gold-dim);
+  color: var(--accent-gold);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: var(--transition-fast);
+}
+.setComposeBtn:hover {
+  background: var(--accent-gold);
+  color: #0a0a0a;
+}
+
 /* ── Wine note ── */
 .wineNote {
   display: flex;

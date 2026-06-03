@@ -442,3 +442,17 @@
   .linePrice { font-size: 0.85rem; }
   .summaryTotal { font-size: 0.95rem; }
 }
+
+.lineSetLines {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.linePriceTBC {
+  color: var(--accent-gold);
+  font-style: italic;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}

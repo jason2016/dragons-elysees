@@ -243,15 +243,42 @@
 
 .orderItem {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 3px;
   font-size: 0.95rem;
   color: var(--text-primary);
+}
+
+.orderItemMain {
+  display: flex;
+  gap: 8px;
 }
 
 .itemQty {
   color: var(--accent-gold);
   font-weight: 700;
   min-width: 24px;
+}
+
+/* Set-menu composition lines (kitchen must see every course chosen) */
+.setMenuLines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 2px 0 2px 32px;
+  padding-left: 8px;
+  border-left: 2px solid var(--accent-gold);
+}
+.setMenuLine {
+  display: flex;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.setMenuCourse {
+  color: var(--accent-gold);
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .orderNote {

@@ -201,8 +201,19 @@ export default function Checkout() {
                 <span className={styles.lineName}>
                   <span>{name(item)}</span>
                   <span className={styles.lineNameSub}>{item.name?.zh || item.name_zh}</span>
+                  {item.type === 'set_menu' && item.selections && (
+                    <span className={styles.lineSetLines}>
+                      {item.selections.map(sel =>
+                        `${name({ name: sel.label })}: ${name({ name: sel.name })}`
+                      ).join(' · ')}
+                    </span>
+                  )}
                 </span>
-                <span className={styles.linePrice}>{formatPrice(item.price * item.qty)}</span>
+                <span className={styles.linePrice}>
+                  {item.type === 'set_menu'
+                    ? <em className={styles.linePriceTBC}>{t('setMenuPriceTBC')}</em>
+                    : formatPrice(item.price * item.qty)}
+                </span>
               </div>
             ))}
           </div>

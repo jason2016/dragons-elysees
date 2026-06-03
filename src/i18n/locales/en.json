@@ -132,18 +132,15 @@
   "deliveryNoOrders": "No active deliveries",
   "deliveryWaiting": "Waiting",
   "deliveryEnRoute": "En route",
-
   "common": {
     "freeDeliveryHint": "{{amount}} more for free delivery",
     "connectBtn": "Sign in →",
     "loading": "Loading…"
   },
-
   "cart": {
     "freeDelivery": "Free ✅",
     "loginPrompt": "Sign in and earn {{amount}} cashback!"
   },
-
   "checkout": {
     "addressRequired": "Delivery address required",
     "payError": "Payment error, please try again",
@@ -163,14 +160,12 @@
     "paymentSumupCaisse": "Cash register (coming soon)",
     "paymentCash": "Cash"
   },
-
   "success": {
     "tableHint": "Table {{table}}",
     "deliveryPreparing": "Your order is being prepared",
     "trackOrder": "Track my order",
     "downloadReceipt": "Download receipt"
   },
-
   "track": {
     "notFound": "Order not found",
     "notFoundDesc": "Order {{number}} could not be found.",
@@ -180,7 +175,6 @@
     "details": "Order details",
     "autoRefresh": "Auto-refreshing every 10s"
   },
-
   "account": {
     "balanceTitle": "Credit",
     "viewHistory": "View history →",
@@ -198,14 +192,12 @@
     "statEarned": "Total earned",
     "statPending": "Pending"
   },
-
   "login": {
     "referralWelcome": "Welcome! You're enrolled in our referral program 🎉",
     "referralLabel": "Referral code (optional)",
     "referralPlaceholder": "e.g. ABC12345",
     "referralHint": "If a friend recommended Dragons, enter their code so they earn credit."
   },
-
   "balance": {
     "title": "Credit history",
     "currentBalance": "Current balance",
@@ -213,18 +205,25 @@
     "empty": "No transactions yet",
     "emptyHint": "Refer friends to earn credit!"
   },
-
   "install": {
     "addToHome": "Add to home screen",
     "iosHint": "Tap ⎙ Share, then \"Add to Home Screen\"",
     "androidHint": "Quick access to the menu",
     "installBtn": "Install"
   },
-
   "home": {
     "reviewsTitle": "Customer reviews",
     "loyaltyBadge": "Loyalty member",
     "disclaimer": "Transparency: ",
     "disclaimerText": "Some of our customers are members of our Dragons loyalty program and may receive in-restaurant credit when sharing their experience. Reviews reflect their personal opinions and are not influenced by this benefit."
-  }
+  },
+  "setMenuComposeTag": "Build your menu",
+  "setMenuComposeBtn": "Compose",
+  "setMenuStep": "Step",
+  "setMenuPick1": "Choose 1 dish",
+  "setMenuPriceTBC": "Price to confirm",
+  "setMenuNext": "Next",
+  "setMenuBack": "Back",
+  "setMenuAddCart": "Add to cart",
+  "setMenuYourChoice": "Your selection"
 }

@@ -59,12 +59,25 @@ export default function Cart() {
         ) : (
           <>
             <div className={styles.items}>
-              {items.map(item => (
+              {items.map(item => {
+                const isSet = item.type === 'set_menu'
+                return (
                 <div key={item.id} className={styles.item}>
                   <div className={styles.itemInfo}>
                     <span className={styles.itemName}>{name(item)}</span>
-                    <span className={styles.itemUnit}>{formatPrice(item.price)}</span>
+                    <span className={styles.itemUnit}>
+                      {isSet ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price)}
+                    </span>
                   </div>
+                  {isSet && item.selections && (
+                    <ul className={styles.setLines}>
+                      {item.selections.map(sel => (
+                        <li key={sel.key}>
+                          {name({ name: sel.label })}: {name({ name: sel.name })}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <div className={styles.itemControls}>
                     <button
                       className={styles.qtyBtn}
@@ -77,10 +90,13 @@ export default function Cart() {
                       onClick={() => updateQty(item.id, item.qty + 1)}
                       aria-label="+"
                     >+</button>
-                    <span className={styles.itemTotal}>{formatPrice(item.price * item.qty)}</span>
+                    <span className={styles.itemTotal}>
+                      {isSet ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price * item.qty)}
+                    </span>
                   </div>
                 </div>
-              ))}
+                )
+              })}
             </div>
 
             <div className={styles.footer}>
