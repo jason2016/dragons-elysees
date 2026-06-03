@@ -14,7 +14,7 @@ export default function MenuBrowser() {
   const [activeCategory, setActiveCategory] = useState(null)
   const [addedId, setAddedId] = useState(null)
   const [activeSetMenu, setActiveSetMenu] = useState(null)
-  const { addItem, count, total, openCart } = useCart()
+  const { addItem, count, total, openCart, items: cartItems } = useCart()
   const { t, name, altName } = useLang()
   const { orderType, setOrderType } = useOrderType()
   const categoryRefs = useRef({})
@@ -75,6 +75,8 @@ export default function MenuBrowser() {
 
   const isDelivery = FEATURES.delivery && orderType === 'delivery'
   const cartTotal = isDelivery ? total + DELIVERY_FEE : total
+  // Price-pending set menu in cart → show "Prix à confirmer" instead of €0.00 on the cart bar.
+  const cartHasPriceTodo = cartItems.some(i => i.price_todo)
   // Hide categories flagged hidden:true in menu.json (reversible — remove the flag to restore)
   const categories = menu.categories.filter(c => !c.hidden)
 
@@ -191,7 +193,9 @@ export default function MenuBrowser() {
           </div>
           <div className={styles.cartBarRight}>
             {isDelivery && <span className={styles.cartBarDelivery}>+ 🚗 {formatPrice(DELIVERY_FEE)}</span>}
-            <span className={styles.cartBarTotal}>{formatPrice(cartTotal)}</span>
+            <span className={styles.cartBarTotal}>
+              {cartHasPriceTodo ? t('setMenuPriceTBC') : formatPrice(cartTotal)}
+            </span>
           </div>
         </button>
       )}
