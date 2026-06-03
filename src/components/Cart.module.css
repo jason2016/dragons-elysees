@@ -275,3 +275,29 @@
   .itemControls { gap: 4px; }
   .itemTotal { min-width: 44px; font-size: 0.82rem; }
 }
+
+.setLines {
+  list-style: none;
+  margin: 2px 0 6px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.setLines li {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  padding-left: 10px;
+  position: relative;
+}
+.setLines li::before {
+  content: "\B7";
+  position: absolute;
+  left: 0;
+  color: var(--accent-gold);
+}
+.priceTBC {
+  color: var(--accent-gold);
+  font-style: italic;
+  font-size: 0.82rem;
+}

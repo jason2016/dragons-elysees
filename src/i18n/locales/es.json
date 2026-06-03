@@ -132,18 +132,15 @@
   "deliveryNoOrders": "No hay entregas en curso",
   "deliveryWaiting": "En espera",
   "deliveryEnRoute": "En camino",
-
   "common": {
     "freeDeliveryHint": "Le faltan {{amount}} para envío gratuito",
     "connectBtn": "Iniciar sesión →",
     "loading": "Cargando…"
   },
-
   "cart": {
     "freeDelivery": "Gratis ✅",
     "loginPrompt": "¡Inicie sesión y gane {{amount}} de cashback!"
   },
-
   "checkout": {
     "addressRequired": "Dirección de entrega obligatoria",
     "payError": "Error de pago, por favor inténtelo de nuevo",
@@ -163,14 +160,12 @@
     "paymentSumupCaisse": "Caja (próximamente)",
     "paymentCash": "Efectivo"
   },
-
   "success": {
     "tableHint": "Mesa {{table}}",
     "deliveryPreparing": "Su pedido se está preparando",
     "trackOrder": "Seguir mi pedido",
     "downloadReceipt": "Descargar el recibo"
   },
-
   "track": {
     "notFound": "Pedido no encontrado",
     "notFoundDesc": "El pedido {{number}} no se ha encontrado.",
@@ -180,7 +175,6 @@
     "details": "Detalles del pedido",
     "autoRefresh": "Actualización automática cada 10s"
   },
-
   "account": {
     "balanceTitle": "Saldo",
     "viewHistory": "Ver el historial →",
@@ -198,14 +192,12 @@
     "statEarned": "Total ganado",
     "statPending": "Pendiente"
   },
-
   "login": {
     "referralWelcome": "¡Bienvenido! Ya forma parte de nuestro programa de recomendación 🎉",
     "referralLabel": "Código de recomendación (opcional)",
     "referralPlaceholder": "ej.: ABC12345",
     "referralHint": "Si un amigo le ha recomendado Dragons, introduzca su código para que él gane crédito."
   },
-
   "balance": {
     "title": "Historial del saldo",
     "currentBalance": "Saldo actual",
@@ -213,18 +205,25 @@
     "empty": "Aún no hay transacciones",
     "emptyHint": "¡Recomiende a sus amigos para ganar saldo!"
   },
-
   "install": {
     "addToHome": "Añadir a la pantalla de inicio",
     "iosHint": "Toque ⎙ Compartir y luego \"Añadir a pantalla de inicio\"",
     "androidHint": "Acceso rápido al menú",
     "installBtn": "Instalar"
   },
-
   "home": {
     "reviewsTitle": "Opiniones de nuestros clientes",
     "loyaltyBadge": "Miembro fidelidad",
     "disclaimer": "Transparencia: ",
     "disclaimerText": "Algunos de nuestros clientes son miembros de nuestro programa de fidelidad Dragons y pueden recibir un crédito utilizable en el restaurante al compartir su experiencia. Las opiniones reflejan sus opiniones personales y no se ven influenciadas por este beneficio."
-  }
+  },
+  "setMenuComposeTag": "Menú a elegir",
+  "setMenuComposeBtn": "Componer",
+  "setMenuStep": "Paso",
+  "setMenuPick1": "Elige 1 plato",
+  "setMenuPriceTBC": "Precio por confirmar",
+  "setMenuNext": "Siguiente",
+  "setMenuBack": "Atrás",
+  "setMenuAddCart": "Añadir al carrito",
+  "setMenuYourChoice": "Tu selección"
 }

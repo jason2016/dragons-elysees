@@ -4,6 +4,7 @@ import { useLang } from '../hooks/useLang'
 import { useOrderType } from '../hooks/useOrderType'
 import { formatPrice } from '../utils/api'
 import { FEATURES } from '../config'
+import SetMenuSelector from './SetMenuSelector'
 import styles from './MenuBrowser.module.css'
 
 const DELIVERY_FEE = 5.00
@@ -12,7 +13,8 @@ export default function MenuBrowser() {
   const [menu, setMenu] = useState(null)
   const [activeCategory, setActiveCategory] = useState(null)
   const [addedId, setAddedId] = useState(null)
-  const { addItem, count, total, openCart } = useCart()
+  const [activeSetMenu, setActiveSetMenu] = useState(null)
+  const { addItem, count, total, openCart, items: cartItems } = useCart()
   const { t, name, altName } = useLang()
   const { orderType, setOrderType } = useOrderType()
   const categoryRefs = useRef({})
@@ -73,6 +75,8 @@ export default function MenuBrowser() {
 
   const isDelivery = FEATURES.delivery && orderType === 'delivery'
   const cartTotal = isDelivery ? total + DELIVERY_FEE : total
+  // Price-pending set menu in cart → show "Prix à confirmer" instead of €0.00 on the cart bar.
+  const cartHasPriceTodo = cartItems.some(i => i.price_todo)
   // Hide categories flagged hidden:true in menu.json (reversible — remove the flag to restore)
   const categories = menu.categories.filter(c => !c.hidden)
 
@@ -143,15 +147,28 @@ export default function MenuBrowser() {
 
             <div className={styles.itemsGrid}>
               {cat.items.map(item => (
-                <DishCard
-                  key={item.id}
-                  item={item}
-                  catCover={cat.cover}
-                  onAdd={() => handleAdd(item)}
-                  added={addedId === item.id}
-                  primaryName={name(item)}
-                  altNameStr={altName(item)}
-                />
+                item.type === 'set_menu' ? (
+                  <SetMenuCard
+                    key={item.id}
+                    item={item}
+                    catCover={cat.cover}
+                    onCompose={() => setActiveSetMenu(item)}
+                    primaryName={name(item)}
+                    altNameStr={altName(item)}
+                    composeTag={t('setMenuComposeTag')}
+                    composeBtn={t('setMenuComposeBtn')}
+                  />
+                ) : (
+                  <DishCard
+                    key={item.id}
+                    item={item}
+                    catCover={cat.cover}
+                    onAdd={() => handleAdd(item)}
+                    added={addedId === item.id}
+                    primaryName={name(item)}
+                    altNameStr={altName(item)}
+                  />
+                )
               ))}
             </div>
           </section>
@@ -176,10 +193,57 @@ export default function MenuBrowser() {
           </div>
           <div className={styles.cartBarRight}>
             {isDelivery && <span className={styles.cartBarDelivery}>+ 🚗 {formatPrice(DELIVERY_FEE)}</span>}
-            <span className={styles.cartBarTotal}>{formatPrice(cartTotal)}</span>
+            <span className={styles.cartBarTotal}>
+              {cartHasPriceTodo ? t('setMenuPriceTBC') : formatPrice(cartTotal)}
+            </span>
           </div>
         </button>
       )}
+
+      {/* Set-menu step-by-step composer */}
+      {activeSetMenu && (
+        <SetMenuSelector
+          setMenu={activeSetMenu}
+          onClose={() => setActiveSetMenu(null)}
+          onAdd={(cartItem) => { addItem(cartItem); openCart() }}
+        />
+      )}
+    </div>
+  )
+}
+
+function SetMenuCard({ item, catCover, onCompose, primaryName, altNameStr, composeTag, composeBtn }) {
+  const sources = [item.cover, catCover].filter(Boolean)
+  const [srcIdx, setSrcIdx] = useState(0)
+  const imgSrc = sources[srcIdx]
+
+  return (
+    <div className={`${styles.card} ${styles.setCard}`} onClick={onCompose} role="button" tabIndex={0}>
+      <div className={styles.cardThumb}>
+        {imgSrc && (
+          <img
+            src={imgSrc}
+            alt={primaryName}
+            className={styles.cardThumbImg}
+            loading="lazy"
+            onError={() => setSrcIdx(i => i + 1)}
+          />
+        )}
+        <div className={styles.cardThumbOverlay} />
+        <span className={styles.setTag}>{composeTag}</span>
+      </div>
+
+      <div className={styles.cardBody}>
+        <div className={styles.cardNames}>
+          <span className={styles.cardPrimary}>{primaryName}</span>
+          {altNameStr && <span className={styles.cardAlt}>{altNameStr}</span>}
+        </div>
+        <div className={styles.cardFooter}>
+          <button className={styles.setComposeBtn} onClick={(e) => { e.stopPropagation(); onCompose() }}>
+            {composeBtn} ›
+          </button>
+        </div>
+      </div>
     </div>
   )
 }

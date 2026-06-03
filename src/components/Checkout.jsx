@@ -47,6 +47,9 @@ export default function Checkout() {
   const amountToPay = Math.round((total + deliveryFee - balanceApplied) * 100) / 100
   const isFullBalancePayment = amountToPay === 0
   const cashbackEarned = amountToPay >= 15 ? Math.round(amountToPay * 0.10 * 100) / 100 : 0
+  // When the cart holds a price-pending set menu, monetary totals are indeterminate:
+  // show "Prix à confirmer" instead of a misleading €0.00 (set-menu price not yet set).
+  const hasPriceTodo = items.some(i => i.price_todo)
 
   if (items.length === 0) {
     return (
@@ -201,8 +204,19 @@ export default function Checkout() {
                 <span className={styles.lineName}>
                   <span>{name(item)}</span>
                   <span className={styles.lineNameSub}>{item.name?.zh || item.name_zh}</span>
+                  {item.type === 'set_menu' && item.selections && (
+                    <span className={styles.lineSetLines}>
+                      {item.selections.map(sel =>
+                        `${name({ name: sel.label })}: ${name({ name: sel.name })}`
+                      ).join(' · ')}
+                    </span>
+                  )}
                 </span>
-                <span className={styles.linePrice}>{formatPrice(item.price * item.qty)}</span>
+                <span className={styles.linePrice}>
+                  {item.type === 'set_menu'
+                    ? <em className={styles.linePriceTBC}>{t('setMenuPriceTBC')}</em>
+                    : formatPrice(item.price * item.qty)}
+                </span>
               </div>
             ))}
           </div>
@@ -350,7 +364,7 @@ export default function Checkout() {
         <div className={styles.card}>
           <div className={styles.summaryRow}>
             <span>{t('subtotal')}</span>
-            <span>{formatPrice(total)}</span>
+            <span>{hasPriceTodo ? <em className={styles.linePriceTBC}>{t('setMenuPriceTBC')}</em> : formatPrice(total)}</span>
           </div>
           {isDelivery && (
             <div className={styles.summaryRow}>
@@ -376,9 +390,9 @@ export default function Checkout() {
           )}
           <div className={`${styles.summaryRow} ${styles.summaryTotal}`}>
             <span>{t('totalToPay')}</span>
-            <span>{formatPrice(amountToPay)}</span>
+            <span>{hasPriceTodo ? <em className={styles.linePriceTBC}>{t('setMenuPriceTBC')}</em> : formatPrice(amountToPay)}</span>
           </div>
-          {cashbackEarned > 0 && (
+          {!hasPriceTodo && cashbackEarned > 0 && (
             <div className={styles.cashbackHint}>{t('cashbackOnOrder', formatPrice(cashbackEarned))}</div>
           )}
         </div>
@@ -457,9 +471,11 @@ export default function Checkout() {
         >
           {loading
             ? t('processing')
-            : isFullBalancePayment
-              ? t('payBalance')
-              : t('pay', formatPrice(amountToPay))}
+            : hasPriceTodo
+              ? `${t('order')} · ${t('setMenuPriceTBC')}`
+              : isFullBalancePayment
+                ? t('payBalance')
+                : t('pay', formatPrice(amountToPay))}
         </button>
 
         <button className={styles.backBtn} onClick={() => navigate('/menu')}>

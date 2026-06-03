@@ -18,6 +18,8 @@ export default function Cart() {
   const isDelivery = orderType === 'delivery'
   const deliveryFee = isDelivery ? (total >= DELIVERY_CONFIG.free_threshold ? 0 : DELIVERY_CONFIG.base_fee) : 0
   const grandTotal = total + deliveryFee
+  // Cart holds a price-pending set menu → totals are indeterminate; show "Prix à confirmer", not €0.00.
+  const hasPriceTodo = items.some(i => i.price_todo)
 
   useEffect(() => {
     document.body.style.overflow = cartOpen ? 'hidden' : ''
@@ -59,12 +61,25 @@ export default function Cart() {
         ) : (
           <>
             <div className={styles.items}>
-              {items.map(item => (
+              {items.map(item => {
+                const isSet = item.type === 'set_menu'
+                return (
                 <div key={item.id} className={styles.item}>
                   <div className={styles.itemInfo}>
                     <span className={styles.itemName}>{name(item)}</span>
-                    <span className={styles.itemUnit}>{formatPrice(item.price)}</span>
+                    <span className={styles.itemUnit}>
+                      {isSet ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price)}
+                    </span>
                   </div>
+                  {isSet && item.selections && (
+                    <ul className={styles.setLines}>
+                      {item.selections.map(sel => (
+                        <li key={sel.key}>
+                          {name({ name: sel.label })}: {name({ name: sel.name })}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <div className={styles.itemControls}>
                     <button
                       className={styles.qtyBtn}
@@ -77,16 +92,21 @@ export default function Cart() {
                       onClick={() => updateQty(item.id, item.qty + 1)}
                       aria-label="+"
                     >+</button>
-                    <span className={styles.itemTotal}>{formatPrice(item.price * item.qty)}</span>
+                    <span className={styles.itemTotal}>
+                      {isSet ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price * item.qty)}
+                    </span>
                   </div>
                 </div>
-              ))}
+                )
+              })}
             </div>
 
             <div className={styles.footer}>
               <div className={styles.summary}>
                 <span className={styles.summaryLabel}>{t('subtotal')}</span>
-                <span className={styles.summaryValue}>{formatPrice(total)}</span>
+                <span className={styles.summaryValue}>
+                  {hasPriceTodo ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(total)}
+                </span>
               </div>
               {isDelivery && (
                 <div className={styles.summary}>
@@ -104,7 +124,7 @@ export default function Cart() {
                   💡 {t('common.freeDeliveryHint', { amount: formatPrice(DELIVERY_CONFIG.free_threshold - total) })}
                 </div>
               )}
-              {!isLoggedIn && (
+              {!isLoggedIn && !hasPriceTodo && (
                 <div className={styles.loginPrompt}>
                   <div className={styles.loginPromptText}>
                     ⭐ {t('cart.loginPrompt', { amount: formatPrice(grandTotal * 0.10) })}
@@ -117,7 +137,7 @@ export default function Cart() {
                   </button>
                 </div>
               )}
-              {isLoggedIn && (
+              {isLoggedIn && !hasPriceTodo && (
                 <div className={styles.cashbackHint}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
@@ -126,7 +146,7 @@ export default function Cart() {
                 </div>
               )}
               <button className="btn-gold" style={{ width: '100%' }} onClick={handleCheckout}>
-                {t('order')} · {formatPrice(grandTotal)}
+                {t('order')} · {hasPriceTodo ? t('setMenuPriceTBC') : formatPrice(grandTotal)}
               </button>
               <button className={styles.clearBtn} onClick={clearCart}>
                 {t('clearCart')}

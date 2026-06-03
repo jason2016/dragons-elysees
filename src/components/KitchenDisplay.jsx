@@ -256,8 +256,23 @@ function OrderCard({ order, onAction, actionLabel, blink }) {
       <div className={styles.orderItems}>
         {items.map((item, i) => (
           <div key={i} className={styles.orderItem}>
-            <span className={styles.itemQty}>{item.qty}×</span>
-            <span>{item.name?.zh || item.name_zh} / {item.name?.fr || item.name_fr}</span>
+            <div className={styles.orderItemMain}>
+              <span className={styles.itemQty}>{item.qty}×</span>
+              <span>
+                {item.type === 'set_menu' ? '🍱 ' : ''}
+                {item.name?.zh || item.name_zh} / {item.name?.fr || item.name_fr}
+              </span>
+            </div>
+            {item.type === 'set_menu' && Array.isArray(item.selections) && (
+              <div className={styles.setMenuLines}>
+                {item.selections.map(sel => (
+                  <div key={sel.key} className={styles.setMenuLine}>
+                    <span className={styles.setMenuCourse}>{sel.label?.fr || sel.key}:</span>
+                    <span>{sel.name?.zh || ''} / {sel.name?.fr || ''}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
