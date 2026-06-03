@@ -3,6 +3,7 @@ import { CartProvider } from './hooks/useCart'
 import { AuthProvider } from './hooks/useAuth'
 import { LangProvider } from './hooks/useLang'
 import { OrderTypeProvider } from './hooks/useOrderType'
+import { FullscreenProvider } from './hooks/useFullscreen'
 import Header from './components/Header'
 import Cart from './components/Cart'
 import HomePage from './components/HomePage'
@@ -27,7 +28,9 @@ export default function App() {
         <LangProvider>
           <AuthProvider>
             <CartProvider>
-              <AppRoutes />
+              <FullscreenProvider>
+                <AppRoutes />
+              </FullscreenProvider>
             </CartProvider>
           </AuthProvider>
         </LangProvider>

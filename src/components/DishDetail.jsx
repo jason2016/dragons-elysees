@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../hooks/useLang'
+import { useRegisterFullscreen } from '../hooks/useFullscreen'
 import { formatPrice } from '../utils/api'
 import styles from './DishDetail.module.css'
 
@@ -25,6 +26,9 @@ export default function DishDetail({ dish, catCover, onClose, onAdd }) {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
   }, [])
+
+  // Hide the bottom InstallPrompt banner while this fullscreen panel is open.
+  useRegisterFullscreen()
 
   const note = dish.note ? name({ name: dish.note }) : ''
 
