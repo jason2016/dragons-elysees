@@ -69,13 +69,176 @@
         },
         {
           "id": "SM06",
-          "price": 150,
+          "price": 0,
           "name": {
             "zh": "品鉴套餐",
             "fr": "Menu Découverte",
             "en": "Discovery Tasting Menu",
             "es": "Menú Degustación"
-          }
+          },
+          "type": "set_menu",
+          "price_todo": true,
+          "cover": "/dragons-elysees/menu/set/decouvert/cover.webp",
+          "courses": [
+            {
+              "key": "entree",
+              "label": {
+                "zh": "头盘",
+                "fr": "Entrée",
+                "en": "Starter",
+                "es": "Entrante"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "dian-xin",
+                  "name": {
+                    "zh": "点心拼盘",
+                    "fr": "Assortiment Dim Sum",
+                    "en": "Dim Sum Platter",
+                    "es": "Surtido Dim Sum"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/entree/dian-xin.webp"
+                },
+                {
+                  "id": "suan-xia-tang",
+                  "name": {
+                    "zh": "酸辣虾汤",
+                    "fr": "Soupe piquante aux crevettes",
+                    "en": "Spicy Prawn Soup",
+                    "es": "Sopa picante de gambas"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/entree/suan-xia-tang.webp"
+                },
+                {
+                  "id": "zha-za-dian",
+                  "name": {
+                    "zh": "炸杂点",
+                    "fr": "Assortiment de fritures",
+                    "en": "Mixed Fritters",
+                    "es": "Surtido de frituras"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/entree/zha-za-dian.webp"
+                }
+              ]
+            },
+            {
+              "key": "plat",
+              "label": {
+                "zh": "主菜",
+                "fr": "Plat",
+                "en": "Main",
+                "es": "Plato"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "gan-shao-yu",
+                  "name": {
+                    "zh": "干烧鱼",
+                    "fr": "Poisson sauté piquant",
+                    "en": "Spicy Sautéed Fish",
+                    "es": "Pescado salteado picante"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/plat/gan-shao-yu.webp"
+                },
+                {
+                  "id": "jiao-yan-xia",
+                  "name": {
+                    "zh": "椒盐虾",
+                    "fr": "Crevettes sel et poivre",
+                    "en": "Salt & Pepper Prawns",
+                    "es": "Gambas a la sal y pimienta"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/plat/jiao-yan-xia.webp"
+                },
+                {
+                  "id": "tie-ban-hei-jiao-niu-liu",
+                  "name": {
+                    "zh": "铁板黑椒牛柳",
+                    "fr": "Bœuf au poivre noir (plancha)",
+                    "en": "Black Pepper Beef",
+                    "es": "Ternera a la pimienta negra"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/plat/tie-ban-hei-jiao-niu-liu.webp"
+                }
+              ]
+            },
+            {
+              "key": "dessert",
+              "label": {
+                "zh": "甜点",
+                "fr": "Dessert",
+                "en": "Dessert",
+                "es": "Postre"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "nuo-mi-ci",
+                  "name": {
+                    "zh": "糯米糍",
+                    "fr": "Boules de riz gluant",
+                    "en": "Glutinous Rice Balls",
+                    "es": "Bolas de arroz glutinoso"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/dessert/nuo-mi-ci.webp"
+                },
+                {
+                  "id": "shui-guo-sha-la",
+                  "name": {
+                    "zh": "水果沙拉",
+                    "fr": "Salade de fruits",
+                    "en": "Fruit Salad",
+                    "es": "Ensalada de frutas"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/dessert/shui-guo-sha-la.webp"
+                },
+                {
+                  "id": "zha-xiang-jiao",
+                  "name": {
+                    "zh": "炸香蕉",
+                    "fr": "Banane frite",
+                    "en": "Fried Banana",
+                    "es": "Plátano frito"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/dessert/zha-xiang-jiao.webp"
+                }
+              ]
+            },
+            {
+              "key": "accompagnement",
+              "label": {
+                "zh": "配菜",
+                "fr": "Accompagnement",
+                "en": "Side",
+                "es": "Acompañamiento"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "guang-dong-xia-chao-fan",
+                  "name": {
+                    "zh": "广东虾炒饭",
+                    "fr": "Riz sauté cantonais aux crevettes",
+                    "en": "Cantonese Prawn Fried Rice",
+                    "es": "Arroz frito cantonés con gambas"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/accompagnement/guang-dong-xia-chao-fan.webp"
+                },
+                {
+                  "id": "su-chao-mian",
+                  "name": {
+                    "zh": "素炒面",
+                    "fr": "Nouilles sautées aux légumes",
+                    "en": "Vegetable Fried Noodles",
+                    "es": "Fideos salteados con verduras"
+                  },
+                  "image": "/dragons-elysees/menu/set/decouvert/accompagnement/su-chao-mian.webp"
+                }
+              ]
+            }
+          ]
         },
         {
           "id": "SM07",
@@ -86,6 +249,209 @@
             "en": "Duck Set Menu",
             "es": "Menú Pato"
           }
+        },
+        {
+          "id": "SM08",
+          "type": "set_menu",
+          "price": 0,
+          "price_todo": true,
+          "name": {
+            "zh": "经典套餐",
+            "fr": "Menu Classique",
+            "en": "Classic Set Menu",
+            "es": "Menú Clásico"
+          },
+          "cover": "/dragons-elysees/menu/set/classique/cover.webp",
+          "courses": [
+            {
+              "key": "entree",
+              "label": {
+                "zh": "头盘",
+                "fr": "Entrée",
+                "en": "Starter",
+                "es": "Entrante"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "dian-xin",
+                  "name": {
+                    "zh": "点心拼盘",
+                    "fr": "Assortiment Dim Sum",
+                    "en": "Dim Sum Platter",
+                    "es": "Surtido Dim Sum"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/entree/dian-xin.webp"
+                },
+                {
+                  "id": "ji-chun-juan",
+                  "name": {
+                    "zh": "鸡春卷",
+                    "fr": "Nems au poulet",
+                    "en": "Chicken Spring Rolls",
+                    "es": "Rollitos de pollo"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/entree/ji-chun-juan.webp"
+                },
+                {
+                  "id": "suan-la-tang",
+                  "name": {
+                    "zh": "酸辣汤",
+                    "fr": "Soupe aigre-piquante",
+                    "en": "Hot & Sour Soup",
+                    "es": "Sopa agripicante"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/entree/suan-la-tang.webp"
+                },
+                {
+                  "id": "tai-shi-ji-sha-la",
+                  "name": {
+                    "zh": "泰式鸡沙拉",
+                    "fr": "Salade de poulet thaï",
+                    "en": "Thai Chicken Salad",
+                    "es": "Ensalada tailandesa de pollo"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/entree/tai-shi-ji-sha-la.webp"
+                }
+              ]
+            },
+            {
+              "key": "plat",
+              "label": {
+                "zh": "主菜",
+                "fr": "Plat",
+                "en": "Main",
+                "es": "Plato"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "gan-shao-xia",
+                  "name": {
+                    "zh": "干烧虾",
+                    "fr": "Crevettes sautées piquantes",
+                    "en": "Spicy Sautéed Prawns",
+                    "es": "Gambas salteadas picantes"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/plat/gan-shao-xia.webp"
+                },
+                {
+                  "id": "jin-bu-hua-ya",
+                  "name": {
+                    "zh": "金不换鸭",
+                    "fr": "Canard au basilic thaï",
+                    "en": "Thai Basil Duck",
+                    "es": "Pato a la albahaca"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/plat/jin-bu-hua-ya.webp"
+                },
+                {
+                  "id": "yang-cong-niu",
+                  "name": {
+                    "zh": "洋葱牛",
+                    "fr": "Bœuf aux oignons",
+                    "en": "Beef with Onions",
+                    "es": "Ternera con cebolla"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/plat/yang-cong-niu.webp"
+                },
+                {
+                  "id": "you-lin-ji",
+                  "name": {
+                    "zh": "油淋鸡",
+                    "fr": "Poulet croustillant",
+                    "en": "Crispy Chicken",
+                    "es": "Pollo crujiente"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/plat/you-lin-ji.webp"
+                }
+              ]
+            },
+            {
+              "key": "dessert",
+              "label": {
+                "zh": "甜点",
+                "fr": "Dessert",
+                "en": "Dessert",
+                "es": "Postre"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "bing-ji-lin",
+                  "name": {
+                    "zh": "冰淇淋",
+                    "fr": "Glace",
+                    "en": "Ice Cream",
+                    "es": "Helado"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/dessert/bing-ji-lin.webp"
+                },
+                {
+                  "id": "bing-mi-ci",
+                  "name": {
+                    "zh": "冰麻糍",
+                    "fr": "Mochi glacé",
+                    "en": "Glazed Mochi",
+                    "es": "Mochi helado"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/dessert/bing-mi-ci.webp"
+                },
+                {
+                  "id": "jiang-tang-zhi-ma-tang",
+                  "name": {
+                    "zh": "姜糖芝麻汤圆",
+                    "fr": "Boules de sésame, sirop de gingembre",
+                    "en": "Sesame Rice Balls, Ginger Syrup",
+                    "es": "Bolas de sésamo con jengibre"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/dessert/jiang-tang-zhi-ma-tang.webp"
+                },
+                {
+                  "id": "li-zhi",
+                  "name": {
+                    "zh": "荔枝",
+                    "fr": "Litchi",
+                    "en": "Lychee",
+                    "es": "Lichi"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/dessert/li-zhi.webp"
+                }
+              ]
+            },
+            {
+              "key": "accompagnement",
+              "label": {
+                "zh": "配菜",
+                "fr": "Accompagnement",
+                "en": "Side",
+                "es": "Acompañamiento"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "guang-dong-xia-chao-fan",
+                  "name": {
+                    "zh": "广东虾炒饭",
+                    "fr": "Riz sauté cantonais aux crevettes",
+                    "en": "Cantonese Prawn Fried Rice",
+                    "es": "Arroz frito cantonés con gambas"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/accompagnement/guang-dong-xia-chao-fan.webp"
+                },
+                {
+                  "id": "su-chao-mian",
+                  "name": {
+                    "zh": "素炒面",
+                    "fr": "Nouilles sautées aux légumes",
+                    "en": "Vegetable Fried Noodles",
+                    "es": "Fideos salteados con verduras"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/accompagnement/su-chao-mian.webp"
+                }
+              ]
+            }
+          ]
         }
       ],
       "name": {
