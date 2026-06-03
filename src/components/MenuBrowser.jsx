@@ -23,7 +23,8 @@ export default function MenuBrowser() {
       .then(r => r.json())
       .then(data => {
         setMenu(data)
-        setActiveCategory(data.categories[0].id)
+        const firstVisible = data.categories.find(c => !c.hidden)
+        if (firstVisible) setActiveCategory(firstVisible.id)
       })
   }, [])
 
@@ -72,6 +73,8 @@ export default function MenuBrowser() {
 
   const isDelivery = FEATURES.delivery && orderType === 'delivery'
   const cartTotal = isDelivery ? total + DELIVERY_FEE : total
+  // Hide categories flagged hidden:true in menu.json (reversible — remove the flag to restore)
+  const categories = menu.categories.filter(c => !c.hidden)
 
   return (
     <div className={styles.page}>
@@ -100,7 +103,7 @@ export default function MenuBrowser() {
           </>
         )}
         <div className={styles.catNav} ref={navRef}>
-          {menu.categories.map(cat => (
+          {categories.map(cat => (
             <button
               key={cat.id}
               data-id={cat.id}
@@ -116,7 +119,7 @@ export default function MenuBrowser() {
 
       {/* Menu sections */}
       <div className={styles.content}>
-        {menu.categories.map(cat => (
+        {categories.map(cat => (
           <section
             key={cat.id}
             ref={el => { categoryRefs.current[cat.id] = el }}
