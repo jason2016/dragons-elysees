@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../hooks/useLang'
+import { useFullscreen } from '../hooks/useFullscreen'
 
 export default function InstallPrompt() {
   const { t } = useLang()
+  const { anyFullscreenOpen } = useFullscreen()
   const [deferredPrompt, setDeferredPrompt] = useState(null)
   const [showPrompt, setShowPrompt] = useState(false)
 
@@ -43,7 +45,9 @@ export default function InstallPrompt() {
     localStorage.setItem('pwa-dismissed', 'true')
   }
 
-  if (!showPrompt) return null
+  // Keep the banner (not dismissed), but hide it while a fullscreen panel
+  // (set-menu selector / dish detail) is open so it doesn't cover their buttons.
+  if (!showPrompt || anyFullscreenOpen) return null
 
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 

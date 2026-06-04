@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../hooks/useLang'
+import { useRegisterFullscreen } from '../hooks/useFullscreen'
 import styles from './SetMenuSelector.module.css'
 
 /**
@@ -21,6 +22,9 @@ export default function SetMenuSelector({ setMenu, onClose, onAdd }) {
     document.body.style.overflow = 'hidden'
     return () => { document.body.style.overflow = '' }
   }, [])
+
+  // Hide the bottom InstallPrompt banner while this fullscreen panel is open.
+  useRegisterFullscreen()
 
   if (courses.length === 0) return null
   const course = courses[step]
