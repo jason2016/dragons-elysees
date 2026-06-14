@@ -623,113 +623,94 @@
       "cover": "/dragons-elysees/menu/cover/soups-salads.webp",
       "items": [
         {
-          "id": "S1",
-          "price": 16.5,
+          "id": "SS01",
+          "price": 9.5,
           "name": {
             "zh": "鸡肉玉米汤",
-            "fr": "Soupe poulet maïs",
-            "en": "Chicken & Sweet Corn Soup",
-            "es": "Sopa de Pollo y Maíz"
-          },
-          "image_url": "/dragons-elysees/menu/items/S1.webp"
-        },
-        {
-          "id": "S2",
-          "price": 18.5,
-          "name": {
-            "zh": "蟹肉芦笋汤",
-            "fr": "Soupe crabe asperges",
-            "en": "Crab & Asparagus Soup",
-            "es": "Sopa de Cangrejo y Espárragos"
-          },
-          "image_url": "/dragons-elysees/menu/items/S2.webp"
-        },
-        {
-          "id": "S3",
-          "price": 16.5,
-          "name": {
-            "zh": "北京酸辣汤",
-            "fr": "Soupe Pékinoise piquante",
-            "en": "Beijing Hot & Sour Soup",
-            "es": "Sopa Picante de Pekín"
-          },
-          "image_url": "/dragons-elysees/menu/items/S3.webp"
-        },
-        {
-          "id": "S4",
-          "price": 16.5,
-          "name": {
-            "zh": "粉丝鸡汤",
-            "fr": "Soupe poulet vermicelles",
-            "en": "Chicken Vermicelli Soup",
-            "es": "Sopa de Pollo con Fideos"
+            "fr": "Potage au poulet et maïs",
+            "en": "Chicken and sweet corn soup",
+            "es": ""
           }
         },
         {
-          "id": "S5",
-          "price": 18.5,
+          "id": "SS02",
+          "price": 13.5,
           "name": {
-            "zh": "云吞汤",
-            "fr": "Soupe wonton",
-            "en": "Wonton Soup",
-            "es": "Sopa Wonton"
-          },
-          "image_url": "/dragons-elysees/menu/items/S5.webp"
+            "zh": "蟹肉芦笋汤",
+            "fr": "Potage au crabe et aux asperges",
+            "en": "Crab and asparagus soup",
+            "es": ""
+          }
         },
         {
-          "id": "S6",
+          "id": "SS03",
+          "price": 11.5,
+          "name": {
+            "zh": "北京酸辣汤",
+            "fr": "Potage pékinois (épicé)",
+            "en": "Pekinese spicy sour soup",
+            "es": ""
+          }
+        },
+        {
+          "id": "SS04",
+          "price": 14.5,
+          "name": {
+            "zh": "云吞汤",
+            "fr": "Soupe de raviolis aux crevettes",
+            "en": "Chinese dumplings soup with shrimps",
+            "es": ""
+          }
+        },
+        {
+          "id": "SS05",
           "price": 38,
           "name": {
             "zh": "鱼翅汤",
-            "fr": "Soupe aux ailerons",
-            "en": "Shark Fin Soup",
-            "es": "Sopa de Aleta de Tiburón"
-          },
-          "image_url": "/dragons-elysees/menu/items/S6.webp"
+            "fr": "Potage aux ailerons de requin",
+            "en": "Shark's fin soup",
+            "es": ""
+          }
         },
         {
-          "id": "S7",
-          "price": 18,
+          "id": "SS06",
+          "price": 16,
           "name": {
             "zh": "蟹沙拉",
-            "fr": "Salade de crabe",
-            "en": "Crab Salad",
-            "es": "Ensalada de Cangrejo"
-          },
-          "image_url": "/dragons-elysees/menu/items/S7.webp"
+            "fr": "Salade au crabe",
+            "en": "Crab meat salad",
+            "es": ""
+          }
         },
         {
-          "id": "S8",
-          "price": 16,
+          "id": "SS07",
+          "price": 12,
           "name": {
             "zh": "鸡沙拉",
-            "fr": "Salade de poulet",
-            "en": "Chicken Salad",
-            "es": "Ensalada de Pollo"
-          },
-          "image_url": "/dragons-elysees/menu/items/S8.webp"
+            "fr": "Salade au poulet",
+            "en": "Chicken salad",
+            "es": ""
+          }
         },
         {
-          "id": "S9",
-          "price": 18,
+          "id": "SS08",
+          "price": 14,
           "name": {
             "zh": "虾沙拉",
-            "fr": "Salade de crevettes",
-            "en": "Prawn Salad",
-            "es": "Ensalada de Gambas"
-          },
-          "image_url": "/dragons-elysees/menu/items/S9.webp"
+            "fr": "Salade aux crevettes",
+            "en": "Shrimps salad",
+            "es": ""
+          }
         },
         {
-          "id": "S10",
-          "price": 16,
+          "id": "SS09",
+          "price": 14,
           "name": {
             "zh": "生春卷",
-            "fr": "Rouleaux de printemps frais",
-            "en": "Fresh Spring Rolls",
-            "es": "Rollitos de Primavera Frescos"
-          },
-          "image_url": "/dragons-elysees/menu/items/S10.webp"
+            "fr": "Rouleaux de printemps (aux crevettes) - froid",
+            "en": "Vietnamese fresh spring rolls (with shrimps)",
+            "es": ""
+          }
         }
       ],
       "name": {
@@ -737,8 +718,7 @@
         "fr": "Soupes et Salades",
         "en": "Soups & Salads",
         "es": "Sopas y Ensaladas"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "dim-sum",
@@ -746,150 +726,96 @@
       "cover": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=400&h=300&fit=crop",
       "items": [
         {
-          "id": "V1",
-          "price": 16.5,
+          "id": "DS01",
+          "price": 13.5,
           "name": {
             "zh": "虾饺",
-            "fr": "Raviolis aux crevettes",
-            "en": "Har Gow (Shrimp Dumplings)",
-            "es": "Empanadillas de Gambas"
-          },
-          "image_url": "/dragons-elysees/menu/items/V1.webp"
+            "fr": "Raviolis aux crevettes (4ps) - Ha Kao",
+            "en": "Steamed shrimps dumplings",
+            "es": ""
+          }
         },
         {
-          "id": "V2",
-          "price": 16.5,
+          "id": "DS02",
+          "price": 13.5,
           "name": {
-            "zh": "烧卖",
-            "fr": "Siu Mai",
-            "en": "Siu Mai",
-            "es": "Siu Mai"
+            "zh": "虾卖",
+            "fr": "Bouchées aux crevettes (4ps)",
+            "en": "Steamed shrimps balls",
+            "es": ""
           },
-          "image_url": "/dragons-elysees/menu/items/V2.webp"
+          "ocr_note": "中文名OCR待John确认"
         },
         {
-          "id": "V3",
-          "price": 19.5,
+          "id": "DS03",
+          "price": 14.5,
           "name": {
             "zh": "干贝烧卖",
-            "fr": "Siu Mai St-Jacques",
-            "en": "Scallop Siu Mai",
-            "es": "Siu Mai de Vieiras"
+            "fr": "Bouchées aux coquilles St-Jacques (4ps)",
+            "en": "Steamed scallops balls",
+            "es": ""
           },
-          "image_url": "/dragons-elysees/menu/items/V3.webp"
+          "ocr_note": "中文名OCR待John确认"
         },
         {
-          "id": "V4",
-          "price": 16.5,
-          "name": {
-            "zh": "粉果",
-            "fr": "Fun Gor",
-            "en": "Fun Gor Dumplings",
-            "es": "Empanadillas Fun Gor"
-          }
-        },
-        {
-          "id": "V5",
-          "price": 19.5,
+          "id": "DS04",
+          "price": 18.5,
           "name": {
             "zh": "点心拼盘",
-            "fr": "Assortiment Dim Sum",
-            "en": "Dim Sum Platter",
-            "es": "Surtido de Dim Sum"
-          },
-          "image_url": "/dragons-elysees/menu/items/V5.webp"
+            "fr": "Assortiment à la vapeur (6ps)",
+            "en": "Steamed assortment",
+            "es": ""
+          }
         },
         {
-          "id": "V6",
-          "price": 16.5,
+          "id": "DS05",
+          "price": 12.5,
           "name": {
             "zh": "鸡冠饺",
-            "fr": "Raviolis crête de coq",
-            "en": "Crested Dumplings",
-            "es": "Empanadillas Crestadas"
+            "fr": "Raviolis au poulet (4ps)",
+            "en": "Chicken dumplings",
+            "es": ""
           },
-          "image_url": "/dragons-elysees/menu/items/V6.webp"
+          "ocr_note": "中文名OCR待John确认"
         },
         {
-          "id": "V7",
-          "price": 16.5,
-          "name": {
-            "zh": "金不换鸡饺",
-            "fr": "Raviolis poulet basilic",
-            "en": "Chicken & Basil Dumplings",
-            "es": "Empanadillas de Pollo y Albahaca"
-          }
-        },
-        {
-          "id": "V8",
-          "price": 15,
+          "id": "DS06",
+          "price": 9.5,
           "name": {
             "zh": "素饺",
-            "fr": "Raviolis végétariens",
-            "en": "Vegetable Dumplings",
-            "es": "Empanadillas Vegetarianas"
+            "fr": "Raviolis cantonnais aux légumes (4ps)",
+            "en": "Cantonese dumplings with vegetables",
+            "es": ""
           }
         },
         {
-          "id": "V9",
-          "price": 18.5,
-          "name": {
-            "zh": "鱼饺",
-            "fr": "Raviolis au poisson",
-            "en": "Fish Dumplings",
-            "es": "Empanadillas de Pescado"
-          }
-        },
-        {
-          "id": "V10",
-          "price": 16.5,
+          "id": "DS07",
+          "price": 12.5,
           "name": {
             "zh": "锅贴",
-            "fr": "Gyoza grillés",
-            "en": "Pan-fried Gyoza",
-            "es": "Gyoza a la Plancha"
-          },
-          "image_url": "/dragons-elysees/menu/items/V10.webp"
-        },
-        {
-          "id": "V11",
-          "price": 16.5,
-          "name": {
-            "zh": "鸡肉小笼包",
-            "fr": "Xiao Long Bao poulet",
-            "en": "Chicken Xiao Long Bao",
-            "es": "Xiao Long Bao de Pollo"
+            "fr": "Raviolis pékinois grillés au poulet (4ps)",
+            "en": "Grilled pekinese dumplings",
+            "es": ""
           }
         },
         {
-          "id": "V12",
-          "price": 16.5,
+          "id": "DS08",
+          "price": 13.5,
+          "name": {
+            "zh": "素小笼包",
+            "fr": "Bao grillés aux légumes (4ps)",
+            "en": "Grilled buns with vegetables",
+            "es": ""
+          }
+        },
+        {
+          "id": "DS09",
+          "price": 14.5,
           "name": {
             "zh": "香煎鸡肉小笼包",
-            "fr": "Xiao Long Bao grillé",
-            "en": "Pan-fried Xiao Long Bao",
-            "es": "Xiao Long Bao a la Plancha"
-          },
-          "image_url": "/dragons-elysees/menu/items/V12.webp"
-        },
-        {
-          "id": "V13",
-          "price": 18.5,
-          "name": {
-            "zh": "糯米鸡",
-            "fr": "Riz gluant au poulet",
-            "en": "Sticky Rice with Chicken",
-            "es": "Arroz Glutinoso con Pollo"
-          }
-        },
-        {
-          "id": "V14",
-          "price": 15,
-          "name": {
-            "zh": "越式肠粉",
-            "fr": "Bánh cuốn",
-            "en": "Vietnamese Bánh Cuốn",
-            "es": "Bánh Cuốn Vietnamita"
+            "fr": "Bao grillés au poulet (4ps)",
+            "en": "Grilled chicken buns",
+            "es": ""
           }
         }
       ],
@@ -898,8 +824,7 @@
         "fr": "Dim Sum",
         "en": "Dim Sum",
         "es": "Dim Sum"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "fried",
@@ -907,78 +832,64 @@
       "cover": "/dragons-elysees/menu/cover/fried.webp",
       "items": [
         {
-          "id": "F1",
-          "price": 15,
+          "id": "FR01",
+          "price": 13.5,
           "name": {
             "zh": "鸡春卷",
-            "fr": "Nems au poulet",
-            "en": "Chicken Spring Rolls",
-            "es": "Rollitos de Pollo"
-          },
-          "image_url": "/dragons-elysees/menu/items/F1.webp"
-        },
-        {
-          "id": "F2",
-          "price": 16.5,
-          "name": {
-            "zh": "虾春卷",
-            "fr": "Nems aux crevettes",
-            "en": "Shrimp Spring Rolls",
-            "es": "Rollitos de Gambas"
-          },
-          "image_url": "/dragons-elysees/menu/items/F2.webp"
-        },
-        {
-          "id": "F3",
-          "price": 16.5,
-          "name": {
-            "zh": "龙虾饺",
-            "fr": "Raviolis au homard frits",
-            "en": "Fried Lobster Dumplings",
-            "es": "Empanadillas Fritas de Bogavante"
-          },
-          "image_url": "/dragons-elysees/menu/items/F3.webp"
-        },
-        {
-          "id": "F4",
-          "price": 18,
-          "name": {
-            "zh": "炸虾",
-            "fr": "Crevettes frites",
-            "en": "Fried Prawns",
-            "es": "Gambas Fritas"
-          },
-          "image_url": "/dragons-elysees/menu/items/F4.webp"
-        },
-        {
-          "id": "F5",
-          "price": 18,
-          "name": {
-            "zh": "鱼多士",
-            "fr": "Toasts au poisson",
-            "en": "Fish Toast",
-            "es": "Tostadas de Pescado"
+            "fr": "Pâté impérial (nems au poulet) (4ps)",
+            "en": "Chicken spring rolls",
+            "es": ""
           }
         },
         {
-          "id": "F6",
-          "price": 18,
+          "id": "FR02",
+          "price": 15,
           "name": {
-            "zh": "虾多士",
-            "fr": "Toasts aux crevettes",
-            "en": "Shrimp Toast",
-            "es": "Tostadas de Gambas"
-          },
-          "image_url": "/dragons-elysees/menu/items/F6.webp"
+            "zh": "虾春卷",
+            "fr": "Pâté impérial (nems aux crevettes) (4ps)",
+            "en": "Shrimp spring rolls",
+            "es": ""
+          }
         },
         {
-          "id": "F7",
-          "price": 26.5,
+          "id": "FR03",
+          "price": 16,
           "name": {
-            "zh": "百花蟹钳（两件）",
-            "fr": "Pinces de crabe farcies (2 pcs)",
-            "en": "Stuffed Crab Claws (2 pcs)",
-            "es": "Pinzas de Cangrejo Rellenas (2 uds)"
+            "zh": "龙虾饺",
+            "fr": "Raviolis feuilletés aux crevettes (4ps)",
+            "en": "Fried crisps shrimp dumplings",
+            "es": ""
+          },
+          "ocr_note": "法/英=crevettes/shrimp(虾)但中文OCR像龙虾,菜名矛盾,待John确认"
+        },
+        {
+          "id": "FR04",
+          "price": 16,
+          "name": {
+            "zh": "炸虾",
+            "fr": "Beignets aux crevettes (4ps)",
+            "en": "Fried shrimps",
+            "es": ""
+          }
+        },
+        {
+          "id": "FR05",
+          "price": 19.5,
+          "name": {
+            "zh": "炸杂点",
+            "fr": "Assortiment de friture (6ps)",
+            "en": "Fried assortment",
+            "es": ""
+          }
+        },
+        {
+          "id": "FR06",
+          "price": 15,
+          "name": {
+            "zh": "虾多士",
+            "fr": "Toasts aux crevettes du chef (4ps)",
+            "en": "Chief's shrimp toasts",
+            "es": ""
           }
         }
       ],
@@ -987,8 +898,7 @@
         "fr": "Fritures",
         "en": "Fried Specialties",
         "es": "Frituras"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "seafood",
@@ -996,135 +906,93 @@
       "cover": "/dragons-elysees/menu/cover/seafood.webp",
       "items": [
         {
-          "id": "C1",
-          "price": 35,
+          "id": "SF01",
+          "price": 30,
           "name": {
             "zh": "干烧虾",
-            "fr": "Crevettes sautées piquantes",
-            "en": "Spicy Sautéed Prawns",
-            "es": "Gambas Salteadas Picantes"
-          },
-          "image_url": "/dragons-elysees/menu/items/C1.webp"
+            "fr": "Crevettes sautées à la sauce piquante (pimenté)",
+            "en": "Shrimps with spicy sauce",
+            "es": ""
+          }
         },
         {
-          "id": "C2",
-          "price": 37,
+          "id": "SF02",
+          "price": 32,
           "name": {
             "zh": "椒盐明虾",
-            "fr": "Gambas sel et poivre",
-            "en": "Salt & Pepper Gambas",
-            "es": "Gambas a la Sal y Pimienta"
-          },
-          "image_url": "/dragons-elysees/menu/items/C2.webp"
+            "fr": "Grosses crevettes au sel et poivre (pimenté)",
+            "en": "Shrimps with salt and pepper (spicy)",
+            "es": ""
+          }
         },
         {
-          "id": "C3",
+          "id": "SF03",
           "price": 35,
           "name": {
-            "zh": "咕咾虾",
-            "fr": "Crevettes aigre-douce",
-            "en": "Sweet & Sour Prawns",
-            "es": "Gambas Agridulces"
+            "zh": "铁板姜葱明虾",
+            "fr": "Grosses crevettes au gingembre et ciboulette sur plaque chauffante",
+            "en": "Shrimps with ginger and chives on hot plate",
+            "es": ""
           }
         },
         {
-          "id": "C4",
-          "price": 37,
-          "name": {
-            "zh": "铁板姜葱明虾",
-            "fr": "Gambas gingembre ciboule",
-            "en": "Ginger Scallion Gambas",
-            "es": "Gambas con Jengibre y Cebollino"
-          },
-          "image_url": "/dragons-elysees/menu/items/C4.webp"
-        },
-        {
-          "id": "C5",
-          "price": 37,
+          "id": "SF04",
+          "price": 35,
           "name": {
             "zh": "鲜菠萝腰果虾",
-            "fr": "Crevettes ananas cajou",
-            "en": "Pineapple Cashew Prawns",
-            "es": "Gambas con Piña y Anacardos"
-          },
-          "image_url": "/dragons-elysees/menu/items/C5.webp"
-        },
-        {
-          "id": "C6",
-          "price": 37,
-          "name": {
-            "zh": "豉汁蒸明虾",
-            "fr": "Gambas vapeur sauce soja",
-            "en": "Steamed Gambas in Soy Sauce",
-            "es": "Gambas al Vapor con Soja"
+            "fr": "Grosses crevettes sautées à l'ananas frais et noix de cajou",
+            "en": "Sauteed shrimps with fresh pineapple and cashew nuts",
+            "es": ""
           }
         },
         {
-          "id": "C7",
-          "price": 37,
+          "id": "SF05",
+          "price": 33,
           "name": {
-            "zh": "干烧蟹钳",
-            "fr": "Pinces de crabe sautées",
-            "en": "Spicy Crab Claws",
-            "es": "Pinzas de Cangrejo Picantes"
+            "zh": "芦笋虾",
+            "fr": "Grosses crevettes sautées aux asperges",
+            "en": "Sauteed shrimps with asparagus",
+            "es": ""
           }
         },
         {
-          "id": "C8",
-          "price": 37,
+          "id": "SF06",
+          "price": 28,
           "name": {
-            "zh": "椒盐蟹钳",
-            "fr": "Pinces de crabe sel poivre",
-            "en": "Salt & Pepper Crab Claws",
-            "es": "Pinzas de Cangrejo a la Sal y Pimienta"
+            "zh": "XO酱炒鱿鱼",
+            "fr": "Calmars sautées à la sauce XO",
+            "en": "Stir-fried squids with XO sauce",
+            "es": ""
           }
         },
         {
-          "id": "C9",
+          "id": "SF07",
           "price": 28,
           "name": {
             "zh": "椒盐鲜鱿鱼",
-            "fr": "Calamars sel et poivre",
-            "en": "Salt & Pepper Squid",
-            "es": "Calamares a la Sal y Pimienta"
-          },
-          "image_url": "/dragons-elysees/menu/items/C9.webp"
-        },
-        {
-          "id": "C10",
-          "price": 33,
-          "name": {
-            "zh": "椒盐田鸡腿",
-            "fr": "Cuisses de grenouille sel poivre",
-            "en": "Salt & Pepper Frog Legs",
-            "es": "Ancas de Rana a la Sal y Pimienta"
-          },
-          "image_url": "/dragons-elysees/menu/items/C10.webp"
-        },
-        {
-          "id": "C11",
-          "price": 35,
-          "name": {
-            "zh": "椒盐软壳蟹",
-            "fr": "Crabe mou sel et poivre",
-            "en": "Salt & Pepper Soft Shell Crab",
-            "es": "Cangrejo de Caparazón Blando a la Sal"
+            "fr": "Calamars au sel et poivre (épicé)",
+            "en": "Squids with salt and pepper (spicy)",
+            "es": ""
           }
         },
         {
-          "id": "C12",
-          "price": 108,
+          "id": "SF08",
+          "price": 33,
           "name": {
-            "zh": "龙虾",
-            "fr": "Homard",
-            "en": "Lobster",
-            "es": "Bogavante"
-          },
-          "note": {
-            "zh": "姜葱/椒盐/干烧",
-            "fr": "Gingembre/Sel-poivre/Piquant",
-            "en": "Ginger-Scallion / Salt-Pepper / Spicy",
-            "es": "Jengibre-Cebollino / Sal-Pimienta / Picante"
+            "zh": "椒盐田鸡腿",
+            "fr": "Cuisses de grenouilles au sel et poivre (épicé)",
+            "en": "Frog legs with salt and pepper (spicy)",
+            "es": ""
+          }
+        },
+        {
+          "id": "SF09",
+          "price": 88,
+          "name": {
+            "zh": "龙虾(姜葱/椒盐/干烧)",
+            "fr": "Homard (gingembre et ciboulette / sel et poivre / à la sauce piquante)",
+            "en": "Lobster (ginger & chives / salt & pepper / spicy sauce)",
+            "es": ""
           }
         }
       ],
@@ -1133,8 +1001,7 @@
         "fr": "Fruits de Mer",
         "en": "Seafood",
         "es": "Mariscos"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "meat",
@@ -1142,153 +1009,138 @@
       "cover": "/dragons-elysees/menu/cover/meat.webp",
       "items": [
         {
-          "id": "M1",
-          "price": 28,
+          "id": "MT01",
+          "price": 24,
           "name": {
             "zh": "宫保鸡",
-            "fr": "Poulet Kung Pao",
-            "en": "Kung Pao Chicken",
-            "es": "Pollo Kung Pao"
-          },
-          "image_url": "/dragons-elysees/menu/items/M1.webp"
+            "fr": "Poulet sauté à la sauce piquante (pimenté)",
+            "en": "Chicken with spicy sauce",
+            "es": ""
+          }
         },
         {
-          "id": "M2",
-          "price": 28,
+          "id": "MT02",
+          "price": 22,
           "name": {
-            "zh": "咕咾鸡",
-            "fr": "Poulet aigre-doux",
-            "en": "Sweet & Sour Chicken",
-            "es": "Pollo Agridulce"
-          },
-          "image_url": "/dragons-elysees/menu/items/M2.webp"
+            "zh": "咕噜鸡",
+            "fr": "Poulet à la sauce aigre-douce",
+            "en": "Sweet and sour chicken",
+            "es": ""
+          }
         },
         {
-          "id": "M3",
-          "price": 28,
+          "id": "MT03",
+          "price": 24,
           "name": {
             "zh": "拔丝鸡",
             "fr": "Poulet caramélisé",
-            "en": "Caramelized Chicken",
-            "es": "Pollo Caramelizado"
-          },
-          "image_url": "/dragons-elysees/menu/items/M3.webp"
+            "en": "Caramelised chicken",
+            "es": ""
+          }
         },
         {
-          "id": "M4",
-          "price": 28,
+          "id": "MT04",
+          "price": 20,
           "name": {
             "zh": "油淋鸡",
-            "fr": "Poulet croustillant",
-            "en": "Crispy Chicken",
-            "es": "Pollo Crujiente"
-          },
-          "image_url": "/dragons-elysees/menu/items/M4.webp"
+            "fr": "Poulet croustillant du chef",
+            "en": "Chief's crispy chicken",
+            "es": ""
+          }
         },
         {
-          "id": "M5",
-          "price": 35,
+          "id": "MT05",
+          "price": 29,
           "name": {
             "zh": "铁板洋葱牛柳",
-            "fr": "Bœuf plancha oignons",
-            "en": "Sizzling Beef with Onions",
-            "es": "Ternera a la Plancha con Cebolla"
-          },
-          "image_url": "/dragons-elysees/menu/items/M5.webp"
+            "fr": "Boeuf aux oignons sur plaque chauffante",
+            "en": "Beef with onions on hot plate",
+            "es": ""
+          }
         },
         {
-          "id": "M6",
-          "price": 35,
+          "id": "MT06",
+          "price": 37,
           "name": {
             "zh": "铁板宫保牛柳",
-            "fr": "Bœuf Kung Pao plancha",
-            "en": "Kung Pao Beef Sizzling",
-            "es": "Ternera Kung Pao a la Plancha"
-          },
-          "image_url": "/dragons-elysees/menu/items/M6.webp"
-        },
-        {
-          "id": "M7",
-          "price": 35,
-          "name": {
-            "zh": "铁板沙茶牛柳",
-            "fr": "Bœuf satay plancha",
-            "en": "Satay Beef Sizzling",
-            "es": "Ternera Satay a la Plancha"
+            "fr": "Filet de boeuf à la sauce piquante sur plaque chauffante",
+            "en": "Beef fillet with spicy sauce on hot plate",
+            "es": ""
           }
         },
         {
-          "id": "M8",
-          "price": 35,
+          "id": "MT07",
+          "price": 37,
           "name": {
             "zh": "铁板黑椒牛柳",
-            "fr": "Bœuf poivre noir plancha",
-            "en": "Black Pepper Beef Sizzling",
-            "es": "Ternera al Pimiento Negro a la Plancha"
-          },
-          "image_url": "/dragons-elysees/menu/items/M8.webp"
-        },
-        {
-          "id": "M9",
-          "price": 35,
-          "name": {
-            "zh": "铁板姜葱牛柳",
-            "fr": "Bœuf gingembre plancha",
-            "en": "Ginger Scallion Beef",
-            "es": "Ternera con Jengibre y Cebollino"
+            "fr": "Filet de boeuf au poivre noir sur plaque chauffante",
+            "en": "Beef fillet with black pepper on hot plate",
+            "es": ""
           }
         },
         {
-          "id": "M10",
+          "id": "MT08",
           "price": 35,
+          "name": {
+            "zh": "铁板姜葱羊",
+            "fr": "Agneau au gingembre et ciboulette sur plaque chauffante",
+            "en": "Sizzling lamb with ginger and chives on hot plate",
+            "es": ""
+          }
+        },
+        {
+          "id": "MT09",
+          "price": 37,
           "name": {
             "zh": "龙城牛柳",
-            "fr": "Bœuf Dragons Elysées",
-            "en": "Dragons Elysées Beef",
-            "es": "Ternera Dragons Elysées"
-          },
-          "image_url": "/dragons-elysees/menu/items/M10.webp"
-        },
-        {
-          "id": "M11",
-          "price": 35,
-          "name": {
-            "zh": "泰式牛柳",
-            "fr": "Bœuf thaï",
-            "en": "Thai Beef",
-            "es": "Ternera Tailandesa"
+            "fr": "Filet de boeuf du chef",
+            "en": "Chief's beef fillet",
+            "es": ""
           }
         },
         {
-          "id": "M12",
-          "price": 45,
+          "id": "MT10",
+          "price": 48,
           "name": {
-            "zh": "广东烧鸭",
-            "fr": "Canard rôti cantonais (demi)",
-            "en": "Cantonese Roast Duck (Half)",
-            "es": "Pato Asado Cantonés (Medio)"
-          },
-          "image_url": "/dragons-elysees/menu/items/M12.webp"
-        },
-        {
-          "id": "M13a",
-          "price": 135,
-          "name": {
-            "zh": "北京片皮鸭（整只）",
-            "fr": "Canard laqué pékinois (entier)",
-            "en": "Peking Duck (Whole)",
-            "es": "Pato Pekinés (Entero)"
+            "zh": "广东烧鸭(半只去骨)",
+            "fr": "Canard laqué à la cantonnaise (demi-pièce désossée)",
+            "en": "Cantonese roasted duck (boneless half piece)",
+            "es": ""
           }
         },
         {
-          "id": "M13b",
+          "id": "MT11",
+          "price": 128,
+          "name": {
+            "zh": "北京片皮鸭(整只)",
+            "fr": "Canard laqué à la pékinoise (entier)",
+            "en": "Peking roast duck (whole)",
+            "es": ""
+          },
+          "note": {
+            "zh": "分两道上:片皮配米饼、切肉。配菜:蔬菜炒饭。",
+            "fr": "Servi en 2 services (peau avec galettes de riz, puis viande tranchée). Accompagnement : riz sauté aux légumes.",
+            "en": "Served in 2 courses (skin with rice pancakes, then sliced meat). Side: vegetable fried rice.",
+            "es": ""
+          },
+          "note_fr": "Servi en 2 services (peau avec galettes de riz, puis viande tranchée). Accompagnement : riz sauté aux légumes."
+        },
+        {
+          "id": "MT12",
           "price": 68,
           "name": {
-            "zh": "北京片皮鸭（半只）",
-            "fr": "Canard laqué pékinois (demi)",
-            "en": "Peking Duck (Half)",
-            "es": "Pato Pekinés (Medio)"
-          }
+            "zh": "北京片皮鸭(半只)",
+            "fr": "Canard laqué à la pékinoise (demi)",
+            "en": "Peking roast duck (half)",
+            "es": ""
+          },
+          "note": {
+            "zh": "分两道上:片皮配米饼、切肉。配菜:蔬菜炒饭。",
+            "fr": "Servi en 2 services (peau avec galettes de riz, puis viande tranchée). Accompagnement : riz sauté aux légumes.",
+            "en": "Served in 2 courses (skin with rice pancakes, then sliced meat). Side: vegetable fried rice.",
+            "es": ""
+          },
+          "note_fr": "Servi en 2 services (peau avec galettes de riz, puis viande tranchée). Accompagnement : riz sauté aux légumes."
         }
       ],
       "name": {
@@ -1296,8 +1148,7 @@
         "fr": "Viandes",
         "en": "Meat Dishes",
         "es": "Carnes"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "fish",
@@ -1305,132 +1156,93 @@
       "cover": "/dragons-elysees/menu/cover/fish.webp",
       "items": [
         {
-          "id": "P1",
+          "id": "FH01",
           "price": 40,
           "name": {
             "zh": "清蒸鲈鱼",
-            "fr": "Bar vapeur",
-            "en": "Steamed Sea Bass",
-            "es": "Lubina al Vapor"
-          },
-          "image_url": "/dragons-elysees/menu/items/P1.webp"
+            "fr": "Filets de bar à la vapeur (sauce soja)",
+            "en": "Steamed bar fish fillets (soy sauce)",
+            "es": ""
+          }
         },
         {
-          "id": "P2",
+          "id": "FH02",
           "price": 40,
           "name": {
             "zh": "泰式煎鲈鱼",
-            "fr": "Bar grillé thaï",
-            "en": "Thai Grilled Sea Bass",
-            "es": "Lubina a la Plancha Tailandesa"
-          },
-          "image_url": "/dragons-elysees/menu/items/P2.webp"
-        },
-        {
-          "id": "P3",
-          "price": 40,
-          "name": {
-            "zh": "干烧鲷鱼",
-            "fr": "Daurade sautée piquante",
-            "en": "Spicy Sautéed Sea Bream",
-            "es": "Dorada Salteada Picante"
-          },
-          "image_url": "/dragons-elysees/menu/items/P3.webp"
-        },
-        {
-          "id": "P4",
-          "price": 43,
-          "name": {
-            "zh": "清蒸龙利鱼",
-            "fr": "Sole vapeur",
-            "en": "Steamed Sole",
-            "es": "Lenguado al Vapor"
+            "fr": "Filets de bar grillés (sauce thaï)",
+            "en": "Grilled bar fish fillets (thai sauce)",
+            "es": ""
           }
         },
         {
-          "id": "P5",
-          "price": 43,
+          "id": "FH03",
+          "price": 36,
+          "name": {
+            "zh": "干烧鲷鱼(整条)",
+            "fr": "Daurade royale à la sauce piquante (pimenté) - pièce complète",
+            "en": "Sea bream cooked with spicy (whole piece)",
+            "es": ""
+          }
+        },
+        {
+          "id": "FH04",
+          "price": 40,
           "name": {
             "zh": "椒盐龙利鱼",
-            "fr": "Sole sel et poivre",
-            "en": "Salt & Pepper Sole",
-            "es": "Lenguado a la Sal y Pimienta"
-          },
-          "image_url": "/dragons-elysees/menu/items/P5.webp"
+            "fr": "Sole au sel et au poivre (épicé)",
+            "en": "Sole fish with salt and pepper (spicy)",
+            "es": ""
+          }
         },
         {
-          "id": "P6",
-          "price": 43,
+          "id": "FH05",
+          "price": 40,
           "name": {
             "zh": "黑椒龙利鱼",
-            "fr": "Sole poivre noir",
-            "en": "Black Pepper Sole",
-            "es": "Lenguado al Pimiento Negro"
-          },
-          "image_url": "/dragons-elysees/menu/items/P6.webp"
+            "fr": "Sole à la sauce au poivre",
+            "en": "Sole fish with pepper sauce",
+            "es": ""
+          }
         },
         {
-          "id": "P7",
-          "price": 43,
+          "id": "FH06",
+          "price": 40,
           "name": {
             "zh": "拔丝龙利鱼",
             "fr": "Sole caramélisée",
-            "en": "Caramelized Sole",
-            "es": "Lenguado Caramelizado"
-          },
-          "image_url": "/dragons-elysees/menu/items/P7.webp"
-        },
-        {
-          "id": "P8",
-          "price": 43,
-          "name": {
-            "zh": "糖醋龙利鱼",
-            "fr": "Sole aigre-douce",
-            "en": "Sweet & Sour Sole",
-            "es": "Lenguado Agridulce"
+            "en": "Caramelised sole fish",
+            "es": ""
           }
         },
         {
-          "id": "P9",
-          "price": 128,
-          "name": {
-            "zh": "多宝鱼（清蒸/椒盐）",
-            "fr": "Turbot (vapeur/sel-poivre)",
-            "en": "Turbot (Steamed/Salt-Pepper)",
-            "es": "Rodaballo (Vapor/Sal-Pimienta)"
-          }
-        },
-        {
-          "id": "P10",
+          "id": "FH07",
           "price": 36,
           "name": {
-            "zh": "清蒸扇贝（4只）",
-            "fr": "St-Jacques vapeur (4 pcs)",
-            "en": "Steamed Scallops (4 pcs)",
-            "es": "Vieiras al Vapor (4 uds)"
-          },
-          "image_url": "/dragons-elysees/menu/items/P10.webp"
+            "zh": "清蒸扇贝(4只)",
+            "fr": "Coquilles St-Jacques fraîches à la vapeur (4ps)",
+            "en": "Steam-cooked scallop",
+            "es": ""
+          }
         },
         {
-          "id": "P11",
+          "id": "FH08",
           "price": 36,
           "name": {
             "zh": "干烧干贝",
-            "fr": "St-Jacques sautées piquantes",
-            "en": "Spicy Sautéed Scallops",
-            "es": "Vieiras Salteadas Picantes"
-          },
-          "image_url": "/dragons-elysees/menu/items/P11.webp"
+            "fr": "Coquilles St-Jacques à la sauce piquante",
+            "en": "Scallops with spicy sauce",
+            "es": ""
+          }
         },
         {
-          "id": "P12",
+          "id": "FH09",
           "price": 36,
-          "image_url": "/dragons-elysees/menu/items/P12.webp",
           "name": {
             "zh": "椒盐干贝",
-            "fr": "St-Jacques sel et poivre",
-            "en": "Salt & Pepper Scallops",
-            "es": "Vieiras a la Sal y Pimienta"
+            "fr": "Coquilles St-Jacques au sel et au poivre",
+            "en": "Scallops with salt and pepper",
+            "es": ""
           }
         }
       ],
@@ -1439,8 +1251,7 @@
         "fr": "Poissons",
         "en": "Fish",
         "es": "Pescados"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "thai-soups",
@@ -1448,87 +1259,43 @@
       "cover": "/dragons-elysees/menu/cover/thai-soups.webp",
       "items": [
         {
-          "id": "T201",
-          "price": 20,
-          "name": {
-            "zh": "冬阴功海鲜汤",
-            "fr": "Tom Yum fruits de mer",
-            "en": "Tom Yum Seafood",
-            "es": "Tom Yum de Mariscos"
-          }
-        },
-        {
-          "id": "T202",
-          "price": 18,
-          "name": {
-            "zh": "冬阴功虾汤",
-            "fr": "Tom Yum crevettes",
-            "en": "Tom Yum Goong (Prawns)",
-            "es": "Tom Yum de Gambas"
-          },
-          "image_url": "/dragons-elysees/menu/items/T202.webp"
-        },
-        {
-          "id": "T203",
+          "id": "TS01",
           "price": 16,
           "name": {
-            "zh": "椰汁鸡汤",
-            "fr": "Tom Kha Kai",
-            "en": "Tom Kha Gai",
-            "es": "Tom Kha Gai (Pollo y Coco)"
-          },
-          "image_url": "/dragons-elysees/menu/items/T203.webp"
-        },
-        {
-          "id": "T204",
-          "price": 18,
-          "name": {
-            "zh": "椰汁虾汤",
-            "fr": "Tom Kha crevettes",
-            "en": "Tom Kha with Prawns",
-            "es": "Tom Kha de Gambas"
+            "zh": "冬阴功虾汤",
+            "fr": "Soupe Tom Yam aux crevettes à la citronnelle (piquant)",
+            "en": "Shrimps tom yam soup Thai style with citronella",
+            "es": ""
           }
         },
         {
-          "id": "T205",
+          "id": "TS02",
+          "price": 14.5,
+          "name": {
+            "zh": "椰汁鸡汤",
+            "fr": "Soupe Tom Yam de poulet au lait de coco",
+            "en": "Chicken tom yam soup with coconut milk",
+            "es": ""
+          }
+        },
+        {
+          "id": "TS03",
           "price": 18,
           "name": {
             "zh": "泰式牛沙拉",
-            "fr": "Salade thaï bœuf",
-            "en": "Thai Beef Salad",
-            "es": "Ensalada Tailandesa de Ternera"
-          },
-          "image_url": "/dragons-elysees/menu/items/T205.webp"
-        },
-        {
-          "id": "T206",
-          "price": 18,
-          "name": {
-            "zh": "泰式芒果虾沙拉",
-            "fr": "Salade mangue crevettes",
-            "en": "Mango Prawn Salad",
-            "es": "Ensalada de Mango y Gambas"
-          },
-          "image_url": "/dragons-elysees/menu/items/T206.webp"
-        },
-        {
-          "id": "T207",
-          "price": 23,
-          "name": {
-            "zh": "泰式鲜菠萝海鲜沙拉",
-            "fr": "Salade ananas fruits de mer",
-            "en": "Pineapple Seafood Salad",
-            "es": "Ensalada de Piña y Mariscos"
+            "fr": "Salade de boeuf à la citronnelle",
+            "en": "Beef salad with citronella Thai style",
+            "es": ""
           }
         },
         {
-          "id": "T208",
-          "price": 16.5,
+          "id": "TS04",
+          "price": 18,
           "name": {
-            "zh": "泰式虾春卷",
-            "fr": "Nems thaï crevettes",
-            "en": "Thai Shrimp Spring Rolls",
-            "es": "Rollitos Tailandeses de Gambas"
+            "zh": "泰式虾沙拉",
+            "fr": "Salade de crevettes à la citronnelle",
+            "en": "Shrimps salad with citronella Thai style",
+            "es": ""
           }
         }
       ],
@@ -1537,8 +1304,7 @@
         "fr": "Thaï — Soupes & Salades",
         "en": "Thai — Soups & Salads",
         "es": "Tailandés — Sopas y Ensaladas"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "thai-mains",
@@ -1546,140 +1312,93 @@
       "cover": "/dragons-elysees/menu/cover/thai-mains.webp",
       "items": [
         {
-          "id": "T218",
+          "id": "TM01",
           "price": 18,
           "name": {
-            "zh": "串烧鸡（3件）",
-            "fr": "Brochettes poulet (3 pcs)",
-            "en": "Chicken Skewers (3 pcs)",
-            "es": "Brochetas de Pollo (3 uds)"
-          },
-          "image_url": "/dragons-elysees/menu/items/T218.webp"
+            "zh": "串烧鸡",
+            "fr": "Brochettes de poulet grillées au saté (3ps)",
+            "en": "Chicken skewers grilled with satay",
+            "es": ""
+          }
         },
         {
-          "id": "T219",
+          "id": "TM02",
           "price": 20,
           "name": {
-            "zh": "串烧牛（3件）",
-            "fr": "Brochettes bœuf (3 pcs)",
-            "en": "Beef Skewers (3 pcs)",
-            "es": "Brochetas de Ternera (3 uds)"
-          },
-          "image_url": "/dragons-elysees/menu/items/T219.webp"
+            "zh": "串烧牛",
+            "fr": "Brochettes de boeuf grillées au saté (3ps)",
+            "en": "Beef skewers grilled with satay",
+            "es": ""
+          }
         },
         {
-          "id": "T220",
+          "id": "TM03",
           "price": 25,
           "name": {
-            "zh": "串烧拼盘（4件）",
-            "fr": "Assortiment brochettes (4 pcs)",
-            "en": "Mixed Skewers (4 pcs)",
-            "es": "Brochetas Variadas (4 uds)"
-          },
-          "image_url": "/dragons-elysees/menu/items/T220.webp"
+            "zh": "串烧拼盘",
+            "fr": "Assortiment de brochettes (4ps)",
+            "en": "Assorted skewers",
+            "es": ""
+          }
         },
         {
-          "id": "T221",
-          "price": 28,
+          "id": "TM04",
+          "price": 24,
           "name": {
             "zh": "咖喱鸡",
-            "fr": "Curry de poulet",
-            "en": "Chicken Curry",
-            "es": "Curry de Pollo"
+            "fr": "Poulet au curry thaï",
+            "en": "Thai chicken curry",
+            "es": ""
           }
         },
         {
-          "id": "T222",
-          "price": 28,
+          "id": "TM05",
+          "price": 24,
           "name": {
             "zh": "香茅鸡",
-            "fr": "Poulet citronnelle",
-            "en": "Lemongrass Chicken",
-            "es": "Pollo a la Hierba Limón"
-          },
-          "image_url": "/dragons-elysees/menu/items/T222.webp"
+            "fr": "Poulet grillé à la citronnelle",
+            "en": "Grilled chicken with citronella",
+            "es": ""
+          }
         },
         {
-          "id": "T223",
-          "price": 29,
+          "id": "TM06",
+          "price": 26,
           "name": {
             "zh": "铁板金不换鸡",
-            "fr": "Poulet basilic plancha",
-            "en": "Basil Chicken Sizzling",
-            "es": "Pollo a la Albahaca a la Plancha"
+            "fr": "Poulet sauté au basilic sur plaque chauffante",
+            "en": "Sauteed chicken with basil on hot plate",
+            "es": ""
           }
         },
         {
-          "id": "T224",
-          "price": 32,
-          "name": {
-            "zh": "铁板金不换鸭",
-            "fr": "Canard basilic plancha",
-            "en": "Basil Duck Sizzling",
-            "es": "Pato a la Albahaca a la Plancha"
-          },
-          "image_url": "/dragons-elysees/menu/items/T224.webp"
-        },
-        {
-          "id": "T225",
-          "price": 33,
-          "name": {
-            "zh": "铁板金不换田鸡腿",
-            "fr": "Grenouille basilic plancha",
-            "en": "Basil Frog Legs Sizzling",
-            "es": "Ancas de Rana a la Albahaca a la Plancha"
-          }
-        },
-        {
-          "id": "T226",
-          "price": 37,
-          "name": {
-            "zh": "铁板金不换虾",
-            "fr": "Crevettes basilic plancha",
-            "en": "Basil Prawns Sizzling",
-            "es": "Gambas a la Albahaca a la Plancha"
-          },
-          "image_url": "/dragons-elysees/menu/items/T226.webp"
-        },
-        {
-          "id": "T227",
+          "id": "TM07",
           "price": 35,
           "name": {
-            "zh": "铁板金不换牛",
-            "fr": "Bœuf basilic plancha",
-            "en": "Basil Beef Sizzling",
-            "es": "Ternera a la Albahaca a la Plancha"
-          },
-          "image_url": "/dragons-elysees/menu/items/T227.webp"
+            "zh": "铁板金不换虾",
+            "fr": "Crevettes sautées au basilic sur plaque chauffante",
+            "en": "Sauteed shrimps with basil on hot plate",
+            "es": ""
+          }
         },
         {
-          "id": "T228",
+          "id": "TM08",
+          "price": 37,
+          "name": {
+            "zh": "铁板金不换牛",
+            "fr": "Filet de boeuf sautées au basilic sur plaque chauffante",
+            "en": "Sauteed beef with basil on hot plate",
+            "es": ""
+          }
+        },
+        {
+          "id": "TM09",
           "price": 36,
           "name": {
             "zh": "铁板金不换干贝",
-            "fr": "St-Jacques basilic plancha",
-            "en": "Basil Scallops Sizzling",
-            "es": "Vieiras a la Albahaca a la Plancha"
-          }
-        },
-        {
-          "id": "T229",
-          "price": 36,
-          "name": {
-            "zh": "咖喱干贝",
-            "fr": "Curry de St-Jacques",
-            "en": "Scallop Curry",
-            "es": "Curry de Vieiras"
-          }
-        },
-        {
-          "id": "T230",
-          "price": 38,
-          "name": {
-            "zh": "串烧龙利鱼",
-            "fr": "Brochettes de sole",
-            "en": "Sole Skewers",
-            "es": "Brochetas de Lenguado"
+            "fr": "Coquilles St-Jacques sautées au basilic sur plaque chauffante",
+            "en": "Sauteed scallops with basil on hot plate",
+            "es": ""
           }
         }
       ],
@@ -1688,8 +1407,7 @@
         "fr": "Thaï — Plats Principaux",
         "en": "Thai — Main Dishes",
         "es": "Tailandés — Platos Principales"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "vegetarian",
@@ -1697,154 +1415,113 @@
       "cover": "/dragons-elysees/menu/cover/vegetarian.webp",
       "items": [
         {
-          "id": "A1",
-          "price": 16.5,
+          "id": "VG01",
+          "price": 10.5,
           "name": {
-            "zh": "粉丝菜汤",
-            "fr": "Soupe vermicelles légumes",
-            "en": "Vegetable Vermicelli Soup",
-            "es": "Sopa de Verduras y Fideos"
+            "zh": "什锦素菜汤",
+            "fr": "Soupe aux légumes mélangés",
+            "en": "Soup with mix vegetables",
+            "es": ""
           }
         },
         {
-          "id": "A2",
-          "price": 16.5,
+          "id": "VG02",
+          "price": 12.5,
           "name": {
-            "zh": "酸辣汤",
-            "fr": "Soupe piquante",
-            "en": "Hot & Sour Soup",
-            "es": "Sopa Agripicante"
+            "zh": "黄瓜沙拉",
+            "fr": "Salade de concombre",
+            "en": "Cucumber salad",
+            "es": ""
           }
         },
         {
-          "id": "A3",
-          "price": 16.5,
+          "id": "VG03",
+          "price": 11.5,
           "name": {
-            "zh": "泰式香茅沙拉",
-            "fr": "Salade citronnelle thaï",
-            "en": "Thai Lemongrass Salad",
-            "es": "Ensalada Tailandesa de Hierba Limón"
+            "zh": "海带沙拉",
+            "fr": "Salade d'algues",
+            "en": "Seaweed salad",
+            "es": ""
           }
         },
         {
-          "id": "A4",
-          "price": 15.5,
+          "id": "VG04",
+          "price": 13.5,
           "name": {
             "zh": "素春卷",
-            "fr": "Nems végétariens",
-            "en": "Vegetable Spring Rolls",
-            "es": "Rollitos Vegetarianos"
-          },
-          "image_url": "/dragons-elysees/menu/items/A4.webp"
-        },
-        {
-          "id": "A5",
-          "price": 15.5,
-          "name": {
-            "zh": "素生春",
-            "fr": "Rouleaux frais végétariens",
-            "en": "Fresh Vegetable Rolls",
-            "es": "Rollitos Frescos Vegetarianos"
+            "fr": "Pâtés impériaux (nems aux légumes)",
+            "en": "Vietnamese fried spring rolls (with vegetables)",
+            "es": ""
           }
         },
         {
-          "id": "A6",
+          "id": "VG05",
           "price": 9.5,
           "name": {
             "zh": "素炒饭",
-            "fr": "Riz sauté végétarien",
-            "en": "Vegetable Fried Rice",
-            "es": "Arroz Salteado Vegetariano"
-          },
-          "image_url": "/dragons-elysees/menu/items/A6.webp"
-        },
-        {
-          "id": "A7",
-          "price": 12,
-          "name": {
-            "zh": "素炒面",
-            "fr": "Nouilles sautées végétariennes",
-            "en": "Vegetable Stir-fried Noodles",
-            "es": "Fideos Salteados Vegetarianos"
+            "fr": "Riz sauté aux légumes",
+            "en": "Fried rice with vegetables",
+            "es": ""
           }
         },
         {
-          "id": "A8",
-          "price": 15.5,
-          "name": {
-            "zh": "越式肠粉",
-            "fr": "Bánh cuốn végétarien",
-            "en": "Vegetarian Bánh Cuốn",
-            "es": "Bánh Cuốn Vegetariano"
-          }
-        },
-        {
-          "id": "A9",
+          "id": "VG06",
           "price": 22,
           "name": {
-            "zh": "罗汉素煲",
-            "fr": "Cassolette bouddha",
-            "en": "Buddha Clay Pot",
-            "es": "Cazuela Buda"
-          },
-          "image_url": "/dragons-elysees/menu/items/A9.webp"
-        },
-        {
-          "id": "A10",
-          "price": 14.5,
-          "name": {
-            "zh": "清炒木耳",
-            "fr": "Champignons noirs sautés",
-            "en": "Stir-fried Black Mushrooms",
-            "es": "Setas Negras Salteadas"
+            "zh": "罗汉斋煲",
+            "fr": "Marmite aux cinq trésors (tofu et légume)",
+            "en": "Braised tofu with assorted vegetables",
+            "es": ""
           }
         },
         {
-          "id": "A11",
+          "id": "VG07",
+          "price": 18,
+          "name": {
+            "zh": "清炒木耳西兰花",
+            "fr": "Champignons noirs et brocolis sautés nature",
+            "en": "Stir-fried black mushrooms and broccoli",
+            "es": ""
+          }
+        },
+        {
+          "id": "VG08",
           "price": 16,
           "name": {
             "zh": "椒盐豆腐",
-            "fr": "Tofu sel et poivre",
-            "en": "Salt & Pepper Tofu",
-            "es": "Tofu a la Sal y Pimienta"
-          },
-          "image_url": "/dragons-elysees/menu/items/A11.webp"
-        },
-        {
-          "id": "A12",
-          "price": 18,
-          "name": {
-            "zh": "麻婆豆腐",
-            "fr": "Mapo Tofu",
-            "en": "Mapo Tofu",
-            "es": "Mapo Tofu"
-          },
-          "image_url": "/dragons-elysees/menu/items/A12.webp"
-        },
-        {
-          "id": "A13",
-          "price": 18,
-          "name": {
-            "zh": "西兰花",
-            "fr": "Brocoli sauté",
-            "en": "Sautéed Broccoli",
-            "es": "Brócoli Salteado"
-          },
-          "note": {
-            "zh": "清炒/蒜蓉",
-            "fr": "Sauté/Ail",
-            "en": "Stir-fried / Garlic",
-            "es": "Salteado / Ajo"
+            "fr": "Tofu sel au poivre",
+            "en": "Tofu fried with salt and pepper",
+            "es": ""
           }
         },
         {
-          "id": "A14",
+          "id": "VG09",
           "price": 18,
           "name": {
-            "zh": "炒时蔬",
-            "fr": "Légumes de saison sautés",
-            "en": "Stir-fried Seasonal Vegetables",
-            "es": "Verduras de Temporada Salteadas"
+            "zh": "麻婆豆腐",
+            "fr": "Tofu mapo à la sichuanese (piquant)",
+            "en": "Sichuan style mapo tofu (spicy)",
+            "es": ""
+          }
+        },
+        {
+          "id": "VG10",
+          "price": 18,
+          "name": {
+            "zh": "干煸豆角",
+            "fr": "Haricots verts sautés aux épices au Sichuan",
+            "en": "Dry-fried green beans with Sichuan spices",
+            "es": ""
+          }
+        },
+        {
+          "id": "VG11",
+          "price": 18,
+          "name": {
+            "zh": "炒时蔬(包菜/菠菜/白菜/上海青)",
+            "fr": "Légumes de saison sauté (choux chinois, épinards, légumes verts)",
+            "en": "Sauteed seasonal vegetables",
+            "es": ""
           }
         }
       ],
@@ -1853,8 +1530,7 @@
         "fr": "Végétarien",
         "en": "Vegetarian",
         "es": "Vegetariano"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "rice-noodles",
@@ -1862,70 +1538,64 @@
       "cover": "/dragons-elysees/menu/cover/rice-noodles.webp",
       "items": [
         {
-          "id": "A15",
-          "price": 6,
+          "id": "RN01",
+          "price": 5,
           "name": {
             "zh": "白饭",
-            "fr": "Riz blanc",
-            "en": "Steamed White Rice",
-            "es": "Arroz Blanco"
-          },
-          "image_url": "/dragons-elysees/menu/items/A15.webp"
+            "fr": "Riz nature",
+            "en": "White rice",
+            "es": ""
+          }
         },
         {
-          "id": "A16",
+          "id": "RN02",
           "price": 8,
           "name": {
             "zh": "糯米饭",
             "fr": "Riz gluant",
-            "en": "Sticky Rice",
-            "es": "Arroz Glutinoso"
-          },
-          "image_url": "/dragons-elysees/menu/items/A16.webp"
+            "en": "Sticky rice",
+            "es": ""
+          }
         },
         {
-          "id": "A17",
+          "id": "RN03",
           "price": 10,
           "name": {
             "zh": "广东炒饭",
-            "fr": "Riz cantonais",
-            "en": "Cantonese Fried Rice",
-            "es": "Arroz Cantonés"
-          },
-          "image_url": "/dragons-elysees/menu/items/A17.webp"
+            "fr": "Riz cantonnais aux crevettes",
+            "en": "Cantonese fried rice",
+            "es": ""
+          }
         },
         {
-          "id": "A18",
+          "id": "RN04",
           "price": 12,
           "name": {
             "zh": "素炒面",
-            "fr": "Nouilles sautées",
-            "en": "Stir-fried Noodles",
-            "es": "Fideos Salteados"
-          },
-          "image_url": "/dragons-elysees/menu/items/A18.webp"
+            "fr": "Nouilles sautées aux légumes",
+            "en": "Sauteed noodles with egg and vegetables",
+            "es": ""
+          }
         },
         {
-          "id": "A19",
+          "id": "RN05",
           "price": 12,
           "name": {
             "zh": "泰式虾炒饭",
-            "fr": "Riz sauté thaï crevettes",
-            "en": "Thai Shrimp Fried Rice",
-            "es": "Arroz Salteado Tailandés con Gambas"
-          },
-          "image_url": "/dragons-elysees/menu/items/A19.webp"
+            "fr": "Riz sauté thaï aux crevettes",
+            "en": "Fried rice with shrimps Thai style",
+            "es": ""
+          }
         },
         {
-          "id": "A20",
+          "id": "RN06",
           "price": 16,
           "name": {
-            "zh": "杂炒",
-            "fr": "Légumes sautés variés",
-            "en": "Mixed Stir-fried Vegetables",
-            "es": "Salteado Variado de Verduras"
-          },
-          "image_url": "/dragons-elysees/menu/items/A20.webp"
+            "zh": "杂炒(五色蔬菜)",
+            "fr": "Légumes variés sautés",
+            "en": "Sauteed vegetables",
+            "es": ""
+          }
         }
       ],
       "name": {
@@ -1933,8 +1603,7 @@
         "fr": "Riz et Nouilles",
         "en": "Rice & Noodles",
         "es": "Arroz y Fideos"
-      },
-      "hidden": true
+      }
     },
     {
       "id": "desserts",
