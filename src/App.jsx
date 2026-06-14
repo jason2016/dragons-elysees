@@ -19,10 +19,13 @@ import AdminPanel from './components/AdminPanel'
 import DeliveryPanel from './components/DeliveryPanel'
 import OrderTrack from './components/OrderTrack'
 import InstallPrompt from './components/InstallPrompt'
+import IntroOverlay from './components/IntroOverlay'
 import { FEATURES } from './config'
 
 export default function App() {
   return (
+    <>
+    <IntroOverlay />
     <HashRouter>
       <OrderTypeProvider>
         <LangProvider>
@@ -36,6 +39,7 @@ export default function App() {
         </LangProvider>
       </OrderTypeProvider>
     </HashRouter>
+    </>
   )
 }
 
