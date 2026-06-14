@@ -630,7 +630,8 @@
             "fr": "Potage au poulet et maïs",
             "en": "Chicken and sweet corn soup",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS01.webp"
         },
         {
           "id": "SS02",
@@ -640,7 +641,8 @@
             "fr": "Potage au crabe et aux asperges",
             "en": "Crab and asparagus soup",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS02.webp"
         },
         {
           "id": "SS03",
@@ -650,7 +652,8 @@
             "fr": "Potage pékinois (épicé)",
             "en": "Pekinese spicy sour soup",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS03.webp"
         },
         {
           "id": "SS04",
@@ -660,7 +663,8 @@
             "fr": "Soupe de raviolis aux crevettes",
             "en": "Chinese dumplings soup with shrimps",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS04.webp"
         },
         {
           "id": "SS05",
@@ -670,7 +674,8 @@
             "fr": "Potage aux ailerons de requin",
             "en": "Shark's fin soup",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS05.webp"
         },
         {
           "id": "SS06",
@@ -680,7 +685,8 @@
             "fr": "Salade au crabe",
             "en": "Crab meat salad",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS06.webp"
         },
         {
           "id": "SS07",
@@ -690,7 +696,8 @@
             "fr": "Salade au poulet",
             "en": "Chicken salad",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS07.webp"
         },
         {
           "id": "SS08",
@@ -700,7 +707,8 @@
             "fr": "Salade aux crevettes",
             "en": "Shrimps salad",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS08.webp"
         },
         {
           "id": "SS09",
@@ -710,7 +718,8 @@
             "fr": "Rouleaux de printemps (aux crevettes) - froid",
             "en": "Vietnamese fresh spring rolls (with shrimps)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SS09.webp"
         }
       ],
       "name": {
@@ -733,7 +742,8 @@
             "fr": "Raviolis aux crevettes (4ps) - Ha Kao",
             "en": "Steamed shrimps dumplings",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/DS01.webp"
         },
         {
           "id": "DS02",
@@ -744,7 +754,8 @@
             "en": "Steamed shrimps balls",
             "es": ""
           },
-          "ocr_note": "中文名OCR待John确认"
+          "ocr_note": "中文名OCR待John确认",
+          "image_url": "/dragons-elysees/menu/items/DS02.webp"
         },
         {
           "id": "DS03",
@@ -755,7 +766,8 @@
             "en": "Steamed scallops balls",
             "es": ""
           },
-          "ocr_note": "中文名OCR待John确认"
+          "ocr_note": "中文名OCR待John确认",
+          "image_url": "/dragons-elysees/menu/items/DS03.webp"
         },
         {
           "id": "DS04",
@@ -765,7 +777,8 @@
             "fr": "Assortiment à la vapeur (6ps)",
             "en": "Steamed assortment",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/DS04.webp"
         },
         {
           "id": "DS05",
@@ -776,7 +789,8 @@
             "en": "Chicken dumplings",
             "es": ""
           },
-          "ocr_note": "中文名OCR待John确认"
+          "ocr_note": "中文名OCR待John确认",
+          "image_url": "/dragons-elysees/menu/items/DS05.webp"
         },
         {
           "id": "DS06",
@@ -786,7 +800,8 @@
             "fr": "Raviolis cantonnais aux légumes (4ps)",
             "en": "Cantonese dumplings with vegetables",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/DS06.webp"
         },
         {
           "id": "DS07",
@@ -796,7 +811,8 @@
             "fr": "Raviolis pékinois grillés au poulet (4ps)",
             "en": "Grilled pekinese dumplings",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/DS07.webp"
         },
         {
           "id": "DS08",
@@ -806,7 +822,8 @@
             "fr": "Bao grillés aux légumes (4ps)",
             "en": "Grilled buns with vegetables",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/DS08.webp"
         },
         {
           "id": "DS09",
@@ -816,7 +833,8 @@
             "fr": "Bao grillés au poulet (4ps)",
             "en": "Grilled chicken buns",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/DS09.webp"
         }
       ],
       "name": {
@@ -839,7 +857,8 @@
             "fr": "Pâté impérial (nems au poulet) (4ps)",
             "en": "Chicken spring rolls",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FR01.webp"
         },
         {
           "id": "FR02",
@@ -849,7 +868,8 @@
             "fr": "Pâté impérial (nems aux crevettes) (4ps)",
             "en": "Shrimp spring rolls",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FR02.webp"
         },
         {
           "id": "FR03",
@@ -860,7 +880,8 @@
             "en": "Fried crisps shrimp dumplings",
             "es": ""
           },
-          "ocr_note": "法/英=crevettes/shrimp(虾)但中文OCR像龙虾,菜名矛盾,待John确认"
+          "ocr_note": "法/英=crevettes/shrimp(虾)但中文OCR像龙虾,菜名矛盾,待John确认",
+          "image_url": "/dragons-elysees/menu/items/FR03.webp"
         },
         {
           "id": "FR04",
@@ -870,7 +891,8 @@
             "fr": "Beignets aux crevettes (4ps)",
             "en": "Fried shrimps",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FR04.webp"
         },
         {
           "id": "FR05",
@@ -880,7 +902,8 @@
             "fr": "Assortiment de friture (6ps)",
             "en": "Fried assortment",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FR05.webp"
         },
         {
           "id": "FR06",
@@ -890,7 +913,8 @@
             "fr": "Toasts aux crevettes du chef (4ps)",
             "en": "Chief's shrimp toasts",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FR06.webp"
         }
       ],
       "name": {
@@ -913,7 +937,8 @@
             "fr": "Crevettes sautées à la sauce piquante (pimenté)",
             "en": "Shrimps with spicy sauce",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF01.webp"
         },
         {
           "id": "SF02",
@@ -923,7 +948,8 @@
             "fr": "Grosses crevettes au sel et poivre (pimenté)",
             "en": "Shrimps with salt and pepper (spicy)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF02.webp"
         },
         {
           "id": "SF03",
@@ -933,7 +959,8 @@
             "fr": "Grosses crevettes au gingembre et ciboulette sur plaque chauffante",
             "en": "Shrimps with ginger and chives on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF03.webp"
         },
         {
           "id": "SF04",
@@ -943,7 +970,8 @@
             "fr": "Grosses crevettes sautées à l'ananas frais et noix de cajou",
             "en": "Sauteed shrimps with fresh pineapple and cashew nuts",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF04.webp"
         },
         {
           "id": "SF05",
@@ -953,7 +981,8 @@
             "fr": "Grosses crevettes sautées aux asperges",
             "en": "Sauteed shrimps with asparagus",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF05.webp"
         },
         {
           "id": "SF06",
@@ -963,7 +992,8 @@
             "fr": "Calmars sautées à la sauce XO",
             "en": "Stir-fried squids with XO sauce",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF06.webp"
         },
         {
           "id": "SF07",
@@ -973,7 +1003,8 @@
             "fr": "Calamars au sel et poivre (épicé)",
             "en": "Squids with salt and pepper (spicy)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF07.webp"
         },
         {
           "id": "SF08",
@@ -983,7 +1014,8 @@
             "fr": "Cuisses de grenouilles au sel et poivre (épicé)",
             "en": "Frog legs with salt and pepper (spicy)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF08.webp"
         },
         {
           "id": "SF09",
@@ -993,7 +1025,8 @@
             "fr": "Homard (gingembre et ciboulette / sel et poivre / à la sauce piquante)",
             "en": "Lobster (ginger & chives / salt & pepper / spicy sauce)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/SF09.webp"
         }
       ],
       "name": {
@@ -1016,7 +1049,8 @@
             "fr": "Poulet sauté à la sauce piquante (pimenté)",
             "en": "Chicken with spicy sauce",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT01.webp"
         },
         {
           "id": "MT02",
@@ -1026,7 +1060,8 @@
             "fr": "Poulet à la sauce aigre-douce",
             "en": "Sweet and sour chicken",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT02.webp"
         },
         {
           "id": "MT03",
@@ -1036,7 +1071,8 @@
             "fr": "Poulet caramélisé",
             "en": "Caramelised chicken",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT03.webp"
         },
         {
           "id": "MT04",
@@ -1046,7 +1082,8 @@
             "fr": "Poulet croustillant du chef",
             "en": "Chief's crispy chicken",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT04.webp"
         },
         {
           "id": "MT05",
@@ -1056,7 +1093,8 @@
             "fr": "Boeuf aux oignons sur plaque chauffante",
             "en": "Beef with onions on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT05.webp"
         },
         {
           "id": "MT06",
@@ -1066,7 +1104,8 @@
             "fr": "Filet de boeuf à la sauce piquante sur plaque chauffante",
             "en": "Beef fillet with spicy sauce on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT06.webp"
         },
         {
           "id": "MT07",
@@ -1076,7 +1115,8 @@
             "fr": "Filet de boeuf au poivre noir sur plaque chauffante",
             "en": "Beef fillet with black pepper on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT07.webp"
         },
         {
           "id": "MT08",
@@ -1096,7 +1136,8 @@
             "fr": "Filet de boeuf du chef",
             "en": "Chief's beef fillet",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT09.webp"
         },
         {
           "id": "MT10",
@@ -1106,7 +1147,8 @@
             "fr": "Canard laqué à la cantonnaise (demi-pièce désossée)",
             "en": "Cantonese roasted duck (boneless half piece)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT10.webp"
         },
         {
           "id": "MT11",
@@ -1123,7 +1165,8 @@
             "en": "Served in 2 courses (skin with rice pancakes, then sliced meat). Side: vegetable fried rice.",
             "es": ""
           },
-          "note_fr": "Servi en 2 services (peau avec galettes de riz, puis viande tranchée). Accompagnement : riz sauté aux légumes."
+          "note_fr": "Servi en 2 services (peau avec galettes de riz, puis viande tranchée). Accompagnement : riz sauté aux légumes.",
+          "image_url": "/dragons-elysees/menu/items/MT11.webp"
         },
         {
           "id": "MT12",
@@ -1140,7 +1183,8 @@
             "en": "Served in 2 courses (skin with rice pancakes, then sliced meat). Side: vegetable fried rice.",
             "es": ""
           },
-          "note_fr": "Servi en 2 services (peau avec galettes de riz, puis viande tranchée). Accompagnement : riz sauté aux légumes."
+          "note_fr": "Servi en 2 services (peau avec galettes de riz, puis viande tranchée). Accompagnement : riz sauté aux légumes.",
+          "image_url": "/dragons-elysees/menu/items/MT12.webp"
         }
       ],
       "name": {
@@ -1163,7 +1207,8 @@
             "fr": "Filets de bar à la vapeur (sauce soja)",
             "en": "Steamed bar fish fillets (soy sauce)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH01.webp"
         },
         {
           "id": "FH02",
@@ -1173,7 +1218,8 @@
             "fr": "Filets de bar grillés (sauce thaï)",
             "en": "Grilled bar fish fillets (thai sauce)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH02.webp"
         },
         {
           "id": "FH03",
@@ -1183,7 +1229,8 @@
             "fr": "Daurade royale à la sauce piquante (pimenté) - pièce complète",
             "en": "Sea bream cooked with spicy (whole piece)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH03.webp"
         },
         {
           "id": "FH04",
@@ -1193,7 +1240,8 @@
             "fr": "Sole au sel et au poivre (épicé)",
             "en": "Sole fish with salt and pepper (spicy)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH04.webp"
         },
         {
           "id": "FH05",
@@ -1203,7 +1251,8 @@
             "fr": "Sole à la sauce au poivre",
             "en": "Sole fish with pepper sauce",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH05.webp"
         },
         {
           "id": "FH06",
@@ -1213,7 +1262,8 @@
             "fr": "Sole caramélisée",
             "en": "Caramelised sole fish",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH06.webp"
         },
         {
           "id": "FH07",
@@ -1223,7 +1273,8 @@
             "fr": "Coquilles St-Jacques fraîches à la vapeur (4ps)",
             "en": "Steam-cooked scallop",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH07.webp"
         },
         {
           "id": "FH08",
@@ -1233,7 +1284,8 @@
             "fr": "Coquilles St-Jacques à la sauce piquante",
             "en": "Scallops with spicy sauce",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH08.webp"
         },
         {
           "id": "FH09",
@@ -1243,7 +1295,8 @@
             "fr": "Coquilles St-Jacques au sel et au poivre",
             "en": "Scallops with salt and pepper",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/FH09.webp"
         }
       ],
       "name": {
@@ -1266,7 +1319,8 @@
             "fr": "Soupe Tom Yam aux crevettes à la citronnelle (piquant)",
             "en": "Shrimps tom yam soup Thai style with citronella",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TS01.webp"
         },
         {
           "id": "TS02",
@@ -1276,7 +1330,8 @@
             "fr": "Soupe Tom Yam de poulet au lait de coco",
             "en": "Chicken tom yam soup with coconut milk",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TS02.webp"
         },
         {
           "id": "TS03",
@@ -1286,7 +1341,8 @@
             "fr": "Salade de boeuf à la citronnelle",
             "en": "Beef salad with citronella Thai style",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TS03.webp"
         },
         {
           "id": "TS04",
@@ -1296,7 +1352,8 @@
             "fr": "Salade de crevettes à la citronnelle",
             "en": "Shrimps salad with citronella Thai style",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TS04.webp"
         }
       ],
       "name": {
@@ -1319,7 +1376,8 @@
             "fr": "Brochettes de poulet grillées au saté (3ps)",
             "en": "Chicken skewers grilled with satay",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM01.webp"
         },
         {
           "id": "TM02",
@@ -1329,7 +1387,8 @@
             "fr": "Brochettes de boeuf grillées au saté (3ps)",
             "en": "Beef skewers grilled with satay",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM02.webp"
         },
         {
           "id": "TM03",
@@ -1339,7 +1398,8 @@
             "fr": "Assortiment de brochettes (4ps)",
             "en": "Assorted skewers",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM03.webp"
         },
         {
           "id": "TM04",
@@ -1349,7 +1409,8 @@
             "fr": "Poulet au curry thaï",
             "en": "Thai chicken curry",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM04.webp"
         },
         {
           "id": "TM05",
@@ -1359,7 +1420,8 @@
             "fr": "Poulet grillé à la citronnelle",
             "en": "Grilled chicken with citronella",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM05.webp"
         },
         {
           "id": "TM06",
@@ -1379,7 +1441,8 @@
             "fr": "Crevettes sautées au basilic sur plaque chauffante",
             "en": "Sauteed shrimps with basil on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM07.webp"
         },
         {
           "id": "TM08",
@@ -1389,7 +1452,8 @@
             "fr": "Filet de boeuf sautées au basilic sur plaque chauffante",
             "en": "Sauteed beef with basil on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM08.webp"
         },
         {
           "id": "TM09",
@@ -1422,7 +1486,8 @@
             "fr": "Soupe aux légumes mélangés",
             "en": "Soup with mix vegetables",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG01.webp"
         },
         {
           "id": "VG02",
@@ -1432,7 +1497,8 @@
             "fr": "Salade de concombre",
             "en": "Cucumber salad",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG02.webp"
         },
         {
           "id": "VG03",
@@ -1442,7 +1508,8 @@
             "fr": "Salade d'algues",
             "en": "Seaweed salad",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG03.webp"
         },
         {
           "id": "VG04",
@@ -1452,7 +1519,8 @@
             "fr": "Pâtés impériaux (nems aux légumes)",
             "en": "Vietnamese fried spring rolls (with vegetables)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG04.webp"
         },
         {
           "id": "VG05",
@@ -1462,7 +1530,8 @@
             "fr": "Riz sauté aux légumes",
             "en": "Fried rice with vegetables",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG05.webp"
         },
         {
           "id": "VG06",
@@ -1472,7 +1541,8 @@
             "fr": "Marmite aux cinq trésors (tofu et légume)",
             "en": "Braised tofu with assorted vegetables",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG06.webp"
         },
         {
           "id": "VG07",
@@ -1482,7 +1552,8 @@
             "fr": "Champignons noirs et brocolis sautés nature",
             "en": "Stir-fried black mushrooms and broccoli",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG07.webp"
         },
         {
           "id": "VG08",
@@ -1492,7 +1563,8 @@
             "fr": "Tofu sel au poivre",
             "en": "Tofu fried with salt and pepper",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG08.webp"
         },
         {
           "id": "VG09",
@@ -1502,7 +1574,8 @@
             "fr": "Tofu mapo à la sichuanese (piquant)",
             "en": "Sichuan style mapo tofu (spicy)",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG09.webp"
         },
         {
           "id": "VG10",
@@ -1512,7 +1585,8 @@
             "fr": "Haricots verts sautés aux épices au Sichuan",
             "en": "Dry-fried green beans with Sichuan spices",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG10.webp"
         },
         {
           "id": "VG11",
@@ -1522,7 +1596,8 @@
             "fr": "Légumes de saison sauté (choux chinois, épinards, légumes verts)",
             "en": "Sauteed seasonal vegetables",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/VG11.webp"
         }
       ],
       "name": {
@@ -1545,7 +1620,8 @@
             "fr": "Riz nature",
             "en": "White rice",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/RN01.webp"
         },
         {
           "id": "RN02",
@@ -1555,7 +1631,8 @@
             "fr": "Riz gluant",
             "en": "Sticky rice",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/RN02.webp"
         },
         {
           "id": "RN03",
@@ -1565,7 +1642,8 @@
             "fr": "Riz cantonnais aux crevettes",
             "en": "Cantonese fried rice",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/RN03.webp"
         },
         {
           "id": "RN04",
@@ -1575,7 +1653,8 @@
             "fr": "Nouilles sautées aux légumes",
             "en": "Sauteed noodles with egg and vegetables",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/RN04.webp"
         },
         {
           "id": "RN05",
@@ -1585,7 +1664,8 @@
             "fr": "Riz sauté thaï aux crevettes",
             "en": "Fried rice with shrimps Thai style",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/RN05.webp"
         },
         {
           "id": "RN06",
@@ -1595,7 +1675,8 @@
             "fr": "Légumes variés sautés",
             "en": "Sauteed vegetables",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/RN06.webp"
         }
       ],
       "name": {
