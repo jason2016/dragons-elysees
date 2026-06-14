@@ -6,3 +6,15 @@ dist
 .env.production
 .DS_Store
 *.code-workspace
+
+# Loose scratch images accidentally synced into the repo root (e.g. OneDrive).
+# Only the repo root — does NOT affect real assets under public/menu/.
+/Image_*.jpg
+
+# Raw source-image working dirs (never committed; converted webp live in public/menu/).
+/A-分类横图/
+/B-菜品缩略图/
+/C-矢量图/
+
+# Claude Code local/personal settings (note: already tracked — needs `git rm --cached` to fully untrack).
+.claude/settings.local.json
