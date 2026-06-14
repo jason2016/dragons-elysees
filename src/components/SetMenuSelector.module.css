@@ -84,6 +84,10 @@
   padding: 0 18px 16px;
   overflow-y: auto;
   flex: 1;
+  /* Rows size to content & pack at the top, instead of stretching to fill the
+     tall flex:1 container (which made cards over-tall with blank space below the
+     name). align-items:stretch is kept so the two cards in a row stay equal-height. */
+  align-content: start;
 }
 .option {
   display: flex;

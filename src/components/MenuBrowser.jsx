@@ -252,6 +252,7 @@ function SetMenuCard({ item, catCover, onCompose, primaryName, altNameStr, compo
           {altNameStr && <span className={styles.cardAlt}>{altNameStr}</span>}
         </div>
         <div className={styles.cardFooter}>
+          {!item.price_todo && <span className={styles.cardPrice}>{formatPrice(item.price)}</span>}
           <button className={styles.setComposeBtn} onClick={(e) => { e.stopPropagation(); onCompose() }}>
             {composeBtn} ›
           </button>

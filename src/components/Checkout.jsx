@@ -213,7 +213,7 @@ export default function Checkout() {
                   )}
                 </span>
                 <span className={styles.linePrice}>
-                  {item.type === 'set_menu'
+                  {item.price_todo
                     ? <em className={styles.linePriceTBC}>{t('setMenuPriceTBC')}</em>
                     : formatPrice(item.price * item.qty)}
                 </span>

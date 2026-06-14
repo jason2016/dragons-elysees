@@ -68,7 +68,7 @@ export default function Cart() {
                   <div className={styles.itemInfo}>
                     <span className={styles.itemName}>{name(item)}</span>
                     <span className={styles.itemUnit}>
-                      {isSet ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price)}
+                      {item.price_todo ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price)}
                     </span>
                   </div>
                   {isSet && item.selections && (
@@ -93,7 +93,7 @@ export default function Cart() {
                       aria-label="+"
                     >+</button>
                     <span className={styles.itemTotal}>
-                      {isSet ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price * item.qty)}
+                      {item.price_todo ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price * item.qty)}
                     </span>
                   </div>
                 </div>

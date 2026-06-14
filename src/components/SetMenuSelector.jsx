@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../hooks/useLang'
 import { useRegisterFullscreen } from '../hooks/useFullscreen'
+import { formatPrice } from '../utils/api'
 import styles from './SetMenuSelector.module.css'
 
 /**
@@ -49,8 +50,8 @@ export default function SetMenuSelector({ setMenu, onClose, onAdd }) {
       type: 'set_menu',
       setMenuId: setMenu.id,
       name: setMenu.name,
-      price: 0,
-      price_todo: true,
+      price: setMenu.price ?? 0,
+      price_todo: setMenu.price_todo === true,
       selections,
     })
     onClose()
@@ -64,7 +65,9 @@ export default function SetMenuSelector({ setMenu, onClose, onAdd }) {
         <div className={styles.header}>
           <div className={styles.headerText}>
             <span className={styles.menuName}>{name(setMenu)}</span>
-            <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span>
+            <span className={styles.priceTBC}>
+              {setMenu.price_todo === true ? t('setMenuPriceTBC') : formatPrice(setMenu.price)}
+            </span>
           </div>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Fermer">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

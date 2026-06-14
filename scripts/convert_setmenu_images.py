@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Set-menu option + cover image conversion (CLASSIQUE + DECOUVERT only; DEGUSTATION skipped — no course data).
+Set-menu option + cover image conversion (CLASSIQUE + DECOUVERT + DEGUSTATION).
 Source: B-菜品缩略图/MENU-套餐/MENU-{X}/{course}/{filename}.jpg  (single named jpg per option)
         B-菜品缩略图/MENU-套餐/MENU-{X}/400.jpg  (cover)
 Output: public/menu/set/{menu-slug}/{course}/{option-slug}.webp  (~400px, q72, <60KB)
@@ -16,9 +16,10 @@ SRC_ROOT = os.path.join(ROOT, "B-菜品缩略图", "MENU-套餐")
 OUT_ROOT = os.path.join(ROOT, "public", "menu", "set")
 
 # folder name on disk -> output slug + course key
-MENUS = {"MENU-CLASSIQUE": "classique", "MENU-DECOUVERT": "decouvert"}
-# disk course folder -> normalized output course dir + key
-COURSES = {"entree": "entree", "plat": "plat", "dessert": "dessert", "ACCOMPAGNMENT": "accompagnement"}
+MENUS = {"MENU-CLASSIQUE": "classique", "MENU-DECOUVERT": "decouvert", "MENU-DEGUSTATION": "degustation"}
+# disk course folder (matched case-insensitively) -> normalized output course dir + key.
+# CLASSIQUE/DECOUVERT use 'ACCOMPAGNMENT' (upper), DEGUSTATION uses 'accompagnment' (lower) — both lower() to one key.
+COURSES = {"entree": "entree", "plat": "plat", "dessert": "dessert", "accompagnment": "accompagnement"}
 
 
 def slug(filename):
@@ -53,10 +54,13 @@ for disk_menu, mslug in MENUS.items():
                        os.path.join(OUT_ROOT, mslug, "cover.webp"))
         manifest.append({"menu": mslug, "course": "_cover", "file": "400.jpg",
                          "slug": "cover", "kb": kb})
+    # actual on-disk subdir names keyed by lowercase, so course folder matching is case-insensitive
+    actual_dirs = {d.lower(): d for d in os.listdir(mdir) if os.path.isdir(os.path.join(mdir, d))}
     for disk_course, ckey in COURSES.items():
-        cdir = os.path.join(mdir, disk_course)
-        if not os.path.isdir(cdir):
+        actual = actual_dirs.get(disk_course.lower())
+        if not actual:
             missing.append(f"{disk_menu}/{disk_course}"); continue
+        cdir = os.path.join(mdir, actual)
         out_cdir = os.path.join(OUT_ROOT, mslug, ckey)
         os.makedirs(out_cdir, exist_ok=True)
         for fn in sorted(os.listdir(cdir)):

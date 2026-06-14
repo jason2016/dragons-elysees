@@ -69,15 +69,14 @@
         },
         {
           "id": "SM06",
-          "price": 0,
+          "price": 56,
           "name": {
-            "zh": "品鉴套餐",
+            "zh": "发现套餐",
             "fr": "Menu Découverte",
-            "en": "Discovery Tasting Menu",
-            "es": "Menú Degustación"
+            "en": "Discovery Menu",
+            "es": "Menú Descubrimiento"
           },
           "type": "set_menu",
-          "price_todo": true,
           "cover": "/dragons-elysees/menu/set/decouvert/cover.webp",
           "courses": [
             {
@@ -253,12 +252,11 @@
         {
           "id": "SM08",
           "type": "set_menu",
-          "price": 0,
-          "price_todo": true,
+          "price": 38,
           "name": {
             "zh": "经典套餐",
             "fr": "Menu Classique",
-            "en": "Classic Set Menu",
+            "en": "Classic Menu",
             "es": "Menú Clásico"
           },
           "cover": "/dragons-elysees/menu/set/classique/cover.webp",
@@ -448,6 +446,158 @@
                     "es": "Fideos salteados con verduras"
                   },
                   "image": "/dragons-elysees/menu/set/classique/accompagnement/su-chao-mian.webp"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "SM09",
+          "type": "set_menu",
+          "price": 138,
+          "name": {
+            "zh": "品鉴套餐(2人)",
+            "fr": "Menu Dégustation (pour 2 pers.)",
+            "en": "Tasting Menu (for 2)",
+            "es": "Menú Degustación (para 2)"
+          },
+          "cover": "/dragons-elysees/menu/set/degustation/cover.webp",
+          "courses": [
+            {
+              "key": "entree",
+              "label": {
+                "zh": "头盘",
+                "fr": "Entrée",
+                "en": "Starter",
+                "es": "Entrante"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "dimsun",
+                  "name": {
+                    "zh": "蒸点心拼盘(4件)",
+                    "fr": "Assortiment de raviolis à la vapeur (4ps)",
+                    "en": "Steamed dumpling assortment (4pcs)",
+                    "es": "Surtido de dim sum al vapor (4pzs)"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/entree/dimsun.webp"
+                },
+                {
+                  "id": "thai-salade",
+                  "name": {
+                    "zh": "虾沙拉(泰式辣酱/芝麻酱)",
+                    "fr": "Salade aux crevettes (sauce thaï ou sésame)",
+                    "en": "Shrimp salad (Thai spicy or sesame sauce)",
+                    "es": "Ensalada de gambas (salsa tailandesa o sésamo)"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/entree/thai-salade.webp"
+                }
+              ]
+            },
+            {
+              "key": "plat",
+              "label": {
+                "zh": "主菜",
+                "fr": "Plat",
+                "en": "Main",
+                "es": "Plato"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "demi-canard",
+                  "name": {
+                    "zh": "半只北京烤鸭(皮肉同上)",
+                    "fr": "Demi-canard laqué à la pékinoise (peau et chair servies en même temps)",
+                    "en": "Half Peking roast duck (skin and meat served together)",
+                    "es": "Medio pato laqueado a la pekinesa"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/plat/demi-canard.webp"
+                }
+              ]
+            },
+            {
+              "key": "accompagnement",
+              "label": {
+                "zh": "配菜",
+                "fr": "Accompagnement",
+                "en": "Side",
+                "es": "Acompañamiento"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "nouilles-sautes",
+                  "name": {
+                    "zh": "蔬菜炒面",
+                    "fr": "Nouilles sautées aux légumes",
+                    "en": "Fried noodles with vegetables",
+                    "es": "Fideos salteados con verduras"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/accompagnement/nouilles-sautes.webp"
+                },
+                {
+                  "id": "riz-cantonnais",
+                  "name": {
+                    "zh": "广东炒饭",
+                    "fr": "Riz cantonnais",
+                    "en": "Cantonese fried rice",
+                    "es": "Arroz cantonés"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/accompagnement/riz-cantonnais.webp"
+                },
+                {
+                  "id": "legumes-sautes",
+                  "name": {
+                    "zh": "炒时蔬",
+                    "fr": "Légumes sautés",
+                    "en": "Sautéed vegetables",
+                    "es": "Verduras salteadas"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/accompagnement/legumes-sautes.webp"
+                }
+              ]
+            },
+            {
+              "key": "dessert",
+              "label": {
+                "zh": "甜点",
+                "fr": "Dessert",
+                "en": "Dessert",
+                "es": "Postre"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "flat-thai",
+                  "name": {
+                    "zh": "泰式布丁",
+                    "fr": "Flan thaï",
+                    "en": "Thai flan",
+                    "es": "Flan tailandés"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/dessert/flat-thai.webp"
+                },
+                {
+                  "id": "perle-de-coco",
+                  "name": {
+                    "zh": "椰丝糯米糍",
+                    "fr": "Perle de coco",
+                    "en": "Coconut sticky rice ball",
+                    "es": "Perla de coco"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/dessert/perle-de-coco.webp"
+                },
+                {
+                  "id": "salade-de-fruit",
+                  "name": {
+                    "zh": "水果沙拉",
+                    "fr": "Salade de fruit",
+                    "en": "Fruit salad",
+                    "es": "Ensalada de frutas"
+                  },
+                  "image": "/dragons-elysees/menu/set/degustation/dessert/salade-de-fruit.webp"
                 }
               ]
             }
