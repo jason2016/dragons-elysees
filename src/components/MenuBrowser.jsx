@@ -148,7 +148,8 @@ export default function MenuBrowser() {
             </div>
 
             <div className={styles.itemsGrid}>
-              {cat.items.map(item => (
+              {/* Hide items flagged hidden:true in menu.json (reversible — remove the flag to restore) */}
+              {cat.items.filter(it => !it.hidden).map(item => (
                 item.type === 'set_menu' ? (
                   <SetMenuCard
                     key={item.id}

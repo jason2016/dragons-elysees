@@ -25,7 +25,8 @@
             "fr": "Menu Midi",
             "en": "Lunch Set",
             "es": "Menú del Almuerzo"
-          }
+          },
+          "hidden": true
         },
         {
           "id": "SM02",
@@ -35,7 +36,8 @@
             "fr": "Menu Midi 2",
             "en": "Lunch Set 2",
             "es": "Menú del Almuerzo 2"
-          }
+          },
+          "hidden": true
         },
         {
           "id": "SM03",
@@ -45,7 +47,8 @@
             "fr": "Menu 35",
             "en": "Set Menu 35",
             "es": "Menú 35"
-          }
+          },
+          "hidden": true
         },
         {
           "id": "SM04",
@@ -55,7 +58,8 @@
             "fr": "Menu 39",
             "en": "Set Menu 39",
             "es": "Menú 39"
-          }
+          },
+          "hidden": true
         },
         {
           "id": "SM05",
@@ -65,7 +69,8 @@
             "fr": "Menu Dragon",
             "en": "Dragon Set Menu",
             "es": "Menú Dragón"
-          }
+          },
+          "hidden": true
         },
         {
           "id": "SM06",
@@ -247,7 +252,8 @@
             "fr": "Menu Canard",
             "en": "Duck Set Menu",
             "es": "Menú Pato"
-          }
+          },
+          "hidden": true
         },
         {
           "id": "SM08",
@@ -731,7 +737,8 @@
         "fr": "Soupes et Salades",
         "en": "Soups & Salads",
         "es": "Sopas y Ensaladas"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "dim-sum",
@@ -891,7 +898,8 @@
         "fr": "Dim Sum",
         "en": "Dim Sum",
         "es": "Dim Sum"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "fried",
@@ -979,7 +987,8 @@
         "fr": "Fritures",
         "en": "Fried Specialties",
         "es": "Frituras"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "seafood",
@@ -1124,7 +1133,8 @@
         "fr": "Fruits de Mer",
         "en": "Seafood",
         "es": "Mariscos"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "meat",
@@ -1286,7 +1296,8 @@
         "fr": "Viandes",
         "en": "Meat Dishes",
         "es": "Carnes"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "fish",
@@ -1428,7 +1439,8 @@
         "fr": "Poissons",
         "en": "Fish",
         "es": "Pescados"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "thai-soups",
@@ -1525,7 +1537,8 @@
         "fr": "Thaï — Soupes & Salades",
         "en": "Thai — Soups & Salads",
         "es": "Tailandés — Sopas y Ensaladas"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "thai-mains",
@@ -1675,7 +1688,8 @@
         "fr": "Thaï — Plats Principaux",
         "en": "Thai — Main Dishes",
         "es": "Tailandés — Platos Principales"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "vegetarian",
@@ -1839,7 +1853,8 @@
         "fr": "Végétarien",
         "en": "Vegetarian",
         "es": "Vegetariano"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "rice-noodles",
@@ -1918,7 +1933,8 @@
         "fr": "Riz et Nouilles",
         "en": "Rice & Noodles",
         "es": "Arroz y Fideos"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "desserts",
@@ -2144,7 +2160,8 @@
         "fr": "Desserts",
         "en": "Desserts",
         "es": "Postres"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "drinks",
@@ -2263,7 +2280,8 @@
         "fr": "Boissons",
         "en": "Drinks",
         "es": "Bebidas"
-      }
+      },
+      "hidden": true
     },
     {
       "id": "lobster-special",
