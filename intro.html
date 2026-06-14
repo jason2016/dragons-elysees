@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dragons Élysées — Koï</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;overflow:hidden;background:#ecd9a8;}
+  #c{position:fixed;inset:0;display:block;}
+  #overlay{position:fixed;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;pointer-events:none;
+    text-align:center;opacity:0;transition:opacity 1.6s ease;
+    font-family:'Cormorant Garamond',Georgia,serif;}
+  #overlay.show{opacity:1;}
+  #overlay .cn{font-size:clamp(26px,3.6vw,46px);letter-spacing:.4em;font-weight:700;
+    color:#f0d488;text-shadow:0 2px 16px rgba(40,28,8,.7);margin-bottom:.15em;}
+  #overlay .fr{font-size:clamp(32px,5vw,68px);font-weight:700;letter-spacing:.06em;
+    color:#f8e6b0;text-shadow:0 2px 20px rgba(40,28,8,.65);}
+  #overlay .divider{width:54px;height:1px;background:#e6c869;margin:1.5em auto;opacity:.9;}
+  #overlay .tag{font-family:'Inter',system-ui,sans-serif;font-weight:400;
+    font-size:clamp(12px,1.5vw,16px);letter-spacing:.24em;text-transform:uppercase;color:#e8cf86;
+    text-shadow:0 1px 10px rgba(40,28,8,.6);}
+  #overlay .tag2{margin-top:.7em;color:#d8bd72;}
+  #overlay .addr{font-family:'Inter',sans-serif;font-weight:400;margin-top:1.3em;
+    font-size:clamp(10px,1.1vw,12px);letter-spacing:.32em;text-transform:uppercase;color:#c4a85e;
+    text-shadow:0 1px 8px rgba(40,28,8,.5);}
+  /* 点击层:覆盖全屏,点任意处进入 */
+  #clicklayer{position:fixed;inset:0;z-index:8;cursor:pointer;}
+  /* 进入按钮(看完后中央偏下出现)*/
+  #enter{position:fixed;left:50%;bottom:14%;transform:translateX(-50%);z-index:12;
+    pointer-events:none;cursor:pointer;
+    font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(15px,1.8vw,21px);
+    letter-spacing:.3em;text-transform:uppercase;color:#3a2a08;font-weight:600;
+    background:linear-gradient(180deg,#f8e4a0 0%,#e6c869 45%,#d4af37 100%);
+    border:1px solid #c19a2e;border-radius:40px;
+    padding:15px 46px;opacity:0;
+    transition:opacity 1s ease,transform .2s ease,box-shadow .2s ease;
+    box-shadow:0 6px 16px rgba(40,28,8,.35), 0 2px 4px rgba(40,28,8,.25),
+               inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 4px rgba(150,110,30,.4);
+    text-shadow:0 1px 0 rgba(255,250,220,.5);}
+  #enter.show{opacity:1;pointer-events:auto;}
+  #enter:hover{transform:translateX(-50%) translateY(-3px);
+    box-shadow:0 10px 24px rgba(40,28,8,.42), 0 3px 6px rgba(40,28,8,.3),
+               inset 0 1px 0 rgba(255,255,255,.7), inset 0 -2px 4px rgba(150,110,30,.4);}
+  #enter:active{transform:translateX(-50%) translateY(-1px);
+    box-shadow:0 3px 8px rgba(40,28,8,.4),
+               inset 0 1px 0 rgba(255,255,255,.4), inset 0 -1px 3px rgba(150,110,30,.5);}
+  /* 整体淡出(进入网站) */
+  #fadeout{position:fixed;inset:0;z-index:20;background:#ecd9a8;opacity:0;
+    pointer-events:none;transition:opacity .9s ease;}
+  #fadeout.show{opacity:1;}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="overlay">
+  <div class="cn">龍 城 酒 樓</div>
+  <div class="fr">Dragons Élysées</div>
+  <div class="divider"></div>
+  <div class="tag">L'art du wok hei · Cantine de bien-être</div>
+  <div class="tag tag2">Tradition · Équilibre · Cœur des Champs-Élysées</div>
+  <div class="addr">11 Rue de Berri · Paris 8ᵉ</div>
+</div>
+<button id="enter">Entrer</button>
+<div id="clicklayer"></div>
+<div id="fadeout"></div>
+
+<script>
+const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+let W,H,DPR;
+function resize(){
+  DPR=Math.min(devicePixelRatio||1,2);
+  W=innerWidth;H=innerHeight;
+  cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+'px';cv.style.height=H+'px';
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+resize();addEventListener('resize',resize);
+
+const PROFILE=[[0,0.16],[0.10,0.62],[0.26,1.0],[0.45,0.9],[0.65,0.56],[0.82,0.30],[1,0.15]];
+function halfAt(u){
+  for(let i=0;i<PROFILE.length-1;i++){
+    if(u>=PROFILE[i][0] && u<=PROFILE[i+1][0]){
+      const f=(u-PROFILE[i][0])/(PROFILE[i+1][0]-PROFILE[i][0]);
+      return PROFILE[i][1]+(PROFILE[i+1][1]-PROFILE[i][1])*f;
+    }
+  }
+  return PROFILE[PROFILE.length-1][1];
+}
+
+function Koi(o){
+  this.cx=o.cx;this.cy=o.cy;this.rx=o.rx;this.ry=o.ry;
+  this.phase=o.phase;this.speed=o.speed;this.len=o.len;
+  this.body=o.body;this.spot=o.spot;this.spots=o.spots;this.depth=o.depth;
+}
+Koi.prototype.getState=function(t,gather){
+  gather=gather||0;
+  const a=t*this.speed+this.phase;
+  let x=this.cx+Math.cos(a)*this.rx;
+  let y=this.cy+Math.sin(a*1.3)*this.ry;
+  const dx=-Math.sin(a)*this.rx*this.speed;
+  const dy=Math.cos(a*1.3)*this.ry*1.3*this.speed;
+  let angle=Math.atan2(dy,dx);
+  if(gather>0){
+    // 向画面中心聚拢(中心略偏下,呼应镬气升起点)
+    const gx=W*0.5, gy=H*0.5;
+    const ease=gather*gather;
+    x=x+(gx-x)*ease;
+    y=y+(gy-y)*ease;
+    // 聚拢时鱼头朝向中心
+    const toC=Math.atan2(gy-y, gx-x);
+    angle=angle+(toC-angle)*ease;
+  }
+  return {x,y,angle};
+};
+Koi.prototype.draw=function(t,ga,gather){
+  const s=this.getState(t,gather);
+  const len=this.len*(0.72+0.28*this.depth);
+  const bodyW=len*0.30;
+  const swim=t*5.5;
+  ctx.save();
+  ctx.translate(s.x,s.y);
+  ctx.rotate(s.angle);
+  const alpha=ga*(0.6+0.4*this.depth);
+  function wigAt(u){return Math.sin(swim - u*3.2)*len*0.12*Math.pow(u,1.4);}
+
+  // 尾鳍
+  const tw=wigAt(1);
+  ctx.globalAlpha=alpha*0.55;
+  ctx.beginPath();
+  ctx.moveTo(-len*0.92, tw);
+  ctx.quadraticCurveTo(-len*1.28, tw-bodyW*1.0, -len*1.52, tw-bodyW*1.15);
+  ctx.quadraticCurveTo(-len*1.34, tw-bodyW*0.25, -len*1.05, tw);
+  ctx.quadraticCurveTo(-len*1.34, tw+bodyW*0.25, -len*1.52, tw+bodyW*1.15);
+  ctx.quadraticCurveTo(-len*1.28, tw+bodyW*1.0, -len*0.92, tw);
+  ctx.closePath();
+  const tg=ctx.createLinearGradient(-len*0.9,0,-len*1.5,0);
+  tg.addColorStop(0,this.body);tg.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=tg;ctx.fill();
+
+  // 胸鳍
+  const fu=0.30, fa=-fu*len, fw=wigAt(fu), fh=bodyW*halfAt(fu);
+  const flap=0.55+0.45*Math.sin(swim*1.3);
+  ctx.globalAlpha=alpha*0.45;ctx.fillStyle=this.body;
+  ctx.beginPath();
+  ctx.moveTo(fa, fw-fh*0.5);
+  ctx.quadraticCurveTo(fa-len*0.10, fw-fh-len*0.14*flap, fa-len*0.22, fw-fh-len*0.04);
+  ctx.quadraticCurveTo(fa-len*0.08, fw-fh*0.7, fa+len*0.02, fw-fh*0.4);
+  ctx.closePath();ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(fa, fw+fh*0.5);
+  ctx.quadraticCurveTo(fa-len*0.10, fw+fh+len*0.14*flap, fa-len*0.22, fw+fh+len*0.04);
+  ctx.quadraticCurveTo(fa-len*0.08, fw+fh*0.7, fa+len*0.02, fw+fh*0.4);
+  ctx.closePath();ctx.fill();
+
+  // 鱼身
+  ctx.globalAlpha=alpha;
+  const segs=20;
+  ctx.beginPath();
+  for(let i=0;i<=segs;i++){const u=i/segs,along=-u*len,w=wigAt(u),half=bodyW*halfAt(u);
+    if(i===0)ctx.moveTo(along,w-half);else ctx.lineTo(along,w-half);}
+  for(let i=segs;i>=0;i--){const u=i/segs,along=-u*len,w=wigAt(u),half=bodyW*halfAt(u);
+    ctx.lineTo(along,w+half);}
+  ctx.closePath();
+  ctx.fillStyle=this.body;
+  ctx.shadowColor='rgba(110,80,25,0.28)';ctx.shadowBlur=14;ctx.shadowOffsetY=4;
+  ctx.fill();ctx.shadowBlur=0;ctx.shadowOffsetY=0;
+
+  // 红斑(裁剪在身内)
+  if(this.spots && this.spots.length){
+    ctx.save();
+    ctx.beginPath();
+    for(let i=0;i<=segs;i++){const u=i/segs,along=-u*len,w=wigAt(u),half=bodyW*halfAt(u);
+      if(i===0)ctx.moveTo(along,w-half);else ctx.lineTo(along,w-half);}
+    for(let i=segs;i>=0;i--){const u=i/segs,along=-u*len,w=wigAt(u),half=bodyW*halfAt(u);
+      ctx.lineTo(along,w+half);}
+    ctx.closePath();ctx.clip();
+    this.spots.forEach(sp=>{
+      const along=-sp.u*len, w=wigAt(sp.u);
+      ctx.globalAlpha=alpha*0.92;ctx.fillStyle=this.spot;
+      ctx.beginPath();ctx.ellipse(along, w+sp.off*bodyW, len*sp.rw, bodyW*sp.rh,0,0,7);ctx.fill();
+    });
+    ctx.restore();
+  }
+
+  // 鱼眼(灵动:眼眶+暖虹膜+双高光)
+  const eu=0.085, ea=-eu*len, ew=wigAt(eu), eh=bodyW*halfAt(eu);
+  const er=len*0.034;
+  [ew-eh*0.52, ew+eh*0.52].forEach(function(ey){
+    ctx.globalAlpha=alpha*0.8;ctx.fillStyle='rgba(255,251,240,0.9)';
+    ctx.beginPath();ctx.ellipse(ea,ey,er*1.5,er*1.5,0,0,7);ctx.fill();
+    ctx.globalAlpha=alpha;ctx.fillStyle='#241a0c';
+    ctx.beginPath();ctx.ellipse(ea,ey,er,er,0,0,7);ctx.fill();
+    ctx.fillStyle='#7a5418';
+    ctx.beginPath();ctx.ellipse(ea,ey,er*0.74,er*0.74,0,0,7);ctx.fill();
+    ctx.fillStyle='#160f06';
+    ctx.beginPath();ctx.ellipse(ea,ey,er*0.46,er*0.46,0,0,7);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.96)';
+    ctx.beginPath();ctx.ellipse(ea+er*0.32,ey-er*0.34,er*0.36,er*0.36,0,0,7);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,0.66)';
+    ctx.beginPath();ctx.ellipse(ea-er*0.30,ey+er*0.32,er*0.17,er*0.17,0,0,7);ctx.fill();
+  });
+
+  ctx.restore();
+};
+
+let koi=[];
+function buildKoi(){
+  koi=[];
+  const cx=W*0.5, cy=H*0.5;
+  const types=[
+    {body:'#fbfaf3',spot:'#d2402a',spots:[{u:0.28,off:-0.1,rw:0.14,rh:0.75},{u:0.55,off:0.05,rw:0.10,rh:0.55}]},
+    {body:'#fefcf6',spot:'#cf4628',spots:[{u:0.20,off:0,rw:0.12,rh:0.7},{u:0.62,off:-0.05,rw:0.09,rh:0.5}]},
+    {body:'#f3b42c',spot:'#b83018',spots:[{u:0.28,off:0,rw:0.12,rh:0.62}]},
+    {body:'#fdf8ee',spot:'#d8442c',spots:[{u:0.30,off:0.05,rw:0.15,rh:0.78}]},
+    {body:'#f0972a',spot:'#a83216',spots:[{u:0.32,off:0,rw:0.12,rh:0.6}]},
+  ];
+  for(let i=0;i<types.length;i++){
+    const ty=types[i];
+    koi.push(new Koi({
+      cx:cx+(Math.random()-0.5)*W*0.20, cy:cy+(Math.random()-0.5)*H*0.20,
+      rx:W*(0.16+Math.random()*0.13), ry:H*(0.12+Math.random()*0.11),
+      phase:Math.random()*Math.PI*2, speed:0.16+Math.random()*0.10,
+      len:Math.min(W,H)*(0.13+Math.random()*0.05),
+      body:ty.body, spot:ty.spot, spots:ty.spots, depth:0.45+Math.random()*0.55,
+    }));
+  }
+  koi.sort((a,b)=>a.depth-b.depth);
+}
+buildKoi();
+let mountainKoi=[];
+function buildMountainKoi(){
+  mountainKoi=[];
+  const waterTop=H*0.62;
+  const types=[
+    {body:'#f4a020',spot:'#c0291b',spots:[{u:0.28,off:-0.1,rw:0.14,rh:0.72}]},
+    {body:'#fbfaf3',spot:'#d2402a',spots:[{u:0.30,off:0,rw:0.13,rh:0.7}]},
+    {body:'#fff4d8',spot:'#c8281a',spots:[{u:0.26,off:0.05,rw:0.13,rh:0.72}]},
+    {body:'#f6c243',spot:'#b02818',spots:[{u:0.32,off:0,rw:0.12,rh:0.6}]},
+    {body:'#fdf8ee',spot:'#d8442c',spots:[{u:0.30,off:0.05,rw:0.14,rh:0.74}]},
+  ];
+  for(let i=0;i<5;i++){
+    const ty=types[i];
+    mountainKoi.push(new Koi({
+      cx:W*(0.24+i*0.13), cy:waterTop+(H-waterTop)*(0.32+(i%3)*0.20),
+      rx:W*(0.09+Math.random()*0.05), ry:(H-waterTop)*0.11,
+      phase:Math.random()*6, speed:0.17+Math.random()*0.08,
+      len:Math.min(W,H)*0.05,
+      body:ty.body,spot:ty.spot,spots:ty.spots,depth:0.6+Math.random()*0.3,
+    }));
+  }
+}
+buildMountainKoi();
+addEventListener('resize',function(){buildKoi();buildMountainKoi();});
+
+let ripples=[];
+function addRipple(x,y){ripples.push({x,y,r:0,a:0.32});}
+let rippleTimer=0;
+const motes=[];
+for(let i=0;i<48;i++){motes.push({x:Math.random(),y:Math.random(),s:Math.random()*1.5+0.4,
+  sp:Math.random()*0.00006+0.00002,ph:Math.random()*6});}
+// 灶火:烟气 + 火星 粒子(冉冉升起)
+const stoveSmoke=[];
+for(let i=0;i<55;i++){stoveSmoke.push({seed:Math.random(),xoff:(Math.random()-0.5),
+  spd:0.6+Math.random()*0.6,wob:1+Math.random()*2,ph:Math.random()*6});}
+const stoveSparks=[];
+for(let i=0;i<40;i++){stoveSparks.push({seed:Math.random(),xoff:(Math.random()-0.5),
+  spd:0.8+Math.random()*0.8,ph:Math.random()*6});}
+// 佳肴:袅袅热气(从碗口升起)
+const steam=[];
+for(let i=0;i<60;i++){steam.push({seed:Math.random(),bowl:Math.floor(Math.random()*3),
+  xoff:(Math.random()-0.5),spd:0.5+Math.random()*0.5,wob:1+Math.random()*1.8,ph:Math.random()*6});}
+
+
+
+const DURATION=9.0;
+let t0=null;
+const overlay=document.getElementById('overlay');
+const replay=document.getElementById('replay');
+
+
+function drawBackground(t){
+  const g=ctx.createRadialGradient(W*0.5,H*0.42,0,W*0.5,H*0.5,Math.max(W,H)*0.8);
+  g.addColorStop(0,'rgb(248,236,198)');
+  g.addColorStop(0.45,'rgb(236,214,158)');
+  g.addColorStop(1,'rgb(206,172,108)');
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.globalAlpha=0.10;
+  for(let i=0;i<7;i++){
+    const y=H*(i/7)+Math.sin(t*0.6+i)*22;
+    const lg=ctx.createLinearGradient(0,y,W,y);
+    lg.addColorStop(0,'rgba(255,250,225,0)');lg.addColorStop(0.5,'rgba(255,250,225,1)');lg.addColorStop(1,'rgba(255,250,225,0)');
+    ctx.fillStyle=lg;ctx.fillRect(0,y,W,2.5);
+  }
+  ctx.globalAlpha=1;
+}
+
+
+function drawHills(t,A){
+  if(A<=0) return;
+  ctx.save();
+  // 锦鲤段远景:画面上部淡青山(与第②段山呼应,溶解时接得上)
+  const layers=[
+    {base:H*0.16, amp:H*0.035, col:'rgba(150,168,118,', sp:0.0032, ph:1.4, op:0.40},
+    {base:H*0.22, amp:H*0.05,  col:'rgba(120,148,95,',  sp:0.0046, ph:3.6, op:0.50},
+  ];
+  layers.forEach(L=>{
+    ctx.globalAlpha=A*L.op;
+    ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,L.base);
+    for(let x=0;x<=W;x+=8){
+      const y=L.base+Math.sin(x*L.sp+L.ph)*L.amp+Math.sin(x*L.sp*2.5+L.ph*2)*L.amp*0.4;
+      ctx.lineTo(x,y);
+    }
+    ctx.lineTo(W,0);ctx.closePath();
+    ctx.fillStyle=L.col+'1)';ctx.fill();
+  });
+  // 山间薄雾
+  ctx.globalAlpha=A*0.3;
+  const fy=H*0.20+Math.sin(t*0.4)*5;
+  const fg=ctx.createLinearGradient(0,fy,0,fy+40);
+  fg.addColorStop(0,'rgba(248,240,216,0)');fg.addColorStop(0.5,'rgba(248,240,216,0.9)');fg.addColorStop(1,'rgba(248,240,216,0)');
+  ctx.fillStyle=fg;ctx.fillRect(0,fy,W,40);
+  ctx.restore();
+}
+
+function oneWillow(ax,ay,dir,t,A){
+  const branches=6;
+  for(let b=0;b<branches;b++){
+    const len=H*(0.26+b*0.045);
+    const sway=Math.sin(t*0.7+b*0.8)*16;
+    const midx=ax+dir*len*(0.28+b*0.03);
+    const midy=ay+len*0.42;
+    const endx=ax+dir*len*0.14+sway;
+    const endy=ay+len;
+    // 枝条
+    ctx.globalAlpha=A*0.45;
+    ctx.strokeStyle='rgba(105,118,58,1)';ctx.lineWidth=1.6;
+    ctx.beginPath();ctx.moveTo(ax,ay);ctx.quadraticCurveTo(midx,midy,endx,endy);ctx.stroke();
+    // 柳叶(沿枝,金绿)
+    for(let sgt=0.25;sgt<=1.001;sgt+=0.11){
+      const bx=(1-sgt)*(1-sgt)*ax+2*(1-sgt)*sgt*midx+sgt*sgt*endx;
+      const by=(1-sgt)*(1-sgt)*ay+2*(1-sgt)*sgt*midy+sgt*sgt*endy;
+      ctx.globalAlpha=A*(0.4+0.2*Math.sin(t+b+sgt*5));
+      ctx.fillStyle='rgba(152,168,82,1)';
+      ctx.beginPath();ctx.ellipse(bx,by,2.6,7,dir*0.6,0,7);ctx.fill();
+    }
+  }
+}
+function drawWillows(t,A){
+  if(A<=0) return;
+  ctx.save();
+  oneWillow(W*0.015,-H*0.03,1,t,A);   // 左上垂柳
+  oneWillow(W*0.10,-H*0.05,1,t+2,A*0.8);
+  oneWillow(W*0.985,-H*0.03,-1,t+1,A); // 右上垂柳
+  oneWillow(W*0.90,-H*0.05,-1,t+3,A*0.8);
+  ctx.restore();
+}
+
+function drawSun(t,A,opts){
+  if(A<=0) return;
+  opts=opts||{};
+  const sx=opts.x!==undefined?opts.x:W*0.20;   // 左上
+  const sy=opts.y!==undefined?opts.y:H*0.20;
+  const R =opts.r!==undefined?opts.r:Math.min(W,H)*0.048;
+  const dim=opts.dim!==undefined?opts.dim:1;    // ③灶火段更淡
+  ctx.save();
+  ctx.globalCompositeOperation='lighter';
+  // 外层柔和光晕(收敛:更小范围、更低亮度,温润不刺眼)
+  const pulse=1+0.05*Math.sin(t*1.6);
+  const halo=ctx.createRadialGradient(sx,sy,0,sx,sy,R*2.8*pulse);
+  halo.addColorStop(0,'rgba(255,225,160,'+(0.26*A*dim)+')');
+  halo.addColorStop(0.4,'rgba(252,200,110,'+(0.12*A*dim)+')');
+  halo.addColorStop(1,'rgba(248,190,95,0)');
+  ctx.fillStyle=halo;
+  ctx.beginPath();ctx.arc(sx,sy,R*2.8*pulse,0,7);ctx.fill();
+  // 跳动的日冕火焰光焰(收敛:更短、更淡)
+  const rays=16;
+  for(let i=0;i<rays;i++){
+    const ang=i/rays*Math.PI*2 + t*0.15;
+    const flick=0.5+0.35*Math.sin(t*5+i*1.3)+0.15*Math.sin(t*9+i*2.1);
+    const inner=R*1.04;
+    const outer=R*(1.28+0.5*flick);
+    const wob=Math.sin(t*4+i)*0.05;
+    const a1=ang-0.05+wob, a2=ang+0.05+wob, am=ang+wob;
+    ctx.beginPath();
+    ctx.moveTo(sx+Math.cos(a1)*inner, sy+Math.sin(a1)*inner);
+    ctx.lineTo(sx+Math.cos(am)*outer, sy+Math.sin(am)*outer);
+    ctx.lineTo(sx+Math.cos(a2)*inner, sy+Math.sin(a2)*inner);
+    ctx.closePath();
+    ctx.fillStyle='rgba(244,'+Math.round(170+flick*40)+','+Math.round(75+flick*30)+','+(0.3*A*dim)+')';
+    ctx.fill();
+  }
+  // 日轮(暖金圆盘,不那么白,更柔)
+  ctx.globalCompositeOperation='source-over';
+  const disc=ctx.createRadialGradient(sx-R*0.25,sy-R*0.25,0,sx,sy,R);
+  disc.addColorStop(0,'rgba(255,238,185,'+A+')');
+  disc.addColorStop(0.5,'rgba(248,208,120,'+A+')');
+  disc.addColorStop(1,'rgba(232,180,80,'+A+')');
+  ctx.globalAlpha=1;ctx.fillStyle=disc;
+  ctx.beginPath();ctx.arc(sx,sy,R,0,7);ctx.fill();
+  // 盘面火焰微光(收敛:更淡)
+  ctx.globalCompositeOperation='lighter';
+  for(let i=0;i<4;i++){
+    const fa=t*0.8+i*1.6, fr=R*0.45*Math.abs(Math.sin(t*2+i));
+    const fxp=sx+Math.cos(fa)*fr, fyp=sy+Math.sin(fa)*fr;
+    ctx.globalAlpha=A*0.22*(0.5+0.5*Math.sin(t*6+i));
+    const sg=ctx.createRadialGradient(fxp,fyp,0,fxp,fyp,R*0.45);
+    sg.addColorStop(0,'rgba(255,238,190,0.7)');sg.addColorStop(1,'rgba(255,238,190,0)');
+    ctx.fillStyle=sg;ctx.beginPath();ctx.arc(fxp,fyp,R*0.45,0,7);ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawMountainScene(t,A){
+  if(A<=0) return;
+  ctx.save();ctx.globalAlpha=A;
+  const waterY=H*0.62;
+  // 天空(与锦鲤暖金基调一致 → 转场自然)
+  let sky=ctx.createLinearGradient(0,0,0,waterY);
+  sky.addColorStop(0,'#f6e8bc'); sky.addColorStop(1,'#ecd9a8');
+  ctx.fillStyle=sky;ctx.fillRect(0,0,W,waterY);
+  // 暖阳光晕(底色)
+  let sunGlow=ctx.createRadialGradient(W*0.20,waterY*0.40,0,W*0.20,waterY*0.40,W*0.30);
+  sunGlow.addColorStop(0,'rgba(255,246,208,0.6)'); sunGlow.addColorStop(1,'rgba(255,246,208,0)');
+  ctx.fillStyle=sunGlow;ctx.fillRect(0,0,W,waterY);
+  // 动态太阳(左上,山的后面)
+  drawSun(t, A, {x:W*0.20, y:H*0.20, r:Math.min(W,H)*0.05});
+  // 三层远山(远→近,越近越浓越大,山脊描金边=夕照)
+  const layers=[
+    {base:waterY-H*0.19, amp:H*0.05, col:'rgba(150,165,110,0.92)', edge:'rgba(238,212,142,0.85)', sp:0.0030, ph:1.0},
+    {base:waterY-H*0.11, amp:H*0.07, col:'rgba(108,138,84,0.96)',  edge:'rgba(228,196,124,0.7)',  sp:0.0042, ph:3.0},
+    {base:waterY-H*0.02, amp:H*0.09, col:'rgba(76,110,64,1)',      edge:'rgba(212,182,112,0.6)',  sp:0.0055, ph:5.5},
+  ];
+  function ridgePath(L){
+    ctx.beginPath();ctx.moveTo(0,waterY);
+    for(let x=0;x<=W;x+=6){
+      const y=L.base+Math.sin(x*L.sp+L.ph)*L.amp+Math.sin(x*L.sp*2.7+L.ph*2)*L.amp*0.35;
+      x===0?ctx.lineTo(0,y):ctx.lineTo(x,y);
+    }
+    ctx.lineTo(W,waterY);ctx.closePath();
+  }
+  layers.forEach(L=>{
+    ridgePath(L);ctx.fillStyle=L.col;ctx.fill();
+    // 描金边
+    ctx.beginPath();
+    for(let x=0;x<=W;x+=6){
+      const y=L.base+Math.sin(x*L.sp+L.ph)*L.amp+Math.sin(x*L.sp*2.7+L.ph*2)*L.amp*0.35;
+      x===0?ctx.moveTo(0,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle=L.edge;ctx.lineWidth=2;ctx.stroke();
+  });
+  // 山间雾(缓慢飘动)
+  ctx.globalAlpha=A*0.45;
+  for(let i=0;i<3;i++){
+    const fy=waterY-H*0.13+i*H*0.045+Math.sin(t*0.5+i)*6;
+    const fg=ctx.createLinearGradient(0,fy,0,fy+34);
+    fg.addColorStop(0,'rgba(248,240,216,0)');fg.addColorStop(0.5,'rgba(248,240,216,0.85)');fg.addColorStop(1,'rgba(248,240,216,0)');
+    ctx.fillStyle=fg;ctx.fillRect(0,fy,W,34);
+  }
+  ctx.globalAlpha=A;
+  // 水面
+  let water=ctx.createLinearGradient(0,waterY,0,H);
+  water.addColorStop(0,'#d6bd70');water.addColorStop(1,'#bfa455');
+  ctx.fillStyle=water;ctx.fillRect(0,waterY,W,H-waterY);
+  // 山影倒映(淡)
+  ctx.globalAlpha=A*0.22;ctx.fillStyle='rgba(76,104,60,1)';
+  ctx.fillRect(0,waterY,W,H*0.07);
+  // 水面金色波光(横向流动)
+  for(let i=0;i<9;i++){
+    const wy=waterY+(H-waterY)*(i/9)+Math.sin(t*0.8+i)*4;
+    ctx.globalAlpha=A*(0.14+0.10*Math.sin(t+i));
+    const lg=ctx.createLinearGradient(0,wy,W,wy);
+    lg.addColorStop(0,'rgba(255,249,214,0)');lg.addColorStop(0.5,'rgba(255,249,214,1)');lg.addColorStop(1,'rgba(255,249,214,0)');
+    ctx.fillStyle=lg;ctx.fillRect(0,wy,W,2);
+  }
+  ctx.restore();
+  // 水中锦鲤(让鱼从第①段延续到第②段)
+  if(A>0.05) mountainKoi.forEach(k=>k.draw(t, A*0.85));
+}
+
+function flameTongue(cx,baseY,w,h,sway,color){
+  ctx.beginPath();
+  ctx.moveTo(cx-w, baseY);
+  ctx.quadraticCurveTo(cx-w*0.5, baseY-h*0.55, cx+sway, baseY-h);
+  ctx.quadraticCurveTo(cx+w*0.5, baseY-h*0.55, cx+w, baseY);
+  ctx.closePath();ctx.fillStyle=color;ctx.fill();
+}
+function drawStove(t,A){
+  if(A<=0) return;
+  ctx.save();ctx.globalAlpha=A;
+  // 浅绿暖金背景(与青山绿水段一致,全片色调统一)
+  const waterY=H*0.62;
+  let sky=ctx.createLinearGradient(0,0,0,waterY);
+  sky.addColorStop(0,'#f6e8bc'); sky.addColorStop(1,'#ecd9a8');
+  ctx.fillStyle=sky;ctx.fillRect(0,0,W,waterY);
+  // 动态太阳(左上,调淡,与地上灶火两个暖光源呼应)
+  drawSun(t, A, {x:W*0.20, y:H*0.18, r:Math.min(W,H)*0.045, dim:0.7});
+  // 远山(浅绿,呼应山水段)
+  const ml=[
+    {base:waterY-H*0.16, amp:H*0.045, col:'rgba(150,165,110,0.9)', sp:0.0034, ph:2.0},
+    {base:waterY-H*0.06, amp:H*0.065, col:'rgba(108,138,84,0.95)', sp:0.0048, ph:4.2},
+  ];
+  ml.forEach(L=>{
+    ctx.beginPath();ctx.moveTo(0,waterY);
+    for(let x=0;x<=W;x+=8){const y=L.base+Math.sin(x*L.sp+L.ph)*L.amp+Math.sin(x*L.sp*2.6+L.ph*2)*L.amp*0.35;ctx.lineTo(x,y);}
+    ctx.lineTo(W,waterY);ctx.closePath();ctx.fillStyle=L.col;ctx.fill();
+  });
+  // 地面(暖金,灶台所在)
+  let ground=ctx.createLinearGradient(0,waterY,0,H);
+  ground.addColorStop(0,'#d6bd70');ground.addColorStop(1,'#c2a85a');
+  ctx.fillStyle=ground;ctx.fillRect(0,waterY,W,H-waterY);
+  const fx=W*0.5, baseY=H*0.80;
+  // 火光在浅地面上的暖辉(柔和,不压暗)
+  const glow=ctx.createRadialGradient(fx,baseY-H*0.04,0,fx,baseY-H*0.04,W*0.26);
+  glow.addColorStop(0,'rgba(255,160,60,0.40)');glow.addColorStop(0.5,'rgba(235,130,45,0.12)');glow.addColorStop(1,'rgba(235,130,45,0)');
+  ctx.fillStyle=glow;ctx.fillRect(0,0,W,H);
+
+  // 木柴(几根交叠,暖褐,带端面年轮)
+  function log(x,y,len,ang){
+    ctx.save();ctx.translate(x,y);ctx.rotate(ang);
+    const lg=ctx.createLinearGradient(0,-H*0.018,0,H*0.018);
+    lg.addColorStop(0,'#5a3a1c');lg.addColorStop(0.5,'#744a22');lg.addColorStop(1,'#3e2814');
+    ctx.fillStyle=lg;
+    const hh=H*0.018;
+    ctx.beginPath();
+    ctx.moveTo(-len/2+hh,-hh);ctx.lineTo(len/2-hh,-hh);
+    ctx.arc(len/2-hh,0,hh,-Math.PI/2,Math.PI/2);
+    ctx.lineTo(-len/2+hh,hh);ctx.arc(-len/2+hh,0,hh,Math.PI/2,-Math.PI/2);
+    ctx.closePath();ctx.fill();
+    // 端面年轮
+    ctx.fillStyle='#6b4520';ctx.beginPath();ctx.ellipse(len/2,0,H*0.012,H*0.018,0,0,7);ctx.fill();
+    ctx.strokeStyle='#4a3018';ctx.lineWidth=1;
+    ctx.beginPath();ctx.ellipse(len/2,0,H*0.007,H*0.011,0,0,7);ctx.stroke();
+    ctx.restore();
+  }
+  log(fx-W*0.05, baseY+H*0.01, W*0.20, -0.12);
+  log(fx+W*0.05, baseY+H*0.012, W*0.20, 0.14);
+  log(fx, baseY+H*0.028, W*0.22, -0.02);
+
+  // 火焰(浅底上用正常混合更清晰,芯部发光)
+  const n=7;
+  for(let i=0;i<n;i++){
+    const cx=fx+(i-(n-1)/2)*W*0.022;
+    const flick=Math.sin(t*9+i*1.7)*0.5+Math.sin(t*14+i)*0.3;
+    const h=H*(0.11+0.05*Math.abs(Math.sin(t*5.5+i)))*(1+flick*0.18);
+    const w=W*0.020*(1-i/n*0.15);
+    const sway=Math.sin(t*6.5+i)*w*0.9;
+    ctx.globalAlpha=A*0.55;
+    flameTongue(cx,baseY,w*1.4,h*0.95,sway,'rgba(190,45,12,1)');
+    ctx.globalAlpha=A*0.7;
+    flameTongue(cx,baseY,w,h,sway,'rgba(242,140,32,1)');
+    ctx.globalAlpha=A*0.85;
+    flameTongue(cx,baseY,w*0.6,h*0.76,sway*0.8,'rgba(255,218,92,1)');
+    ctx.globalAlpha=A*0.9;
+    flameTongue(cx,baseY,w*0.30,h*0.5,sway*0.6,'rgba(255,250,212,1)');
+  }
+
+  // 铁锅(火上方,深铁色弧 + 口沿高光)
+  const wy=baseY-H*0.15;
+  ctx.globalAlpha=A;
+  ctx.beginPath();
+  ctx.moveTo(fx-W*0.12, wy);
+  ctx.quadraticCurveTo(fx, wy+H*0.075, fx+W*0.12, wy);
+  ctx.lineWidth=Math.max(6,H*0.012);ctx.strokeStyle='#1f1b16';ctx.stroke();
+  // 锅口高光
+  ctx.beginPath();
+  ctx.moveTo(fx-W*0.12, wy);ctx.lineTo(fx+W*0.12, wy);
+  ctx.lineWidth=Math.max(2,H*0.004);ctx.strokeStyle='rgba(255,210,140,0.6)';ctx.stroke();
+
+  // —— 烟火气冉冉升起(重点)——
+  // 烟(浅底上用暖褐灰才看得见,扭动上升,越高越淡越散)
+  stoveSmoke.forEach(p=>{
+    const life=((t*0.13*p.spd+p.seed)%1);
+    const y=wy-H*0.02 - life*H*0.58;
+    const x=fx+p.xoff*W*0.10+Math.sin(life*Math.PI*p.wob+p.ph)*W*0.07*life;
+    const size=W*0.016+life*W*0.06;
+    const a=A*Math.sin(life*Math.PI)*0.22;
+    if(a<=0)return;
+    ctx.globalAlpha=a;
+    const v=Math.round(120+life*70);
+    const pg=ctx.createRadialGradient(x,y,0,x,y,size);
+    pg.addColorStop(0,'rgba('+(v+30)+','+v+','+(v-30)+',0.7)');
+    pg.addColorStop(1,'rgba('+(v+30)+','+v+','+(v-30)+',0)');
+    ctx.fillStyle=pg;ctx.beginPath();ctx.arc(x,y,size,0,7);ctx.fill();
+  });
+  ctx.globalCompositeOperation='lighter';
+  // 火星(从火苗升起,小亮点,闪烁)
+  stoveSparks.forEach(p=>{
+    const life=((t*0.45*p.spd+p.seed)%1);
+    const y=baseY-H*0.02 - life*H*0.42;
+    const x=fx+p.xoff*W*0.05+Math.sin(life*22+p.ph)*W*0.012;
+    const a=A*(1-life)*(0.5+0.5*Math.sin(t*20+p.ph));
+    if(a<=0)return;
+    ctx.globalAlpha=a;ctx.fillStyle='rgba(255,205,95,1)';
+    ctx.beginPath();ctx.arc(x,y,W*0.0016+life*W*0.001,0,7);ctx.fill();
+  });
+  ctx.globalCompositeOperation='source-over';
+  ctx.restore();
+}
+
+function drawFeast(t,A){
+  if(A<=0) return;
+  ctx.save();ctx.globalAlpha=A;
+  const horizon=H*0.50;
+  // 浅绿暖金背景(与全片一致)
+  let sky=ctx.createLinearGradient(0,0,0,horizon);
+  sky.addColorStop(0,'#f6e8bc');sky.addColorStop(1,'#f0e0b4');
+  ctx.fillStyle=sky;ctx.fillRect(0,0,W,horizon);
+  // 动态太阳(左上,远山后面)
+  drawSun(t, A, {x:W*0.20, y:H*0.16, r:Math.min(W,H)*0.045});
+  // 远山一抹(浅绿,呼应)
+  ctx.beginPath();ctx.moveTo(0,horizon);
+  for(let x=0;x<=W;x+=8){const y=horizon-H*0.05+Math.sin(x*0.004+2)*H*0.03;ctx.lineTo(x,y);}
+  ctx.lineTo(W,horizon);ctx.closePath();
+  ctx.fillStyle='rgba(140,160,105,0.55)';ctx.fill();
+  // 木质暖色餐桌(占下半,斜俯视)
+  let table=ctx.createLinearGradient(0,horizon,0,H);
+  table.addColorStop(0,'#b89a5a');table.addColorStop(0.5,'#a3853f');table.addColorStop(1,'#8a6d30');
+  ctx.fillStyle=table;ctx.fillRect(0,horizon,W,H-horizon);
+  // 桌面木纹
+  ctx.globalAlpha=A*0.12;ctx.strokeStyle='#8a6d3a';ctx.lineWidth=1.5;
+  for(let i=0;i<6;i++){const y=horizon+(H-horizon)*(i+0.5)/6;
+    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  ctx.globalAlpha=A;
+
+  const cy=H*0.72;
+  // —— 三个容器:中央大盘(招牌烤鸭/鱼)+ 左碗(炒时蔬)+ 右碗(点心/饭)——
+  const bowls=[
+    {x:W*0.5,  y:cy,        rx:W*0.14, ry:H*0.058, kind:'main'},
+    {x:W*0.29, y:cy+H*0.05, rx:W*0.078,ry:H*0.036, kind:'veg'},
+    {x:W*0.71, y:cy+H*0.05, rx:W*0.078,ry:H*0.036, kind:'dimsum'},
+  ];
+  // 盘下淡阴影(立体)
+  bowls.forEach(b=>{
+    ctx.globalAlpha=A*0.18;ctx.fillStyle='#6b5226';
+    ctx.beginPath();ctx.ellipse(b.x,b.y+b.ry*0.5,b.rx*1.05,b.ry*0.7,0,0,7);ctx.fill();
+    ctx.globalAlpha=A;
+  });
+  function seededRand(seed){return (Math.sin(seed*127.1)*43758.5453)%1*0.5+0.5;}
+  bowls.forEach((b,bi)=>{
+    // 盘/碗(白瓷+金边)
+    ctx.fillStyle='#f8f3e8';
+    ctx.beginPath();ctx.ellipse(b.x,b.y,b.rx,b.ry,0,0,7);ctx.fill();
+    ctx.strokeStyle='rgba(200,165,90,0.85)';ctx.lineWidth=Math.max(1.5,H*0.0025);
+    ctx.beginPath();ctx.ellipse(b.x,b.y,b.rx,b.ry,0,0,7);ctx.stroke();
+    ctx.strokeStyle='rgba(150,120,70,0.22)';ctx.lineWidth=Math.max(1,H*0.0015);
+    ctx.beginPath();ctx.ellipse(b.x,b.y,b.rx*0.84,b.ry*0.84,0,0,7);ctx.stroke();
+
+    if(b.kind==='main'){
+      // 招牌:金红烤鸭/煎鱼块,一片片码放(看得出是肉/鸭)
+      const pieces=7;
+      for(let k=0;k<pieces;k++){
+        const px=b.x-b.rx*0.55+ (b.rx*1.1)*(k/(pieces-1));
+        const py=b.y-b.ry*0.12+Math.sin(k*1.5)*b.ry*0.18;
+        const pw=b.rx*0.16, ph=b.ry*0.5;
+        // 鸭/肉片(金棕红,带焦糖光泽)
+        const mg=ctx.createLinearGradient(px,py-ph,px,py+ph);
+        mg.addColorStop(0,'#b5471e');mg.addColorStop(0.5,'#d4732c');mg.addColorStop(1,'#9c3a16');
+        ctx.fillStyle=mg;
+        ctx.beginPath();ctx.ellipse(px,py,pw,ph,0.2,0,7);ctx.fill();
+        // 皮的高光
+        ctx.globalAlpha=A*0.4;ctx.fillStyle='#f6c272';
+        ctx.beginPath();ctx.ellipse(px-pw*0.2,py-ph*0.4,pw*0.4,ph*0.25,0.2,0,7);ctx.fill();
+        ctx.globalAlpha=A;
+      }
+      // 配菜:周围一圈青菜+黄瓜片
+      for(let k=0;k<8;k++){
+        const aa=k/8*Math.PI*2, gx=b.x+Math.cos(aa)*b.rx*0.66, gy=b.y+Math.sin(aa)*b.ry*0.62;
+        ctx.fillStyle=k%2?'#5f9a38':'#8fc04a';
+        ctx.beginPath();ctx.ellipse(gx,gy,b.rx*0.06,b.ry*0.16,aa,0,7);ctx.fill();
+      }
+    } else if(b.kind==='veg'){
+      // 炒时蔬:红绿黄食材块堆叠(看得出一堆炒菜)
+      const cols=['#6fa838','#c0392b','#e8b53a','#4f8a30','#d4632a','#8fc04a'];
+      for(let k=0;k<11;k++){
+        const aa=seededRand(k+bi*9)*Math.PI*2, rr=seededRand(k*3+bi)*b.rx*0.6;
+        const gx=b.x+Math.cos(aa)*rr, gy=b.y+Math.sin(aa)*rr*0.5 - b.ry*0.05;
+        ctx.fillStyle=cols[k%cols.length];
+        ctx.beginPath();ctx.ellipse(gx,gy,b.rx*0.13,b.ry*0.28,aa,0,7);ctx.fill();
+        ctx.globalAlpha=A*0.3;ctx.fillStyle='#fff6e0';
+        ctx.beginPath();ctx.ellipse(gx-b.rx*0.03,gy-b.ry*0.06,b.rx*0.04,b.ry*0.08,aa,0,7);ctx.fill();
+        ctx.globalAlpha=A;
+      }
+    } else {
+      // 点心:三个小蒸饺/包子(白胖,褶子)
+      const buns=[[-0.4,-0.05],[0.4,-0.05],[0,0.18]];
+      buns.forEach(p=>{
+        const gx=b.x+p[0]*b.rx*0.9, gy=b.y+p[1]*b.ry*1.4;
+        const r=b.rx*0.32;
+        const bg=ctx.createRadialGradient(gx-r*0.3,gy-r*0.3,0,gx,gy,r);
+        bg.addColorStop(0,'#fffaf0');bg.addColorStop(1,'#ecdcc0');
+        ctx.fillStyle=bg;
+        ctx.beginPath();ctx.ellipse(gx,gy,r,r*0.8,0,0,7);ctx.fill();
+        // 褶子
+        ctx.strokeStyle='rgba(180,150,100,0.5)';ctx.lineWidth=1;
+        for(let j=0;j<4;j++){ctx.beginPath();ctx.moveTo(gx,gy-r*0.5);
+          ctx.lineTo(gx+Math.cos(j/4*Math.PI*2)*r*0.7,gy-r*0.5+Math.sin(j/4*Math.PI*2)*r*0.4);ctx.stroke();}
+      });
+    }
+    // 顶部一撮葱花点缀(每盘都有,自然健康)
+    for(let k=0;k<5;k++){
+      const gx=b.x+(seededRand(k+bi*5)-0.5)*b.rx*1.0, gy=b.y+(seededRand(k*2+bi)-0.5)*b.ry*0.8;
+      ctx.fillStyle=k%2?'#6fb33a':'#3f8020';
+      ctx.beginPath();ctx.ellipse(gx,gy,b.rx*0.03,b.rx*0.012,seededRand(k)*3,0,7);ctx.fill();
+    }
+  });
+
+  // —— 一双筷子(搁在主盘右侧)——
+  ctx.save();
+  ctx.translate(W*0.5+W*0.14, cy-H*0.01);ctx.rotate(-0.32);
+  ctx.fillStyle='#6b4423';
+  ctx.fillRect(-W*0.005,-H*0.10,W*0.006,H*0.20);
+  ctx.fillRect(W*0.006,-H*0.10,W*0.006,H*0.20);
+  // 筷子金顶
+  ctx.fillStyle='#caa05a';
+  ctx.fillRect(-W*0.005,-H*0.10,W*0.006,H*0.02);
+  ctx.fillRect(W*0.006,-H*0.10,W*0.006,H*0.02);
+  ctx.restore();
+
+  // —— 袅袅热气(从碗口升起,自然健康暖心)——
+  steam.forEach(p=>{
+    const b=bowls[p.bowl];
+    const life=((t*0.16*p.spd+p.seed)%1);
+    const y=b.y-b.ry*0.5 - life*H*0.30;
+    const x=b.x+p.xoff*b.rx*0.6+Math.sin(life*Math.PI*p.wob+p.ph)*W*0.025*life;
+    const size=W*0.008+life*W*0.03;
+    const a=A*Math.sin(life*Math.PI)*0.30;
+    if(a<=0)return;
+    ctx.globalAlpha=a;
+    const pg=ctx.createRadialGradient(x,y,0,x,y,size);
+    pg.addColorStop(0,'rgba(255,252,242,0.9)');
+    pg.addColorStop(1,'rgba(255,252,242,0)');
+    ctx.fillStyle=pg;ctx.beginPath();ctx.arc(x,y,size,0,7);ctx.fill();
+  });
+  ctx.globalAlpha=1;
+  // 文案区柔和暖金压暗(让定格文字清晰浮起,同色系)
+  const tg=ctx.createLinearGradient(0,H*0.30,0,H);
+  tg.addColorStop(0,'rgba(60,44,16,0)');
+  tg.addColorStop(0.55,'rgba(58,42,15,0.18)');
+  tg.addColorStop(1,'rgba(52,38,12,0.38)');
+  ctx.globalAlpha=A;ctx.fillStyle=tg;ctx.fillRect(0,0,W,H);
+  ctx.globalAlpha=1;
+  ctx.restore();
+}
+
+function frame(now){
+  requestAnimationFrame(frame);
+  if(t0===null)t0=now;
+  const t=(now-t0)/1000;
+
+  function clamp(v){return Math.max(0,Math.min(1,v));}
+  // === 完整时间线(连续渐隐过渡)===
+  // ①锦鲤 0-3.5 | ② 山水 5-7.5 | ③ 灶火 9-11.5 | ④ 佳肴 13+ | 文案 14.5+
+  const koiA   = t<3.5 ? 1 : clamp(1-(t-3.5)/2);
+  const mtnA   = Math.min(clamp((t-3.5)/2), clamp((9-t)/2));
+  const stoveA = Math.min(clamp((t-7.5)/2), clamp((13-t)/2));
+  const feastA = clamp((t-11.5)/2);
+
+  drawBackground(t);
+
+  // —— 第①段:青山垂柳 + 锦鲤 + 水泡 ——
+  if(koiA>0){
+    drawHills(t, koiA);
+    rippleTimer++;
+    if(rippleTimer>40){rippleTimer=0;addRipple(W*(0.2+Math.random()*0.6),H*(0.25+Math.random()*0.5));}
+    ctx.lineWidth=1.2;
+    ripples=ripples.filter(r=>r.a>0.01);
+    ripples.forEach(r=>{r.r+=1.1;r.a*=0.985;ctx.beginPath();ctx.arc(r.x,r.y,r.r,0,7);
+      ctx.strokeStyle='rgba(180,140,60,'+(r.a*koiA)+')';ctx.stroke();});
+    motes.forEach(m=>{m.y-=m.sp;if(m.y<0)m.y=1;
+      const x=m.x*W+Math.sin(t+m.ph)*8,y=m.y*H;
+      ctx.globalAlpha=(0.22+0.22*Math.sin(t*2+m.ph))*koiA;
+      ctx.fillStyle='#fff6d8';ctx.beginPath();ctx.arc(x,y,m.s,0,7);ctx.fill();});
+    ctx.globalAlpha=1;
+    koi.forEach(k=>k.draw(t,koiA));
+    drawWillows(t, koiA);
+  }
+
+  // —— 第②段:青山绿水 + 水中锦鲤 ——
+  drawMountainScene(t, mtnA);
+
+  // —— 第③段:柴火灶台(烟火气冉冉升起)——
+  drawStove(t, stoveA);
+
+  // —— 第④段:一桌佳肴(碗筷 + 热气 + 自然健康)——
+  drawFeast(t, feastA);
+
+  // —— 品牌文案定格(全片最后)——
+  if(t>=14.5 && !overlay.classList.contains('show')){
+    overlay.classList.add('show');
+    document.getElementById('enter').classList.add('show');
+    // 结尾后点击层让位给 Entrer 按钮(避免再触发快进)
+    document.getElementById('clicklayer').style.pointerEvents='none';
+  }
+}
+requestAnimationFrame(frame);
+
+// === 片头交互 ===
+// 点击画面:快进到结尾文案页(不直接进网站)
+let skipped=false;
+function skipToEnd(){
+  if(skipped) return; skipped=true;
+  // 把开始时间往前拨,使动画立刻处于结尾定格(>=14.5s)
+  t0 = performance.now() - 15000;
+}
+// 点击 Entrer:才真正进入网站
+let entered=false;
+function enterSite(){
+  if(entered) return; entered=true;
+  document.getElementById('fadeout').classList.add('show');
+  setTimeout(function(){
+    if(typeof window.onIntroEnter==='function'){ window.onIntroEnter(); }
+    else {
+      const fo=document.getElementById('fadeout');
+      fo.innerHTML='<div style=\'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;color:#8a6d1f;font-size:18px;letter-spacing:.2em;\'>→ 进入网站(集成后跳转首页)</div>';
+    }
+  },900);
+}
+document.getElementById('clicklayer').addEventListener('click', skipToEnd);
+document.getElementById('enter').addEventListener('click', function(e){e.stopPropagation();enterSite();});
+</script>
+<script>
+/* Integration bridge: this intro is embedded as a same-origin <iframe> inside the
+   React app. enterSite() (above) calls window.onIntroEnter() after the gold fade-out;
+   here we define it to notify the parent app to reveal the site. Same-origin only. */
+window.onIntroEnter = function () {
+  try { window.parent.postMessage({ type: 'dragons-intro-enter' }, window.location.origin); } catch (e) {}
+};
+</script>
+</body>
+</html>
