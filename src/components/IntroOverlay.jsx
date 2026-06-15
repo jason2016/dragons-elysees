@@ -39,7 +39,8 @@ export default function IntroOverlay() {
       if (e.origin !== window.location.origin) return
       if (!e.data || e.data.type !== 'dragons-intro-enter') return
       try { localStorage.setItem(SEEN_KEY, '1') } catch { /* ignore */ }
-      window.location.hash = '#/'            // always land on the homepage
+      // Route by the button the guest tapped: reservation page or homepage.
+      window.location.hash = e.data.target === 'reservation' ? '#/reservation' : '#/'
       setLeaving(true)                        // fade the overlay out…
       setTimeout(() => setVisible(false), 600) // …then unmount, revealing the site
     }

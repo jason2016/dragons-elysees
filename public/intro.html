@@ -27,23 +27,26 @@
     text-shadow:0 1px 8px rgba(40,28,8,.5);}
   /* 点击层:覆盖全屏,点任意处进入 */
   #clicklayer{position:fixed;inset:0;z-index:8;cursor:pointer;}
-  /* 进入按钮(看完后中央偏下出现)*/
-  #enter{position:fixed;left:50%;bottom:14%;transform:translateX(-50%);z-index:12;
-    pointer-events:none;cursor:pointer;
+  /* 进入按钮区(看完后中央偏下出现)— 两个等权实心金按钮,窄屏自动堆叠 */
+  #cta{position:fixed;left:50%;bottom:12%;transform:translateX(-50%);z-index:12;
+    display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center;
+    width:max-content;max-width:92vw;
+    opacity:0;pointer-events:none;transition:opacity 1s ease;}
+  #cta.show{opacity:1;pointer-events:auto;}
+  .introBtn{cursor:pointer;
     font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(15px,1.8vw,21px);
-    letter-spacing:.3em;text-transform:uppercase;color:#3a2a08;font-weight:600;
+    letter-spacing:.05em;text-transform:uppercase;color:#3a2a08;font-weight:600;
     background:linear-gradient(180deg,#f8e4a0 0%,#e6c869 45%,#d4af37 100%);
     border:1px solid #c19a2e;border-radius:40px;
-    padding:15px 46px;opacity:0;
-    transition:opacity 1s ease,transform .2s ease,box-shadow .2s ease;
+    padding:15px 46px;white-space:nowrap;
+    transition:transform .2s ease,box-shadow .2s ease;
     box-shadow:0 6px 16px rgba(40,28,8,.35), 0 2px 4px rgba(40,28,8,.25),
                inset 0 1px 0 rgba(255,255,255,.6), inset 0 -2px 4px rgba(150,110,30,.4);
     text-shadow:0 1px 0 rgba(255,250,220,.5);}
-  #enter.show{opacity:1;pointer-events:auto;}
-  #enter:hover{transform:translateX(-50%) translateY(-3px);
+  .introBtn:hover{transform:translateY(-3px);
     box-shadow:0 10px 24px rgba(40,28,8,.42), 0 3px 6px rgba(40,28,8,.3),
                inset 0 1px 0 rgba(255,255,255,.7), inset 0 -2px 4px rgba(150,110,30,.4);}
-  #enter:active{transform:translateX(-50%) translateY(-1px);
+  .introBtn:active{transform:translateY(-1px);
     box-shadow:0 3px 8px rgba(40,28,8,.4),
                inset 0 1px 0 rgba(255,255,255,.4), inset 0 -1px 3px rgba(150,110,30,.5);}
   /* 整体淡出(进入网站) */
@@ -63,7 +66,10 @@
   <div class="tag tag2">Tradition · Équilibre · Cœur des Champs-Élysées</div>
   <div class="addr">11 Rue de Berri · Paris 8ᵉ</div>
 </div>
-<button id="enter">Entrer</button>
+<div id="cta">
+  <button id="enter" class="introBtn">Entrer</button>
+  <button id="reserve" class="introBtn">Réserver une table</button>
+</div>
 <div id="clicklayer"></div>
 <div id="fadeout"></div>
 
@@ -789,8 +795,8 @@ function frame(now){
   // —— 品牌文案定格(全片最后)——
   if(t>=14.5 && !overlay.classList.contains('show')){
     overlay.classList.add('show');
-    document.getElementById('enter').classList.add('show');
-    // 结尾后点击层让位给 Entrer 按钮(避免再触发快进)
+    document.getElementById('cta').classList.add('show');
+    // 结尾后点击层让位给按钮(避免再触发快进)
     document.getElementById('clicklayer').style.pointerEvents='none';
   }
 }
@@ -806,26 +812,27 @@ function skipToEnd(){
 }
 // 点击 Entrer:才真正进入网站
 let entered=false;
-function enterSite(){
+function enterSite(target){
   if(entered) return; entered=true;
   document.getElementById('fadeout').classList.add('show');
   setTimeout(function(){
-    if(typeof window.onIntroEnter==='function'){ window.onIntroEnter(); }
+    if(typeof window.onIntroEnter==='function'){ window.onIntroEnter(target); }
     else {
       const fo=document.getElementById('fadeout');
-      fo.innerHTML='<div style=\'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;color:#8a6d1f;font-size:18px;letter-spacing:.2em;\'>→ 进入网站(集成后跳转首页)</div>';
+      fo.innerHTML='<div style=\'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;color:#8a6d1f;font-size:18px;letter-spacing:.2em;\'>→ 进入网站(集成后跳转)</div>';
     }
   },900);
 }
 document.getElementById('clicklayer').addEventListener('click', skipToEnd);
-document.getElementById('enter').addEventListener('click', function(e){e.stopPropagation();enterSite();});
+document.getElementById('enter').addEventListener('click', function(e){e.stopPropagation();enterSite('home');});
+document.getElementById('reserve').addEventListener('click', function(e){e.stopPropagation();enterSite('reservation');});
 </script>
 <script>
 /* Integration bridge: this intro is embedded as a same-origin <iframe> inside the
    React app. enterSite() (above) calls window.onIntroEnter() after the gold fade-out;
    here we define it to notify the parent app to reveal the site. Same-origin only. */
-window.onIntroEnter = function () {
-  try { window.parent.postMessage({ type: 'dragons-intro-enter' }, window.location.origin); } catch (e) {}
+window.onIntroEnter = function (target) {
+  try { window.parent.postMessage({ type: 'dragons-intro-enter', target: target || 'home' }, window.location.origin); } catch (e) {}
 };
 </script>
 </body>
