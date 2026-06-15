@@ -15,9 +15,12 @@
 .heroBg {
   position: absolute;
   inset: 0;
+  /* Layers top→bottom: dark overlay (text contrast) → real Chinese/Thai dish photo
+     (same-origin) → warm-gold gradient placeholder shown instantly until the photo loads. */
   background:
     linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,1) 100%),
-    url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&q=80') center/cover no-repeat;
+    url('/dragons-elysees/menu/set/decouvert/cover.webp') center/cover no-repeat,
+    linear-gradient(160deg, #4a3413 0%, #1a1206 100%);
 }
 
 .heroContent {

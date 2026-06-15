@@ -59,7 +59,7 @@ export default function HomePage() {
         <div className={styles.heroContent}>
           <p className={styles.heroEyebrow}>{t('heroEyebrow')}</p>
           <img
-            src="https://longcheng.futushow.org/assets/images/logo5.png"
+            src="/dragons-elysees/icons/logo5.png"
             alt="Dragons Elysées 龙城酒楼"
             className={styles.heroLogo}
           />
