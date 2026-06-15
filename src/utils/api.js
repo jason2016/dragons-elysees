@@ -69,6 +69,20 @@ export const api = {
     if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.error || `HTTP ${res.status}`) }
     return res.blob()
   },
+
+  // Reservations (Stage 1). NOTE: this endpoint lives at /api/dragons/booking —
+  // a DIFFERENT base from the rest of the app (/api/dragons-elysees), so it does
+  // not use the request() helper. On 201 returns { success, booking_id, booking_code, status, message }.
+  createBooking: async (data) => {
+    const res = await fetch(`${import.meta.env.VITE_API_BASE}/api/dragons/booking`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ namespace: 'dragons-elysees', ...data }),
+    })
+    const body = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(body.error || `HTTP ${res.status}`)
+    return body
+  },
 }
 
 export function formatPrice(amount) {

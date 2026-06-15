@@ -49,6 +49,10 @@ export default function Header() {
             {t('menu')}
           </Link>
 
+          <Link to="/reservation" className={styles.navLink}>
+            {t('reservation.nav')}
+          </Link>
+
           {isLoggedIn ? (
             <Link to="/account" className={styles.navLink}>
               <span className={styles.accountDot} />

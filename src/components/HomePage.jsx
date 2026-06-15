@@ -84,6 +84,9 @@ export default function HomePage() {
                 {t('viewMenu')}
               </button>
             )}
+            <button className={styles.btnReserve} onClick={() => navigate('/reservation')}>
+              {t('reservation.cta')}
+            </button>
           </div>
           <a href="tel:0144072617" className={styles.phoneLink}>
             📞 01 44 07 26 17

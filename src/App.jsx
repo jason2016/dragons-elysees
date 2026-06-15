@@ -8,6 +8,7 @@ import Header from './components/Header'
 import Cart from './components/Cart'
 import HomePage from './components/HomePage'
 import MenuBrowser from './components/MenuBrowser'
+import ReservationPage from './components/ReservationPage'
 import Checkout from './components/Checkout'
 import PaymentSuccess from './components/PaymentSuccess'
 import AccountLogin from './components/AccountLogin'
@@ -51,6 +52,7 @@ function AppRoutes() {
       <InstallPrompt />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/menu" element={<MenuBrowser />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
