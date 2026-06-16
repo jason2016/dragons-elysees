@@ -173,6 +173,7 @@ export default function MenuBrowser() {
                     onCompose={() => setActiveSetMenu(item)}
                     primaryName={name(item)}
                     altNameStr={altName(item)}
+                    includesStr={item.includes ? name({ name: item.includes }) : ''}
                     composeTag={t('setMenuComposeTag')}
                     composeBtn={t('setMenuComposeBtn')}
                   />
@@ -241,7 +242,7 @@ export default function MenuBrowser() {
   )
 }
 
-function SetMenuCard({ item, catCover, onCompose, primaryName, altNameStr, composeTag, composeBtn }) {
+function SetMenuCard({ item, catCover, onCompose, primaryName, altNameStr, includesStr, composeTag, composeBtn }) {
   const sources = [item.cover, catCover].filter(Boolean)
   const [srcIdx, setSrcIdx] = useState(0)
   const imgSrc = sources[srcIdx]
@@ -266,6 +267,7 @@ function SetMenuCard({ item, catCover, onCompose, primaryName, altNameStr, compo
         <div className={styles.cardNames}>
           <span className={styles.cardPrimary}>{primaryName}</span>
           {altNameStr && <span className={styles.cardAlt}>{altNameStr}</span>}
+          {includesStr && <span className={styles.cardIncludes}>{includesStr}</span>}
         </div>
         <div className={styles.cardFooter}>
           {!item.price_todo && <span className={styles.cardPrice}>{formatPrice(item.price)}</span>}

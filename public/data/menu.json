@@ -242,7 +242,13 @@
                 }
               ]
             }
-          ]
+          ],
+          "includes": {
+            "zh": "🍸 含1杯招牌鸡尾酒",
+            "fr": "🍸 1 cocktail maison offert",
+            "en": "🍸 1 house cocktail included",
+            "es": "🍸 1 cóctel de la casa incluido"
+          }
         },
         {
           "id": "SM07",
@@ -256,14 +262,210 @@
           "hidden": true
         },
         {
+          "id": "SM10",
+          "type": "set_menu",
+          "price": 33,
+          "name": {
+            "zh": "经典套餐(2道)",
+            "fr": "Menu Classique (2 plats)",
+            "en": "Classic Menu (2 dishes)",
+            "es": "Menú Clásico (2 platos)"
+          },
+          "cover": "/dragons-elysees/menu/set/classique/cover.webp",
+          "includes": {
+            "zh": "🍚 含1份配菜",
+            "fr": "🍚 1 accompagnement compris",
+            "en": "🍚 1 side dish included",
+            "es": "🍚 1 acompañamiento incluido"
+          },
+          "courses": [
+            {
+              "key": "entree-ou-dessert",
+              "label": {
+                "zh": "前菜或甜点",
+                "fr": "Entrée ou Dessert",
+                "en": "Starter or Dessert",
+                "es": "Entrante o Postre"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "dian-xin",
+                  "name": {
+                    "zh": "蒸点心(4件)",
+                    "fr": "Dim sun vapeur (4ps)",
+                    "en": "Steamed dim sum (4pcs)",
+                    "es": "Dim sum al vapor (4pzs)"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/entree/dian-xin.webp"
+                },
+                {
+                  "id": "ji-chun-juan",
+                  "name": {
+                    "zh": "鸡春卷(4件)",
+                    "fr": "Nems au poulet (4ps)",
+                    "en": "Chicken spring rolls (4pcs)",
+                    "es": "Rollitos de pollo (4pzs)"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/entree/ji-chun-juan.webp"
+                },
+                {
+                  "id": "suan-la-tang",
+                  "name": {
+                    "zh": "北京酸辣汤",
+                    "fr": "Potage pékinois",
+                    "en": "Pekinese hot & sour soup",
+                    "es": "Sopa agripicante pekinesa"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/entree/suan-la-tang.webp"
+                },
+                {
+                  "id": "tai-shi-ji-sha-la",
+                  "name": {
+                    "zh": "泰式鸡沙拉",
+                    "fr": "Salade thaï au poulet",
+                    "en": "Thai-style chicken salad",
+                    "es": "Ensalada tailandesa de pollo"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/entree/tai-shi-ji-sha-la.webp"
+                },
+                {
+                  "id": "bing-ji-lin",
+                  "name": {
+                    "zh": "冰淇淋(1球)",
+                    "fr": "Boule de glace (1ps)",
+                    "en": "Ice cream (1 scoop)",
+                    "es": "Bola de helado (1pza)"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/dessert/bing-ji-lin.webp"
+                },
+                {
+                  "id": "bing-mi-ci",
+                  "name": {
+                    "zh": "冰麻糍(2件)",
+                    "fr": "Mochis glacés (2ps)",
+                    "en": "Iced mochis (2pcs)",
+                    "es": "Mochis helados (2pzs)"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/dessert/bing-mi-ci.webp"
+                },
+                {
+                  "id": "jiang-tang-zhi-ma-tang",
+                  "name": {
+                    "zh": "姜糖+牛轧糖+金桔糖",
+                    "fr": "Gingembres confits, nougats et kumquats confits",
+                    "en": "Candied ginger, nougat & kumquats",
+                    "es": "Jengibre, turrón y kumquats confitados"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/dessert/jiang-tang-zhi-ma-tang.webp"
+                },
+                {
+                  "id": "li-zhi",
+                  "name": {
+                    "zh": "糖水荔枝",
+                    "fr": "Lychees en sirop",
+                    "en": "Lychees in syrup",
+                    "es": "Lichis en almíbar"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/dessert/li-zhi.webp"
+                }
+              ]
+            },
+            {
+              "key": "plat",
+              "label": {
+                "zh": "主菜",
+                "fr": "Plat",
+                "en": "Main",
+                "es": "Plato"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "gan-shao-xia",
+                  "name": {
+                    "zh": "干烧虾",
+                    "fr": "Crevettes sautées piquantes",
+                    "en": "Spicy Sautéed Prawns",
+                    "es": "Gambas salteadas picantes"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/plat/gan-shao-xia.webp"
+                },
+                {
+                  "id": "jin-bu-hua-ya",
+                  "name": {
+                    "zh": "金不换鸭",
+                    "fr": "Canard au basilic thaï",
+                    "en": "Thai Basil Duck",
+                    "es": "Pato a la albahaca"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/plat/jin-bu-hua-ya.webp"
+                },
+                {
+                  "id": "yang-cong-niu",
+                  "name": {
+                    "zh": "洋葱牛",
+                    "fr": "Bœuf aux oignons",
+                    "en": "Beef with Onions",
+                    "es": "Ternera con cebolla"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/plat/yang-cong-niu.webp"
+                },
+                {
+                  "id": "you-lin-ji",
+                  "name": {
+                    "zh": "油淋鸡",
+                    "fr": "Poulet croustillant",
+                    "en": "Crispy Chicken",
+                    "es": "Pollo crujiente"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/plat/you-lin-ji.webp"
+                }
+              ]
+            },
+            {
+              "key": "accompagnement",
+              "label": {
+                "zh": "配菜",
+                "fr": "Accompagnement",
+                "en": "Side",
+                "es": "Acompañamiento"
+              },
+              "required": true,
+              "options": [
+                {
+                  "id": "guang-dong-xia-chao-fan",
+                  "name": {
+                    "zh": "广东虾炒饭",
+                    "fr": "Riz sauté cantonais aux crevettes",
+                    "en": "Cantonese Prawn Fried Rice",
+                    "es": "Arroz frito cantonés con gambas"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/accompagnement/guang-dong-xia-chao-fan.webp"
+                },
+                {
+                  "id": "su-chao-mian",
+                  "name": {
+                    "zh": "蛋蔬炒面",
+                    "fr": "Nouilles sautées aux légumes (avec œuf)",
+                    "en": "Fried noodles with egg & vegetables",
+                    "es": "Fideos salteados con huevo y verduras"
+                  },
+                  "image": "/dragons-elysees/menu/set/classique/accompagnement/su-chao-mian.webp"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "id": "SM08",
           "type": "set_menu",
           "price": 38,
           "name": {
-            "zh": "经典套餐",
-            "fr": "Menu Classique",
-            "en": "Classic Menu",
-            "es": "Menú Clásico"
+            "zh": "经典套餐(3道)",
+            "fr": "Menu Classique (3 plats)",
+            "en": "Classic Menu (3 dishes)",
+            "es": "Menú Clásico (3 platos)"
           },
           "cover": "/dragons-elysees/menu/set/classique/cover.webp",
           "courses": [
@@ -280,30 +482,30 @@
                 {
                   "id": "dian-xin",
                   "name": {
-                    "zh": "点心拼盘",
-                    "fr": "Assortiment Dim Sum",
-                    "en": "Dim Sum Platter",
-                    "es": "Surtido Dim Sum"
+                    "zh": "蒸点心(4件)",
+                    "fr": "Dim sun vapeur (4ps)",
+                    "en": "Steamed dim sum (4pcs)",
+                    "es": "Dim sum al vapor (4pzs)"
                   },
                   "image": "/dragons-elysees/menu/set/classique/entree/dian-xin.webp"
                 },
                 {
                   "id": "ji-chun-juan",
                   "name": {
-                    "zh": "鸡春卷",
-                    "fr": "Nems au poulet",
-                    "en": "Chicken Spring Rolls",
-                    "es": "Rollitos de pollo"
+                    "zh": "鸡春卷(4件)",
+                    "fr": "Nems au poulet (4ps)",
+                    "en": "Chicken spring rolls (4pcs)",
+                    "es": "Rollitos de pollo (4pzs)"
                   },
                   "image": "/dragons-elysees/menu/set/classique/entree/ji-chun-juan.webp"
                 },
                 {
                   "id": "suan-la-tang",
                   "name": {
-                    "zh": "酸辣汤",
-                    "fr": "Soupe aigre-piquante",
-                    "en": "Hot & Sour Soup",
-                    "es": "Sopa agripicante"
+                    "zh": "北京酸辣汤",
+                    "fr": "Potage pékinois",
+                    "en": "Pekinese hot & sour soup",
+                    "es": "Sopa agripicante pekinesa"
                   },
                   "image": "/dragons-elysees/menu/set/classique/entree/suan-la-tang.webp"
                 },
@@ -311,8 +513,8 @@
                   "id": "tai-shi-ji-sha-la",
                   "name": {
                     "zh": "泰式鸡沙拉",
-                    "fr": "Salade de poulet thaï",
-                    "en": "Thai Chicken Salad",
+                    "fr": "Salade thaï au poulet",
+                    "en": "Thai-style chicken salad",
                     "es": "Ensalada tailandesa de pollo"
                   },
                   "image": "/dragons-elysees/menu/set/classique/entree/tai-shi-ji-sha-la.webp"
@@ -384,40 +586,40 @@
                 {
                   "id": "bing-ji-lin",
                   "name": {
-                    "zh": "冰淇淋",
-                    "fr": "Glace",
-                    "en": "Ice Cream",
-                    "es": "Helado"
+                    "zh": "冰淇淋(1球)",
+                    "fr": "Boule de glace (1ps)",
+                    "en": "Ice cream (1 scoop)",
+                    "es": "Bola de helado (1pza)"
                   },
                   "image": "/dragons-elysees/menu/set/classique/dessert/bing-ji-lin.webp"
                 },
                 {
                   "id": "bing-mi-ci",
                   "name": {
-                    "zh": "冰麻糍",
-                    "fr": "Mochi glacé",
-                    "en": "Glazed Mochi",
-                    "es": "Mochi helado"
+                    "zh": "冰麻糍(2件)",
+                    "fr": "Mochis glacés (2ps)",
+                    "en": "Iced mochis (2pcs)",
+                    "es": "Mochis helados (2pzs)"
                   },
                   "image": "/dragons-elysees/menu/set/classique/dessert/bing-mi-ci.webp"
                 },
                 {
                   "id": "jiang-tang-zhi-ma-tang",
                   "name": {
-                    "zh": "姜糖芝麻汤圆",
-                    "fr": "Boules de sésame, sirop de gingembre",
-                    "en": "Sesame Rice Balls, Ginger Syrup",
-                    "es": "Bolas de sésamo con jengibre"
+                    "zh": "姜糖+牛轧糖+金桔糖",
+                    "fr": "Gingembres confits, nougats et kumquats confits",
+                    "en": "Candied ginger, nougat & kumquats",
+                    "es": "Jengibre, turrón y kumquats confitados"
                   },
                   "image": "/dragons-elysees/menu/set/classique/dessert/jiang-tang-zhi-ma-tang.webp"
                 },
                 {
                   "id": "li-zhi",
                   "name": {
-                    "zh": "荔枝",
-                    "fr": "Litchi",
-                    "en": "Lychee",
-                    "es": "Lichi"
+                    "zh": "糖水荔枝",
+                    "fr": "Lychees en sirop",
+                    "en": "Lychees in syrup",
+                    "es": "Lichis en almíbar"
                   },
                   "image": "/dragons-elysees/menu/set/classique/dessert/li-zhi.webp"
                 }
@@ -446,16 +648,22 @@
                 {
                   "id": "su-chao-mian",
                   "name": {
-                    "zh": "素炒面",
-                    "fr": "Nouilles sautées aux légumes",
-                    "en": "Vegetable Fried Noodles",
-                    "es": "Fideos salteados con verduras"
+                    "zh": "蛋蔬炒面",
+                    "fr": "Nouilles sautées aux légumes (avec œuf)",
+                    "en": "Fried noodles with egg & vegetables",
+                    "es": "Fideos salteados con huevo y verduras"
                   },
                   "image": "/dragons-elysees/menu/set/classique/accompagnement/su-chao-mian.webp"
                 }
               ]
             }
-          ]
+          ],
+          "includes": {
+            "zh": "🍚 含1份配菜",
+            "fr": "🍚 1 accompagnement compris",
+            "en": "🍚 1 side dish included",
+            "es": "🍚 1 acompañamiento incluido"
+          }
         },
         {
           "id": "SM09",
@@ -607,7 +815,13 @@
                 }
               ]
             }
-          ]
+          ],
+          "includes": {
+            "zh": "🍸 含2杯招牌鸡尾酒",
+            "fr": "🍸 2 cocktails maison offerts",
+            "en": "🍸 2 house cocktails included",
+            "es": "🍸 2 cócteles de la casa incluidos"
+          }
         }
       ],
       "name": {

@@ -274,6 +274,16 @@
   text-overflow: ellipsis;
 }
 
+/* Set-menu "includes" perk line (e.g. cocktail / accompagnement compris) */
+.cardIncludes {
+  margin-top: 3px;
+  font-size: 0.72rem;
+  color: var(--accent-gold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .cardNote {
   font-size: 0.68rem;
   color: var(--text-muted);
