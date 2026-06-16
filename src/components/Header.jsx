@@ -107,12 +107,11 @@ export default function Header() {
             onClick={openCart}
             aria-label={t('cartTitle')}
           >
-            {/* Plate + crossed utensils (lucide UtensilsCrossed) — dining/order icon */}
+            {/* Fork + knife, side by side (lucide Utensils) — dining/order icon */}
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/>
-              <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Z"/>
-              <path d="m2.1 21.8 6.4-6.3"/>
-              <path d="m19 5-7 7"/>
+              <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/>
+              <path d="M7 2v20"/>
+              <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/>
             </svg>
             {count > 0 && <span className={styles.cartBadge}>{count}</span>}
           </button>
