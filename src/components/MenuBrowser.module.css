@@ -77,6 +77,10 @@
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  /* Center the tab row on the same column as .content (the sticky bar bg stays
+     full-width). On phones (viewport < max-width) this is a no-op → still full-width + scroll. */
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .catNav::-webkit-scrollbar { display: none; }
@@ -185,6 +189,14 @@
 
 @media (max-width: 540px) {
   .itemsGrid { grid-template-columns: 1fr; }
+}
+
+/* Desktop: widen the shared centered column (nav + content) and show 4 columns,
+   so the page fills wide screens symmetrically. Mobile/tablet keep the base rules. */
+@media (min-width: 1024px) {
+  .content { max-width: 1200px; }
+  .catNav { max-width: 1200px; }
+  .itemsGrid { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* ── Dish card ── */
