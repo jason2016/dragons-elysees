@@ -1126,7 +1126,8 @@
             "fr": "Agneau au gingembre et ciboulette sur plaque chauffante",
             "en": "Sizzling lamb with ginger and chives on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/MT08.webp"
         },
         {
           "id": "MT09",
@@ -1431,7 +1432,8 @@
             "fr": "Poulet sauté au basilic sur plaque chauffante",
             "en": "Sauteed chicken with basil on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM06.webp"
         },
         {
           "id": "TM07",
@@ -1463,7 +1465,8 @@
             "fr": "Coquilles St-Jacques sautées au basilic sur plaque chauffante",
             "en": "Sauteed scallops with basil on hot plate",
             "es": ""
-          }
+          },
+          "image_url": "/dragons-elysees/menu/items/TM09.webp"
         }
       ],
       "name": {
