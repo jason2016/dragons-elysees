@@ -195,7 +195,9 @@
    so the page fills wide screens symmetrically. Mobile/tablet keep the base rules. */
 @media (min-width: 1024px) {
   .content { max-width: 1200px; }
-  .catNav { max-width: 1200px; }
+  /* Desktop: wrap all category tabs (centered, 2 tidy rows) instead of a
+     hidden-scrollbar overflow that a mouse can't scroll. Mobile keeps nowrap + touch-scroll. */
+  .catNav { max-width: 1200px; flex-wrap: wrap; overflow-x: visible; justify-content: center; }
   .itemsGrid { grid-template-columns: repeat(4, 1fr); }
 }
 

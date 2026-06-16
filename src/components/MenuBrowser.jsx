@@ -21,6 +21,8 @@ export default function MenuBrowser() {
   const { orderType, setOrderType } = useOrderType()
   const categoryRefs = useRef({})
   const navRef = useRef(null)
+  const isClickScrolling = useRef(false) // lock the scroll-spy during a click-initiated smooth scroll
+  const scrollLockTimer = useRef(null)
 
   useEffect(() => {
     fetch('/dragons-elysees/data/menu.json')
@@ -39,19 +41,32 @@ export default function MenuBrowser() {
     const navWrap = navRef.current?.parentElement
     const navHeight = navWrap ? navWrap.offsetHeight : 100
     const top = el.getBoundingClientRect().top + window.scrollY - (60 + navHeight + 8)
-    window.scrollTo({ top, behavior: 'smooth' })
+    // Lock the scroll-spy so it doesn't flip the active highlight through every
+    // category we pass during the smooth scroll (caused the flash + jitter).
+    isClickScrolling.current = true
     setActiveCategory(id)
+    window.scrollTo({ top, behavior: 'smooth' })
+    clearTimeout(scrollLockTimer.current)
+    scrollLockTimer.current = setTimeout(() => { isClickScrolling.current = false }, 700)
   }
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!menu) return
+      if (!menu || isClickScrolling.current) return // skip the spy during a click-initiated scroll
       for (const cat of [...menu.categories].reverse()) {
         const el = categoryRefs.current[cat.id]
         if (el && el.getBoundingClientRect().top <= 140) {
           setActiveCategory(cat.id)
-          const btn = navRef.current?.querySelector(`[data-id="${cat.id}"]`)
-          btn?.scrollIntoView({ inline: 'nearest', block: 'nearest' })
+          // Keep the active tab in view with a HORIZONTAL-only nav scroll
+          // (never scrollIntoView's block:'nearest', which nudged the window vertically).
+          const nav = navRef.current
+          const btn = nav?.querySelector(`[data-id="${cat.id}"]`)
+          if (nav && btn) {
+            const navRect = nav.getBoundingClientRect()
+            const btnRect = btn.getBoundingClientRect()
+            const delta = (btnRect.left + btnRect.width / 2) - (navRect.left + navRect.width / 2)
+            nav.scrollBy({ left: delta }) // no-op on desktop (wrapped, not scrollable)
+          }
           break
         }
       }
