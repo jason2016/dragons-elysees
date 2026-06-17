@@ -260,5 +260,11 @@
     "errGuests": "Invalid number of guests.",
     "errNetwork": "Network error. Check your connection.",
     "errGeneric": "Something went wrong. Please try again."
+  },
+  "footer": {
+    "address": "11 Rue de Berri, 75008 Paris",
+    "phone": "01 44 07 26 17",
+    "hours": "Open daily · 11am–2pm · 6pm–11pm",
+    "rights": "© Dragons Élysées 龙城酒楼"
   }
 }

@@ -260,5 +260,11 @@
     "errGuests": "人数无效。",
     "errNetwork": "网络错误，请检查您的连接。",
     "errGeneric": "出错了，请重试。"
+  },
+  "footer": {
+    "address": "11 Rue de Berri, 75008 Paris",
+    "phone": "01 44 07 26 17",
+    "hours": "每日营业 · 11:00–14:00 · 18:00–23:00",
+    "rights": "© Dragons Élysées 龙城酒楼"
   }
 }

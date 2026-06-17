@@ -1,4 +1,4 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { CartProvider } from './hooks/useCart'
 import { AuthProvider } from './hooks/useAuth'
 import { LangProvider } from './hooks/useLang'
@@ -21,7 +21,11 @@ import DeliveryPanel from './components/DeliveryPanel'
 import OrderTrack from './components/OrderTrack'
 import InstallPrompt from './components/InstallPrompt'
 import IntroOverlay from './components/IntroOverlay'
+import Footer from './components/Footer'
 import { FEATURES } from './config'
+
+// Customer-facing pages only — admin/kitchen/delivery/account pages get no footer
+const FOOTER_PATHS = ['/', '/menu', '/reservation', '/checkout', '/payment-success']
 
 export default function App() {
   return (
@@ -45,6 +49,7 @@ export default function App() {
 }
 
 function AppRoutes() {
+  const { pathname } = useLocation()
   return (
     <>
       <Header />
@@ -65,6 +70,7 @@ function AppRoutes() {
         {FEATURES.delivery && <Route path="/delivery" element={<DeliveryPanel />} />}
         <Route path="/track/:orderNumber" element={<OrderTrack />} />
       </Routes>
+      {FOOTER_PATHS.includes(pathname) && <Footer />}
     </>
   )
 }
