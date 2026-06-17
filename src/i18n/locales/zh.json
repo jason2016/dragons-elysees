@@ -6,11 +6,8 @@
   "heroSub": "精致中法泰三国料理\n巴黎香榭丽舍旁的高端中餐厅",
   "viewMenu": "查看菜单",
   "hoursLabel": "周一至周日 · 11h–14h & 18h–23h",
-  "cashbackStrip": "每单消费10%返点到账户",
   "feat1Title": "在线点餐",
   "feat1Desc": "扫描桌上二维码，选菜、下单、支付一步完成。",
-  "feat2Title": "余额返现",
-  "feat2Desc": "每次消费10%自动返点，下次到店直接抵扣。",
   "feat3Title": "您的评价很重要",
   "feat3Desc": "用餐后在Google地图留下评价，帮助更多食客发现我们。",
   "loading": "菜单加载中…",
@@ -211,12 +208,6 @@
     "androidHint": "快速访问菜单和点餐",
     "installBtn": "安装"
   },
-  "home": {
-    "reviewsTitle": "顾客评价",
-    "loyaltyBadge": "会员",
-    "disclaimer": "透明声明：",
-    "disclaimerText": "部分顾客是我们龙城忠诚计划的会员，在分享用餐体验时可获得到店消费积分。所有评价均真实反映顾客个人感受，不受此优惠影响。"
-  },
   "setMenuComposeTag": "自选套餐",
   "setMenuComposeBtn": "开始搭配",
   "setMenuStep": "步骤",
@@ -260,5 +251,11 @@
     "errGuests": "人数无效。",
     "errNetwork": "网络错误，请检查您的连接。",
     "errGeneric": "出错了，请重试。"
+  },
+  "footer": {
+    "address": "11 Rue de Berri, 75008 Paris",
+    "phone": "01 44 07 26 17",
+    "hours": "每日营业 · 11:00–14:00 · 18:00–23:00",
+    "rights": "© Dragons Élysées 龙城酒楼"
   }
 }

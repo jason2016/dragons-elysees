@@ -6,11 +6,8 @@
   "heroSub": "Refined Chinese & Thai Cuisine\nat the gateway to the Champs-Élysées",
   "viewMenu": "View Menu",
   "hoursLabel": "Mon–Sun · 11am–2pm & 6pm–11pm",
-  "cashbackStrip": "10% cashback on every order",
   "feat1Title": "Order Online",
   "feat1Desc": "Scan the QR code at your table, choose your dishes and pay in one click.",
-  "feat2Title": "Cashback Balance",
-  "feat2Desc": "10% of your spending is credited to your account, redeemable on your next visit.",
   "feat3Title": "Your Reviews Matter",
   "feat3Desc": "After each meal, help us improve by leaving your review on Google.",
   "loading": "Loading menu…",
@@ -211,12 +208,6 @@
     "androidHint": "Quick access to the menu",
     "installBtn": "Install"
   },
-  "home": {
-    "reviewsTitle": "Customer reviews",
-    "loyaltyBadge": "Loyalty member",
-    "disclaimer": "Transparency: ",
-    "disclaimerText": "Some of our customers are members of our Dragons loyalty program and may receive in-restaurant credit when sharing their experience. Reviews reflect their personal opinions and are not influenced by this benefit."
-  },
   "setMenuComposeTag": "Build your menu",
   "setMenuComposeBtn": "Compose",
   "setMenuStep": "Step",
@@ -260,5 +251,11 @@
     "errGuests": "Invalid number of guests.",
     "errNetwork": "Network error. Check your connection.",
     "errGeneric": "Something went wrong. Please try again."
+  },
+  "footer": {
+    "address": "11 Rue de Berri, 75008 Paris",
+    "phone": "01 44 07 26 17",
+    "hours": "Open daily · 11am–2pm · 6pm–11pm",
+    "rights": "© Dragons Élysées 龙城酒楼"
   }
 }

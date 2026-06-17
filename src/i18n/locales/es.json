@@ -6,11 +6,8 @@
   "heroSub": "Cocina China y Tailandesa refinada\nen las puertas de los Campos Elíseos",
   "viewMenu": "Ver el menú",
   "hoursLabel": "Lun–Dom · 11h–14h y 18h–23h",
-  "cashbackStrip": "10% de cashback en cada pedido",
   "feat1Title": "Pedir online",
   "feat1Desc": "Escanee el código QR en su mesa, elija sus platos y pague con un clic.",
-  "feat2Title": "Saldo Cashback",
-  "feat2Desc": "El 10% de su gasto se acredita en su cuenta y es utilizable en su próxima visita.",
   "feat3Title": "Sus opiniones cuentan",
   "feat3Desc": "Después de cada comida, ayúdenos a mejorar dejando su opinión en Google.",
   "loading": "Cargando el menú…",
@@ -211,12 +208,6 @@
     "androidHint": "Acceso rápido al menú",
     "installBtn": "Instalar"
   },
-  "home": {
-    "reviewsTitle": "Opiniones de nuestros clientes",
-    "loyaltyBadge": "Miembro fidelidad",
-    "disclaimer": "Transparencia: ",
-    "disclaimerText": "Algunos de nuestros clientes son miembros de nuestro programa de fidelidad Dragons y pueden recibir un crédito utilizable en el restaurante al compartir su experiencia. Las opiniones reflejan sus opiniones personales y no se ven influenciadas por este beneficio."
-  },
   "setMenuComposeTag": "Menú a elegir",
   "setMenuComposeBtn": "Componer",
   "setMenuStep": "Paso",
@@ -260,5 +251,11 @@
     "errGuests": "Número de personas no válido.",
     "errNetwork": "Error de red. Verifique su conexión.",
     "errGeneric": "Algo salió mal. Inténtelo de nuevo."
+  },
+  "footer": {
+    "address": "11 Rue de Berri, 75008 Paris",
+    "phone": "01 44 07 26 17",
+    "hours": "Abierto todos los días · 11h–14h · 18h–23h",
+    "rights": "© Dragons Élysées 龙城酒楼"
   }
 }

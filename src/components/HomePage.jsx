@@ -4,43 +4,6 @@ import { useOrderType } from '../hooks/useOrderType'
 import { FEATURES } from '../config'
 import styles from './HomePage.module.css'
 
-const DEMO_REVIEWS = [
-  {
-    id: 1,
-    author_name: 'Marie L.',
-    rating: 5,
-    text: 'Excellent restaurant ! Les raviolis vapeur et le canard laqué sont absolument délicieux. Service impeccable et cadre élégant. Je recommande vivement !',
-    date: '2026-04-15',
-    is_loyalty_member: false,
-  },
-  {
-    id: 2,
-    author_name: 'Thomas D.',
-    rating: 5,
-    text: 'Une adresse incontournable à Paris. La cuisine est raffinée et authentique. Le programme de fidélité est vraiment avantageux.',
-    date: '2026-04-10',
-    is_loyalty_member: true,
-  },
-  {
-    id: 3,
-    author_name: '李明',
-    rating: 5,
-    text: '非常正宗的中国料理！环境优雅，服务热情。身在巴黎，却感受到了家乡的味道。强烈推荐！',
-    date: '2026-04-05',
-    is_loyalty_member: false,
-  },
-]
-
-function Stars({ rating }) {
-  return (
-    <span className={styles.stars}>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} className={i < rating ? styles.starFilled : styles.starEmpty}>★</span>
-      ))}
-    </span>
-  )
-}
-
 export default function HomePage() {
   const { t } = useLang()
   const { setOrderType } = useOrderType()
@@ -117,12 +80,6 @@ export default function HomePage() {
           </svg>
           <span>{t('hoursLabel')}</span>
         </div>
-        <div className={styles.infoItem}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" strokeWidth="1.8">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-          <span>{t('cashbackStrip')}</span>
-        </div>
       </section>
 
       {/* Features */}
@@ -134,72 +91,12 @@ export default function HomePage() {
             <p>{t('feat1Desc')}</p>
           </div>
           <div className={styles.featureCard}>
-            <div className={styles.featureIcon}>🎁</div>
-            <h3>{t('feat2Title')}</h3>
-            <p>{t('feat2Desc')}</p>
-          </div>
-          <div className={styles.featureCard}>
             <div className={styles.featureIcon}>⭐</div>
             <h3>{t('feat3Title')}</h3>
             <p>{t('feat3Desc')}</p>
           </div>
         </div>
       </section>
-
-      {/* Reviews section */}
-      <section className={styles.reviewsSection}>
-        <div className={styles.reviewsInner}>
-          <h2 className={styles.reviewsTitle}>
-            {t('home.reviewsTitle')}
-          </h2>
-          <div className={styles.reviewsGrid}>
-            {DEMO_REVIEWS.map(review => (
-              <div key={review.id} className={styles.reviewCard}>
-                <div className={styles.reviewCardHeader}>
-                  <div className={styles.reviewMeta}>
-                    <span className={styles.reviewAuthor}>{review.author_name}</span>
-                    <Stars rating={review.rating} />
-                  </div>
-                  {review.is_loyalty_member && (
-                    <span className={styles.loyaltyBadge} title="Ce client est membre du programme fidélité Dragons">
-                      ℹ️ {t('home.loyaltyBadge')}
-                    </span>
-                  )}
-                </div>
-                <p className={styles.reviewText}>{review.text}</p>
-                <div className={styles.reviewDate}>
-                  {new Date(review.date).toLocaleDateString('fr-FR')}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Compliance disclaimer */}
-          <div className={styles.reviewDisclaimer}>
-            <strong>{t('home.disclaimer')}</strong>
-            {t('home.disclaimerText')}
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className={styles.siteFooter}>
-        <div className={styles.footerInner}>
-          <p className={styles.footerBrand}>Dragons Elysées · 龙城酒楼</p>
-          <a
-            href="https://www.google.com/maps/place/11+Rue+de+Berri,+75008+Paris"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.footerAddress}
-          >
-            📍 11 Rue de Berri, 75008 Paris
-          </a>
-          <a href="tel:0144072617" className={styles.footerPhone}>
-            📞 01 44 07 26 17
-          </a>
-          <p className={styles.footerCopy}>© 2026 Dragons Elysées · Tous droits réservés</p>
-        </div>
-      </footer>
     </div>
   )
 }
