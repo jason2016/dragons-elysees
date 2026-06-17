@@ -1,8 +1,8 @@
-const CACHE_NAME = 'dragons-elysees-v1';
+const CACHE_NAME = 'dragons-elysees-v2';
 const ASSETS_TO_CACHE = [
-  '/dragons-elysees/',
-  '/dragons-elysees/index.html',
-  '/dragons-elysees/data/menu.json'
+  '/',
+  '/index.html',
+  '/data/menu.json'
 ];
 
 // 安装：缓存核心资源
