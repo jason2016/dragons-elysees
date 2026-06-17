@@ -181,25 +181,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className={styles.siteFooter}>
-        <div className={styles.footerInner}>
-          <p className={styles.footerBrand}>Dragons Elysées · 龙城酒楼</p>
-          <a
-            href="https://www.google.com/maps/place/11+Rue+de+Berri,+75008+Paris"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.footerAddress}
-          >
-            📍 11 Rue de Berri, 75008 Paris
-          </a>
-          <a href="tel:0144072617" className={styles.footerPhone}>
-            📞 01 44 07 26 17
-          </a>
-          <p className={styles.footerCopy}>© 2026 Dragons Elysées · Tous droits réservés</p>
-        </div>
-      </footer>
     </div>
   )
 }
