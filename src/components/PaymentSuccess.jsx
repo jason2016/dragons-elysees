@@ -20,7 +20,7 @@ export default function PaymentSuccess() {
     async function init() {
       // HashRouter: React Router puts ?order= into location.search for internal navigates.
       // But when Stancer redirects back to:
-      //   https://host/dragons-elysees/#/payment-success?order=DRG-008
+      //   https://host/#/payment-success?order=DRG-008
       // the browser treats everything after # as the hash fragment, so React Router
       // correctly parses ?order= into location.search.
       // Belt-and-suspenders: also parse directly from window.location.hash.

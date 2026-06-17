@@ -19,7 +19,7 @@
      (same-origin) → warm-gold gradient placeholder shown instantly until the photo loads. */
   background:
     linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,1) 100%),
-    url('/dragons-elysees/menu/set/decouvert/cover.webp') center/cover no-repeat,
+    url('/menu/set/decouvert/cover.webp') center/cover no-repeat,
     linear-gradient(160deg, #4a3413 0%, #1a1206 100%);
 }
 

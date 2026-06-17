@@ -25,7 +25,7 @@ export default function MenuBrowser() {
   const scrollLockTimer = useRef(null)
 
   useEffect(() => {
-    fetch('/dragons-elysees/data/menu.json')
+    fetch('/data/menu.json')
       .then(r => r.json())
       .then(data => {
         setMenu(data)

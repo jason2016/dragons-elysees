@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://jason2016.github.io/dragons-elysees",
+  "homepage": "https://dragonselysees.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
