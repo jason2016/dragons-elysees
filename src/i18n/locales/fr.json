@@ -6,11 +6,8 @@
   "heroSub": "Cuisine Chinoise & Thaïlandaise raffinée\naux portes des Champs-Élysées",
   "viewMenu": "Voir le menu",
   "hoursLabel": "Lun–Dim · 11h–14h & 18h–23h",
-  "cashbackStrip": "10% cashback sur chaque commande",
   "feat1Title": "Commander en ligne",
   "feat1Desc": "Scannez le QR code à votre table, choisissez vos plats et payez en un clic.",
-  "feat2Title": "Balance Cashback",
-  "feat2Desc": "10% de vos dépenses sont crédités sur votre compte et utilisables à la prochaine visite.",
   "feat3Title": "Vos avis comptent",
   "feat3Desc": "Après chaque repas, aidez-nous à progresser en laissant votre avis sur Google.",
   "loading": "Chargement du menu…",
@@ -210,12 +207,6 @@
     "iosHint": "Appuyez sur ⎙ Partager puis \"Sur l'écran d'accueil\"",
     "androidHint": "Accédez rapidement au menu",
     "installBtn": "Installer"
-  },
-  "home": {
-    "reviewsTitle": "Avis de nos clients",
-    "loyaltyBadge": "Membre fidélité",
-    "disclaimer": "Transparence : ",
-    "disclaimerText": "Certains de nos clients sont membres de notre programme fidélité Dragons et peuvent recevoir un crédit utilisable sur place lorsqu'ils partagent leur expérience. Les avis reflètent leurs opinions personnelles et ne sont pas influencés par cet avantage."
   },
   "setMenuComposeTag": "Menu à composer",
   "setMenuComposeBtn": "Composer",
