@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Wire the converted webp files into public/data/menu.json.
-- category.cover     <- /dragons-elysees/menu/cover/{category-id}.webp   (if file exists)
-- item.image_url     <- /dragons-elysees/menu/items/{item-id}.webp       (if file exists)
+- category.cover     <- /menu/cover/{category-id}.webp   (if file exists)
+- item.image_url     <- /menu/items/{item-id}.webp       (if file exists)
 Only touches categories/items whose webp was produced this batch. All else untouched.
 """
 import os, json
@@ -11,7 +11,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MENU = os.path.join(ROOT, "public", "data", "menu.json")
 COVER_DIR = os.path.join(ROOT, "public", "menu", "cover")
 ITEM_DIR = os.path.join(ROOT, "public", "menu", "items")
-BASE = "/dragons-elysees/menu"
+BASE = "/menu"
 
 covers = {f[:-5] for f in os.listdir(COVER_DIR) if f.endswith(".webp")}
 items = {f[:-5] for f in os.listdir(ITEM_DIR) if f.endswith(".webp")}

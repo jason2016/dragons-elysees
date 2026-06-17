@@ -9,7 +9,7 @@ Images already at public/menu/set/{menu}/{course}/{slug}.webp . Reversible: git 
 import os, json
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MENU = os.path.join(ROOT, "public", "data", "menu.json")
-BASE = "/dragons-elysees/menu/set"
+BASE = "/menu/set"
 
 COURSE_LABEL = {
     "entree":        {"zh": "头盘", "fr": "Entrée", "en": "Starter", "es": "Entrante"},
