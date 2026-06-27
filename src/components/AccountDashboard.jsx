@@ -13,12 +13,14 @@ export default function AccountDashboard() {
   const [loading, setLoading] = useState(true)
   const [referralData, setReferralData] = useState(null)
   const [copyDone, setCopyDone] = useState(false)
+  const [bal, setBal] = useState(null)
 
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/account/login')
       return
     }
+    api.getBalance().then(setBal).catch(() => {})
     api.getTransactions()
       .then(data => setTransactions(data.transactions || []))
       .catch(() => setTransactions([]))
@@ -68,14 +70,21 @@ export default function AccountDashboard() {
           </div>
         </div>
 
-        {/* Balance card */}
+        {/* Balance card — dual ledger: paid (recharged) + bonus (loyalty) */}
         <div className={styles.balanceCard}>
           <div className={styles.balanceLabel}>{t('account.balanceTitle')}</div>
-          <div className={styles.balanceValue}>{formatPrice(customer?.balance || 0)}</div>
+          <div className={styles.balanceValue}>{formatPrice(bal?.total_balance ?? customer?.balance ?? 0)}</div>
+          <div style={{ display: 'flex', gap: 14, justifyContent: 'center', fontSize: 13, opacity: 0.9, margin: '4px 0' }}>
+            <span>💳 {t('bal.paid')}: {formatPrice(bal?.paid_balance ?? 0)}</span>
+            <span>🎁 {t('bal.bonus')}: {formatPrice(bal?.bonus_balance ?? 0)}</span>
+          </div>
           <div className={styles.balanceSub}>{t('balanceSub')}</div>
-          <button className={styles.historyLink} onClick={() => navigate('/balance/history')}>
-            {t('account.viewHistory')}
-          </button>
+          <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 10, flexWrap: 'wrap' }}>
+            <button className="btn-gold" onClick={() => navigate('/balance/recharge')}>💳 {t('bal.recharge')}</button>
+            <button className={styles.historyLink} onClick={() => navigate('/balance/history')}>
+              {t('account.viewHistory')}
+            </button>
+          </div>
         </div>
 
         {/* Recent transactions */}
@@ -90,7 +99,7 @@ export default function AccountDashboard() {
               {transactions.slice(0, 5).map(tx => (
                 <div key={tx.id} className={styles.txRow}>
                   <div className={styles.txInfo}>
-                    <span className={styles.txDesc}>{tx.description || tx.type}</span>
+                    <span className={styles.txDesc}>{tx.description || t(`bal.src.${tx.source}`)}</span>
                     <span className={styles.txDate}>{new Date(tx.created_at).toLocaleDateString('fr-FR')}</span>
                   </div>
                   <span className={`${styles.txAmount} ${tx.amount > 0 ? styles.positive : styles.negative}`}>

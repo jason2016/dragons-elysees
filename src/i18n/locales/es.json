@@ -1,4 +1,27 @@
 {
+  "bal": {
+    "paid": "Recargado",
+    "bonus": "Fidelidad",
+    "recharge": "Recargar",
+    "rechargeHint": "Recarga tu saldo para pagar más rápido en tienda.",
+    "rechargeAmount": "Importe a recargar",
+    "rechargeMaxNote": "Máximo {{max}} por recarga.",
+    "rechargeMax": "El importe supera el máximo ({{max}}).",
+    "rechargeInvalid": "Importe no válido.",
+    "rechargeFailed": "Recarga fallida. Inténtalo de nuevo.",
+    "rechargeSubmit": "Recargar",
+    "rechargeSecure": "Pago seguro con Stancer.",
+    "cat": { "paid": "Recargado", "bonus": "Fidelidad" },
+    "src": {
+      "recharge": "Recarga",
+      "cashback": "Cashback",
+      "referral": "Recomendación",
+      "review": "Reseña Google",
+      "payment": "Usado",
+      "refund": "Reembolso",
+      "adjustment": "Ajuste"
+    }
+  },
   "menu": "Menú",
   "signIn": "Iniciar sesión",
   "myAccount": "Mi cuenta",

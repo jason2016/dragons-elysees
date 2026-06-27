@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { useAuth } from '../hooks/useAuth'
@@ -38,13 +38,21 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
   const [showLoginBanner, setShowLoginBanner] = useState(!isLoggedIn)
+  const [bal, setBal] = useState(null)
+
+  useEffect(() => {
+    if (isLoggedIn) api.getBalance().then(setBal).catch(() => {})
+  }, [isLoggedIn])
 
   const deliveryFee = isDelivery
     ? (total >= DELIVERY_CONFIG.free_threshold ? 0 : DELIVERY_CONFIG.base_fee)
     : 0
-  const balance = customer?.balance || 0
+  const balance = bal?.total_balance ?? customer?.balance ?? 0
   const balanceApplied = useBalance && isLoggedIn ? Math.min(balance, total + deliveryFee) : 0
   const amountToPay = Math.round((total + deliveryFee - balanceApplied) * 100) / 100
+  // Rule 甲 preview: bonus is spent before paid.
+  const bonusUsed = Math.min(balanceApplied, bal?.bonus_balance ?? 0)
+  const paidUsed = Math.round((balanceApplied - bonusUsed) * 100) / 100
   const isFullBalancePayment = amountToPay === 0
   const cashbackEarned = amountToPay >= 15 ? Math.round(amountToPay * 0.10 * 100) / 100 : 0
   // When the cart holds a price-pending set menu, monetary totals are indeterminate:
@@ -345,6 +353,11 @@ export default function Checkout() {
               <span className={styles.balanceHeaderIcon}>🎁</span>
               <span className={styles.balanceHeaderText}>
                 {t('checkout.yourBalance')} : {formatPrice(balance)}
+                {bal && (
+                  <span style={{ display: 'block', fontSize: 12, opacity: 0.8, fontWeight: 400 }}>
+                    💳 {t('bal.paid')} {formatPrice(bal.paid_balance ?? 0)} · 🎁 {t('bal.bonus')} {formatPrice(bal.bonus_balance ?? 0)}
+                  </span>
+                )}
               </span>
             </div>
             <div className={styles.balanceToggle}>
@@ -354,8 +367,15 @@ export default function Checkout() {
                 <span className={styles.toggleSlider} />
               </label>
             </div>
-            {useBalance && (
-              <div className={styles.balanceDeduct}>{t('balanceDeducted', formatPrice(balanceApplied))}</div>
+            {useBalance && balanceApplied > 0 && (
+              <div className={styles.balanceDeduct}>
+                {t('balanceDeducted', formatPrice(balanceApplied))}
+                {(bonusUsed > 0 || paidUsed > 0) && (
+                  <span style={{ display: 'block', fontSize: 12, opacity: 0.85, marginTop: 2 }}>
+                    🎁 {t('bal.bonus')} −{formatPrice(bonusUsed)} · 💳 {t('bal.paid')} −{formatPrice(paidUsed)}
+                  </span>
+                )}
+              </div>
             )}
           </div>
         )}

@@ -1,4 +1,27 @@
 {
+  "bal": {
+    "paid": "充值",
+    "bonus": "返利",
+    "recharge": "充值",
+    "rechargeHint": "充值余额，到店更快支付。",
+    "rechargeAmount": "充值金额",
+    "rechargeMaxNote": "每次充值上限 {{max}}。",
+    "rechargeMax": "金额超过上限（{{max}}）。",
+    "rechargeInvalid": "金额无效。",
+    "rechargeFailed": "充值失败，请重试。",
+    "rechargeSubmit": "充值",
+    "rechargeSecure": "由 Stancer 安全支付。",
+    "cat": { "paid": "充值", "bonus": "返利" },
+    "src": {
+      "recharge": "充值",
+      "cashback": "返现",
+      "referral": "推荐",
+      "review": "谷歌评价",
+      "payment": "消费",
+      "refund": "退款",
+      "adjustment": "调整"
+    }
+  },
   "menu": "菜单",
   "signIn": "登录",
   "myAccount": "我的账户",

@@ -1,4 +1,27 @@
 {
+  "bal": {
+    "paid": "Topped up",
+    "bonus": "Loyalty",
+    "recharge": "Top up",
+    "rechargeHint": "Top up your balance to pay faster in store.",
+    "rechargeAmount": "Amount to top up",
+    "rechargeMaxNote": "Maximum {{max}} per top-up.",
+    "rechargeMax": "Amount exceeds the maximum ({{max}}).",
+    "rechargeInvalid": "Invalid amount.",
+    "rechargeFailed": "Top-up failed. Please try again.",
+    "rechargeSubmit": "Top up",
+    "rechargeSecure": "Secure payment by Stancer.",
+    "cat": { "paid": "Topped up", "bonus": "Loyalty" },
+    "src": {
+      "recharge": "Top-up",
+      "cashback": "Cashback",
+      "referral": "Referral",
+      "review": "Google review",
+      "payment": "Spent",
+      "refund": "Refund",
+      "adjustment": "Adjustment"
+    }
+  },
   "menu": "Menu",
   "signIn": "Sign In",
   "myAccount": "My Account",
