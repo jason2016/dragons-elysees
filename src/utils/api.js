@@ -33,9 +33,15 @@ export const api = {
   getOrder: (id) => request(`/orders/${id}`),
   updateOrderStatus: (id, status) => request(`/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
 
-  // Balance
+  // Balance (dual-ledger: paid_balance + bonus_balance + total_balance)
   getBalance: () => request('/balance'),
   getTransactions: () => request('/balance/transactions'),
+  // Top up the PAID balance via Stancer. Returns { payment_url, payment_id, amount }.
+  recharge: (amount, payment_method = 'stancer', return_url) =>
+    request('/balance/recharge', {
+      method: 'POST',
+      body: JSON.stringify({ amount, payment_method, ...(return_url ? { return_url } : {}) }),
+    }),
 
   // Payment
   createPayment: (data) => request('/payment/create', { method: 'POST', body: JSON.stringify(data) }),

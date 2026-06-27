@@ -14,6 +14,7 @@ import PaymentSuccess from './components/PaymentSuccess'
 import AccountLogin from './components/AccountLogin'
 import AccountDashboard from './components/AccountDashboard'
 import BalanceHistory from './components/BalanceHistory'
+import Recharge from './components/Recharge'
 import AdminSimulateReview from './components/AdminSimulateReview'
 import KitchenDisplay from './components/KitchenDisplay'
 import AdminPanel from './components/AdminPanel'
@@ -64,6 +65,7 @@ function AppRoutes() {
         <Route path="/account" element={<AccountDashboard />} />
         <Route path="/account/login" element={<AccountLogin />} />
         <Route path="/balance/history" element={<BalanceHistory />} />
+        <Route path="/balance/recharge" element={<Recharge />} />
         <Route path="/admin/simulate-review" element={<AdminSimulateReview />} />
         <Route path="/kitchen" element={<KitchenDisplay />} />
         <Route path="/admin" element={<AdminPanel />} />
