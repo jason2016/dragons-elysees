@@ -28,7 +28,7 @@ export default function KitchenDisplay() {
   const [unlocked, setUnlocked] = useState(false)
   const [pwd, setPwd] = useState('')
   const [pwdError, setPwdError] = useState(false)
-  const [newOrders, setNewOrders] = useState([])       // status=paid
+  const [newOrders, setNewOrders] = useState([])       // dine_in 'ordered' + takeaway/delivery 'paid'
   const [cooking, setCooking] = useState([])            // status=preparing
   const [readyDineIn, setReadyDineIn] = useState([])   // status=ready, dine_in
   const [readyDelivery, setReadyDelivery] = useState([]) // status=ready, delivery
@@ -39,12 +39,21 @@ export default function KitchenDisplay() {
   const fetchOrders = useCallback(async () => {
     try {
       const today = new Date().toISOString().split('T')[0]
-      const [paidRes, preparingRes, readyRes] = await Promise.all([
+      const [orderedRes, paidRes, preparingRes, readyRes] = await Promise.all([
+        api.getOrders({ status: 'ordered', date: today }),
         api.getOrders({ status: 'paid', date: today }),
         api.getOrders({ status: 'preparing', date: today }),
         api.getOrders({ status: 'ready', date: today }),
       ])
-      const newOrd = paidRes.orders || []
+      // New kitchen queue, by order_type (post-pay step 2):
+      //  - dine_in 'ordered'        → POST-PAY: cook before settlement
+      //  - takeaway/delivery 'paid' → PRE-PAY: only AFTER payment
+      // EXCLUDED: dine_in 'paid' (= settled at the table, done). And 'pending' is NEVER fetched,
+      // so an unpaid takeaway/delivery order can never reach the kitchen (red line).
+      const newOrd = [
+        ...((orderedRes.orders || []).filter(o => o.order_type === 'dine_in')),
+        ...((paidRes.orders || []).filter(o => o.order_type !== 'dine_in')),
+      ].sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
       const prepOrd = preparingRes.orders || []
       const readyOrd = readyRes.orders || []
 
@@ -175,8 +184,8 @@ export default function KitchenDisplay() {
                         key={order.id}
                         order={order}
                         blink={order.status === 'preparing'}
-                        actionLabel={order.status === 'paid' ? t('kitchenStartCooking') : t('kitchenMarkReady')}
-                        onAction={() => markStatus(order.id, order.status === 'paid' ? 'preparing' : 'ready')}
+                        actionLabel={order.status === 'preparing' ? t('kitchenMarkReady') : t('kitchenStartCooking')}
+                        onAction={() => markStatus(order.id, order.status === 'preparing' ? 'ready' : 'preparing')}
                       />
                     ))
               }
