@@ -206,7 +206,15 @@
     "details": "Détails de la commande",
     "autoRefresh": "Actualisation automatique toutes les 10s"
   },
+  "payStatusPaid": "Réglé",
+  "payStatusUnpaid": "Non réglé",
+  "adminHidePaid": "Masquer les réglées",
+  "adminEnCours": "En cours",
+  "adminReady": "Prêt",
+  "adminSettled": "Réglées",
   "account": {
+    "myOrders": "Mes commandes",
+    "noOrders": "Aucune commande",
     "balanceTitle": "Balance",
     "viewHistory": "Voir l'historique →",
     "viewAllTx": "Voir les {{count}} transactions →",

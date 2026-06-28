@@ -206,7 +206,15 @@
     "details": "订单详情",
     "autoRefresh": "每10秒自动刷新"
   },
+  "payStatusPaid": "已结账",
+  "payStatusUnpaid": "未结账",
+  "adminHidePaid": "隐藏已结账",
+  "adminEnCours": "执行中",
+  "adminReady": "待取餐",
+  "adminSettled": "已结账",
   "account": {
+    "myOrders": "我的订单",
+    "noOrders": "暂无订单",
     "balanceTitle": "余额",
     "viewHistory": "查看流水 →",
     "viewAllTx": "查看全部 {{count}} 条记录 →",
