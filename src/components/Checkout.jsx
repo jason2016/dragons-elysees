@@ -19,6 +19,8 @@ export default function Checkout() {
   const navigate = useNavigate()
 
   const isDelivery = FEATURES.delivery && orderType === 'delivery'
+  // dine_in = POST-PAY: place the order, no online payment, settle at the table later (AdminPanel).
+  const isDineIn = orderType === 'dine_in'
 
   // Guest info (pre-fill from account if logged in)
   const [guestName, setGuestName] = useState(customer?.name || '')
@@ -90,6 +92,26 @@ export default function Checkout() {
     setErrors({})
     setLoading(true)
     try {
+      if (isDineIn) {
+        // POST-PAY: place the order (status 'ordered'); do NOT charge online and do NOT apply
+        // balance here — settlement (cash/card/balance rule 甲) happens at the table (AdminPanel),
+        // which is why no cashback_use is sent (the backend ignores it for dine_in anyway).
+        const placed = await api.createOrder({
+          items,
+          customer_id: customer?.id || null,
+          payment_method: '',
+          table_number: tableNumber,
+          note,
+          order_type: orderType,
+          guest_name: isLoggedIn ? (customer?.name || guestName) : guestName,
+          guest_phone: isLoggedIn ? (customer?.phone || guestPhone) : guestPhone,
+        })
+        if (!isLoggedIn && guestEmail) sessionStorage.setItem('de-guest-email', guestEmail)
+        clearCart()
+        navigate(`/order-placed?order=${placed.order_number}${tableNumber ? `&table=${encodeURIComponent(tableNumber)}` : ''}`)
+        return
+      }
+
       const order = await api.createOrder({
         items,
         customer_id: customer?.id || null,
@@ -346,8 +368,8 @@ export default function Checkout() {
           </div>
         )}
 
-        {/* Balance toggle */}
-        {isLoggedIn && balance > 0 && (
+        {/* Balance toggle — pre-pay only; dine_in balance is applied at the table (settlement) */}
+        {!isDineIn && isLoggedIn && balance > 0 && (
           <div className={styles.card}>
             <div className={styles.balanceHeader}>
               <span className={styles.balanceHeaderIcon}>🎁</span>
@@ -417,8 +439,8 @@ export default function Checkout() {
           )}
         </div>
 
-        {/* Payment method selector */}
-        {!isFullBalancePayment && (
+        {/* Payment method selector — pre-pay only; dine_in is settled at the table, not online */}
+        {!isDineIn && !isFullBalancePayment && (
           <div className={styles.card}>
             <h2 className={styles.sectionTitle}>{t('checkout.paymentMethod')}</h2>
 
@@ -493,9 +515,11 @@ export default function Checkout() {
             ? t('processing')
             : hasPriceTodo
               ? `${t('order')} · ${t('setMenuPriceTBC')}`
-              : isFullBalancePayment
-                ? t('payBalance')
-                : t('pay', formatPrice(amountToPay))}
+              : isDineIn
+                ? t('postpay.orderBtn')
+                : isFullBalancePayment
+                  ? t('payBalance')
+                  : t('pay', formatPrice(amountToPay))}
         </button>
 
         <button className={styles.backBtn} onClick={() => navigate('/menu')}>

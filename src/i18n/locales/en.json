@@ -191,6 +191,12 @@
     "trackOrder": "Track my order",
     "downloadReceipt": "Download receipt"
   },
+  "postpay": {
+    "title": "Order placed",
+    "kitchen": "Your order is on its way to the kitchen",
+    "desc": "Pay at your table after the meal",
+    "orderBtn": "Place order"
+  },
   "track": {
     "notFound": "Order not found",
     "notFoundDesc": "Order {{number}} could not be found.",

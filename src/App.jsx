@@ -11,6 +11,7 @@ import MenuBrowser from './components/MenuBrowser'
 import ReservationPage from './components/ReservationPage'
 import Checkout from './components/Checkout'
 import PaymentSuccess from './components/PaymentSuccess'
+import OrderPlaced from './components/OrderPlaced'
 import AccountLogin from './components/AccountLogin'
 import AccountDashboard from './components/AccountDashboard'
 import BalanceHistory from './components/BalanceHistory'
@@ -27,7 +28,7 @@ import Footer from './components/Footer'
 import { FEATURES } from './config'
 
 // Customer-facing pages only — admin/kitchen/delivery/account pages get no footer
-const FOOTER_PATHS = ['/', '/menu', '/reservation', '/checkout', '/payment-success']
+const FOOTER_PATHS = ['/', '/menu', '/reservation', '/checkout', '/payment-success', '/order-placed']
 
 export default function App() {
   return (
@@ -63,6 +64,7 @@ function AppRoutes() {
         <Route path="/menu" element={<MenuBrowser />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/order-placed" element={<OrderPlaced />} />
         <Route path="/account" element={<AccountDashboard />} />
         <Route path="/account/login" element={<AccountLogin />} />
         <Route path="/balance/history" element={<BalanceHistory />} />
