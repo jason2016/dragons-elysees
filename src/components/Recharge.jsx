@@ -24,9 +24,11 @@ export default function Recharge() {
     if (amt > RECHARGE_MAX) { setError(t('bal.rechargeMax', { max: formatPrice(RECHARGE_MAX) })); return }
     setError(''); setLoading(true)
     try {
-      const returnUrl = `${window.location.origin}${import.meta.env.BASE_URL}#/account`
+      const returnUrl = `${window.location.origin}${import.meta.env.BASE_URL}#/balance/recharge-success`
       const res = await api.recharge(amt, 'stancer', returnUrl)
       if (res?.payment_url) {
+        // Park the payment_id so the return page can verify it (webhook fallback).
+        if (res.payment_id) sessionStorage.setItem('dragons_recharge_pid', res.payment_id)
         window.location.href = res.payment_url    // redirect to Stancer checkout
       } else {
         setError(res?.error || t('bal.rechargeFailed')); setLoading(false)

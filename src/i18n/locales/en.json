@@ -11,6 +11,11 @@
     "rechargeFailed": "Top-up failed. Please try again.",
     "rechargeSubmit": "Top up",
     "rechargeSecure": "Secure payment by Stancer.",
+    "verifyChecking": "Verifying payment…",
+    "verifyPaid": "Top-up successful!",
+    "verifyPending": "Payment is being processed",
+    "verifyPendingHint": "Your balance will update shortly. You can refresh your account.",
+    "backToAccount": "Back to account",
     "cat": { "paid": "Topped up", "bonus": "Loyalty" },
     "src": {
       "recharge": "Top-up",
