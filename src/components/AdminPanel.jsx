@@ -373,6 +373,7 @@ function SettleRow({ order, statusLabels, onSettled }) {
 function OrderDetail({ order, lang }) {
   const items = typeof order.items === 'string' ? JSON.parse(order.items) : order.items || []
   const [showInvoiceForm, setShowInvoiceForm] = useState(false)
+  const isPaid = order.payment_status === 'paid' || order.status === 'paid'
 
   return (
     <div className={styles.orderDetail}>
@@ -396,12 +397,10 @@ function OrderDetail({ order, lang }) {
         {order.paid_used > 0 && <span>💳 Solde: −{formatPrice(order.paid_used)}</span>}
         {order.bonus_earned > 0 && <span>✨ Cashback: +{formatPrice(order.bonus_earned)}</span>}
       </div>
-      {/* Receipt / Invoice actions — HIDDEN pending financial layer (step 2).
-          TODO: facture/receipt include TVA = financial layer. Re-enable ONLY after
-          expert-comptable confirms the TVA rules (judgment point A); the generator will use
-          the balance ledger's taxable_amount + accountant-set rates. Backend
-          /orders/{id}/receipt|invoice not implemented yet (404). */}
-      {false && (
+      {/* Receipt / Invoice — shown once the order is settled (paid). Backend
+          /orders/{id}/receipt|invoice generates the PDF (TVA breakdown + legal mentions).
+          Shop SIRET/TVA are placeholders until 约翰 provides them; rates pending accountant. */}
+      {isPaid && (
       <div className={styles.detailActions}>
         <a
           href={api.getReceiptUrl(order.id)}
@@ -417,7 +416,7 @@ function OrderDetail({ order, lang }) {
         </button>
       </div>
       )}
-      {false && showInvoiceForm && (
+      {showInvoiceForm && (
         <InvoiceForm orderId={order.id} onClose={() => setShowInvoiceForm(false)} />
       )}
     </div>
