@@ -305,11 +305,11 @@ function SettleRow({ order, statusLabels, onSettled }) {
         <strong style={{ marginLeft: 'auto' }}>{formatPrice(total)}</strong>
       </div>
       {err && !confirm && <div style={{ color: '#c13b3b', fontSize: 13, marginTop: 6 }}>{err}</div>}
-      <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
-        <button style={btn} disabled={busy} onClick={() => { setErr(''); setConfirm({ payload: { method: 'cash' } }) }}>💵 {t('settle.cash')}</button>
-        <button style={btn} disabled={busy} onClick={() => { setErr(''); setConfirm({ payload: { method: 'card' } }) }}>💳 {t('settle.card')}</button>
+      <div style={{ display: 'flex', gap: 10, marginTop: 10, flexWrap: 'wrap' }}>
+        <button className={`${styles.payBtn} ${styles.payCash}`} disabled={busy} onClick={() => { setErr(''); setConfirm({ payload: { method: 'cash' } }) }}>💵 {t('settle.cash')}</button>
+        <button className={`${styles.payBtn} ${styles.payCard}`} disabled={busy} onClick={() => { setErr(''); setConfirm({ payload: { method: 'card' } }) }}>💳 {t('settle.card')}</button>
         {order.customer_id && (
-          <button style={btn} disabled={busy} onClick={() => setShowBalance(v => !v)}>🎁 {t('settle.balance')}</button>
+          <button className={`${styles.payBtn} ${styles.payBalance}`} disabled={busy} onClick={() => setShowBalance(v => !v)}>🎁 {t('settle.balance')}</button>
         )}
       </div>
       {showBalance && order.customer_id && (
@@ -324,7 +324,7 @@ function SettleRow({ order, statusLabels, onSettled }) {
             <option value="cash">💵 {t('settle.cash')}</option>
             <option value="card">💳 {t('settle.card')}</option>
           </select>
-          <button style={{ ...btn, background: '#d4a300', color: '#fff', borderColor: '#d4a300' }} disabled={busy} onClick={askBalance}>
+          <button className={`${styles.payBtn} ${styles.payBalance}`} disabled={busy} onClick={askBalance}>
             🎁 {t('settle.balance')} →
           </button>
         </div>

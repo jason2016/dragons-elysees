@@ -338,3 +338,33 @@
   font-size: 0.85rem;
   cursor: pointer;
 }
+
+/* ── Settlement payment buttons — chunky 3D, tactile press, colour-coded by method ── */
+.payBtn {
+  --edge: rgba(0, 0, 0, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 50px;            /* touch-friendly on tablet/phone */
+  padding: 11px 20px;
+  border: none;
+  border-radius: 13px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 5px 0 var(--edge), 0 7px 14px rgba(0, 0, 0, 0.22);
+  transition: transform 0.07s ease, box-shadow 0.07s ease, filter 0.15s ease;
+}
+.payBtn:hover { filter: brightness(1.07); transform: translateY(-1px); box-shadow: 0 6px 0 var(--edge), 0 9px 18px rgba(0, 0, 0, 0.26); }
+.payBtn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--edge), 0 2px 5px rgba(0, 0, 0, 0.25); filter: brightness(0.98); }  /* pressed into its edge */
+.payBtn:disabled { opacity: 0.5; cursor: default; transform: none; box-shadow: 0 3px 0 var(--edge); filter: none; }
+
+.payCash    { background: linear-gradient(180deg, #3ad06a, #1e9e46); --edge: #157a35; }  /* 💵 cash — green */
+.payCard    { background: linear-gradient(180deg, #4b8ef7, #2563eb); --edge: #1b50b0; }  /* 💳 card — blue  */
+.payBalance { background: linear-gradient(180deg, #f2bd3c, #d49a00); --edge: #9c7300; }  /* 🎁 balance — gold */
