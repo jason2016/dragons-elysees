@@ -15,6 +15,16 @@ export default function AccountDashboard() {
   const [copyDone, setCopyDone] = useState(false)
   const [bal, setBal] = useState(null)
 
+  // Referral link/QR on the live custom domain (frontend override; backend de_get_referral_info
+  // still returns the old github.io host — consumed only here). ?ref is read by AccountLogin from
+  // window.location.search, so it is captured correctly on https://dragonselysees.com.
+  const refUrl = referralData?.referral_code
+    ? `https://dragonselysees.com/?ref=${referralData.referral_code}`
+    : referralData?.referral_url
+  const qrUrl = referralData?.referral_code
+    ? `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(refUrl)}`
+    : referralData?.qr_code_url
+
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/account/login')
@@ -49,7 +59,7 @@ export default function AccountDashboard() {
 
   const shareWhatsApp = () => {
     if (!referralData) return
-    const text = `Découvrez Dragons Elysées ! Utilisez mon code ${referralData.referral_code} et nous gagnons tous les deux ! ${referralData.referral_url}`
+    const text = `Découvrez Dragons Elysées ! Utilisez mon code ${referralData.referral_code} et nous gagnons tous les deux ! ${refUrl}`
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
 
@@ -137,9 +147,9 @@ export default function AccountDashboard() {
             </div>
 
             {/* QR code */}
-            {referralData.qr_code_url && (
+            {qrUrl && (
               <div className={styles.referralQR}>
-                <img src={referralData.qr_code_url} alt="QR Code recommandation" />
+                <img src={qrUrl} alt="QR Code recommandation" />
                 <p className={styles.referralQRSub}>
                   {t('account.scanOrShare')}
                 </p>
@@ -147,8 +157,8 @@ export default function AccountDashboard() {
             )}
 
             {/* Referral URL */}
-            {referralData.referral_url && (
-              <div className={styles.referralUrl}>{referralData.referral_url}</div>
+            {refUrl && (
+              <div className={styles.referralUrl}>{refUrl}</div>
             )}
 
             {/* WhatsApp share */}

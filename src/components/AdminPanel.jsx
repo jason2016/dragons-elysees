@@ -202,10 +202,16 @@ function OrderDetail({ order, lang }) {
         {order.delivery_phone && order.delivery_phone !== order.guest_phone && <span>📞 {order.delivery_phone}</span>}
         {order.note && <span>📝 {order.note}</span>}
         <span>💳 {order.payment_method}</span>
-        {order.cashback_used > 0 && <span>🎁 Balance: −{formatPrice(order.cashback_used)}</span>}
-        {order.cashback_earned > 0 && <span>✨ Cashback: +{formatPrice(order.cashback_earned)}</span>}
+        {order.bonus_used > 0 && <span>🎁 Bonus: −{formatPrice(order.bonus_used)}</span>}
+        {order.paid_used > 0 && <span>💳 Solde: −{formatPrice(order.paid_used)}</span>}
+        {order.bonus_earned > 0 && <span>✨ Cashback: +{formatPrice(order.bonus_earned)}</span>}
       </div>
-      {/* Receipt / Invoice actions */}
+      {/* Receipt / Invoice actions — HIDDEN pending financial layer (step 2).
+          TODO: facture/receipt include TVA = financial layer. Re-enable ONLY after
+          expert-comptable confirms the TVA rules (judgment point A); the generator will use
+          the balance ledger's taxable_amount + accountant-set rates. Backend
+          /orders/{id}/receipt|invoice not implemented yet (404). */}
+      {false && (
       <div className={styles.detailActions}>
         <a
           href={api.getReceiptUrl(order.id)}
@@ -220,7 +226,8 @@ function OrderDetail({ order, lang }) {
           📄 Facture
         </button>
       </div>
-      {showInvoiceForm && (
+      )}
+      {false && showInvoiceForm && (
         <InvoiceForm orderId={order.id} onClose={() => setShowInvoiceForm(false)} />
       )}
     </div>

@@ -70,16 +70,18 @@ export default function Cart() {
                     <span className={styles.itemUnit}>
                       {item.price_todo ? <span className={styles.priceTBC}>{t('setMenuPriceTBC')}</span> : formatPrice(item.price)}
                     </span>
+                    {/* Set-menu lines BELOW the name within itemInfo (column), not as a flex-row
+                        sibling — fixes the name/details overlap in the cart. */}
+                    {isSet && item.selections && (
+                      <ul className={styles.setLines}>
+                        {item.selections.map(sel => (
+                          <li key={sel.key}>
+                            {name({ name: sel.label })}: {name({ name: sel.name })}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
-                  {isSet && item.selections && (
-                    <ul className={styles.setLines}>
-                      {item.selections.map(sel => (
-                        <li key={sel.key}>
-                          {name({ name: sel.label })}: {name({ name: sel.name })}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                   <div className={styles.itemControls}>
                     <button
                       className={styles.qtyBtn}
