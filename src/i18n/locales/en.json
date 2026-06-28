@@ -206,7 +206,15 @@
     "details": "Order details",
     "autoRefresh": "Auto-refreshing every 10s"
   },
+  "payStatusPaid": "Paid",
+  "payStatusUnpaid": "Unpaid",
+  "adminHidePaid": "Hide settled",
+  "adminEnCours": "In progress",
+  "adminReady": "Ready",
+  "adminSettled": "Settled",
   "account": {
+    "myOrders": "My orders",
+    "noOrders": "No orders yet",
     "balanceTitle": "Credit",
     "viewHistory": "View history →",
     "viewAllTx": "View all {{count}} transactions →",

@@ -14,6 +14,8 @@ export default function AccountDashboard() {
   const [referralData, setReferralData] = useState(null)
   const [copyDone, setCopyDone] = useState(false)
   const [bal, setBal] = useState(null)
+  const [orders, setOrders] = useState([])
+  const [expandedOrder, setExpandedOrder] = useState(null)
 
   // Referral link/QR on the live custom domain (frontend override; backend de_get_referral_info
   // still returns the old github.io host — consumed only here). ?ref is read by AccountLogin from
@@ -41,6 +43,10 @@ export default function AccountDashboard() {
     if (!customer?.id) return
     api.getReferral(customer.id)
       .then(setReferralData)
+      .catch(() => {})
+    // My orders (incl. post-pay dine_in "Non réglé" before settlement)
+    api.getOrders({ customer_id: customer.id })
+      .then(d => setOrders(d.orders || []))
       .catch(() => {})
   }, [customer?.id])
 
@@ -122,6 +128,58 @@ export default function AccountDashboard() {
                   {t('account.viewAllTx', { count: transactions.length })}
                 </button>
               )}
+            </div>
+          )}
+        </div>
+
+        {/* My orders — incl. post-pay dine_in awaiting table settlement (Non réglé) */}
+        <div className={styles.card}>
+          <h2 className={styles.sectionTitle}>📋 {t('account.myOrders')}</h2>
+          {orders.length === 0 ? (
+            <div className={styles.empty}>{t('account.noOrders')}</div>
+          ) : (
+            <div className={styles.txList}>
+              {orders.slice(0, 10).map(o => {
+                let items = []
+                try { items = typeof o.items === 'string' ? JSON.parse(o.items) : (o.items || []) } catch { items = [] }
+                const isPaid = o.payment_status === 'paid'
+                return (
+                  <div key={o.id}>
+                    <div
+                      className={styles.txRow}
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setExpandedOrder(expandedOrder === o.id ? null : o.id)}
+                    >
+                      <div className={styles.txInfo}>
+                        <span className={styles.txDesc}>
+                          {o.order_number}{o.table_number ? ` · 🍽️ ${o.table_number}` : ''}
+                        </span>
+                        <span className={styles.txDate}>{new Date(o.created_at).toLocaleDateString('fr-FR')}</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{
+                          fontSize: 11, fontWeight: 700, padding: '1px 8px', borderRadius: 999,
+                          color: isPaid ? '#166534' : '#9a3412',
+                          background: isPaid ? '#dcfce7' : '#ffedd5',
+                        }}>
+                          {isPaid ? t('payStatusPaid') : t('payStatusUnpaid')}
+                        </span>
+                        <span className={styles.txAmount}>{formatPrice(o.total_paid)}</span>
+                      </div>
+                    </div>
+                    {expandedOrder === o.id && (
+                      <div style={{ padding: '2px 4px 10px', fontSize: 13, opacity: 0.85 }}>
+                        {items.map((it, i) => (
+                          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '2px 0' }}>
+                            <span>{it.qty}× {it.name?.fr || it.name_fr || it.name?.zh || it.name_zh}</span>
+                            <span>{formatPrice((it.price || 0) * (it.qty || 1))}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>

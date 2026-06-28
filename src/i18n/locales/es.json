@@ -206,7 +206,15 @@
     "details": "Detalles del pedido",
     "autoRefresh": "Actualización automática cada 10s"
   },
+  "payStatusPaid": "Pagado",
+  "payStatusUnpaid": "No pagado",
+  "adminHidePaid": "Ocultar pagadas",
+  "adminEnCours": "En curso",
+  "adminReady": "Listo",
+  "adminSettled": "Pagadas",
   "account": {
+    "myOrders": "Mis pedidos",
+    "noOrders": "Sin pedidos",
     "balanceTitle": "Saldo",
     "viewHistory": "Ver el historial →",
     "viewAllTx": "Ver las {{count}} transacciones →",

@@ -25,6 +25,7 @@ export default function AdminPanel() {
   const [dateFilter, setDateFilter] = useState(() => new Date().toISOString().split('T')[0])
   const [statusFilter, setStatusFilter] = useState('')
   const [expandedId, setExpandedId] = useState(null)
+  const [hidePaid, setHidePaid] = useState(false)   // toggle hides settled ROWS only — summary still counts them
 
   const fetchData = async () => {
     setLoading(true)
@@ -73,8 +74,18 @@ export default function AdminPanel() {
     )
   }
 
-  const displayed = statusFilter ? orders.filter(o => o.status === statusFilter) : orders
+  // Row filters: status dropdown + "hide settled" toggle. NOTE: summary/stats below are computed
+  // from the full `orders`/`stats` (NOT `displayed`) — settled orders stay counted even when hidden.
+  const displayed = orders.filter(o =>
+    (!statusFilter || o.status === statusFilter) &&
+    (!hidePaid || o.payment_status !== 'paid')
+  )
   const statusLabels = STATUS_LABEL[lang] || STATUS_LABEL.fr
+  // Daily by-status summary (get_stats already returns by_status — just surface it)
+  const bs = stats?.by_status || {}
+  const sumEnCours = (bs.ordered || 0) + (bs.preparing || 0)
+  const sumReady = bs.ready || 0
+  const sumSettled = bs.paid || 0
   // dine_in post-pay orders not yet settled (table-side checkout queue)
   const pendingSettle = orders.filter(
     o => o.order_type === 'dine_in' && o.payment_status === 'unpaid' && o.status !== 'cancelled'
@@ -109,6 +120,14 @@ export default function AdminPanel() {
           <StatCard icon="💳" value={stats?.by_type?.balance_only ?? '—'} label={t('adminBalance')} />
         </div>
 
+        {/* Daily by-status summary — always counts ALL orders (incl. settled), independent of the
+            "hide settled" row toggle below. */}
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '2px 0 4px' }}>
+          <SummaryChip color="#d4a300" label={t('adminEnCours')} value={sumEnCours} />
+          <SummaryChip color="#4caf7d" label={t('adminReady')} value={sumReady} />
+          <SummaryChip color="#4285F4" label={t('adminSettled')} value={sumSettled} />
+        </div>
+
         {/* À encaisser — dine_in post-pay settlement queue */}
         {pendingSettle.length > 0 && (
           <div className={styles.card} style={{ borderLeft: '4px solid #d4a300' }}>
@@ -129,16 +148,22 @@ export default function AdminPanel() {
             <h2 className={styles.cardTitle}>
               {`Commandes du ${new Date(dateFilter + 'T00:00:00').toLocaleDateString('fr-FR')} · ${new Date(dateFilter + 'T00:00:00').toLocaleDateString('zh-CN')} 订单`}
             </h2>
-            <select
-              className={styles.statusSelect}
-              value={statusFilter}
-              onChange={e => setStatusFilter(e.target.value)}
-            >
-              <option value="">{t('adminAllStatuses')}</option>
-              {Object.keys(STATUS_LABEL.fr).map(s => (
-                <option key={s} value={s}>{statusLabels[s]}</option>
-              ))}
-            </select>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, cursor: 'pointer', userSelect: 'none' }}>
+                <input type="checkbox" checked={hidePaid} onChange={e => setHidePaid(e.target.checked)} />
+                {t('adminHidePaid')}
+              </label>
+              <select
+                className={styles.statusSelect}
+                value={statusFilter}
+                onChange={e => setStatusFilter(e.target.value)}
+              >
+                <option value="">{t('adminAllStatuses')}</option>
+                {Object.keys(STATUS_LABEL.fr).map(s => (
+                  <option key={s} value={s}>{statusLabels[s]}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {loading ? (
@@ -168,11 +193,20 @@ export default function AdminPanel() {
                       {order.order_type === 'delivery' ? '🚗' : '🍽️'}
                     </span>
                     <span className={styles.price}>{formatPrice(order.total_paid)}</span>
-                    <span
-                      className={styles.statusBadge}
-                      style={{ '--color': STATUS_COLOR[order.status] || '#6b6355' }}
-                    >
-                      {statusLabels[order.status] || order.status}
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                      <span
+                        className={styles.statusBadge}
+                        style={{ '--color': STATUS_COLOR[order.status] || '#6b6355' }}
+                      >
+                        {statusLabels[order.status] || order.status}
+                      </span>
+                      <span style={{
+                        fontSize: 11, fontWeight: 700, padding: '1px 7px', borderRadius: 999,
+                        color: order.payment_status === 'paid' ? '#166534' : '#9a3412',
+                        background: order.payment_status === 'paid' ? '#dcfce7' : '#ffedd5',
+                      }}>
+                        {order.payment_status === 'paid' ? t('payStatusPaid') : t('payStatusUnpaid')}
+                      </span>
                     </span>
                   </div>
                   {expandedId === order.id && (
@@ -195,6 +229,20 @@ function StatCard({ icon, value, label }) {
       <div className={styles.statValue}>{value}</div>
       <div className={styles.statLabel}>{label}</div>
     </div>
+  )
+}
+
+// Daily status-count chip (summary; always reflects ALL orders, incl. settled)
+function SummaryChip({ color, label, value }) {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 12px',
+      borderRadius: 999, background: '#fff', border: `1px solid ${color}33`, fontSize: 13,
+    }}>
+      <span style={{ width: 8, height: 8, borderRadius: '50%', background: color }} />
+      <span style={{ opacity: 0.8 }}>{label}</span>
+      <strong style={{ color }}>{value}</strong>
+    </span>
   )
 }
 
