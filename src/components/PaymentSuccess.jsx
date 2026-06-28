@@ -145,12 +145,9 @@ export default function PaymentSuccess() {
           </Link>
         )}
 
-        {/* Receipt download — HIDDEN pending financial layer (step 2).
-            TODO: facture/receipt include TVA = financial layer. Re-enable ONLY after
-            expert-comptable confirms the TVA rules (judgment point A); the generator will use
-            the balance ledger's taxable_amount + accountant-set rates. Backend endpoint
-            /orders/{id}/receipt is also not implemented yet (404). */}
-        {false && order.id && (
+        {/* Receipt download — backend /orders/{id}/receipt generates the PDF (TVA breakdown +
+            legal mentions). Shop SIRET/TVA are placeholders until provided; rates pending accountant. */}
+        {order.id && (
           <a
             href={api.getReceiptUrl(order.id)}
             target="_blank"
