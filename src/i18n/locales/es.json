@@ -191,6 +191,12 @@
     "trackOrder": "Seguir mi pedido",
     "downloadReceipt": "Descargar el recibo"
   },
+  "postpay": {
+    "title": "Pedido enviado",
+    "kitchen": "Su pedido va a la cocina",
+    "desc": "Pague en su mesa después de comer",
+    "orderBtn": "Realizar pedido"
+  },
   "track": {
     "notFound": "Pedido no encontrado",
     "notFoundDesc": "El pedido {{number}} no se ha encontrado.",

@@ -191,6 +191,12 @@
     "trackOrder": "Suivre ma commande",
     "downloadReceipt": "Télécharger le reçu"
   },
+  "postpay": {
+    "title": "Commande envoyée",
+    "kitchen": "Votre commande part en cuisine",
+    "desc": "Réglez à table après le repas",
+    "orderBtn": "Commander"
+  },
   "track": {
     "notFound": "Commande introuvable",
     "notFoundDesc": "La commande {{number}} est introuvable.",

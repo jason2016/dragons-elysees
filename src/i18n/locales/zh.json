@@ -191,6 +191,12 @@
     "trackOrder": "追踪我的订单",
     "downloadReceipt": "下载收据 PDF"
   },
+  "postpay": {
+    "title": "已下单",
+    "kitchen": "已送厨房制作",
+    "desc": "请用餐后在桌边结账",
+    "orderBtn": "下单"
+  },
   "track": {
     "notFound": "找不到订单",
     "notFoundDesc": "订单 {{number}} 不存在",
