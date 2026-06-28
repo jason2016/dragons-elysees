@@ -7,20 +7,35 @@ import styles from './KitchenDisplay.module.css'
 const KITCHEN_PASSWORD = 'dragons2026'
 const POLL_INTERVAL = 5000
 
-function playSound() {
+// Single reused AudioContext (lazy). Browsers gate audio behind a user gesture; the kitchen unlock
+// click ("Accéder") resumes it via unlockAudio(), after which the big screen can beep indefinitely.
+let _audioCtx = null
+function _ctx() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)()
-    const osc = ctx.createOscillator()
-    const gain = ctx.createGain()
-    osc.connect(gain)
-    gain.connect(ctx.destination)
-    osc.frequency.value = 880
-    osc.type = 'sine'
-    gain.gain.value = 0.3
-    osc.start()
-    setTimeout(() => { osc.frequency.value = 1100 }, 150)
-    setTimeout(() => { osc.stop(); ctx.close() }, 400)
-  } catch (_) {}
+    if (!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+  } catch (_) { return null }
+  return _audioCtx
+}
+function _tone(freq, duration, startDelay = 0) {
+  setTimeout(() => {
+    const ctx = _ctx()
+    if (!ctx) return
+    try {
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.connect(gain); gain.connect(ctx.destination)
+      osc.frequency.value = freq; osc.type = 'sine'; gain.gain.value = 0.3
+      osc.start()
+      setTimeout(() => { try { osc.stop() } catch (_) {} }, duration * 1000)
+    } catch (_) {}
+  }, startDelay)
+}
+// Distinct cues so runners can tell them apart by ear.
+function playNewOrderSound() { _tone(660, 0.15, 0); _tone(880, 0.3, 180) }          // new order: two-tone
+function playReadySound() { _tone(523, 0.15, 0); _tone(659, 0.15, 180); _tone(784, 0.35, 360) } // ready: rising arpeggio
+function unlockAudio() {
+  const ctx = _ctx()
+  if (ctx && ctx.state === 'suspended') ctx.resume().catch(() => {})
 }
 
 export default function KitchenDisplay() {
@@ -33,7 +48,10 @@ export default function KitchenDisplay() {
   const [readyDineIn, setReadyDineIn] = useState([])   // status=ready, dine_in
   const [readyDelivery, setReadyDelivery] = useState([]) // status=ready, delivery
   const [soundOn, setSoundOn] = useState(true)
-  const prevNewCount = useRef(0)
+  const [newlyReady, setNewlyReady] = useState(() => new Set())  // ready order ids to blink (~9s)
+  const prevNewIds = useRef(new Set())
+  const prevReadyIds = useRef(new Set())
+  const firstPoll = useRef(true)   // first load only fills the refs — no alert for pre-existing orders
   const intervalRef = useRef(null)
 
   const fetchOrders = useCallback(async () => {
@@ -57,8 +75,30 @@ export default function KitchenDisplay() {
       const prepOrd = preparingRes.orders || []
       const readyOrd = readyRes.orders || []
 
-      if (newOrd.length > prevNewCount.current && soundOn) playSound()
-      prevNewCount.current = newOrd.length
+      // Detect by ID set (not count — count misses a simultaneous in+out). First poll only seeds
+      // the refs so we don't alert for orders already on screen at load.
+      const newIds = new Set(newOrd.map(o => o.id))
+      const readyIds = new Set(readyOrd.map(o => o.id))
+      if (firstPoll.current) {
+        firstPoll.current = false
+      } else {
+        const hasFreshNew = [...newIds].some(id => !prevNewIds.current.has(id))
+        const freshReady = [...readyIds].filter(id => !prevReadyIds.current.has(id))
+        if (soundOn && hasFreshNew) playNewOrderSound()
+        if (freshReady.length > 0) {
+          if (soundOn) playReadySound()
+          setNewlyReady(prev => {
+            const n = new Set(prev)
+            freshReady.forEach(id => n.add(id))
+            return n
+          })
+          freshReady.forEach(id => setTimeout(() => setNewlyReady(prev => {
+            const n = new Set(prev); n.delete(id); return n
+          }), 9000))
+        }
+      }
+      prevNewIds.current = newIds
+      prevReadyIds.current = readyIds
 
       setNewOrders(newOrd)
       setCooking(prepOrd)
@@ -80,7 +120,7 @@ export default function KitchenDisplay() {
   }
 
   const handleUnlock = () => {
-    if (pwd === KITCHEN_PASSWORD) { setUnlocked(true); setPwdError(false) }
+    if (pwd === KITCHEN_PASSWORD) { setUnlocked(true); setPwdError(false); unlockAudio() }  // unlock audio on the gesture
     else { setPwdError(true) }
   }
 
@@ -118,7 +158,7 @@ export default function KitchenDisplay() {
         <div className={styles.topActions}>
           <button
             className={`${styles.iconBtn} ${soundOn ? styles.iconBtnOn : ''}`}
-            onClick={() => setSoundOn(s => !s)}
+            onClick={() => setSoundOn(s => { if (!s) unlockAudio(); return !s })}
             title="Son"
           >
             {soundOn ? '🔊' : '🔇'}
@@ -156,6 +196,7 @@ export default function KitchenDisplay() {
             actionLabel={t('kitchenMarkDone')}
             onAction={id => markStatus(id, 'completed')}
             emptyMsg={t('kitchenNoReady')}
+            blinkIds={newlyReady}
           />
           {/* Column 4: Ready – delivery waiting */}
           <KitchenColumn
@@ -165,6 +206,7 @@ export default function KitchenDisplay() {
             actionLabel={null}
             onAction={null}
             emptyMsg={t('kitchenNoReady')}
+            blinkIds={newlyReady}
           />
         </div>
       ) : (
@@ -199,6 +241,7 @@ export default function KitchenDisplay() {
             actionLabel={t('kitchenMarkDone')}
             onAction={id => markStatus(id, 'completed')}
             emptyMsg={t('kitchenNoReady')}
+            blinkIds={newlyReady}
           />
         </div>
       )}
@@ -210,7 +253,7 @@ export default function KitchenDisplay() {
   )
 }
 
-function KitchenColumn({ header, colorClass, orders, actionLabel, onAction, emptyMsg, blink }) {
+function KitchenColumn({ header, colorClass, orders, actionLabel, onAction, emptyMsg, blink, blinkIds }) {
   return (
     <div className={styles.column}>
       <div className={`${styles.colHeader} ${colorClass}`}>{header}</div>
@@ -223,7 +266,7 @@ function KitchenColumn({ header, colorClass, orders, actionLabel, onAction, empt
               order={order}
               onAction={onAction ? () => onAction(order.id) : null}
               actionLabel={actionLabel}
-              blink={blink}
+              blink={blinkIds ? blinkIds.has(order.id) : blink}
             />
           ))
         }
