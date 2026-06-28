@@ -212,6 +212,15 @@
   "adminEnCours": "En curso",
   "adminReady": "Listo",
   "adminSettled": "Pagadas",
+  "settle": {
+    "confirmTitle": "¿Confirmar el cobro?",
+    "confirmBtn": "Confirmar cobro",
+    "cancel": "Cancelar",
+    "cash": "Efectivo",
+    "card": "Tarjeta",
+    "balance": "Saldo",
+    "balanceWarn": "Se descontará {{amount}} del saldo del cliente (bono primero, luego recarga)"
+  },
   "account": {
     "myOrders": "Mis pedidos",
     "noOrders": "Sin pedidos",

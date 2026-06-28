@@ -212,6 +212,15 @@
   "adminEnCours": "En cours",
   "adminReady": "Prêt",
   "adminSettled": "Réglées",
+  "settle": {
+    "confirmTitle": "Confirmer l'encaissement ?",
+    "confirmBtn": "Confirmer l'encaissement",
+    "cancel": "Annuler",
+    "cash": "Espèces",
+    "card": "Carte",
+    "balance": "Solde",
+    "balanceWarn": "Le solde du client sera débité de {{amount}} (bonus d'abord, puis rechargé)"
+  },
   "account": {
     "myOrders": "Mes commandes",
     "noOrders": "Aucune commande",

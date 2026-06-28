@@ -183,6 +183,7 @@ export default function AdminPanel() {
                 <div key={order.id}>
                   <div
                     className={styles.tableRow}
+                    style={{ borderLeft: order.payment_status === 'paid' ? '3px solid transparent' : '3px solid #dc2626' }}
                     onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}
                   >
                     <span className={styles.orderNum}>
@@ -207,12 +208,12 @@ export default function AdminPanel() {
                       >
                         {statusLabels[order.status] || order.status}
                       </span>
-                      <span style={{
-                        fontSize: 11, fontWeight: 700, padding: '1px 7px', borderRadius: 999,
-                        color: order.payment_status === 'paid' ? '#166534' : '#9a3412',
-                        background: order.payment_status === 'paid' ? '#dcfce7' : '#ffedd5',
-                      }}>
-                        {order.payment_status === 'paid' ? t('payStatusPaid') : t('payStatusUnpaid')}
+                      {/* Unpaid = loud (action needed); paid = quiet (done) */}
+                      <span style={order.payment_status === 'paid'
+                        ? { fontSize: 11, fontWeight: 600, padding: '1px 7px', borderRadius: 999, color: '#5a7a66', background: '#e6efe9' }
+                        : { fontSize: 11.5, fontWeight: 800, padding: '2px 9px', borderRadius: 999, color: '#fff', background: '#dc2626' }
+                      }>
+                        {order.payment_status === 'paid' ? t('payStatusPaid') : `⚠️ ${t('payStatusUnpaid')}`}
                       </span>
                     </span>
                   </div>
@@ -254,31 +255,44 @@ function SummaryChip({ color, label, value }) {
 }
 
 // Table-side settlement of a dine_in (post-pay) order: cash / card (manual confirm) or balance
-// (rule 甲, partial allowed with cash/card remainder). We never touch real money.
+// (rule 甲, partial allowed with cash/card remainder). We never touch real money. Every method goes
+// through a confirmation dialog first (handling money — guard against mis-taps).
 function SettleRow({ order, statusLabels, onSettled }) {
+  const { t } = useLang()
   const [showBalance, setShowBalance] = useState(false)
   const [balanceAmt, setBalanceAmt] = useState('')
   const [remainder, setRemainder] = useState('cash')
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
+  const [confirm, setConfirm] = useState(null)   // { payload, remainderMethod } — pending confirmation
   const total = order.total_paid || 0
   const reste = Math.max(0, total - (parseFloat(balanceAmt) || 0))
 
+  // settle returns true on success (caller closes the dialog); false keeps it open to show the error.
   const settle = async (payload) => {
     setBusy(true); setErr('')
     try {
       const res = await api.settleOrder(order.id, payload)
-      if (res?.error) { setErr(res.error); return }
-      onSettled()
-    } catch (e) { setErr(e?.message || 'Erreur') } finally { setBusy(false) }
+      if (res?.error) { setErr(res.error); return false }
+      onSettled(); return true
+    } catch (e) { setErr(e?.message || 'Erreur'); return false } finally { setBusy(false) }
   }
-  const settleBalance = () => {
+  const askBalance = () => {
     const amt = parseFloat(balanceAmt)
     if (!amt || amt <= 0) { setErr('Montant solde invalide'); return }
-    settle({ method: amt >= total ? 'balance' : 'mixed', balance_amount: amt, customer_id: order.customer_id })
+    setErr('')
+    setConfirm({ payload: { method: amt >= total ? 'balance' : 'mixed', balance_amount: amt, customer_id: order.customer_id }, remainderMethod: remainder })
+  }
+  const doConfirm = async () => {
+    const ok = await settle(confirm.payload)
+    if (ok) setConfirm(null)
   }
 
   const btn = { padding: '7px 12px', borderRadius: 8, border: '1px solid #d8cdb8', background: '#fff', color: '#3a3328', cursor: 'pointer', fontSize: 14 }
+  const methodIconLabel = (m) =>
+    m === 'cash' ? `💵 ${t('settle.cash')}`
+    : m === 'card' ? `💳 ${t('settle.card')}`
+    : `🎁 ${t('settle.balance')}`
   return (
     // White "ticket" card on the dark admin — set an explicit DARK text color so content does NOT
     // inherit the dark-theme's light text (var(--text-*)) and vanish on white.
@@ -290,12 +304,12 @@ function SettleRow({ order, statusLabels, onSettled }) {
         <span style={{ fontSize: 12, color: '#6b6355' }}>{statusLabels[order.status] || order.status}</span>
         <strong style={{ marginLeft: 'auto' }}>{formatPrice(total)}</strong>
       </div>
-      {err && <div style={{ color: '#c13b3b', fontSize: 13, marginTop: 6 }}>{err}</div>}
+      {err && !confirm && <div style={{ color: '#c13b3b', fontSize: 13, marginTop: 6 }}>{err}</div>}
       <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
-        <button style={btn} disabled={busy} onClick={() => settle({ method: 'cash' })}>💵 Espèces</button>
-        <button style={btn} disabled={busy} onClick={() => settle({ method: 'card' })}>💳 Carte</button>
+        <button style={btn} disabled={busy} onClick={() => { setErr(''); setConfirm({ payload: { method: 'cash' } }) }}>💵 {t('settle.cash')}</button>
+        <button style={btn} disabled={busy} onClick={() => { setErr(''); setConfirm({ payload: { method: 'card' } }) }}>💳 {t('settle.card')}</button>
         {order.customer_id && (
-          <button style={btn} disabled={busy} onClick={() => setShowBalance(v => !v)}>🎁 Solde</button>
+          <button style={btn} disabled={busy} onClick={() => setShowBalance(v => !v)}>🎁 {t('settle.balance')}</button>
         )}
       </div>
       {showBalance && order.customer_id && (
@@ -307,12 +321,49 @@ function SettleRow({ order, statusLabels, onSettled }) {
           />
           <span style={{ fontSize: 13 }}>Reste {formatPrice(reste)} en</span>
           <select value={remainder} onChange={e => setRemainder(e.target.value)} style={btn}>
-            <option value="cash">💵 Espèces</option>
-            <option value="card">💳 Carte</option>
+            <option value="cash">💵 {t('settle.cash')}</option>
+            <option value="card">💳 {t('settle.card')}</option>
           </select>
-          <button style={{ ...btn, background: '#d4a300', color: '#fff', borderColor: '#d4a300' }} disabled={busy} onClick={settleBalance}>
-            Confirmer
+          <button style={{ ...btn, background: '#d4a300', color: '#fff', borderColor: '#d4a300' }} disabled={busy} onClick={askBalance}>
+            🎁 {t('settle.balance')} →
           </button>
+        </div>
+      )}
+
+      {/* Confirmation dialog — nothing is settled until "Confirmer l'encaissement" */}
+      {confirm && (
+        <div onClick={() => !busy && setConfirm(null)}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 16 }}>
+          <div onClick={e => e.stopPropagation()}
+            style={{ background: '#fff', color: '#2a2520', borderRadius: 14, padding: 18, width: 'min(420px, 100%)', boxShadow: '0 10px 40px rgba(0,0,0,0.35)' }}>
+            <h3 style={{ margin: '0 0 12px', fontSize: 17 }}>💰 {t('settle.confirmTitle')}</h3>
+            <div style={{ fontSize: 15, lineHeight: 1.6 }}>
+              <div><strong>{order.order_number}</strong>{order.table_number ? ` · 🍽️ Table ${order.table_number}` : ''}</div>
+              <div style={{ fontWeight: 800, fontSize: 22, margin: '4px 0' }}>{formatPrice(total)}</div>
+              <div style={{ color: '#6b6355' }}>
+                {confirm.payload.method === 'mixed'
+                  ? `🎁 ${t('settle.balance')} + ${confirm.remainderMethod === 'card' ? `💳 ${t('settle.card')}` : `💵 ${t('settle.cash')}`}`
+                  : methodIconLabel(confirm.payload.method)}
+              </div>
+            </div>
+            {(confirm.payload.method === 'balance' || confirm.payload.method === 'mixed') && (
+              <div style={{ marginTop: 12, padding: '9px 11px', background: '#fff4f4', border: '1px solid #f1c4c4', borderRadius: 8, fontSize: 13 }}>
+                <div style={{ color: '#9a1c1c', fontWeight: 600 }}>⚠️ {t('settle.balanceWarn', { amount: formatPrice(confirm.payload.balance_amount) })}</div>
+                {confirm.payload.method === 'mixed' && (
+                  <div style={{ marginTop: 5, color: '#2a2520' }}>
+                    🎁 {formatPrice(confirm.payload.balance_amount)} + {confirm.remainderMethod === 'card' ? t('settle.card') : t('settle.cash')} {formatPrice(total - confirm.payload.balance_amount)} = <strong>{formatPrice(total)}</strong>
+                  </div>
+                )}
+              </div>
+            )}
+            {err && <div style={{ color: '#c13b3b', fontSize: 13, marginTop: 8 }}>{err}</div>}
+            <div style={{ display: 'flex', gap: 10, marginTop: 16, justifyContent: 'flex-end' }}>
+              <button style={{ ...btn, background: '#f0ece3' }} disabled={busy} onClick={() => setConfirm(null)}>{t('settle.cancel')}</button>
+              <button style={{ ...btn, background: '#1d8a4e', color: '#fff', borderColor: '#1d8a4e', fontWeight: 700 }} disabled={busy} onClick={doConfirm}>
+                {busy ? '…' : `✓ ${t('settle.confirmBtn')}`}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
