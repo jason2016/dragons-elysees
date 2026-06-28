@@ -185,7 +185,14 @@ export default function AdminPanel() {
                     className={styles.tableRow}
                     onClick={() => setExpandedId(expandedId === order.id ? null : order.id)}
                   >
-                    <span className={styles.orderNum}>{order.order_number}</span>
+                    <span className={styles.orderNum}>
+                      {order.order_number}
+                      {order.order_type !== 'delivery' && order.table_number ? (
+                        <span style={{ display: 'block', fontSize: 11, fontWeight: 400, color: 'var(--text-muted)' }}>
+                          🍽️ Table {order.table_number}
+                        </span>
+                      ) : null}
+                    </span>
                     <span className={styles.muted}>
                       {new Date(order.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
                     </span>
@@ -271,14 +278,16 @@ function SettleRow({ order, statusLabels, onSettled }) {
     settle({ method: amt >= total ? 'balance' : 'mixed', balance_amount: amt, customer_id: order.customer_id })
   }
 
-  const btn = { padding: '7px 12px', borderRadius: 8, border: '1px solid #d8cdb8', background: '#fff', cursor: 'pointer', fontSize: 14 }
+  const btn = { padding: '7px 12px', borderRadius: 8, border: '1px solid #d8cdb8', background: '#fff', color: '#3a3328', cursor: 'pointer', fontSize: 14 }
   return (
-    <div style={{ border: '1px solid #ece4d3', borderRadius: 10, padding: '10px 12px', background: '#fcfaf4' }}>
+    // White "ticket" card on the dark admin — set an explicit DARK text color so content does NOT
+    // inherit the dark-theme's light text (var(--text-*)) and vanish on white.
+    <div style={{ border: '1px solid #ece4d3', borderRadius: 10, padding: '10px 12px', background: '#fcfaf4', color: '#2a2520' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
         <strong>{order.order_number}</strong>
         {order.table_number && <span>🍽️ Table {order.table_number}</span>}
-        {order.customer_id ? <span style={{ fontSize: 12, opacity: 0.7 }}>👤 #{order.customer_id}</span> : <span style={{ fontSize: 12, opacity: 0.7 }}>Invité</span>}
-        <span style={{ fontSize: 12, opacity: 0.7 }}>{statusLabels[order.status] || order.status}</span>
+        {order.customer_id ? <span style={{ fontSize: 12, color: '#6b6355' }}>👤 #{order.customer_id}</span> : <span style={{ fontSize: 12, color: '#6b6355' }}>Invité</span>}
+        <span style={{ fontSize: 12, color: '#6b6355' }}>{statusLabels[order.status] || order.status}</span>
         <strong style={{ marginLeft: 'auto' }}>{formatPrice(total)}</strong>
       </div>
       {err && <div style={{ color: '#c13b3b', fontSize: 13, marginTop: 6 }}>{err}</div>}
