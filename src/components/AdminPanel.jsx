@@ -6,11 +6,11 @@ import styles from './AdminPanel.module.css'
 const ADMIN_PASSWORD = 'admin2026'
 
 const STATUS_LABEL = {
-  fr: { pending: 'En attente', paid: '🔥 Payé', ready: '✅ Prêt', delivering: '🚗 En livraison', completed: 'Servi', cancelled: 'Annulé' },
-  zh: { pending: '待付款', paid: '🔥 已付款', ready: '✅ 已完成', delivering: '🚗 配送中', completed: '已服务', cancelled: '已取消' },
+  fr: { ordered: '🍽️ Commandé', pending: 'En attente', paid: '🔥 Payé', preparing: '🔥 En cuisine', ready: '✅ Prêt', delivering: '🚗 En livraison', completed: 'Servi', cancelled: 'Annulé' },
+  zh: { ordered: '🍽️ 待制作', pending: '待付款', paid: '🔥 已付款', preparing: '🔥 制作中', ready: '✅ 已完成', delivering: '🚗 配送中', completed: '已服务', cancelled: '已取消' },
 }
 const STATUS_COLOR = {
-  pending: '#6b6355', paid: '#4285F4', ready: '#4caf7d',
+  ordered: '#d4a300', pending: '#6b6355', paid: '#4285F4', preparing: '#ff7a44', ready: '#4caf7d',
   delivering: '#ff9944', completed: '#6b6355', cancelled: '#c13b3b',
 }
 
@@ -75,6 +75,10 @@ export default function AdminPanel() {
 
   const displayed = statusFilter ? orders.filter(o => o.status === statusFilter) : orders
   const statusLabels = STATUS_LABEL[lang] || STATUS_LABEL.fr
+  // dine_in post-pay orders not yet settled (table-side checkout queue)
+  const pendingSettle = orders.filter(
+    o => o.order_type === 'dine_in' && o.payment_status === 'unpaid' && o.status !== 'cancelled'
+  )
 
   return (
     <div className={styles.page}>
@@ -104,6 +108,20 @@ export default function AdminPanel() {
           <StatCard icon="🚗" value={stats?.by_type?.delivery ?? '—'} label={t('adminDelivery')} />
           <StatCard icon="💳" value={stats?.by_type?.balance_only ?? '—'} label={t('adminBalance')} />
         </div>
+
+        {/* À encaisser — dine_in post-pay settlement queue */}
+        {pendingSettle.length > 0 && (
+          <div className={styles.card} style={{ borderLeft: '4px solid #d4a300' }}>
+            <div className={styles.cardHeader}>
+              <h2 className={styles.cardTitle}>💰 À encaisser · 待结账 ({pendingSettle.length})</h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '4px 0' }}>
+              {pendingSettle.map(o => (
+                <SettleRow key={o.id} order={o} statusLabels={statusLabels} onSettled={fetchData} />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Orders */}
         <div className={styles.card}>
@@ -176,6 +194,70 @@ function StatCard({ icon, value, label }) {
       <div className={styles.statIcon}>{icon}</div>
       <div className={styles.statValue}>{value}</div>
       <div className={styles.statLabel}>{label}</div>
+    </div>
+  )
+}
+
+// Table-side settlement of a dine_in (post-pay) order: cash / card (manual confirm) or balance
+// (rule 甲, partial allowed with cash/card remainder). We never touch real money.
+function SettleRow({ order, statusLabels, onSettled }) {
+  const [showBalance, setShowBalance] = useState(false)
+  const [balanceAmt, setBalanceAmt] = useState('')
+  const [remainder, setRemainder] = useState('cash')
+  const [busy, setBusy] = useState(false)
+  const [err, setErr] = useState('')
+  const total = order.total_paid || 0
+  const reste = Math.max(0, total - (parseFloat(balanceAmt) || 0))
+
+  const settle = async (payload) => {
+    setBusy(true); setErr('')
+    try {
+      const res = await api.settleOrder(order.id, payload)
+      if (res?.error) { setErr(res.error); return }
+      onSettled()
+    } catch (e) { setErr(e?.message || 'Erreur') } finally { setBusy(false) }
+  }
+  const settleBalance = () => {
+    const amt = parseFloat(balanceAmt)
+    if (!amt || amt <= 0) { setErr('Montant solde invalide'); return }
+    settle({ method: amt >= total ? 'balance' : 'mixed', balance_amount: amt, customer_id: order.customer_id })
+  }
+
+  const btn = { padding: '7px 12px', borderRadius: 8, border: '1px solid #d8cdb8', background: '#fff', cursor: 'pointer', fontSize: 14 }
+  return (
+    <div style={{ border: '1px solid #ece4d3', borderRadius: 10, padding: '10px 12px', background: '#fcfaf4' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+        <strong>{order.order_number}</strong>
+        {order.table_number && <span>🍽️ Table {order.table_number}</span>}
+        {order.customer_id ? <span style={{ fontSize: 12, opacity: 0.7 }}>👤 #{order.customer_id}</span> : <span style={{ fontSize: 12, opacity: 0.7 }}>Invité</span>}
+        <span style={{ fontSize: 12, opacity: 0.7 }}>{statusLabels[order.status] || order.status}</span>
+        <strong style={{ marginLeft: 'auto' }}>{formatPrice(total)}</strong>
+      </div>
+      {err && <div style={{ color: '#c13b3b', fontSize: 13, marginTop: 6 }}>{err}</div>}
+      <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+        <button style={btn} disabled={busy} onClick={() => settle({ method: 'cash' })}>💵 Espèces</button>
+        <button style={btn} disabled={busy} onClick={() => settle({ method: 'card' })}>💳 Carte</button>
+        {order.customer_id && (
+          <button style={btn} disabled={busy} onClick={() => setShowBalance(v => !v)}>🎁 Solde</button>
+        )}
+      </div>
+      {showBalance && order.customer_id && (
+        <div style={{ display: 'flex', gap: 8, marginTop: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <input
+            type="number" step="0.01" min="0" placeholder="Solde à utiliser €"
+            value={balanceAmt} onChange={e => setBalanceAmt(e.target.value)}
+            style={{ ...btn, width: 150 }}
+          />
+          <span style={{ fontSize: 13 }}>Reste {formatPrice(reste)} en</span>
+          <select value={remainder} onChange={e => setRemainder(e.target.value)} style={btn}>
+            <option value="cash">💵 Espèces</option>
+            <option value="card">💳 Carte</option>
+          </select>
+          <button style={{ ...btn, background: '#d4a300', color: '#fff', borderColor: '#d4a300' }} disabled={busy} onClick={settleBalance}>
+            Confirmer
+          </button>
+        </div>
+      )}
     </div>
   )
 }

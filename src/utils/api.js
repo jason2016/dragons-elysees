@@ -32,6 +32,8 @@ export const api = {
   },
   getOrder: (id) => request(`/orders/${id}`),
   updateOrderStatus: (id, status) => request(`/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
+  // Table-side settlement of a dine_in (post-pay) order. payload: { method, balance_amount?, customer_id? }
+  settleOrder: (id, payload) => request(`/orders/${id}/settle`, { method: 'POST', body: JSON.stringify(payload) }),
 
   // Balance (dual-ledger: paid_balance + bonus_balance + total_balance)
   getBalance: () => request('/balance'),
