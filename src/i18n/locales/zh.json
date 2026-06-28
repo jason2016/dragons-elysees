@@ -212,6 +212,15 @@
   "adminEnCours": "执行中",
   "adminReady": "待取餐",
   "adminSettled": "已结账",
+  "settle": {
+    "confirmTitle": "确认收款?",
+    "confirmBtn": "确认收款",
+    "cancel": "取消",
+    "cash": "现金",
+    "card": "刷卡",
+    "balance": "余额",
+    "balanceWarn": "将扣除客人余额 {{amount}}(先抵优惠,后抵充值)"
+  },
   "account": {
     "myOrders": "我的订单",
     "noOrders": "暂无订单",

@@ -212,6 +212,15 @@
   "adminEnCours": "In progress",
   "adminReady": "Ready",
   "adminSettled": "Settled",
+  "settle": {
+    "confirmTitle": "Confirm payment?",
+    "confirmBtn": "Confirm payment",
+    "cancel": "Cancel",
+    "cash": "Cash",
+    "card": "Card",
+    "balance": "Balance",
+    "balanceWarn": "{{amount}} will be deducted from the customer's balance (bonus first, then top-up)"
+  },
   "account": {
     "myOrders": "My orders",
     "noOrders": "No orders yet",
