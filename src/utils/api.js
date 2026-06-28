@@ -42,6 +42,9 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ amount, payment_method, ...(return_url ? { return_url } : {}) }),
     }),
+  // Verify a recharge after returning from Stancer (webhook fallback). Credits paid if paid.
+  rechargeVerify: (payment_id) =>
+    request('/balance/recharge/verify', { method: 'POST', body: JSON.stringify({ payment_id }) }),
 
   // Payment
   createPayment: (data) => request('/payment/create', { method: 'POST', body: JSON.stringify(data) }),

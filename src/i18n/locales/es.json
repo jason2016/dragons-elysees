@@ -11,6 +11,11 @@
     "rechargeFailed": "Recarga fallida. Inténtalo de nuevo.",
     "rechargeSubmit": "Recargar",
     "rechargeSecure": "Pago seguro con Stancer.",
+    "verifyChecking": "Verificando el pago…",
+    "verifyPaid": "¡Recarga exitosa!",
+    "verifyPending": "El pago se está procesando",
+    "verifyPendingHint": "Tu saldo se actualizará en breve. Puedes actualizar tu cuenta.",
+    "backToAccount": "Volver a la cuenta",
     "cat": { "paid": "Recargado", "bonus": "Fidelidad" },
     "src": {
       "recharge": "Recarga",
