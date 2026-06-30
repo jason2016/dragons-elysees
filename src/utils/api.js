@@ -62,12 +62,22 @@ export const api = {
   getMe: () => request('/auth/me'),
 
   // Orders
-  // RED LINE: createOrder / updateOrderStatus / getOrders-by-customer_id stay token-free
-  // (customer + kitchen + delivery flows). Only the admin panel opts in via { admin: true }.
+  // RED LINE: GET /api/dragons-elysees/orders is the SHARED no-token endpoint
+  // (customer by customer_id + kitchen/delivery by status). NEVER attach an admin token here.
+  // The admin full-order list is a SEPARATE, semantically-distinct endpoint → adminGetOrders().
   createOrder: (order) => request('/orders', { method: 'POST', body: JSON.stringify(order) }),
-  getOrders: (params = {}, { admin = false } = {}) => {
+  getOrders: (params = {}) => {
     const qs = new URLSearchParams(params).toString()
-    return request(`/orders${qs ? `?${qs}` : ''}`, { admin })
+    return request(`/orders${qs ? `?${qs}` : ''}`)
+  },
+  // Admin-only full order list — DEDICATED endpoint GET /api/dragons/admin/orders (Bearer),
+  // NOT the shared /api/dragons-elysees/orders above. Filters: status/date/order_number/
+  // order_type/payment_status (no customer_id). 401 → admin logout (handled in adminFetch).
+  adminGetOrders: async (params = {}) => {
+    const qs = new URLSearchParams(params).toString()
+    const res = await adminFetch(`/admin/orders${qs ? `?${qs}` : ''}`)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
   },
   getOrder: (id) => request(`/orders/${id}`),
   updateOrderStatus: (id, status) => request(`/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),

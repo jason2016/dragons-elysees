@@ -33,7 +33,7 @@ export default function AdminPanel() {
     setLoading(true)
     try {
       const [ordersRes, statsRes] = await Promise.all([
-        api.getOrders({ date: dateFilter }, { admin: true }),
+        api.adminGetOrders({ date: dateFilter }),
         api.getStats(dateFilter),
       ])
       setOrders(ordersRes.orders || [])
