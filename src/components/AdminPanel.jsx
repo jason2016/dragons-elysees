@@ -1,10 +1,8 @@
-import { useState, useEffect, useRef } from 'react'
-import { api, formatPrice } from '../utils/api'
+import { useState, useEffect } from 'react'
+import { api, formatPrice, getAdminToken, clearAdminToken } from '../utils/api'
 import { useLang } from '../hooks/useLang'
 import BookingsView from './BookingsView'
 import styles from './AdminPanel.module.css'
-
-const ADMIN_PASSWORD = 'admin2026'
 
 const STATUS_LABEL = {
   fr: { ordered: '🍽️ Commandé', pending: 'En attente', paid: '🔥 Payé', preparing: '🔥 En cuisine', ready: '✅ Prêt', delivering: '🚗 En livraison', completed: 'Servi', cancelled: 'Annulé' },
@@ -17,9 +15,11 @@ const STATUS_COLOR = {
 
 export default function AdminPanel() {
   const { t, lang } = useLang()
-  const [unlocked, setUnlocked] = useState(false)
+  // Auth: single-password backend login → 1-year token (separate from customer auth).
+  const [unlocked, setUnlocked] = useState(() => !!getAdminToken())
   const [pwd, setPwd] = useState('')
-  const [pwdError, setPwdError] = useState(false)
+  const [pwdError, setPwdError] = useState('')
+  const [loggingIn, setLoggingIn] = useState(false)
   const [orders, setOrders] = useState([])
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -33,7 +33,7 @@ export default function AdminPanel() {
     setLoading(true)
     try {
       const [ordersRes, statsRes] = await Promise.all([
-        api.getOrders({ date: dateFilter }),
+        api.getOrders({ date: dateFilter }, { admin: true }),
         api.getStats(dateFilter),
       ])
       setOrders(ordersRes.orders || [])
@@ -49,28 +49,45 @@ export default function AdminPanel() {
     if (unlocked) fetchData()
   }, [unlocked, dateFilter])
 
-  const handleUnlock = () => {
-    if (pwd === ADMIN_PASSWORD) { setUnlocked(true); setPwdError(false) }
-    else { setPwdError(true) }
+  // Any admin request that 401s (expired/invalid token) → drop back to the login screen.
+  useEffect(() => {
+    const onUnauth = () => { setUnlocked(false); setPwd(''); setPwdError('') }
+    window.addEventListener('dragons-admin-unauthorized', onUnauth)
+    return () => window.removeEventListener('dragons-admin-unauthorized', onUnauth)
+  }, [])
+
+  const handleLogin = async () => {
+    if (!pwd || loggingIn) return
+    setLoggingIn(true); setPwdError('')
+    try {
+      await api.adminLogin(pwd)          // stores the token on success
+      setPwd(''); setUnlocked(true)
+    } catch (e) {
+      setPwdError(e?.message === 'invalid_password' ? 'Mot de passe incorrect' : 'Erreur de connexion — réessayez.')
+    } finally { setLoggingIn(false) }
   }
+
+  const handleLogout = () => { clearAdminToken(); setUnlocked(false); setOrders([]); setStats(null) }
 
   if (!unlocked) {
     return (
       <div className={styles.lockScreen}>
         <div className={styles.lockBox}>
-          <div className={styles.lockIcon}>⚙️</div>
+          <div className={styles.lockIcon}>🔒</div>
           <h2 className={styles.lockTitle}>{t('adminTitle')}</h2>
           <input
             type="password"
             className={`${styles.input} ${pwdError ? styles.inputError : ''}`}
             placeholder="Mot de passe admin"
             value={pwd}
-            onChange={e => { setPwd(e.target.value); setPwdError(false) }}
-            onKeyDown={e => e.key === 'Enter' && handleUnlock()}
+            onChange={e => { setPwd(e.target.value); setPwdError('') }}
+            onKeyDown={e => e.key === 'Enter' && handleLogin()}
             autoFocus
           />
-          {pwdError && <p className={styles.errorMsg}>Mot de passe incorrect</p>}
-          <button className="btn-gold" onClick={handleUnlock}>Accéder</button>
+          {pwdError && <p className={styles.errorMsg}>{pwdError}</p>}
+          <button className="btn-gold" onClick={handleLogin} disabled={loggingIn}>
+            {loggingIn ? '…' : 'Accéder'}
+          </button>
         </div>
       </div>
     )
@@ -108,6 +125,14 @@ export default function AdminPanel() {
             onChange={e => setDateFilter(e.target.value)}
           />
           <button className={styles.refreshBtn} onClick={fetchData}>↻</button>
+          <button
+            className={styles.refreshBtn}
+            onClick={handleLogout}
+            title="Déconnexion"
+            style={{ fontSize: 13 }}
+          >
+            ⎋
+          </button>
         </div>
       </div>
 

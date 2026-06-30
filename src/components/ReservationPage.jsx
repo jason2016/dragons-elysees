@@ -35,7 +35,7 @@ function tomorrowISO() {
 const emailValid = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)
 
 export default function ReservationPage() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const navigate = useNavigate()
   const minDate = tomorrowISO()
 
@@ -45,7 +45,6 @@ export default function ReservationPage() {
   })
   const [status, setStatus] = useState('idle') // idle | submitting | success | error
   const [errorMsg, setErrorMsg] = useState('')
-  const [result, setResult] = useState(null)
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
 
@@ -64,7 +63,7 @@ export default function ReservationPage() {
     if (v) { setErrorMsg(t(`reservation.${v}`)); setStatus('error'); return }
     setStatus('submitting'); setErrorMsg('')
     try {
-      const data = await api.createBooking({
+      await api.createBooking({
         customer_name: form.name.trim(),
         customer_phone: form.phone.trim(),
         customer_email: form.email.trim(),
@@ -73,8 +72,9 @@ export default function ReservationPage() {
         guests: Number(form.guests),
         type: form.type,
         notes: form.notes.trim(),
+        lang,   // fr|zh|en|es — backend sends the confirmation email in this language (defaults to fr)
       })
-      setResult(data); setStatus('success')
+      setStatus('success')
     } catch (err) {
       const map = { missing_fields: 'errRequired', invalid_email: 'errEmail', invalid_guests: 'errGuests' }
       const key = map[err?.message] || (String(err?.message || '').toLowerCase().includes('fetch') ? 'errNetwork' : 'errGeneric')
@@ -90,17 +90,12 @@ export default function ReservationPage() {
           <div className={styles.successIcon}>✅</div>
           <h1 className={styles.successTitle}>{t('reservation.successTitle')}</h1>
           <p className={styles.successMsg}>{t('reservation.successMsg')}</p>
-          {result?.booking_code && (
-            <div className={styles.codeBox}>
-              <span className={styles.codeLabel}>{t('reservation.bookingCode')}</span>
-              <span className={styles.code}>{result.booking_code}</span>
-            </div>
-          )}
+          {/* Booking code intentionally NOT shown to the guest (backend still returns it). */}
           <div className={styles.successActions}>
             <button className="btn-gold" onClick={() => navigate('/')}>{t('reservation.backHome')}</button>
             <button
               className={styles.secondaryBtn}
-              onClick={() => { setResult(null); setStatus('idle'); setForm((f) => ({ ...f, time: '', notes: '' })) }}
+              onClick={() => { setStatus('idle'); setForm((f) => ({ ...f, time: '', notes: '' })) }}
             >
               {t('reservation.newBooking')}
             </button>
