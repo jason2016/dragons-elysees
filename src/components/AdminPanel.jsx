@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { api, formatPrice } from '../utils/api'
 import { useLang } from '../hooks/useLang'
+import BookingsView from './BookingsView'
 import styles from './AdminPanel.module.css'
 
 const ADMIN_PASSWORD = 'admin2026'
@@ -26,6 +27,7 @@ export default function AdminPanel() {
   const [statusFilter, setStatusFilter] = useState('')
   const [expandedId, setExpandedId] = useState(null)
   const [hidePaid, setHidePaid] = useState(false)   // toggle hides settled ROWS only — summary still counts them
+  const [view, setView] = useState('orders')        // 'orders' | 'bookings'
 
   const fetchData = async () => {
     setLoading(true)
@@ -110,6 +112,24 @@ export default function AdminPanel() {
       </div>
 
       <div className={styles.content}>
+        {/* Tabs: orders / reservations */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 16, borderBottom: '1px solid var(--border-color, #2a2a2a)' }}>
+          {[['orders', 'Commandes'], ['bookings', 'Réservations']].map(([k, lbl]) => (
+            <button key={k} onClick={() => setView(k)}
+              style={{
+                padding: '10px 18px', background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: 15, fontWeight: 700, marginBottom: -1,
+                color: view === k ? 'var(--accent-gold, #d4a300)' : 'var(--text-muted)',
+                borderBottom: view === k ? '2px solid var(--accent-gold, #d4a300)' : '2px solid transparent',
+              }}>
+              {lbl}
+            </button>
+          ))}
+        </div>
+
+        {view === 'bookings' && <BookingsView />}
+
+        {view === 'orders' && (<>
         {/* Stats */}
         <div className={styles.stats}>
           <StatCard icon="📦" value={stats?.total_orders ?? orders.length} label={t('adminOrders')} />
@@ -225,6 +245,7 @@ export default function AdminPanel() {
             </div>
           )}
         </div>
+        </>)}
       </div>
     </div>
   )
