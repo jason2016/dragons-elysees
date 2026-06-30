@@ -15,11 +15,16 @@
 .heroBg {
   position: absolute;
   inset: 0;
-  /* Layers top→bottom: dark overlay (text contrast) → restaurant interior hero photo
-     (same-origin, center-composed for mobile center-crop) → warm-gold gradient placeholder
-     shown instantly until the photo loads. */
+  /* Layers top→bottom (first = topmost):
+     1) localized radial scrim — darkens ONLY behind the centered logo/text for readability,
+        fades to clear so the restaurant interior stays bright at the edges;
+     2) light vertical wash — gentle, keeps top/bottom legible without crushing the photo
+        (much lighter than the old full-black overlay so the photo reads as bright);
+     3) restaurant interior hero photo (same-origin, center-composed for mobile center-crop);
+     4) warm-gold gradient placeholder shown instantly until the photo loads. */
   background:
-    linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.7) 60%, rgba(10,10,10,1) 100%),
+    radial-gradient(ellipse 78% 60% at 50% 50%, rgba(6,6,8,0.5) 0%, rgba(6,6,8,0.26) 50%, rgba(6,6,8,0) 75%),
+    linear-gradient(to bottom, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.1) 42%, rgba(10,10,10,0.5) 100%),
     url('/hero/accueil.webp') center/cover no-repeat,
     linear-gradient(160deg, #4a3413 0%, #1a1206 100%);
 }
@@ -44,6 +49,8 @@
   text-transform: uppercase;
   color: var(--accent-gold);
   margin-bottom: 24px;
+  /* legible on the brighter photo */
+  text-shadow: 0 1px 8px rgba(0,0,0,0.75), 0 0 2px rgba(0,0,0,0.6);
 }
 
 .heroLogo {
@@ -53,7 +60,10 @@
   width: 60%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 4px 24px rgba(201, 168, 76, 0.25));
+  /* crisp dark separation from the bright photo + warm gold halo so the logo floats */
+  filter:
+    drop-shadow(0 2px 6px rgba(0,0,0,0.7))
+    drop-shadow(0 4px 28px rgba(201, 168, 76, 0.4));
 }
 
 .goldDivider {
@@ -65,9 +75,11 @@
 
 .heroSub {
   font-size: 1.05rem;
-  color: var(--text-secondary);
+  /* slightly brighter than the muted page secondary so the tagline stays clear on the photo */
+  color: #d7cdba;
   line-height: 1.8;
   margin-bottom: 40px;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.85), 0 1px 2px rgba(0,0,0,0.7);
 }
 
 .heroCtas {
@@ -76,6 +88,11 @@
   justify-content: center;
   flex-wrap: wrap;
   margin-bottom: 16px;
+}
+
+/* lift both hero buttons off the bright photo */
+.heroCtas button {
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.4);
 }
 
 .btnDelivery {
@@ -105,7 +122,10 @@
   justify-content: center;
   gap: 8px;
   padding: 12px 28px;
-  background: transparent;
+  /* faint dark glass so the outline button stays readable over the bright photo */
+  background: rgba(10, 8, 8, 0.3);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   color: var(--accent-gold);
   border: 1px solid var(--accent-red-dark);
   font-family: var(--font-body);
@@ -128,6 +148,7 @@
   font-size: 0.9rem;
   text-align: center;
   transition: var(--transition-fast);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.85);
 }
 .phoneLink:hover { color: var(--accent-gold); }
 
