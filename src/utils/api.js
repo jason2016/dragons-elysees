@@ -35,6 +35,31 @@ export const api = {
   // Table-side settlement of a dine_in (post-pay) order. payload: { method, balance_amount?, customer_id? }
   settleOrder: (id, payload) => request(`/orders/${id}/settle`, { method: 'POST', body: JSON.stringify(payload) }),
 
+  // ── Owner admin reservations (X-Admin-Key, stored in localStorage, NOT in the bundle) ──
+  // Endpoints live at /api/dragons/bookings (not the /api/dragons-elysees namespace base).
+  listBookings: async (status = '') => {
+    const key = localStorage.getItem('dragons_admin_key') || ''
+    const qs = status ? `?status=${encodeURIComponent(status)}` : ''
+    const res = await fetch(`${import.meta.env.VITE_API_BASE}/api/dragons/bookings${qs}`, {
+      headers: { 'X-Admin-Key': key },
+    })
+    if (res.status === 401) throw new Error('unauthorized')
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+  },
+  // decision: 'confirm' | 'decline'. Returns { ok, status } or { ok:false, reason:'already_processed' }.
+  bookingDecision: async (id, decision) => {
+    const key = localStorage.getItem('dragons_admin_key') || ''
+    const res = await fetch(`${import.meta.env.VITE_API_BASE}/api/dragons/bookings/${id}/${decision}`, {
+      method: 'POST', headers: { 'X-Admin-Key': key },
+    })
+    if (res.status === 401) throw new Error('unauthorized')
+    const data = await res.json().catch(() => ({}))
+    if (res.status === 409) return { ok: false, reason: 'already_processed', status: data.status }
+    if (!res.ok) throw new Error(data.reason || `HTTP ${res.status}`)
+    return data
+  },
+
   // Balance (dual-ledger: paid_balance + bonus_balance + total_balance)
   getBalance: () => request('/balance'),
   getTransactions: () => request('/balance/transactions'),
