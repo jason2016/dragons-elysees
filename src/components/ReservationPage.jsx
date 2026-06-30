@@ -59,6 +59,7 @@ export default function ReservationPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (status === 'submitting') return   // guard against re-entry / rapid double-submit
     const v = validate()
     if (v) { setErrorMsg(t(`reservation.${v}`)); setStatus('error'); return }
     setStatus('submitting'); setErrorMsg('')
