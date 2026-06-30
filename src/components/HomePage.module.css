@@ -23,8 +23,8 @@
      3) restaurant interior hero photo (same-origin, center-composed for mobile center-crop);
      4) warm-gold gradient placeholder shown instantly until the photo loads. */
   background:
-    radial-gradient(ellipse 78% 60% at 50% 50%, rgba(6,6,8,0.5) 0%, rgba(6,6,8,0.26) 50%, rgba(6,6,8,0) 75%),
-    linear-gradient(to bottom, rgba(10,10,10,0.25) 0%, rgba(10,10,10,0.1) 42%, rgba(10,10,10,0.5) 100%),
+    radial-gradient(ellipse 78% 60% at 50% 50%, rgba(6,6,8,0.3) 0%, rgba(6,6,8,0.15) 50%, rgba(6,6,8,0) 75%),
+    linear-gradient(to bottom, rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.08) 42%, rgba(10,10,10,0.3) 100%),
     url('/hero/accueil.webp') center/cover no-repeat,
     linear-gradient(160deg, #4a3413 0%, #1a1206 100%);
 }
@@ -148,7 +148,8 @@
   font-size: 0.9rem;
   text-align: center;
   transition: var(--transition-fast);
-  text-shadow: 0 1px 6px rgba(0,0,0,0.85);
+  /* sits over the bright glass floor — keep it crisp via its own shadow (not a darker bg) */
+  text-shadow: 0 1px 3px rgba(0,0,0,0.95), 0 0 12px rgba(0,0,0,0.75);
 }
 .phoneLink:hover { color: var(--accent-gold); }
 
