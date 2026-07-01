@@ -7,6 +7,26 @@ import styles from './KitchenDisplay.module.css'
 const KITCHEN_PASSWORD = 'dragons2026'
 const POLL_INTERVAL = 5000
 
+// Kitchen unlock is remembered for ~1 year (physical back-of-house screen out of public
+// reach; matches admin's token lifetime). Stored as an expiry timestamp; the "Verrouiller"
+// button clears it. This only gates ENTRY — it does not touch any order logic.
+const KITCHEN_UNLOCK_LS = 'dragons_kitchen_unlocked'
+const KITCHEN_UNLOCK_TTL_MS = 365 * 24 * 60 * 60 * 1000
+function isKitchenUnlocked() {
+  try {
+    const raw = localStorage.getItem(KITCHEN_UNLOCK_LS)
+    if (!raw) return false
+    const { exp } = JSON.parse(raw)
+    return typeof exp === 'number' && Date.now() < exp
+  } catch { return false }
+}
+function rememberKitchenUnlock() {
+  try { localStorage.setItem(KITCHEN_UNLOCK_LS, JSON.stringify({ exp: Date.now() + KITCHEN_UNLOCK_TTL_MS })) } catch { /* storage unavailable */ }
+}
+function forgetKitchenUnlock() {
+  try { localStorage.removeItem(KITCHEN_UNLOCK_LS) } catch { /* storage unavailable */ }
+}
+
 // Single reused AudioContext (lazy). Browsers gate audio behind a user gesture; the kitchen unlock
 // click ("Accéder") resumes it via unlockAudio(), after which the big screen can beep indefinitely.
 let _audioCtx = null
@@ -40,7 +60,8 @@ function unlockAudio() {
 
 export default function KitchenDisplay() {
   const { t } = useLang()
-  const [unlocked, setUnlocked] = useState(false)
+  // Remembered unlock (localStorage, ~1yr) → reopening/refreshing the kitchen skips the password.
+  const [unlocked, setUnlocked] = useState(isKitchenUnlocked)
   const [pwd, setPwd] = useState('')
   const [pwdError, setPwdError] = useState(false)
   const [newOrders, setNewOrders] = useState([])       // dine_in 'ordered' + takeaway/delivery 'paid'
@@ -120,9 +141,13 @@ export default function KitchenDisplay() {
   }
 
   const handleUnlock = () => {
-    if (pwd === KITCHEN_PASSWORD) { setUnlocked(true); setPwdError(false); unlockAudio() }  // unlock audio on the gesture
+    if (pwd === KITCHEN_PASSWORD) { rememberKitchenUnlock(); setUnlocked(true); setPwdError(false); unlockAudio() }  // remember + unlock audio on the gesture
     else { setPwdError(true) }
   }
+
+  // Manual lock — clears the remembered unlock and returns to the password gate
+  // (for handing the screen over / temporary lock, without wiping all browser data).
+  const handleLock = () => { forgetKitchenUnlock(); setUnlocked(false); setPwd('') }
 
   if (!unlocked) {
     return (
@@ -164,6 +189,7 @@ export default function KitchenDisplay() {
             {soundOn ? '🔊' : '🔇'}
           </button>
           <button className={styles.iconBtn} onClick={fetchOrders} title="Actualiser">↻</button>
+          <button className={styles.iconBtn} onClick={handleLock} title="Verrouiller">🔒</button>
         </div>
       </div>
 
