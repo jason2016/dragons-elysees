@@ -96,6 +96,7 @@ export default function BookingsView() {
                      onClick={() => setExpandedId(open ? null : b.booking_id)}>
                   {isToday && !cancelled && <span style={{ fontSize: 11, fontWeight: 800, padding: '2px 8px', borderRadius: 999, background: 'var(--accent-gold, #d4a300)', color: '#1a1208' }}>Aujourd'hui</span>}
                   <strong style={{ color: 'var(--text-primary)', textDecoration: cancelled ? 'line-through' : 'none' }}>{b.customer_name}</strong>
+                  {b.booking_code && <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--accent-gold, #d4a300)', letterSpacing: '0.5px' }}>#{b.booking_code}</span>}
                   <span style={{ color: 'var(--text-secondary)' }}>· {b.guests} pers.</span>
                   <span style={{ color: 'var(--text-secondary)' }}>· {fmtDate(b.booking_date)} {b.booking_time}</span>
                   <span style={{ marginLeft: 'auto', fontSize: 11.5, fontWeight: 700, padding: '2px 9px', borderRadius: 999, background: badge.bg, color: badge.color, border: `1px solid ${badge.border}` }}>
