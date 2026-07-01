@@ -33,7 +33,9 @@ const FOOTER_PATHS = ['/', '/menu', '/reservation', '/checkout', '/payment-succe
 export default function App() {
   return (
     <>
-    <IntroOverlay />
+    {/* Opening koi animation — temporarily hidden (FEATURES.intro=false). Component +
+        public/intro.html kept in repo; this slot is reserved for a future CultureIntro. */}
+    {FEATURES.intro && <IntroOverlay />}
     <HashRouter>
       <OrderTypeProvider>
         <LangProvider>
