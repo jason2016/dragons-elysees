@@ -12,13 +12,15 @@ export default function ClientsView() {
   const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
+  const [sortField, setSortField] = useState('visit_count')  // default: most visits first
+  const [sortDir, setSortDir] = useState('desc')
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState('')
 
-  const load = async (p, s) => {
+  const load = async (p, s, field = sortField, dir = sortDir) => {
     setLoading(true); setErr('')
     try {
-      const data = await api.adminGetContacts({ search: s, page: p, page_size: PAGE_SIZE, sort: 'last_visit' })
+      const data = await api.adminGetContacts({ search: s, page: p, page_size: PAGE_SIZE, sort: field, direction: dir })
       setContacts(data.contacts || [])
       setTotal(data.total || 0)
     } catch (e) {
@@ -28,13 +30,20 @@ export default function ClientsView() {
 
   // Debounced search → always reset to page 1. Also does the initial load (mount).
   useEffect(() => {
-    const t = setTimeout(() => { setPage(1); load(1, search) }, 350)
+    const t = setTimeout(() => { setPage(1); load(1, search, sortField, sortDir) }, 350)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search])
 
+  // Click a sort field: same field → toggle direction; new field → sensible default
+  // (name A→Z, others most/recent-first). Not persisted — refresh returns to visit_count desc.
+  const applySort = (field) => {
+    const dir = field === sortField ? (sortDir === 'desc' ? 'asc' : 'desc') : (field === 'name' ? 'asc' : 'desc')
+    setSortField(field); setSortDir(dir); setPage(1); load(1, search, field, dir)
+  }
+
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
-  const go = (p) => { const np = Math.min(totalPages, Math.max(1, p)); setPage(np); load(np, search) }
+  const go = (p) => { const np = Math.min(totalPages, Math.max(1, p)); setPage(np); load(np, search, sortField, sortDir) }
 
   const inputStyle = {
     width: '100%', boxSizing: 'border-box', padding: '10px 14px', borderRadius: 10,
@@ -55,9 +64,28 @@ export default function ClientsView() {
         <button className={styles.refreshBtn} onClick={() => load(page, search)} title="Actualiser">↻</button>
       </div>
 
-      <div style={{ margin: '4px 0 12px' }}>
+      <div style={{ margin: '4px 0 10px' }}>
         <input type="text" value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Rechercher — nom / email / téléphone" style={inputStyle} />
+      </div>
+
+      {/* Sort control — click a field to sort; click again to reverse. Default: visit_count desc. */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Trier / 排序 :</span>
+        {[['visit_count', 'Visites / 来访'], ['last_visit', 'Récent / 最近'], ['name', 'Nom / 姓名']].map(([f, lbl]) => {
+          const active = sortField === f
+          return (
+            <button key={f} onClick={() => applySort(f)}
+              style={{
+                padding: '6px 12px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700,
+                border: '1px solid ' + (active ? 'var(--accent-gold, #d4a300)' : 'var(--border-color, #2a2a2a)'),
+                background: active ? 'var(--accent-gold-dim, #3a2f12)' : 'transparent',
+                color: active ? 'var(--accent-gold, #f5c518)' : 'var(--text-muted)',
+              }}>
+              {lbl}{active ? (sortDir === 'desc' ? ' ▼' : ' ▲') : ''}
+            </button>
+          )
+        })}
       </div>
 
       {err ? <div style={{ color: '#f87171', fontSize: 13, marginBottom: 8 }}>{err}</div> : null}
