@@ -79,6 +79,14 @@ export const api = {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return res.json()
   },
+  // CRM phase 1 — read-only contact aggregation. GET /api/dragons/admin/contacts (Bearer).
+  // params: { search, page, page_size, sort }. Returns { contacts, total, page, page_size }.
+  adminGetContacts: async (params = {}) => {
+    const qs = new URLSearchParams(params).toString()
+    const res = await adminFetch(`/admin/contacts${qs ? `?${qs}` : ''}`)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+  },
   getOrder: (id) => request(`/orders/${id}`),
   updateOrderStatus: (id, status) => request(`/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
   // Table-side settlement of a dine_in (post-pay) order — admin only. payload: { method, balance_amount?, customer_id? }
