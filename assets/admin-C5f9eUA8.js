@@ -1,1 +1,0 @@
-import{c as e,j as r,r as t,L as o}from"./api-BAhESqQR.js";import{A as s}from"./AdminPanel-DcFh7hf7.js";e.createRoot(document.getElementById("root")).render(r.jsx(t.StrictMode,{children:r.jsx(o,{children:r.jsx(s,{})})}));
