@@ -5,6 +5,24 @@ import styles from './AdminPanel.module.css'
 const PAGE_SIZE = 20
 const fmtDate = (d) => { try { const [y, m, day] = d.split('-'); return day + '/' + m + '/' + y } catch { return d || '—' } }
 
+// One metric tile in the client-asset overview bar. `primary` = the hero number (library size).
+function StatBlock({ value, prefix, fr, zh, primary }) {
+  return (
+    <div style={{
+      flex: '1 1 130px', minWidth: 118,
+      background: primary ? 'rgba(201,168,76,0.15)' : 'rgba(255,255,255,0.03)',
+      border: '1px solid ' + (primary ? 'rgba(201,168,76,0.5)' : 'rgba(201,168,76,0.18)'),
+      borderRadius: 12, padding: '12px 14px',
+    }}>
+      <div style={{ fontSize: primary ? 36 : 28, fontWeight: 800, lineHeight: 1, color: 'var(--accent-gold, #f5c518)' }}>
+        {value == null ? '—' : (prefix || '') + value}
+      </div>
+      <div style={{ marginTop: 6, fontSize: 12.5, fontWeight: 700, color: 'var(--text-secondary)' }}>{fr}</div>
+      <div style={{ fontSize: 11.5, color: 'var(--text-muted)' }}>{zh}</div>
+    </div>
+  )
+}
+
 // CRM phase 1 — read-only contact list aggregated from bookings by email.
 // Search (email/name/phone) + pagination. No actions (no email, no edit) this phase.
 export default function ClientsView() {
@@ -16,6 +34,7 @@ export default function ClientsView() {
   const [sortDir, setSortDir] = useState('desc')
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState('')
+  const [stats, setStats] = useState(null)   // { total_clients, regulars, new_this_month } — private client-base overview
 
   const load = async (p, s, field = sortField, dir = sortDir) => {
     setLoading(true); setErr('')
@@ -23,6 +42,7 @@ export default function ClientsView() {
       const data = await api.adminGetContacts({ search: s, page: p, page_size: PAGE_SIZE, sort: field, direction: dir })
       setContacts(data.contacts || [])
       setTotal(data.total || 0)
+      if (data.stats) setStats(data.stats)   // keep last known stats if a response omits it
     } catch (e) {
       if (e && e.message !== 'unauthorized') setErr('Erreur de chargement.')
     } finally { setLoading(false) }
@@ -64,6 +84,26 @@ export default function ClientsView() {
         <button className={styles.refreshBtn} onClick={() => load(page, search)} title="Actualiser">↻</button>
       </div>
 
+      {/* Client-asset overview — 龙城's OWN private client base, growing on its own.
+          Most prominent element, above search. Numbers come straight from backend stats. */}
+      {stats && (
+        <div style={{
+          background: 'linear-gradient(135deg, #3a2f12 0%, #241a08 100%)',
+          border: '1px solid rgba(201,168,76,0.45)', borderRadius: 14,
+          padding: '15px 18px', margin: '4px 0 14px', boxShadow: '0 2px 18px rgba(201,168,76,0.10)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12,
+            fontSize: 13, fontWeight: 700, letterSpacing: '0.03em', color: 'var(--accent-gold, #f5c518)' }}>
+            👑 Vos clients · 龙城专属客户库
+          </div>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+            <StatBlock primary value={stats.total_clients} fr="Clients" zh="客户库 · 位" />
+            <StatBlock value={stats.regulars} fr="⭐ Fidèles" zh="常客 · 位" />
+            <StatBlock value={stats.new_this_month} prefix="+" fr="Nouveaux ce mois" zh="本月新增 · 位" />
+          </div>
+        </div>
+      )}
+
       <div style={{ margin: '4px 0 10px' }}>
         <input type="text" value={search} onChange={e => setSearch(e.target.value)}
           placeholder="Rechercher — nom / email / téléphone" style={inputStyle} />
@@ -98,13 +138,23 @@ export default function ClientsView() {
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '4px 0' }}>
-          {contacts.map(c => (
+          {contacts.map(c => {
+            const isRegular = c.visit_count >= 2   // returning guest = a "Fidèle · 常客"
+            return (
             <div key={c.email} style={{
-              background: 'var(--bg-card)', border: '1px solid var(--border-color, #2a2a2a)',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-color, #2a2a2a)',
+              borderLeft: isRegular ? '4px solid var(--accent-gold, #d4a300)' : '1px solid var(--border-color, #2a2a2a)',
               borderRadius: 12, padding: '12px 14px',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                 <strong style={{ color: 'var(--text-primary)' }}>{c.name || '—'}</strong>
+                {isRegular && (
+                  <span style={{
+                    fontSize: 11, fontWeight: 800, padding: '2px 9px', borderRadius: 999,
+                    background: 'var(--accent-gold, #d4a300)', color: '#1a1208',
+                  }}>⭐ Fidèle · 常客</span>
+                )}
                 <span style={{
                   fontSize: 12, fontWeight: 700, padding: '2px 9px', borderRadius: 999,
                   background: '#3a2f12', color: 'var(--accent-gold, #f5c518)', border: '1px solid #d4a30055',
@@ -124,7 +174,8 @@ export default function ClientsView() {
                 {c.first_visit && c.first_visit !== c.last_visit ? ' · depuis ' + fmtDate(c.first_visit) : ''}
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
       )}
 
