@@ -5,13 +5,13 @@ import styles from './AdminPanel.module.css'
 const today = () => new Date().toISOString().split('T')[0]
 const fmtDate = (d) => { try { const [y, m, day] = d.split('-'); return `${day}/${m}/${y}` } catch { return d } }
 
-// Source / state badge per booking:
+// State badge per booking — simplified to two visual states, green (normal) / red (cancelled).
 //   cancelled            → red   « Annulée · 已取消 » (terminal, no actions)
-//   confirm_source=auto  → gold  « ⚡ Auto-confirmée · 自动确认 » (system confirmed it; 约翰 hasn't reviewed)
+//   confirm_source=auto  → green « Confirmée · 已确认 » + a small ⚡ marker (à vérifier / 待过目)
 //   else (manual/…)      → green « ✓ Traitée · 已处理 » (约翰 personally handled it)
 function sourceBadge(b) {
   if (b.status === 'cancelled') return { label: 'Annulée · 已取消', bg: '#3a1414', color: '#f87171', border: '#dc262655' }
-  if (b.confirm_source === 'auto') return { label: '⚡ Auto-confirmée · 自动确认', bg: '#3a2f12', color: '#f5c518', border: '#d4a30055' }
+  if (b.confirm_source === 'auto') return { label: 'Confirmée · 已确认', bg: '#10331f', color: '#4ade80', border: '#16a34055' }
   return { label: '✓ Traitée · 已处理', bg: '#10331f', color: '#4ade80', border: '#16a34055' }
 }
 
@@ -85,11 +85,7 @@ export default function BookingsView() {
             return (
               <div key={b.booking_id} style={{
                 background: 'var(--bg-card)', border: '1px solid var(--border-color, #2a2a2a)',
-                borderLeft: cancelled
-                  ? '4px solid #dc262655'
-                  : b.confirm_source === 'auto'
-                    ? '4px solid var(--accent-gold, #d4a300)'
-                    : (isToday ? '4px solid #16a34a' : '1px solid var(--border-color, #2a2a2a)'),
+                borderLeft: cancelled ? '4px solid #dc262655' : '4px solid #16a34a',  // red cancelled / green normal
                 borderRadius: 12, padding: '12px 14px', opacity: cancelled ? 0.7 : 1,
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', cursor: 'pointer' }}
@@ -97,6 +93,7 @@ export default function BookingsView() {
                   {isToday && !cancelled && <span style={{ fontSize: 11, fontWeight: 800, padding: '2px 8px', borderRadius: 999, background: 'var(--accent-gold, #d4a300)', color: '#1a1208' }}>Aujourd'hui</span>}
                   <strong style={{ color: 'var(--text-primary)', textDecoration: cancelled ? 'line-through' : 'none' }}>{b.customer_name}</strong>
                   {b.booking_code && <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--accent-gold, #d4a300)', letterSpacing: '0.5px' }}>#{b.booking_code}</span>}
+                  {!cancelled && b.confirm_source === 'auto' && <span title="À vérifier · 待过目" style={{ fontSize: 13, color: 'var(--accent-gold, #f5c518)' }}>⚡</span>}
                   <span style={{ color: 'var(--text-secondary)' }}>· {b.guests} pers.</span>
                   <span style={{ color: 'var(--text-secondary)' }}>· {fmtDate(b.booking_date)} {b.booking_time}</span>
                   <span style={{ marginLeft: 'auto', fontSize: 11.5, fontWeight: 700, padding: '2px 9px', borderRadius: 999, background: badge.bg, color: badge.color, border: `1px solid ${badge.border}` }}>
@@ -112,23 +109,23 @@ export default function BookingsView() {
                     <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>
                       Reçue le {fmtDate((b.created_at || '').slice(0, 10))}{b.lang ? ` · 🌐 ${String(b.lang).toUpperCase()}` : ''}
                     </span>
-                  </div>
-                )}
-
-                {!cancelled && (
-                  <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
-                    {b.confirm_source === 'auto' && (
-                      <button disabled={busyId === b.booking_id}
-                        onClick={() => setConfirmAction({ id: b.booking_id, type: 'handle', name: b.customer_name, date: b.booking_date, time: b.booking_time })}
-                        style={{ flex: 1, padding: '9px 0', borderRadius: 10, border: 'none', background: '#16a34a', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>
-                        {busyId === b.booking_id ? '…' : '✓ Marquer traité · 标记已处理'}
-                      </button>
+                    {/* Actions live INSIDE the expanded detail only — list stays clean (browse-only). */}
+                    {!cancelled && (
+                      <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
+                        {b.confirm_source === 'auto' && (
+                          <button disabled={busyId === b.booking_id}
+                            onClick={() => setConfirmAction({ id: b.booking_id, type: 'handle', name: b.customer_name, date: b.booking_date, time: b.booking_time })}
+                            style={{ flex: 1, padding: '9px 0', borderRadius: 10, border: 'none', background: '#16a34a', color: '#fff', fontWeight: 700, cursor: 'pointer' }}>
+                            {busyId === b.booking_id ? '…' : '✓ Marquer traité · 标记已处理'}
+                          </button>
+                        )}
+                        <button disabled={busyId === b.booking_id}
+                          onClick={() => setConfirmAction({ id: b.booking_id, type: 'cancel', name: b.customer_name, date: b.booking_date, time: b.booking_time })}
+                          style={{ flex: 1, padding: '9px 0', borderRadius: 10, border: '1px solid #dc2626', background: 'transparent', color: '#f87171', fontWeight: 700, cursor: 'pointer' }}>
+                          {busyId === b.booking_id ? '…' : '✕ Annuler · 取消'}
+                        </button>
+                      </div>
                     )}
-                    <button disabled={busyId === b.booking_id}
-                      onClick={() => setConfirmAction({ id: b.booking_id, type: 'cancel', name: b.customer_name, date: b.booking_date, time: b.booking_time })}
-                      style={{ flex: 1, padding: '9px 0', borderRadius: 10, border: '1px solid #dc2626', background: 'transparent', color: '#f87171', fontWeight: 700, cursor: 'pointer' }}>
-                      {busyId === b.booking_id ? '…' : '✕ Annuler · 取消'}
-                    </button>
                   </div>
                 )}
               </div>
