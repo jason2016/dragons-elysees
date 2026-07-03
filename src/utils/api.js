@@ -111,9 +111,13 @@ export const api = {
   // ── Owner-admin reservations (Authorization: Bearer <admin token>) ──
   // Endpoints live at /api/dragons/bookings. Each booking carries confirm_source
   // (auto|manual) + lang + status. 401 anywhere → admin logout (handled in adminFetch).
-  listBookings: async (status = '') => {
-    const qs = status ? `?status=${encodeURIComponent(status)}` : ''
-    const res = await adminFetch(`/bookings${qs}`)
+  // scope: 'upcoming' (today+future, asc) | 'past' (before today, desc) | '' (all). Paris-tz boundary backend-side.
+  listBookings: async ({ scope = '', status = '' } = {}) => {
+    const p = new URLSearchParams()
+    if (scope) p.set('scope', scope)
+    if (status) p.set('status', status)
+    const qs = p.toString()
+    const res = await adminFetch(`/bookings${qs ? `?${qs}` : ''}`)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return res.json()
   },

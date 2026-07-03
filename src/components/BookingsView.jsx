@@ -32,11 +32,12 @@ export default function BookingsView() {
   const [cancelPreset, setCancelPreset] = useState('')     // preset cancel reason (sent to the guest)
   const [cancelFreeText, setCancelFreeText] = useState('') // optional free-text detail
   const [toast, setToast] = useState('')
+  const [scope, setScope] = useState('upcoming')   // 'upcoming' (default: today+future) | 'past'
 
   const load = async () => {
     setLoading(true); setErr('')
     try {
-      const data = await api.listBookings()
+      const data = await api.listBookings({ scope })   // backend scopes + sorts (upcoming asc / past desc)
       setBookings(data.bookings || [])
     } catch (e) {
       // 401 → adminFetch already fired the logout event (AdminPanel returns to login); stay quiet.
@@ -44,7 +45,8 @@ export default function BookingsView() {
     } finally { setLoading(false) }
   }
 
-  useEffect(() => { load() }, [])
+  // (Re)load on mount and whenever the view (upcoming/past) changes.
+  useEffect(() => { load() }, [scope])   // eslint-disable-line react-hooks/exhaustive-deps
 
   const showToast = (m) => { setToast(m); setTimeout(() => setToast(''), 3000) }
 
@@ -74,10 +76,28 @@ export default function BookingsView() {
   return (
     <div className={styles.card}>
       <div className={styles.cardHeader}>
-        <h2 className={styles.cardTitle}>🍽️ Réservations {autoCount > 0 && `· ${autoCount} ⚡ à vérifier`}</h2>
+        <h2 className={styles.cardTitle}>🍽️ Réservations {scope === 'upcoming' && autoCount > 0 && `· ${autoCount} ⚡ à vérifier`}</h2>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <button className={styles.refreshBtn} onClick={load} title="Actualiser">↻</button>
         </div>
+      </div>
+
+      {/* View toggle: À venir (default, today+future) vs Passées (history). Backend scopes + sorts each. */}
+      <div style={{ display: 'flex', gap: 8, margin: '4px 0 12px' }}>
+        {[['upcoming', 'À venir · 即将到来'], ['past', 'Passées · 历史']].map(([s, lbl]) => {
+          const active = scope === s
+          return (
+            <button key={s} onClick={() => { if (s !== scope) { setScope(s); setExpandedId(null) } }}
+              style={{
+                padding: '7px 14px', borderRadius: 8, cursor: 'pointer', fontSize: 13, fontWeight: 700,
+                border: '1px solid ' + (active ? 'var(--accent-gold, #d4a300)' : 'var(--border-color, #2a2a2a)'),
+                background: active ? 'var(--accent-gold-dim, #3a2f12)' : 'transparent',
+                color: active ? 'var(--accent-gold, #f5c518)' : 'var(--text-muted)',
+              }}>
+              {lbl}
+            </button>
+          )
+        })}
       </div>
 
       {err && <div style={{ color: '#f87171', fontSize: 13, marginBottom: 8 }}>{err}</div>}

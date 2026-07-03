@@ -119,12 +119,16 @@ export default function AdminPanel() {
           {t('adminTitle')}
         </h1>
         <div className={styles.topRight}>
-          <input
-            type="date"
-            className={styles.dateInput}
-            value={dateFilter}
-            onChange={e => setDateFilter(e.target.value)}
-          />
+          {/* Date picker drives the Commandes date filter — hidden on Réservations
+              (which uses its own À venir/Passées view toggle) to avoid confusion. */}
+          {view !== 'bookings' && (
+            <input
+              type="date"
+              className={styles.dateInput}
+              value={dateFilter}
+              onChange={e => setDateFilter(e.target.value)}
+            />
+          )}
           <button className={styles.refreshBtn} onClick={fetchData}>↻</button>
           <button
             className={styles.refreshBtn}
