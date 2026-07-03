@@ -1,4 +1,4 @@
-import{r as l,j as e,u as q,f as N,a as D,L as Yt,c as Kt}from"./api-BuET7XXR.js";import{K as Xt}from"./KitchenDisplay-BWm5okXB.js";import{A as Zt}from"./AdminPanel-7vurSQ0K.js";/**
+import{r as l,j as e,u as q,f as N,a as D,L as Yt,c as Kt}from"./api-BuET7XXR.js";import{K as Xt}from"./KitchenDisplay-BWm5okXB.js";import{A as Zt}from"./AdminPanel-CWOulwdA.js";/**
  * react-router v7.14.0
  *
  * Copyright (c) Remix Software Inc.
