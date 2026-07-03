@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../utils/api'
+import { useLang } from '../hooks/useLang'
 import styles from './AdminPanel.module.css'
 
 const today = () => new Date().toISOString().split('T')[0]
@@ -22,7 +23,17 @@ const CANCEL_PRESETS = [
   '',  // Autre / 其他 — free text
 ]
 
+// Four-language labels for the cancelled-card display (fr/zh/en/es). Admin follows the
+// current UI language (localStorage 'lang', shared same-origin with the customer site).
+const CANCELLED_BY_LABEL = {
+  customer: { fr: 'Annulé par le client', zh: '客户取消', en: 'Cancelled by customer', es: 'Anulado por el cliente' },
+  owner:    { fr: 'Annulé par le restaurant', zh: '餐厅取消', en: 'Cancelled by restaurant', es: 'Anulado por el restaurante' },
+}
+const MOTIF_LABEL = { fr: 'Motif', zh: '取消原因', en: 'Reason', es: 'Motivo' }
+
 export default function BookingsView() {
+  const { lang } = useLang()
+  const t4 = (m) => m[lang] || m.fr   // pick fr/zh/en/es label (fallback fr)
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState('')
@@ -132,13 +143,20 @@ export default function BookingsView() {
                   </span>
                 </div>
 
-                {/* Cancelled: show the reason + who cancelled, right on the card (no need to expand). */}
-                {cancelled && (b.cancel_reason || b.cancelled_by) && (
+                {/* Cancelled: who cancelled (source) + reason, right on the card (no need to expand).
+                    Empty reason renders no reason line; unknown source renders no source line. */}
+                {cancelled && (b.cancel_reason || CANCELLED_BY_LABEL[b.cancelled_by]) && (
                   <div style={{ marginTop: 8, padding: '8px 11px', background: '#3a1414', border: '1px solid #dc262633', borderRadius: 8 }}>
-                    {b.cancel_reason && <div style={{ fontSize: 12.5, color: '#f8b4b4' }}>❌ {b.cancel_reason}</div>}
-                    <div style={{ fontSize: 11, color: '#b08a8a', marginTop: b.cancel_reason ? 3 : 0 }}>
-                      Annulée par {b.cancelled_by === 'customer' ? 'le client · 客户' : b.cancelled_by === 'owner' ? 'le restaurant · 餐厅' : '—'}
-                    </div>
+                    {CANCELLED_BY_LABEL[b.cancelled_by] && (
+                      <div style={{ fontSize: 12, fontWeight: 700, color: '#f8b4b4' }}>
+                        {b.cancelled_by === 'customer' ? '👤 ' : '🏠 '}{t4(CANCELLED_BY_LABEL[b.cancelled_by])}
+                      </div>
+                    )}
+                    {b.cancel_reason && (
+                      <div style={{ fontSize: 12.5, color: '#e6a5a5', marginTop: CANCELLED_BY_LABEL[b.cancelled_by] ? 3 : 0 }}>
+                        {t4(MOTIF_LABEL)} : {b.cancel_reason}
+                      </div>
+                    )}
                   </div>
                 )}
 
