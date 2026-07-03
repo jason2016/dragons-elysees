@@ -1,0 +1,1 @@
+import{c as e,j as r,r as t,L as o}from"./api-BuET7XXR.js";import{A as s}from"./AdminPanel-Dm820Ivb.js";e.createRoot(document.getElementById("root")).render(r.jsx(t.StrictMode,{children:r.jsx(o,{children:r.jsx(s,{})})}));
