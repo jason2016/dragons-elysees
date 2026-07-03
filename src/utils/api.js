@@ -125,10 +125,12 @@ export const api = {
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
     return data
   },
-  // Cancel a booking → status 'cancelled'; backend emails the guest. 409 if already
-  // in a terminal state. → { ok, status:'cancelled' } | { ok:false, reason:'conflict' }.
-  cancelBooking: async (id) => {
-    const res = await adminFetch(`/bookings/${id}/cancel`, { method: 'POST' })
+  // Cancel a booking → status 'cancelled'; backend emails the guest (with the reason). 409 if
+  // already terminal. → { ok, status:'cancelled' } | { ok:false, reason:'conflict' }.
+  cancelBooking: async (id, reason = '') => {
+    const res = await adminFetch(`/bookings/${id}/cancel`, {
+      method: 'POST', body: JSON.stringify({ reason }),
+    })
     const data = await res.json().catch(() => ({}))
     if (res.status === 409) return { ok: false, reason: 'conflict', status: data.status }
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)

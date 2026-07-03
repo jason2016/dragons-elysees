@@ -15,6 +15,13 @@ function sourceBadge(b) {
   return { label: '✓ Traitée · 已处理', bg: '#10331f', color: '#4ade80', border: '#16a34055' }
 }
 
+// Preset cancel reasons (sent to the guest in their language email). "" = Autre → free text only.
+const CANCEL_PRESETS = [
+  'Salle privatisée / 包场',
+  'Fermeture exceptionnelle / 特殊停业',
+  '',  // Autre / 其他 — free text
+]
+
 export default function BookingsView() {
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(false)
@@ -22,6 +29,8 @@ export default function BookingsView() {
   const [expandedId, setExpandedId] = useState(null)
   const [busyId, setBusyId] = useState(null)
   const [confirmAction, setConfirmAction] = useState(null) // { id, type:'handle'|'cancel', name, date, time }
+  const [cancelPreset, setCancelPreset] = useState('')     // preset cancel reason (sent to the guest)
+  const [cancelFreeText, setCancelFreeText] = useState('') // optional free-text detail
   const [toast, setToast] = useState('')
 
   const load = async () => {
@@ -41,20 +50,22 @@ export default function BookingsView() {
 
   const doAction = async () => {
     const { id, type } = confirmAction
+    // Combine preset + free text into the reason sent to the guest (empty = no reason line).
+    const reason = [cancelPreset, cancelFreeText.trim()].filter(Boolean).join(' — ')
     setBusyId(id); setConfirmAction(null)
     try {
       if (type === 'handle') {
         await api.markBookingHandled(id)
         showToast('Réservation marquée comme traitée.')
       } else {
-        const res = await api.cancelBooking(id)
+        const res = await api.cancelBooking(id, reason)
         if (res?.ok === false) showToast('Réservation déjà traitée ou annulée.')
         else showToast('Réservation annulée — le client a été notifié.')
       }
       await load()
     } catch (e) {
       if (e?.message !== 'unauthorized') showToast('Erreur — réessayez.')
-    } finally { setBusyId(null) }
+    } finally { setBusyId(null); setCancelPreset(''); setCancelFreeText('') }
   }
 
   const td = today()
@@ -120,7 +131,7 @@ export default function BookingsView() {
                           </button>
                         )}
                         <button disabled={busyId === b.booking_id}
-                          onClick={() => setConfirmAction({ id: b.booking_id, type: 'cancel', name: b.customer_name, date: b.booking_date, time: b.booking_time })}
+                          onClick={() => { setCancelPreset(''); setCancelFreeText(''); setConfirmAction({ id: b.booking_id, type: 'cancel', name: b.customer_name, date: b.booking_date, time: b.booking_time }) }}
                           style={{ flex: 1, padding: '9px 0', borderRadius: 10, border: '1px solid #dc2626', background: 'transparent', color: '#f87171', fontWeight: 700, cursor: 'pointer' }}>
                           {busyId === b.booking_id ? '…' : '✕ Annuler · 取消'}
                         </button>
@@ -148,8 +159,34 @@ export default function BookingsView() {
             <p style={{ fontSize: 13, color: '#6b6355', margin: '8px 0 0' }}>
               {confirmAction.type === 'handle'
                 ? 'Le statut ne change pas, aucun email envoyé.'
-                : 'Le client sera notifié de l\'annulation par email.'}
+                : 'Le client sera notifié de l\'annulation par email (avec le motif).'}
             </p>
+
+            {/* Cancel reason: preset chips + optional free text — sent to the guest. */}
+            {confirmAction.type === 'cancel' && (
+              <div style={{ marginTop: 12 }}>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#6b6355', marginBottom: 6 }}>Motif / 取消原因</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
+                  {CANCEL_PRESETS.map((p, i) => {
+                    const label = p || 'Autre / 其他'
+                    const active = cancelPreset === p
+                    return (
+                      <button key={i} onClick={() => setCancelPreset(p)}
+                        style={{
+                          padding: '6px 10px', borderRadius: 8, fontSize: 12.5, cursor: 'pointer',
+                          border: '1px solid ' + (active ? '#dc2626' : '#d8cdb8'),
+                          background: active ? '#fef2f2' : '#f7f4ee',
+                          color: active ? '#b91c1c' : '#3a3328', fontWeight: active ? 700 : 500,
+                        }}>{label}</button>
+                    )
+                  })}
+                </div>
+                <input type="text" value={cancelFreeText} onChange={e => setCancelFreeText(e.target.value)}
+                  placeholder={cancelPreset ? 'Précision (optionnel) / 补充说明(可选)' : 'Motif / 原因(optionnel)'}
+                  style={{ width: '100%', boxSizing: 'border-box', padding: '8px 10px', borderRadius: 8, border: '1px solid #d8cdb8', fontSize: 13, color: '#2a2520' }} />
+              </div>
+            )}
+
             <div style={{ display: 'flex', gap: 10, marginTop: 16, justifyContent: 'flex-end' }}>
               <button onClick={() => setConfirmAction(null)} style={{ padding: '8px 14px', borderRadius: 8, border: '1px solid #d8cdb8', background: '#f0ece3', color: '#3a3328', cursor: 'pointer' }}>Retour</button>
               <button onClick={doAction} style={{ padding: '8px 16px', borderRadius: 8, border: 'none', fontWeight: 700, color: '#fff', cursor: 'pointer', background: confirmAction.type === 'handle' ? '#16a34a' : '#dc2626' }}>
