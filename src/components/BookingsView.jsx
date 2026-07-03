@@ -132,6 +132,16 @@ export default function BookingsView() {
                   </span>
                 </div>
 
+                {/* Cancelled: show the reason + who cancelled, right on the card (no need to expand). */}
+                {cancelled && (b.cancel_reason || b.cancelled_by) && (
+                  <div style={{ marginTop: 8, padding: '8px 11px', background: '#3a1414', border: '1px solid #dc262633', borderRadius: 8 }}>
+                    {b.cancel_reason && <div style={{ fontSize: 12.5, color: '#f8b4b4' }}>❌ {b.cancel_reason}</div>}
+                    <div style={{ fontSize: 11, color: '#b08a8a', marginTop: b.cancel_reason ? 3 : 0 }}>
+                      Annulée par {b.cancelled_by === 'customer' ? 'le client · 客户' : b.cancelled_by === 'owner' ? 'le restaurant · 餐厅' : '—'}
+                    </div>
+                  </div>
+                )}
+
                 {open && (
                   <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid var(--border-color, #2a2a2a)', fontSize: 13, color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: 4 }}>
                     <span>📞 <a href={`tel:${b.customer_phone}`} style={{ color: 'var(--accent-gold, #d4a300)' }}>{b.customer_phone}</a></span>
