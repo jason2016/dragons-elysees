@@ -87,6 +87,34 @@ export const api = {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return res.json()
   },
+  // ── Reviews funnel phase 1 (Bearer). Backend in parallel dev — endpoint contract
+  // to be aligned; ' pending ' state handled gracefully by the caller until it lands.
+  // GET /api/dragons/admin/reviews → { reviews:[{ id, rating, comment, lang, date,
+  //   booking:{ name, date }, read }], unread, month_count }.
+  adminGetReviews: async (params = {}) => {
+    const qs = new URLSearchParams(params).toString()
+    const res = await adminFetch(`/admin/reviews${qs ? `?${qs}` : ''}`)
+    if (res.status === 404) return { reviews: [], unread: 0, month_count: 0, _pending: true }
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+  },
+  // Mark one review as read → { ok, read:true }.
+  markReviewRead: async (id) => {
+    const res = await adminFetch(`/admin/reviews/${id}/read`, { method: 'POST' })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+    return data
+  },
+  // Customer-side review submission from the landing page (public, no token).
+  // payload: { rating, comment, lang, booking_code?, token? } → { ok }.
+  submitReview: async (payload) => {
+    const res = await fetch(`${ADMIN_BASE}/review`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
+    })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+    return data
+  },
   getOrder: (id) => request(`/orders/${id}`),
   updateOrderStatus: (id, status) => request(`/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
   // Table-side settlement of a dine_in (post-pay) order — admin only. payload: { method, balance_amount?, customer_id? }

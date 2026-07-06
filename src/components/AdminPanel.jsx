@@ -3,6 +3,7 @@ import { api, formatPrice, getAdminToken, clearAdminToken } from '../utils/api'
 import { useLang } from '../hooks/useLang'
 import BookingsView from './BookingsView'
 import ClientsView from './ClientsView'
+import ReviewsView from './ReviewsView'
 import styles from './AdminPanel.module.css'
 
 const STATUS_LABEL = {
@@ -144,7 +145,7 @@ export default function AdminPanel() {
       <div className={styles.content}>
         {/* Tabs: orders / reservations */}
         <div style={{ display: 'flex', gap: 8, marginBottom: 16, borderBottom: '1px solid var(--border-color, #2a2a2a)' }}>
-          {[['orders', 'Commandes'], ['bookings', 'Réservations'], ['contacts', 'Clients / 客户']].map(([k, lbl]) => (
+          {[['orders', 'Commandes'], ['bookings', 'Réservations'], ['contacts', 'Clients / 客户'], ['reviews', 'Avis · 评价']].map(([k, lbl]) => (
             <button key={k} onClick={() => setView(k)}
               style={{
                 padding: '10px 18px', background: 'none', border: 'none', cursor: 'pointer',
@@ -159,6 +160,7 @@ export default function AdminPanel() {
 
         {view === 'bookings' && <BookingsView />}
         {view === 'contacts' && <ClientsView />}
+        {view === 'reviews' && <ReviewsView />}
 
         {view === 'orders' && (<>
         {/* Stats */}
