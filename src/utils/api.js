@@ -87,34 +87,26 @@ export const api = {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return res.json()
   },
-  // ── Reviews funnel phase 1 (Bearer). Backend in parallel dev — endpoint contract
-  // to be aligned; ' pending ' state handled gracefully by the caller until it lands.
-  // GET /api/dragons/admin/reviews → { reviews:[{ id, rating, comment, lang, date,
-  //   booking:{ name, date }, read }], unread, month_count }.
-  adminGetReviews: async (params = {}) => {
+  // ── Avis (reviews funnel) — live backend, Bearer JWT (same auth as bookings) ──
+  // GET /api/dragons/admin/avis?max_rating=3[&unread=1] →
+  //   { reviews:[{ id, rating, comment, lang, source, created_at, read,
+  //     booking:{ booking_code, customer_name, booking_date } }], total, unread }.
+  // Private domain = 1–3★, so we ask the server for max_rating=3 by default.
+  adminGetReviews: async (params = { max_rating: 3 }) => {
     const qs = new URLSearchParams(params).toString()
-    const res = await adminFetch(`/admin/reviews${qs ? `?${qs}` : ''}`)
-    if (res.status === 404) return { reviews: [], unread: 0, month_count: 0, _pending: true }
+    const res = await adminFetch(`/admin/avis${qs ? `?${qs}` : ''}`)
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return res.json()
   },
-  // Mark one review as read → { ok, read:true }.
+  // Mark one avis as read → { ok, read:true }.
   markReviewRead: async (id) => {
-    const res = await adminFetch(`/admin/reviews/${id}/read`, { method: 'POST' })
+    const res = await adminFetch(`/admin/avis/${id}/read`, { method: 'POST' })
     const data = await res.json().catch(() => ({}))
     if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
     return data
   },
-  // Customer-side review submission from the landing page (public, no token).
-  // payload: { rating, comment, lang, booking_code?, token? } → { ok }.
-  submitReview: async (payload) => {
-    const res = await fetch(`${ADMIN_BASE}/review`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload),
-    })
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
-    return data
-  },
+  // Note: guest-side submission lives entirely on the backend page (mcp.clawshow.ai/avis);
+  // the frontend no longer posts reviews (single source of truth). See ReviewLanding.jsx.
   getOrder: (id) => request(`/orders/${id}`),
   updateOrderStatus: (id, status) => request(`/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
   // Table-side settlement of a dine_in (post-pay) order — admin only. payload: { method, balance_amount?, customer_id? }

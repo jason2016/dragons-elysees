@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { api } from '../utils/api'
 import styles from './AdminPanel.module.css'
 
-const fmtDate = (d) => { try { const [y, m, day] = d.split('-'); return `${day}/${m}/${y}` } catch { return d || '—' } }
+// Accepts 'YYYY-MM-DD' or an ISO timestamp ('YYYY-MM-DDTHH:MM:SS…') → DD/MM/YYYY.
+const fmtDate = (d) => { try { const [y, m, day] = String(d).slice(0, 10).split('-'); return `${day}/${m}/${y}` } catch { return d || '—' } }
 
 // Rating stars — filled gold up to `n`, dim for the rest (out of 5).
 function Stars({ n }) {
@@ -30,14 +31,12 @@ function OverviewTile({ value, fr, zh, accent }) {
   )
 }
 
-// Reviews funnel phase 1 — private (1–3★) feedback list for follow-up. Read-only + mark-read.
-// Backend is in parallel dev; until the endpoint lands, adminGetReviews returns _pending and we
-// show a friendly notice instead of an error.
+// Avis funnel — private (1–3★) feedback list for follow-up. Read-only + mark-read.
+// Live backend contract: GET /api/dragons/admin/avis?max_rating=3 → { reviews, total, unread }.
 export default function ReviewsView() {
   const [reviews, setReviews] = useState([])
   const [unread, setUnread] = useState(0)
-  const [monthCount, setMonthCount] = useState(0)
-  const [pending, setPending] = useState(false)
+  const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
   const [err, setErr] = useState('')
   const [busyId, setBusyId] = useState(null)
@@ -45,11 +44,10 @@ export default function ReviewsView() {
   const load = async () => {
     setLoading(true); setErr('')
     try {
-      const d = await api.adminGetReviews()
+      const d = await api.adminGetReviews({ max_rating: 3 })
       setReviews((d.reviews || []).filter(r => (Number(r.rating) || 0) <= 3))   // private domain = 1–3★
       setUnread(d.unread || 0)
-      setMonthCount(d.month_count || 0)
-      setPending(!!d._pending)
+      setTotal(d.total || 0)
     } catch (e) {
       if (e?.message !== 'unauthorized') setErr('Erreur de chargement.')
     } finally { setLoading(false) }
@@ -72,24 +70,19 @@ export default function ReviewsView() {
         <button className={styles.refreshBtn} onClick={load} title="Actualiser">↻</button>
       </div>
 
-      {/* Overview: unread + this-month feedback count */}
+      {/* Overview: unread + total private (1–3★) feedback count */}
       <div style={{ display: 'flex', gap: 12, margin: '4px 0 14px', flexWrap: 'wrap' }}>
         <OverviewTile accent value={unread} fr="Non lus" zh="未读" />
-        <OverviewTile value={monthCount} fr="Ce mois" zh="本月反馈" />
+        <OverviewTile value={total} fr="Total" zh="私域反馈" />
       </div>
 
-      {pending && (
-        <div style={{ padding: '10px 12px', marginBottom: 10, borderRadius: 8, fontSize: 13, color: 'var(--text-secondary)', background: 'rgba(201,168,76,0.08)', border: '1px solid rgba(201,168,76,0.2)' }}>
-          ⏳ En attente de l'API backend — la liste s'affichera dès qu'elle est prête. · 后端接入中
-        </div>
-      )}
       {err && <div style={{ color: '#f87171', fontSize: 13, marginBottom: 8 }}>{err}</div>}
 
       {loading ? (
         <div style={{ color: 'var(--text-muted)', padding: 20, textAlign: 'center' }}>Chargement…</div>
       ) : reviews.length === 0 ? (
         <div style={{ color: 'var(--text-muted)', padding: 24, textAlign: 'center' }}>
-          {pending ? 'Aucun avis pour le moment. · 暂无反馈' : 'Aucun avis privé (1–3★). · 暂无私域反馈'}
+          Aucun avis privé (1–3★). · 暂无私域反馈
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '4px 0' }}>
@@ -105,7 +98,7 @@ export default function ReviewsView() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                   <Stars n={r.rating} />
                   {isUnread && <span style={{ fontSize: 11, fontWeight: 800, padding: '2px 8px', borderRadius: 999, background: 'var(--accent-gold, #d4a300)', color: '#1a1208' }}>Nouveau · 新</span>}
-                  <span style={{ color: 'var(--text-muted)', fontSize: 12, marginLeft: 'auto' }}>{fmtDate(r.date)}{r.lang ? ` · 🌐 ${String(r.lang).toUpperCase()}` : ''}</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: 12, marginLeft: 'auto' }}>{fmtDate(r.created_at)}{r.lang ? ` · 🌐 ${String(r.lang).toUpperCase()}` : ''}</span>
                 </div>
 
                 {r.comment && (
@@ -114,9 +107,9 @@ export default function ReviewsView() {
                   </div>
                 )}
 
-                {r.booking && (r.booking.name || r.booking.date) && (
+                {r.booking && (r.booking.customer_name || r.booking.booking_date) && (
                   <div style={{ marginTop: 6, fontSize: 12, color: 'var(--text-muted)' }}>
-                    🍽️ Réservation liée · 关联预定 : {r.booking.name || '—'}{r.booking.date ? ` · ${fmtDate(r.booking.date)}` : ''}
+                    🍽️ Réservation liée · 关联预定 : {r.booking.customer_name || '—'}{r.booking.booking_code ? ` · #${r.booking.booking_code}` : ''}{r.booking.booking_date ? ` · ${fmtDate(r.booking.booking_date)}` : ''}
                   </div>
                 )}
 
