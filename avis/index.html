@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dragons Élysées — Avis</title>
+  <!-- The canonical review funnel lives on the backend. This static page exists so the
+       bare path dragonselysees.com/avis (no #hash, no SPA fallback on GitHub Pages) also
+       forwards to it, preserving all query params. The React /#/avis route does the same. -->
+  <script>
+    (function () {
+      var qs = window.location.search || '';
+      window.location.replace('https://mcp.clawshow.ai/avis' + qs);
+    })();
+  </script>
+  <meta http-equiv="refresh" content="0; url=https://mcp.clawshow.ai/avis">
+  <style>
+    html,body{margin:0;height:100%;background:#0a0a0a;color:#c9a84c;
+      font-family:system-ui,-apple-system,sans-serif;display:flex;
+      align-items:center;justify-content:center}
+  </style>
+</head>
+<body>
+  <p>Redirection… · 正在跳转…</p>
+  <noscript><a href="https://mcp.clawshow.ai/avis" style="color:#c9a84c">Continuer vers Avis</a></noscript>
+</body>
+</html>
