@@ -98,6 +98,22 @@ const T = {
   },
 }
 
+// Dietary presets — the token (stored in special_requests as [token]) is canonical French,
+// so the owner sees a stable, highlightable prefix regardless of the guide's UI language.
+const DIETS = [
+  { token: 'Sans porc',  label: { fr: 'Sans porc', zh: '不吃猪肉', en: 'No pork', es: 'Sin cerdo' } },
+  { token: 'Sans bœuf',  label: { fr: 'Sans bœuf', zh: '不吃牛肉', en: 'No beef', es: 'Sin ternera' } },
+  { token: 'Végétarien', label: { fr: 'Végétarien', zh: '素食', en: 'Vegetarian', es: 'Vegetariano' } },
+  { token: 'Végan',      label: { fr: 'Végan', zh: '纯素', en: 'Vegan', es: 'Vegano' } },
+  { token: 'Allergies',  label: { fr: 'Allergies', zh: '过敏', en: 'Allergies', es: 'Alergias' } },
+]
+const DIET_T = {
+  fr: { allergyReq: 'Précisez l’allergie.', allergyPh: 'Précisez l’allergie *' },
+  zh: { allergyReq: '请填写过敏说明。', allergyPh: '请注明过敏原 *' },
+  en: { allergyReq: 'Please specify the allergy.', allergyPh: 'Specify the allergy *' },
+  es: { allergyReq: 'Indique la alergia.', allergyPh: 'Indique la alergia *' },
+}
+
 export default function GroupesPage() {
   const { lang } = useLang()
   const t = T[lang] || T.fr
@@ -234,8 +250,10 @@ function Booking({ t, lang, onLogout }) {
   const [tier, setTier] = useState(null)          // 5|6|7|8|'carte'
   const [party, setParty] = useState('')
   const [when, setWhen] = useState('')            // datetime-local value
+  const [diets, setDiets] = useState({})          // { token: true } dietary presets
   const [requests, setRequests] = useState('')
   const [busy, setBusy] = useState(false)
+  const dt = DIET_T[lang] || DIET_T.fr
   const [err, setErr] = useState('')
   const [done, setDone] = useState(null)          // booking response
 
@@ -268,15 +286,20 @@ function Booking({ t, lang, onLogout }) {
     if (!when) { setErr(fill(t.errDate, { h: lead })); return }
     const chosen = new Date(when).getTime()
     if (isNaN(chosen) || chosen < Date.now() + lead * 3600 * 1000) { setErr(fill(t.errDate, { h: lead })); return }
+    // Dietary: checked presets become a canonical [token] prefix; Allergies needs a description.
+    const free = requests.trim()
+    if (diets['Allergies'] && !free) { setErr(dt.allergyReq); return }
+    const tokens = DIETS.filter(d => diets[d.token]).map(d => `[${d.token}]`).join('')
+    const special = (tokens + (free ? (tokens ? ' ' : '') + free : '')).trim()
     setBusy(true)
     try {
       const bookingDate = when.replace('T', ' ') + (when.length === 16 ? ':00' : '')
-      const r = await api.groupesBook({ booking_date: bookingDate, party_size: p, menu_tier: tier, special_requests: requests.trim() || undefined })
+      const r = await api.groupesBook({ booking_date: bookingDate, party_size: p, menu_tier: tier, special_requests: special || undefined })
       setDone(r)
     } catch (e) { setErr(e?.message === 'unauthorized' ? t.genErr : (e?.message || t.genErr)) } finally { setBusy(false) }
   }
 
-  if (done) return <Confirmed t={t} r={done} isCarte={tier === 'carte'} cur={cur} pct={pct} onNew={() => { setDone(null); setTier(null); setParty(''); setWhen(''); setRequests('') }} />
+  if (done) return <Confirmed t={t} r={done} isCarte={tier === 'carte'} cur={cur} pct={pct} onNew={() => { setDone(null); setTier(null); setParty(''); setWhen(''); setRequests(''); setDiets({}) }} />
 
   return (
     <>
@@ -307,8 +330,21 @@ function Booking({ t, lang, onLogout }) {
           <Field label={t.party} type="number" min={minFor(tier)} value={party} onChange={e => setParty(e.target.value)} />
           <label style={{ fontSize: 13.5, color: '#c9bfa6', display: 'block', marginBottom: 5 }}>{t.date} · <span style={{ color: '#8f866f' }}>{fill(t.lead, { h: lead })}</span></label>
           <input type="datetime-local" value={when} onChange={e => setWhen(e.target.value)} style={{ ...inputStyle, colorScheme: 'dark' }} />
-          <label style={{ fontSize: 13.5, color: '#c9bfa6', display: 'block', marginBottom: 5 }}>{t.requests}</label>
-          <textarea value={requests} onChange={e => setRequests(e.target.value)} rows={3} placeholder={t.requestsPh} style={{ ...inputStyle, resize: 'vertical' }} />
+          <label style={{ fontSize: 13.5, color: '#c9bfa6', display: 'block', marginBottom: 7 }}>{t.requests}</label>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 10 }}>
+            {DIETS.map(d => {
+              const on = !!diets[d.token]
+              return (
+                <label key={d.token} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 12px', borderRadius: 999, cursor: 'pointer', fontSize: 13, userSelect: 'none', border: `1px solid ${on ? GOLD : 'rgba(201,168,76,0.25)'}`, background: on ? 'rgba(201,168,76,0.15)' : 'transparent', color: on ? '#f5f0e8' : '#a99f88' }}>
+                  <input type="checkbox" checked={on} onChange={e => setDiets({ ...diets, [d.token]: e.target.checked })} style={{ accentColor: GOLD, margin: 0 }} />
+                  {d.label[lang] || d.label.fr}
+                </label>
+              )
+            })}
+          </div>
+          <textarea value={requests} onChange={e => setRequests(e.target.value)} rows={3}
+            placeholder={diets['Allergies'] ? dt.allergyPh : t.requestsPh}
+            style={{ ...inputStyle, resize: 'vertical', border: diets['Allergies'] && !requests.trim() ? '1px solid #d98a6a88' : inputStyle.border }} />
           {err && <div style={{ color: '#f2a5a5', fontSize: 13, marginBottom: 10 }}>{err}</div>}
           <button style={btnGold} onClick={submit} disabled={busy}>{busy ? t.sending : t.book}</button>
         </>

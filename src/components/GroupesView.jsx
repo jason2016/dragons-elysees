@@ -133,9 +133,7 @@ export default function GroupesView() {
                     {b.reward_amount != null && <span>🎁 +{eur(b.reward_amount)}</span>}
                     {b.period && <span>🗓️ {b.period}</span>}
                   </div>
-                  {b.special_requests && (
-                    <div style={{ marginTop: 7, padding: '7px 10px', background: 'rgba(255,255,255,0.03)', borderLeft: '3px solid #4a4438', borderRadius: 6, fontSize: 13, color: 'var(--text-secondary)' }}>💬 {b.special_requests}</div>
-                  )}
+                  {b.special_requests && <Requests value={b.special_requests} />}
                 </div>
               )
             })}
@@ -174,6 +172,24 @@ export default function GroupesView() {
 
 function Muted({ children }) {
   return <div style={{ color: 'var(--text-muted)', padding: 18, textAlign: 'center', fontSize: 13.5 }}>{children}</div>
+}
+// Special requests: leading [token] presets → highlighted chips, then the free text.
+function Requests({ value }) {
+  const tokens = []
+  let rest = value || ''
+  const re = /^\s*\[([^\]]+)\]/
+  let m
+  while ((m = re.exec(rest))) { tokens.push(m[1]); rest = rest.slice(m[0].length) }
+  rest = rest.trim()
+  return (
+    <div style={{ marginTop: 7, padding: '7px 10px', background: 'rgba(255,255,255,0.03)', borderLeft: '3px solid #4a4438', borderRadius: 6, fontSize: 13, color: 'var(--text-secondary)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 6 }}>
+      <span>💬</span>
+      {tokens.map((tk, i) => (
+        <span key={i} style={{ fontSize: 11.5, fontWeight: 800, padding: '2px 8px', borderRadius: 999, background: 'rgba(212,163,0,0.2)', border: '1px solid rgba(212,163,0,0.55)', color: '#e0b64a' }}>{tk}</span>
+      ))}
+      {rest && <span>{rest}</span>}
+    </div>
+  )
 }
 function Chip({ status }) {
   const s = STATUS_CHIP[status] || STATUS_CHIP.pending
