@@ -155,9 +155,9 @@ export default function GroupesView() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {rewards.by_account.map((r, i) => (
               <div key={r.account_id ?? i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13.5, padding: '8px 10px', background: 'rgba(255,255,255,0.02)', borderRadius: 8 }}>
-                <strong>{r.name || r.company || r.account_name || `#${r.account_id}`}</strong>
-                {(r.bookings_count ?? r.count) != null && <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>· {r.bookings_count ?? r.count} groupe(s)</span>}
-                <strong style={{ marginLeft: 'auto', color: '#7bd3a0' }}>+{eur(r.reward_total ?? r.total_reward ?? r.reward ?? r.total)}</strong>
+                <strong>{r.account_name || r.name || r.company || r.account_company || `#${r.account_id}`}</strong>
+                {(r.bookings ?? r.bookings_count ?? r.count) != null && <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>· {r.bookings ?? r.bookings_count ?? r.count} groupe(s){r.total_guests != null ? ` · ${r.total_guests} pers.` : ''}</span>}
+                <strong style={{ marginLeft: 'auto', color: '#7bd3a0' }}>+{eur(r.total_reward ?? r.reward_total ?? r.reward ?? r.total)}</strong>
               </div>
             ))}
           </div>
