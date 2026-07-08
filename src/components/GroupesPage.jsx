@@ -113,6 +113,15 @@ const DIET_T = {
   en: { allergyReq: 'Please specify the allergy.', allergyPh: 'Specify the allergy *' },
   es: { allergyReq: 'Indique la alergia.', allergyPh: 'Indique la alergia *' },
 }
+// Dish-pool collapsible (plan A — pure display, no selection). Labels 4-lang; the pool
+// content + note come entirely from the backend (data-driven, John edits without a deploy).
+const POOL_T = {
+  fr: { toggle: 'Voir les plats au choix', soups: 'Soupes', dishes: 'Plats' },
+  zh: { toggle: '查看可选菜品', soups: '汤', dishes: '菜品' },
+  en: { toggle: 'See the dishes to choose from', soups: 'Soups', dishes: 'Dishes' },
+  es: { toggle: 'Ver los platos a elegir', soups: 'Sopas', dishes: 'Platos' },
+}
+const dishName = (d, lang) => (d && (d[lang] || d.fr)) || ''   // ignores unknown keys (e.g. future url)
 
 export default function GroupesPage() {
   const { lang } = useLang()
@@ -252,8 +261,10 @@ function Booking({ t, lang, onLogout }) {
   const [when, setWhen] = useState('')            // datetime-local value
   const [diets, setDiets] = useState({})          // { token: true } dietary presets
   const [requests, setRequests] = useState('')
+  const [poolOpen, setPoolOpen] = useState(false) // dish-pool collapsible — collapsed by default
   const [busy, setBusy] = useState(false)
   const dt = DIET_T[lang] || DIET_T.fr
+  const pt = POOL_T[lang] || POOL_T.fr
   const [err, setErr] = useState('')
   const [done, setDone] = useState(null)          // booking response
 
@@ -324,6 +335,10 @@ function Booking({ t, lang, onLogout }) {
         )}
       </div>
 
+      {/* Dish pool — pure display (plan A). Applies to the set formulas only (à la carte uses the
+          in-house menu), so it's hidden when carte is selected. Content is 100% from the API. */}
+      <DishPool menu={menu} lang={lang} pt={pt} tier={tier} open={poolOpen} setOpen={setPoolOpen} />
+
       {tier && (
         <>
           <label style={{ fontSize: 13.5, color: '#c9bfa6', display: 'block', marginBottom: 5 }}>{t.party} · <span style={{ color: '#8f866f' }}>{fill(t.partyMin, { n: minFor(tier) })}</span></label>
@@ -371,6 +386,46 @@ function TierCard({ selected, onClick, title, badge, main, sub }) {
         </div>
         <div style={{ marginTop: 4, display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap' }}>{main}{sub}</div>
       </div>
+    </div>
+  )
+}
+
+// Collapsible « plats au choix » — pure display, no checkbox, no quantity rule (plan A).
+// Hidden for à la carte. dish_note's "N" → the selected formula's plat count (graceful « … » if none).
+function DishPool({ menu, lang, pt, tier, open, setOpen }) {
+  const pool = menu.dish_pool
+  if (!pool || tier === 'carte') return null
+  const soups = pool.soups || []
+  const dishes = pool.dishes || []
+  if (!soups.length && !dishes.length) return null
+  const raw = menu.dish_note
+    ? (typeof menu.dish_note === 'string' ? menu.dish_note : (menu.dish_note[lang] || menu.dish_note.fr || ''))
+    : ''
+  const note = raw.replace(/\bN\b/g, typeof tier === 'number' ? String(tier) : '…')
+
+  const group = (title, items) => items.length > 0 && (
+    <div style={{ marginTop: 10 }}>
+      <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: GOLD, marginBottom: 5 }}>{title} · {items.length}</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '2px 14px' }}>
+        {items.map((d, i) => <div key={i} style={{ fontSize: 12.5, color: '#c9bfa6', lineHeight: 1.5 }}>· {dishName(d, lang)}</div>)}
+      </div>
+    </div>
+  )
+
+  return (
+    <div style={{ marginBottom: 20, border: '1px solid rgba(201,168,76,0.2)', borderRadius: 12, overflow: 'hidden' }}>
+      <button onClick={() => setOpen(o => !o)} aria-expanded={open}
+        style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 9, padding: '12px 14px', background: 'rgba(255,255,255,0.03)', border: 'none', color: GOLD, fontWeight: 700, fontSize: 14, cursor: 'pointer', textAlign: 'left' }}>
+        <span style={{ display: 'inline-block', transition: 'transform .15s', transform: open ? 'rotate(90deg)' : 'none' }}>▸</span>
+        {pt.toggle}
+      </button>
+      {open && (
+        <div style={{ padding: '2px 14px 14px' }}>
+          {note && <p style={{ fontSize: 13, color: '#a99f88', lineHeight: 1.6, margin: '8px 0 2px' }}>{note}</p>}
+          {group(pt.soups, soups)}
+          {group(pt.dishes, dishes)}
+        </div>
+      )}
     </div>
   )
 }
