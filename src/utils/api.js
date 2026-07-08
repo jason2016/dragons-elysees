@@ -10,6 +10,13 @@ export const getAdminToken = () => localStorage.getItem(ADMIN_TOKEN_LS) || ''
 export const setAdminToken = (tok) => localStorage.setItem(ADMIN_TOKEN_LS, tok)
 export const clearAdminToken = () => localStorage.removeItem(ADMIN_TOKEN_LS)
 
+// ── Groupes (团体 / tour-guide) token — SESSION-level (sessionStorage), so it clears when
+// the guide closes the tab. Fully separate from the admin token and the customer 'de-token'.
+const GROUPES_TOKEN_SS = 'dragons_groupes_token'
+export const getGroupesToken = () => sessionStorage.getItem(GROUPES_TOKEN_SS) || ''
+export const setGroupesToken = (tok) => sessionStorage.setItem(GROUPES_TOKEN_SS, tok)
+export const clearGroupesToken = () => sessionStorage.removeItem(GROUPES_TOKEN_SS)
+
 // Any admin request that comes back 401 → drop the token and notify the app so it
 // returns to the admin login screen. (Listeners: AdminPanel.)
 function onAdminUnauthorized() {
@@ -49,6 +56,21 @@ async function adminFetch(path, options = {}) {
     },
   })
   if (res.status === 401) { onAdminUnauthorized(); throw new Error('unauthorized') }
+  return res
+}
+
+// Guide-side fetch for /api/dragons/groupes/* — carries the SESSION groupes token.
+// A 401 here does NOT touch the admin session; the /groupes page handles it (back to login).
+async function groupesFetch(path, options = {}) {
+  const token = getGroupesToken()
+  const res = await fetch(`${ADMIN_BASE}/groupes${path}`, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options.headers,
+    },
+  })
   return res
 }
 
@@ -107,6 +129,81 @@ export const api = {
   },
   // Note: guest-side submission lives entirely on the backend page (mcp.clawshow.ai/avis);
   // the frontend no longer posts reviews (single source of truth). See ReviewLanding.jsx.
+
+  // ══ Groupes · 团体预定 (tour-guide bookings) ══
+  // Guide-side, public (no token):
+  //   POST /groupes/apply  { name*, email*, company?, phone? } → { ok, account_id, status, existing }
+  //   POST /groupes/login  { email } (send OTP) → { ok, otp_sent, message }
+  //   POST /groupes/login  { email, code } (verify) → { ok, token }  (7-day guide JWT)
+  groupesApply: async (payload) => {
+    const res = await fetch(`${ADMIN_BASE}/groupes/apply`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+    return data
+  },
+  groupesLoginSend: async (email) => {
+    const res = await fetch(`${ADMIN_BASE}/groupes/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+    return data   // { ok, otp_sent, message }
+  },
+  groupesLoginVerify: async (email, code) => {
+    const res = await fetch(`${ADMIN_BASE}/groupes/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code }) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+    if (data.token) setGroupesToken(data.token)
+    return data
+  },
+  // Guide-side, token-gated:
+  //   GET  /groupes/menu → { discount_pct, currency, min_party, lead_hours, tiers:[…] }
+  //   POST /groupes/book { booking_date*, party_size*, menu_tier*(5|6|7|8|'carte'), special_requests? }
+  //        → { ok, id, total_estimate, per_head, reward_amount, period }  (carte → total_estimate:null)
+  groupesMenu: async () => {
+    const res = await groupesFetch('/menu')
+    if (res.status === 401) throw new Error('unauthorized')
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+  },
+  groupesBook: async (payload) => {
+    const res = await groupesFetch('/book', { method: 'POST', body: JSON.stringify(payload) })
+    const data = await res.json().catch(() => ({}))
+    if (res.status === 401) throw new Error('unauthorized')
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+    return data
+  },
+  // Admin-side (Bearer admin JWT — same auth as bookings):
+  adminGroupesAccounts: async () => {
+    const res = await adminFetch('/admin/groupes/accounts')
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()   // { accounts:[{ id, name, company, email, phone, status, discount_pct, created_at, approved_at }] }
+  },
+  adminGroupesAccountAction: async (accountId, action) => {   // action: 'approve' | 'reject'
+    const res = await adminFetch('/admin/groupes/accounts', { method: 'POST', body: JSON.stringify({ account_id: accountId, action }) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+    return data
+  },
+  adminGroupesBookings: async () => {
+    const res = await adminFetch('/admin/groupes/bookings')
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()   // { bookings:[…], total }
+  },
+  adminGroupesRewards: async (period) => {   // period: 'YYYY-MM'
+    const res = await adminFetch(`/admin/groupes/rewards?period=${encodeURIComponent(period)}`)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()   // { period, by_account:[…], grand_total }
+  },
+  adminGroupesConfig: async () => {
+    const res = await adminFetch('/admin/groupes/config')
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()   // { ok, config:{…} }
+  },
+  adminGroupesConfigSave: async (config) => {
+    const res = await adminFetch('/admin/groupes/config', { method: 'POST', body: JSON.stringify(config) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`)
+    return data
+  },
   getOrder: (id) => request(`/orders/${id}`),
   updateOrderStatus: (id, status) => request(`/orders/${id}`, { method: 'PATCH', body: JSON.stringify({ status }) }),
   // Table-side settlement of a dine_in (post-pay) order — admin only. payload: { method, balance_amount?, customer_id? }

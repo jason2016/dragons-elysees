@@ -24,6 +24,7 @@ import DeliveryPanel from './components/DeliveryPanel'
 import OrderTrack from './components/OrderTrack'
 import InstallPrompt from './components/InstallPrompt'
 import ReviewLanding from './components/ReviewLanding'
+import GroupesPage from './components/GroupesPage'
 import IntroOverlay from './components/IntroOverlay'
 import Footer from './components/Footer'
 import { FEATURES } from './config'
@@ -79,6 +80,7 @@ function AppRoutes() {
         {FEATURES.delivery && <Route path="/delivery" element={<DeliveryPanel />} />}
         <Route path="/track/:orderNumber" element={<OrderTrack />} />
         <Route path="/avis" element={<ReviewLanding />} />
+        <Route path="/groupes" element={<GroupesPage />} />
       </Routes>
       {FOOTER_PATHS.includes(pathname) && <Footer />}
     </>

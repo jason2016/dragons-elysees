@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useLang } from '../hooks/useLang'
 import styles from './Footer.module.css'
 
@@ -43,6 +44,14 @@ export default function Footer() {
           <p className={styles.line}><ClockIcon /><span>{t('footer.hours')}</span></p>
         </address>
         <p className={styles.copyright}>{t('footer.rights')}</p>
+        {/* Low-key entry for tour guides / agencies — deliberately understated so it never
+            competes with the personal-reservation flow (which is untouched). */}
+        <Link
+          to="/groupes"
+          style={{ display: 'inline-block', marginTop: 6, fontSize: 12, letterSpacing: '0.04em', color: 'var(--accent-gold, #c9a84c)', opacity: 0.72, textDecoration: 'none' }}
+        >
+          Groupes &amp; Guides · 团体预定
+        </Link>
       </div>
     </footer>
   )
