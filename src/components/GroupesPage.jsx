@@ -25,7 +25,7 @@ const T = {
     welcome: 'Espace groupes', logout: 'Déconnexion',
     chooseFormula: 'Choisissez une formule', perHead: '/ pers.',
     carteTitle: 'À la carte', carteDesc: 'Prix à la carte sur place — remise groupe dès {min} personnes.',
-    party: 'Nombre de personnes', partyMin: 'Min. {n} pers.', date: 'Date & heure', lead: 'Au moins {h}h à l’avance',
+    party: 'Nombre de personnes', partyMin: 'Min. {n} pers.', date: 'Date', lead: 'Au moins {h}h à l’avance',
     requests: 'Demandes spéciales (optionnel)', requestsPh: 'Allergies, salle privée, langue du guide…',
     book: 'Confirmer la réservation',
     errSelect: 'Choisissez une formule.', errParty: 'Min. {n} personnes pour cette formule.', errDate: 'Choisissez une date au moins {h}h à l’avance.',
@@ -46,7 +46,7 @@ const T = {
     welcome: '团体专区', logout: '退出',
     chooseFormula: '选择套餐', perHead: '/人',
     carteTitle: '单点 À la carte', carteDesc: '到店按单点计价 —— {min} 人起享团体折扣。',
-    party: '人数', partyMin: '{n} 人起', date: '日期与时间', lead: '需提前 {h} 小时',
+    party: '人数', partyMin: '{n} 人起', date: '日期', lead: '需提前 {h} 小时',
     requests: '特殊要求（可选）', requestsPh: '过敏、包间、导游语言……',
     book: '确认预定',
     errSelect: '请选择套餐。', errParty: '该套餐至少 {n} 人。', errDate: '请选择至少提前 {h} 小时的时间。',
@@ -67,7 +67,7 @@ const T = {
     welcome: 'Groups area', logout: 'Sign out',
     chooseFormula: 'Choose a formula', perHead: '/ guest',
     carteTitle: 'À la carte', carteDesc: 'Priced à la carte on site — group discount from {min} guests.',
-    party: 'Number of guests', partyMin: 'Min. {n} guests', date: 'Date & time', lead: 'At least {h}h in advance',
+    party: 'Number of guests', partyMin: 'Min. {n} guests', date: 'Date', lead: 'At least {h}h in advance',
     requests: 'Special requests (optional)', requestsPh: 'Allergies, private room, guide language…',
     book: 'Confirm booking',
     errSelect: 'Choose a formula.', errParty: 'Min. {n} guests for this formula.', errDate: 'Pick a time at least {h}h ahead.',
@@ -88,7 +88,7 @@ const T = {
     welcome: 'Área de grupos', logout: 'Salir',
     chooseFormula: 'Elija una fórmula', perHead: '/ pers.',
     carteTitle: 'À la carte', carteDesc: 'Precio à la carte en el sitio — descuento de grupo desde {min} personas.',
-    party: 'Número de personas', partyMin: 'Mín. {n} pers.', date: 'Fecha y hora', lead: 'Al menos {h}h de antelación',
+    party: 'Número de personas', partyMin: 'Mín. {n} pers.', date: 'Fecha', lead: 'Al menos {h}h de antelación',
     requests: 'Peticiones especiales (opcional)', requestsPh: 'Alergias, sala privada, idioma del guía…',
     book: 'Confirmar reserva',
     errSelect: 'Elija una fórmula.', errParty: 'Mín. {n} personas para esta fórmula.', errDate: 'Elija una hora al menos {h}h antes.',
@@ -293,8 +293,8 @@ function Booking({ t, lang, onLogout }) {
     const special = (tokens + (free ? (tokens ? ' ' : '') + free : '')).trim()
     setBusy(true)
     try {
-      const bookingDate = when.replace('T', ' ') + (when.length === 16 ? ':00' : '')
-      const r = await api.groupesBook({ booking_date: bookingDate, party_size: p, menu_tier: tier, special_requests: special || undefined })
+      // backend expects a plain calendar date (YYYY-MM-DD) — the <input type="date"> value is already that
+      const r = await api.groupesBook({ booking_date: when, party_size: p, menu_tier: tier, special_requests: special || undefined })
       setDone(r)
     } catch (e) { setErr(e?.message === 'unauthorized' ? t.genErr : (e?.message || t.genErr)) } finally { setBusy(false) }
   }
@@ -329,7 +329,7 @@ function Booking({ t, lang, onLogout }) {
           <label style={{ fontSize: 13.5, color: '#c9bfa6', display: 'block', marginBottom: 5 }}>{t.party} · <span style={{ color: '#8f866f' }}>{fill(t.partyMin, { n: minFor(tier) })}</span></label>
           <Field label={t.party} type="number" min={minFor(tier)} value={party} onChange={e => setParty(e.target.value)} />
           <label style={{ fontSize: 13.5, color: '#c9bfa6', display: 'block', marginBottom: 5 }}>{t.date} · <span style={{ color: '#8f866f' }}>{fill(t.lead, { h: lead })}</span></label>
-          <input type="datetime-local" value={when} onChange={e => setWhen(e.target.value)} style={{ ...inputStyle, colorScheme: 'dark' }} />
+          <input type="date" value={when} onChange={e => setWhen(e.target.value)} style={{ ...inputStyle, colorScheme: 'dark' }} />
           <label style={{ fontSize: 13.5, color: '#c9bfa6', display: 'block', marginBottom: 7 }}>{t.requests}</label>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 10 }}>
             {DIETS.map(d => {
