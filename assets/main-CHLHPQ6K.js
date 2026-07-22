@@ -1,4 +1,4 @@
-import{r as l,j as e,u as K,f as w,a as D,g as cn,c as dn,L as un,b as hn}from"./api-FFP8FVA4.js";import{K as mn}from"./KitchenDisplay-CJB4H2H-.js";import{A as pn}from"./AdminPanel-CW1x-Vja.js";/**
+import{r as l,j as e,u as K,f as w,a as D,g as cn,c as dn,L as un,b as hn}from"./api-FFP8FVA4.js";import{K as mn}from"./KitchenDisplay-CJB4H2H-.js";import{A as pn}from"./AdminPanel-pwrRyUUB.js";/**
  * react-router v7.14.0
  *
  * Copyright (c) Remix Software Inc.
