@@ -72,6 +72,13 @@ async function adminFetch(path, options = {}) {
 function adminHttpError(res) {
   const e = new Error(`http_${res.status}`); e.kind = 'http'; e.status = res.status; return e
 }
+// Parse an admin JSON response, carrying the server's own message on failure — the P4
+// endpoints return useful French validation text ("montant négatif", "date invalide …").
+async function adminJson(res) {
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) { const e = adminHttpError(res); e.serverMessage = data.error || data.message || ''; throw e }
+  return data
+}
 
 // Guide-side fetch for /api/dragons/groupes/* — carries the SESSION groupes token.
 // A 401 here does NOT touch the admin session; the /groupes page handles it (back to login).
@@ -230,6 +237,40 @@ export const api = {
     if (!res.ok) throw adminHttpError(res)
     return res.json()   // { ok, config:{…} }
   },
+  // ══ P4 · account types (GUIDE / ENTREPRISE), statement, manual entries ══
+  // Guide/company self-service statement — same {account, summary, entries} shape the admin
+  // detail returns, scoped to the signed-in account by its groupes session token.
+  groupesMyStatement: async () => {
+    const res = await groupesFetch('/me/statement')
+    if (res.status === 401) throw new Error('unauthorized')
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()
+  },
+  // GET → { ok, account:{…, account_type, commission_mode, commission_value},
+  //         summary:{entries_count,total_guests,total_amount_eur,total_reward_eur,first_date,last_date},
+  //         entries:[{source,id,date,party_size,amount_eur,discount_applied_pct,reward_eur,note,created_at}] }
+  adminGroupesAccountDetail: async (id) => {
+    const res = await adminFetch(`/admin/groupes/accounts/${id}`)
+    if (!res.ok) throw adminHttpError(res)
+    return res.json()
+  },
+  adminGroupesAccountPatch: async (id, payload) => {
+    const res = await adminFetch(`/admin/groupes/accounts/${id}`, { method: 'PATCH', body: JSON.stringify(payload) })
+    return adminJson(res)
+  },
+  adminGroupesSendInvite: async (id) => {
+    const res = await adminFetch(`/admin/groupes/accounts/${id}/send-invite`, { method: 'POST', body: '{}' })
+    return adminJson(res)
+  },
+  // Manual consumption entry (the owner recording a past service).
+  // NB: the REQUEST field is `order_date` — the response calls the same value `date`.
+  // payload: { account_id*, order_date* 'YYYY-MM-DD', party_size, amount_eur (>=0), discount_pct?, note? }
+  // → { ok, entry:{…}, reward:{ accrued: bool, … } }   accrued=false when commission is OFF.
+  adminGroupesManualOrder: async (payload) => {
+    const res = await adminFetch('/admin/groupes/manual-orders', { method: 'POST', body: JSON.stringify(payload) })
+    return adminJson(res)
+  },
+
   adminGroupesConfigSave: async (config) => {
     const res = await adminFetch('/admin/groupes/config', { method: 'POST', body: JSON.stringify(config) })
     const data = await res.json().catch(() => ({}))

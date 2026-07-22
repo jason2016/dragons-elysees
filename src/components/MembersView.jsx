@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { api, adminErrKind } from '../utils/api'
 import { useLang } from '../hooks/useLang'
+import AccountTypeBadge from './AccountTypeBadge'
 import styles from './AdminPanel.module.css'
 
 const PAGE_SIZE = 20
@@ -31,7 +32,9 @@ function Stat({ value, fr, zh, primary }) {
   )
 }
 
-function RoleChip({ m }) {
+function RoleChip({ m, acctType, lang }) {
+  // CEO — a promoted member is either a company or a guide; show which, in the shared colours.
+  if (m.is_guide && acctType) return <AccountTypeBadge type={acctType} lang={lang} size="sm" />
   const guide = m.is_guide
   const bg = guide ? 'rgba(76,175,125,0.14)' : 'rgba(255,255,255,0.05)'
   const bd = guide ? 'rgba(76,175,125,0.5)' : 'rgba(255,255,255,0.14)'
@@ -55,11 +58,13 @@ function PromoteModal({ member, tiers, defaultDiscount, cfgState, cfgErr, onRetr
   const [company, setCompany] = useState('')
   const [phone, setPhone] = useState(member.phone || '')
   const [discount, setDiscount] = useState(String(defaultDiscount ?? 10))
+  const [acctType, setAcctType] = useState('GUIDE')   // P4: GUIDE | ENTREPRISE
   const [grid, setGrid] = useState(() => toGrid(tiers))
   const [priceTouched, setPriceTouched] = useState(false)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
   const [nameBad, setNameBad] = useState(false)
+  const [confirmPrices, setConfirmPrices] = useState(null)   // ±50% guardrail
 
   // HF1: the standard prices arrive asynchronously (config fetch). If the modal was opened
   // before that resolved, the initial grid was empty — re-seed it whenever the tiers land,
@@ -74,8 +79,11 @@ function PromoteModal({ member, tiers, defaultDiscount, cfgState, cfgErr, onRetr
   const isChanged = (i, v) => { const std = tiers?.[i]?.price; return std != null && String(v) !== '' && String(std) !== String(v) }
   const changed = grid.length > 0 && grid.some((t, i) => isChanged(i, t.price))
 
-  const pricesReady = grid.length > 0 && grid.every(t => String(t.price).trim() !== '')
-  const priceNotice = cfgState === 'loading' ? 'Chargement des tarifs standard… · 正在载入标准价'
+  const isEnt = acctType === 'ENTREPRISE'
+  // A company account carries no menu grid, so the price gate simply doesn't apply to it.
+  const pricesReady = isEnt || (grid.length > 0 && grid.every(t => String(t.price).trim() !== ''))
+  const priceNotice = isEnt ? ''
+    : cfgState === 'loading' ? 'Chargement des tarifs standard… · 正在载入标准价'
     // HF3: surface WHY (network vs HTTP status) instead of a generic "unavailable".
     : !pricesReady ? (cfgErr || 'Tarifs standard indisponibles — promotion impossible. · 标准价加载失败,无法提升') : ''
 
@@ -84,15 +92,26 @@ function PromoteModal({ member, tiers, defaultDiscount, cfgState, cfgErr, onRetr
     if (!name.trim()) { setErr('Nom requis · 姓名必填'); setNameBad(true); return }
     const d = parseFloat(discount)
     if (isNaN(d) || d < 0 || d > 100) { setErr('Remise 0–100 · 折扣需 0–100'); return }
-    // Never submit an empty / unloaded price grid.
+    // Never submit an empty / unloaded price grid (guide accounts only).
     if (!pricesReady) { setErr('Tarifs standard non chargés — réessayez. · 标准价未加载,请重试'); return }
-    const menu_tiers = grid.map(t => ({ tier: Number(t.tier), label: t.label, price: parseFloat(t.price) }))
-    if (menu_tiers.some(t => isNaN(t.price) || t.price < 0)) { setErr('Prix invalide · 价格无效'); return }
+    let menu_tiers
+    if (!isEnt) {
+      menu_tiers = grid.map(t => ({ tier: Number(t.tier), label: t.label, price: parseFloat(t.price) }))
+      if (menu_tiers.some(t => isNaN(t.price) || t.price < 0)) { setErr('Prix invalide · 价格无效'); return }
+      // Guardrail: a price more than ±50% off the standard is almost always a typo
+      // (the €1-instead-of-€11 class of slip). Make the owner confirm it deliberately.
+      const wild = menu_tiers
+        .map((t, i) => ({ label: t.label || `${t.tier} plats`, price: t.price, std: parseFloat(tiers?.[i]?.price) }))
+        .filter(t => t.std > 0 && Math.abs(t.price - t.std) / t.std > 0.5)
+      if (wild.length && !confirmPrices) { setConfirmPrices(wild); return }
+    }
+    setConfirmPrices(null)
     setBusy(true)
     try {
       const r = await api.adminPromoteGuide({
         user_id: member.id, name: name.trim(), company: company.trim(),
-        phone: phone.trim(), discount_pct: d, menu_tiers,
+        phone: phone.trim(), discount_pct: d, account_type: acctType,
+        ...(menu_tiers ? { menu_tiers } : {}),
       })
       onDone(r)
     } catch (e) {
@@ -117,6 +136,29 @@ function PromoteModal({ member, tiers, defaultDiscount, cfgState, cfgErr, onRetr
           {member.email} · ID {member.id}
         </p>
 
+        {/* P4 — the account family decides the whole shape of the form, so it comes first. */}
+        <div style={{ marginBottom: 12 }}>
+          <span style={{ display: 'block', fontSize: 12.5, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 6 }}>
+            Type de compte · 账户类型 *
+          </span>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {[['GUIDE', '🧭 Guide · 导游'], ['ENTREPRISE', '🏢 Entreprise · 公司']].map(([k, lbl]) => {
+              const on = acctType === k
+              const gold = k === 'GUIDE'
+              return (
+                <button key={k} onClick={() => setAcctType(k)}
+                  style={{
+                    flex: '1 1 140px', padding: '10px 12px', borderRadius: 10, fontSize: 13.5, fontWeight: 700,
+                    cursor: 'pointer', whiteSpace: 'nowrap',
+                    border: '1px solid ' + (on ? (gold ? 'rgba(212,163,0,0.7)' : 'rgba(96,149,255,0.7)') : 'rgba(255,255,255,0.16)'),
+                    background: on ? (gold ? 'rgba(212,163,0,0.16)' : 'rgba(96,149,255,0.16)') : 'transparent',
+                    color: on ? (gold ? '#e0b64a' : '#8fbaff') : 'var(--text-muted)',
+                  }}>{lbl}</button>
+              )
+            })}
+          </div>
+        </div>
+
         {/* HF1: the placeholder used to be a realistic name ("Li Jilei"), which on a phone reads
             as an already-filled value — the owner tapped Confirmer and hit "Nom requis" on what
             looked like a completed field. Placeholders are now unmistakably instructions. */}
@@ -126,6 +168,7 @@ function PromoteModal({ member, tiers, defaultDiscount, cfgState, cfgErr, onRetr
         <Field label="Téléphone · 电话" value={phone} onChange={setPhone} placeholder="Optionnel · 可留空" />
         <Field label="Remise % · 折扣百分比" value={discount} onChange={setDiscount} placeholder="10" />
 
+        {!isEnt && (
         <div style={{ marginTop: 14 }}>
           <div style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 6 }}>
             Grille tarifaire · 套餐档位
@@ -157,8 +200,24 @@ function PromoteModal({ member, tiers, defaultDiscount, cfgState, cfgErr, onRetr
               Prix modifiés — enregistrés pour ce compte et tracés dans l'audit · 改价将入审计
             </p>
           )}
-        </div>
+        </div>)}
 
+        {confirmPrices && (
+          <div style={{ marginTop: 12, padding: '10px 12px', borderRadius: 10, background: 'rgba(193,59,59,0.12)', border: '1px solid rgba(193,59,59,0.5)' }}>
+            <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 700, color: '#e08a8a' }}>
+              ⚠️ Prix très éloigné du standard · 价格明显偏离标准
+            </p>
+            {confirmPrices.map((w, i) => (
+              <p key={i} style={{ margin: '2px 0', fontSize: 12.5, color: 'var(--text-secondary)' }}>
+                {w.label} : <strong>{w.price} €</strong> <span style={{ color: 'var(--text-muted)' }}>(standard {w.std} €)</span>
+              </p>
+            ))}
+            <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
+              <button onClick={submit} disabled={busy} style={btn(true)}>Confirmer quand même · 仍然确认</button>
+              <button onClick={() => setConfirmPrices(null)} disabled={busy} style={btn(false)}>Corriger · 返回修改</button>
+            </div>
+          </div>
+        )}
         {err && <p style={{ margin: '12px 0 0', fontSize: 13, color: '#e08a8a' }}>{err}</p>}
 
         <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 18, flexWrap: 'wrap' }}>
@@ -197,7 +256,7 @@ function Field({ label, value, onChange, placeholder, invalid }) {
 
 // P3-B — every registered member, with role. Read-only except the P3-C promote action.
 export default function MembersView() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const [members, setMembers] = useState([])
   const [stats, setStats] = useState(null)
   const [total, setTotal] = useState(0)
@@ -209,6 +268,7 @@ export default function MembersView() {
   const [cfg, setCfg] = useState(null)          // global groupes config (tier prefill)
   const [cfgState, setCfgState] = useState('loading')   // loading | ready | error
   const [cfgErr, setCfgErr] = useState('')              // HF3: typed reason, shown verbatim
+  const [typeById, setTypeById] = useState({})          // guide_account_id → account_type
   const [flash, setFlash] = useState('')
 
   const load = async (p = page, s = search) => {
@@ -236,6 +296,11 @@ export default function MembersView() {
       })
   }
   useEffect(() => { loadCfg() }, [])
+  useEffect(() => {
+    api.adminGroupesAccounts()
+      .then(d => setTypeById(Object.fromEntries((d.accounts || []).map(a => [a.id, a.account_type]))))
+      .catch(() => {})   // badge is decorative — its absence must never block the list
+  }, [])
 
   // Memoised so its identity only changes when the config does — the modal re-seeds its price
   // grid on [tiers], which would otherwise fire on every render and wipe the owner's edits.
@@ -296,7 +361,7 @@ export default function MembersView() {
           <div style={{ flex: '0 0 auto', fontSize: 11.5, color: 'var(--text-muted)' }}>
             Inscrit · 注册<br />{fmtWhen(m.created_at)}
           </div>
-          <RoleChip m={m} />
+          <RoleChip m={m} acctType={typeById[m.guide_account_id]} lang={lang} />
           <div style={{ flex: '0 0 auto' }}>
             {m.is_guide ? (
               <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>

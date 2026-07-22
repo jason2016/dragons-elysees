@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { api, getGroupesToken, clearGroupesToken } from '../utils/api'
 import { useLang } from '../hooks/useLang'
+import GroupesStatement from './GroupesStatement'
 
 // Groupes & Guides — group-booking funnel for tour guides / agencies.
 // Guide applies → owner approves → guide logs in by email OTP (session token) → books a
@@ -22,7 +23,7 @@ const T = {
     applyExists: 'Un compte existe déjà pour cet email — connectez-vous.',
     loginEmail: 'Email du compte *', sendCode: 'Recevoir le code', codeSent: 'Code envoyé par email.',
     codeLabel: 'Code reçu par email *', verify: 'Se connecter', changeEmail: '← Changer d’email', resend: 'Renvoyer le code',
-    welcome: 'Espace groupes', logout: 'Déconnexion',
+    welcome: 'Espace groupes', logout: 'Déconnexion', tabBook: 'Réserver', tabAccount: 'Mon compte',
     chooseFormula: 'Choisissez une formule', perHead: '/ pers.',
     carteTitle: 'À la carte', carteDesc: 'Prix à la carte sur place — remise groupe dès {min} personnes.',
     party: 'Nombre de personnes', partyMin: 'Min. {n} pers.', date: 'Date', lead: 'Au moins {h}h à l’avance',
@@ -43,7 +44,7 @@ const T = {
     applyExists: '该邮箱已有账号——请直接登录。',
     loginEmail: '账号邮箱 *', sendCode: '获取验证码', codeSent: '验证码已发送至邮箱。',
     codeLabel: '邮箱验证码 *', verify: '登录', changeEmail: '← 更换邮箱', resend: '重新发送',
-    welcome: '团体专区', logout: '退出',
+    welcome: '团体专区', logout: '退出', tabBook: '预定', tabAccount: '我的账单',
     chooseFormula: '选择套餐', perHead: '/人',
     carteTitle: '单点 À la carte', carteDesc: '到店按单点计价 —— {min} 人起享团体折扣。',
     party: '人数', partyMin: '{n} 人起', date: '日期', lead: '需提前 {h} 小时',
@@ -64,7 +65,7 @@ const T = {
     applyExists: 'An account already exists for this email — please sign in.',
     loginEmail: 'Account email *', sendCode: 'Get the code', codeSent: 'Code sent by email.',
     codeLabel: 'Code from email *', verify: 'Sign in', changeEmail: '← Change email', resend: 'Resend code',
-    welcome: 'Groups area', logout: 'Sign out',
+    welcome: 'Groups area', logout: 'Sign out', tabBook: 'Book', tabAccount: 'My account',
     chooseFormula: 'Choose a formula', perHead: '/ guest',
     carteTitle: 'À la carte', carteDesc: 'Priced à la carte on site — group discount from {min} guests.',
     party: 'Number of guests', partyMin: 'Min. {n} guests', date: 'Date', lead: 'At least {h}h in advance',
@@ -85,7 +86,7 @@ const T = {
     applyExists: 'Ya existe una cuenta con este email — inicie sesión.',
     loginEmail: 'Email de la cuenta *', sendCode: 'Recibir el código', codeSent: 'Código enviado por email.',
     codeLabel: 'Código del email *', verify: 'Entrar', changeEmail: '← Cambiar email', resend: 'Reenviar código',
-    welcome: 'Área de grupos', logout: 'Salir',
+    welcome: 'Área de grupos', logout: 'Salir', tabBook: 'Reservar', tabAccount: 'Mi cuenta',
     chooseFormula: 'Elija una fórmula', perHead: '/ pers.',
     carteTitle: 'À la carte', carteDesc: 'Precio à la carte en el sitio — descuento de grupo desde {min} personas.',
     party: 'Número de personas', partyMin: 'Mín. {n} pers.', date: 'Fecha', lead: 'Al menos {h}h de antelación',
@@ -136,7 +137,7 @@ export default function GroupesPage() {
 
         {phase === 'gate' && <Gate t={t} onApplied={() => setPhase('applied')} onLoggedIn={() => setPhase('booking')} />}
         {phase === 'applied' && <Applied t={t} onBack={() => setPhase('gate')} />}
-        {phase === 'booking' && <Booking t={t} lang={lang} onLogout={() => { clearGroupesToken(); setPhase('gate') }} />}
+        {phase === 'booking' && <LoggedIn t={t} lang={lang} onLogout={() => { clearGroupesToken(); setPhase('gate') }} />}
       </div>
     </div>
   )
@@ -252,8 +253,35 @@ function Applied({ t, onBack }) {
   )
 }
 
+
+// P4 — signed-in shell: the guide/company can either place a booking or read their own
+// statement. Two tabs rather than a second page keeps the OTP session in one place.
+function LoggedIn({ t, lang, onLogout }) {
+  const [tab, setTab] = useState('book')
+  const seg = (on) => ({
+    flex: 1, padding: '9px 0', textAlign: 'center', cursor: 'pointer', fontWeight: 700,
+    fontSize: 13.5, borderRadius: 9, border: 'none',
+    color: on ? '#0a0a0a' : GOLD, background: on ? GOLD : 'transparent',
+  })
+  return (
+    <>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <span style={{ fontSize: 13, color: '#a99f88' }}>{t.welcome}</span>
+        <button onClick={onLogout} style={{ background: 'none', border: `1px solid ${GOLD}44`, color: GOLD, borderRadius: 8, padding: '5px 11px', fontSize: 12.5, cursor: 'pointer' }}>{t.logout}</button>
+      </div>
+      <div style={{ display: 'flex', gap: 6, padding: 5, background: 'rgba(255,255,255,0.05)', borderRadius: 12, marginBottom: 16 }}>
+        <button style={seg(tab === 'book')} onClick={() => setTab('book')}>{t.tabBook}</button>
+        <button style={seg(tab === 'account')} onClick={() => setTab('account')}>{t.tabAccount}</button>
+      </div>
+      {tab === 'book'
+        ? <Booking t={t} lang={lang} onLogout={onLogout} hideHeader />
+        : <GroupesStatement lang={lang} onUnauthorized={onLogout} />}
+    </>
+  )
+}
+
 // ═══ BOOKING: menu tiers + form + confirmation ═══
-function Booking({ t, lang, onLogout }) {
+function Booking({ t, lang, onLogout, hideHeader }) {
   const [menu, setMenu] = useState(null)
   const [loadErr, setLoadErr] = useState('')
   const [tier, setTier] = useState(null)          // 5|6|7|8|'carte'
@@ -314,10 +342,12 @@ function Booking({ t, lang, onLogout }) {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-        <span style={{ fontSize: 13, color: '#a99f88' }}>{t.welcome}</span>
-        <button onClick={onLogout} style={{ background: 'none', border: `1px solid ${GOLD}44`, color: GOLD, borderRadius: 8, padding: '5px 11px', fontSize: 12.5, cursor: 'pointer' }}>{t.logout}</button>
-      </div>
+      {!hideHeader && (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+          <span style={{ fontSize: 13, color: '#a99f88' }}>{t.welcome}</span>
+          <button onClick={onLogout} style={{ background: 'none', border: `1px solid ${GOLD}44`, color: GOLD, borderRadius: 8, padding: '5px 11px', fontSize: 12.5, cursor: 'pointer' }}>{t.logout}</button>
+        </div>
+      )}
 
       <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>{t.chooseFormula}</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>

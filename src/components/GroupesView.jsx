@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import { api } from '../utils/api'
+import { useLang } from '../hooks/useLang'
+import AccountTypeBadge, { typeOf } from './AccountTypeBadge'
+import GroupesAccountDetail from './GroupesAccountDetail'
 import styles from './AdminPanel.module.css'
 
 // Admin « Groupes · 团体 » tab — four blocks:
@@ -21,6 +24,9 @@ const STATUS_CHIP = {
 }
 
 export default function GroupesView() {
+  const { lang } = useLang()
+  const [openId, setOpenId] = useState(null)          // P4: drill into an account
+  const [typeFilter, setTypeFilter] = useState('ALL') // CEO: split the two families
   const [accounts, setAccounts] = useState([])
   const [bookings, setBookings] = useState([])
   const [period, setPeriod] = useState(thisMonth)
@@ -53,6 +59,9 @@ export default function GroupesView() {
     } catch { /* refresh reconciles */ } finally { setBusyId(null) }
   }
 
+  // P4 — drill-down replaces the list entirely (keeps the mobile viewport uncluttered).
+  if (openId) return <GroupesAccountDetail accountId={openId} onBack={() => { setOpenId(null); load() }} />
+
   const pending = accounts.filter(a => a.status === 'pending')
   const others = accounts.filter(a => a.status !== 'pending')
 
@@ -75,6 +84,7 @@ export default function GroupesView() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                   <strong style={{ fontSize: 15 }}>{a.name}</strong>
                   {a.company && <span style={{ color: 'var(--text-secondary)', fontSize: 13 }}>· {a.company}</span>}
+                  <AccountTypeBadge account={a} lang={lang} size="sm" />
                   <span style={{ color: 'var(--text-muted)', fontSize: 12, marginLeft: 'auto' }}>{fmtDate(a.created_at)}</span>
                 </div>
                 <div style={{ fontSize: 12.5, color: 'var(--text-muted)', marginTop: 4 }}>
@@ -96,14 +106,47 @@ export default function GroupesView() {
         )}
         {/* validated / refused accounts, compact */}
         {others.length > 0 && (
-          <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {others.map(a => (
-              <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--text-secondary)', padding: '4px 2px' }}>
-                <Chip status={a.status} />
-                <strong>{a.name}</strong>{a.company && <span style={{ color: 'var(--text-muted)' }}>· {a.company}</span>}
-                <span style={{ color: 'var(--text-muted)', marginLeft: 'auto', fontSize: 12 }}>{a.email}</span>
-              </div>
-            ))}
+          <div style={{ marginTop: 14 }}>
+            {/* CEO — the two families are run differently, so they never share a list. */}
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+              {[['ALL', 'Tous · 全部'], ['ENTREPRISE', '🏢 Entreprises · 公司'], ['GUIDE', '🧭 Guides · 导游']].map(([k, lbl]) => (
+                <button key={k} onClick={() => setTypeFilter(k)}
+                  style={{
+                    padding: '5px 12px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap',
+                    border: '1px solid ' + (typeFilter === k ? 'rgba(201,168,76,0.6)' : 'rgba(255,255,255,0.16)'),
+                    background: typeFilter === k ? 'rgba(201,168,76,0.18)' : 'transparent',
+                    color: typeFilter === k ? 'var(--accent-gold,#f5c518)' : 'var(--text-muted)',
+                  }}>{lbl}</button>
+              ))}
+            </div>
+            {['ENTREPRISE', 'GUIDE'].filter(g => typeFilter === 'ALL' || typeFilter === g).map(group => {
+              const rows = others.filter(a => typeOf(a) === group)
+              if (rows.length === 0) return null
+              return (
+                <div key={group} style={{ marginBottom: 12 }}>
+                  <div style={{ fontSize: 11.5, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '0 0 6px' }}>
+                    {group === 'ENTREPRISE' ? '🏢 Entreprises · 公司' : '🧭 Guides · 导游'} · {rows.length}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {rows.map(a => (
+                      <div key={a.id} onClick={() => a.status === 'approved' && setOpenId(a.id)}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', fontSize: 13,
+                          color: 'var(--text-secondary)', padding: '9px 11px', borderRadius: 10,
+                          background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-color,#2a2a2a)',
+                          cursor: a.status === 'approved' ? 'pointer' : 'default',
+                        }}>
+                        <Chip status={a.status} />
+                        <AccountTypeBadge account={a} lang={lang} size="sm" />
+                        <strong style={{ overflowWrap: 'anywhere' }}>{a.name}</strong>
+                        {a.company && <span style={{ color: 'var(--text-muted)', overflowWrap: 'anywhere' }}>· {a.company}</span>}
+                        {a.status === 'approved' && <span style={{ marginLeft: 'auto', color: 'var(--accent-gold,#f5c518)', fontSize: 12, fontWeight: 700 }}>›</span>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         )}
       </div>
@@ -153,7 +196,14 @@ export default function GroupesView() {
         </div>
         {(!rewards || (rewards.by_account || []).length === 0) ? <Muted>Aucune récompense sur cette période. · 该账期暂无奖励</Muted> : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {rewards.by_account.map((r, i) => (
+            {rewards.by_account.filter(r => {
+              // CEO — a commission-OFF account (typically a company) can never owe a reward;
+              // showing a permanent 0,00 € row is noise on the payout sheet.
+              const acc = accounts.find(a => a.id === (r.account_id ?? r.id))
+              const off = acc && String(acc.commission_mode || '').toUpperCase() === 'OFF'
+              const amount = Number(r.total_reward ?? r.reward_total ?? r.reward ?? r.total ?? 0)
+              return !(off && !amount)
+            }).map((r, i) => (
               <div key={r.account_id ?? i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13.5, padding: '8px 10px', background: 'rgba(255,255,255,0.02)', borderRadius: 8 }}>
                 <strong>{r.account_name || r.name || r.company || r.account_company || `#${r.account_id}`}</strong>
                 {(r.bookings ?? r.bookings_count ?? r.count) != null && <span style={{ color: 'var(--text-muted)', fontSize: 12 }}>· {r.bookings ?? r.bookings_count ?? r.count} groupe(s){r.total_guests != null ? ` · ${r.total_guests} pers.` : ''}</span>}
