@@ -97,6 +97,24 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Groupes & Guides — trade channel teaser (A2). Deliberately price-free: the tier
+          prices are commercial leverage and change with the config; /groupes shows them
+          to signed-in guides only. */}
+      <section className={styles.groupesBlock}>
+        <div className={styles.groupesCard}>
+          <span className={styles.groupesLabel}>{t('homeGroupesLabel')}</span>
+          <h2 className={styles.groupesTitle}>{t('homeGroupesTitle')}</h2>
+          <ul className={styles.groupesPoints}>
+            <li>{t('homeGroupesP1')}</li>
+            <li>{t('homeGroupesP2')}</li>
+            <li>{t('homeGroupesP3')}</li>
+          </ul>
+          <button className={styles.groupesCta} onClick={() => navigate('/groupes')}>
+            {t('homeGroupesCta')}
+          </button>
+        </div>
+      </section>
     </div>
   )
 }
