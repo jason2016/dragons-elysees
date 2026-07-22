@@ -53,6 +53,12 @@ export default function Header() {
             {t('reservation.nav')}
           </Link>
 
+          {/* P3-A1: groups/guides channel promoted out of the footer into the main nav.
+              The personal-reservation flow above is untouched. */}
+          <Link to="/groupes" className={styles.navLink}>
+            {t('groupesNav')}
+          </Link>
+
           {isLoggedIn ? (
             <Link to="/account" className={styles.navLink}>
               <span className={styles.accountDot} />

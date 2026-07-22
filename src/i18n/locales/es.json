@@ -16,7 +16,10 @@
     "verifyPending": "El pago se está procesando",
     "verifyPendingHint": "Tu saldo se actualizará en breve. Puedes actualizar tu cuenta.",
     "backToAccount": "Volver a la cuenta",
-    "cat": { "paid": "Recargado", "bonus": "Fidelidad" },
+    "cat": {
+      "paid": "Recargado",
+      "bonus": "Fidelidad"
+    },
     "src": {
       "recharge": "Recarga",
       "cashback": "Cashback",
@@ -28,6 +31,7 @@
     }
   },
   "menu": "Menú",
+  "groupesNav": "Grupos",
   "signIn": "Iniciar sesión",
   "myAccount": "Mi cuenta",
   "heroEyebrow": "11 Rue de Berri · París 8",

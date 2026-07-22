@@ -16,7 +16,10 @@
     "verifyPending": "Payment is being processed",
     "verifyPendingHint": "Your balance will update shortly. You can refresh your account.",
     "backToAccount": "Back to account",
-    "cat": { "paid": "Topped up", "bonus": "Loyalty" },
+    "cat": {
+      "paid": "Topped up",
+      "bonus": "Loyalty"
+    },
     "src": {
       "recharge": "Top-up",
       "cashback": "Cashback",
@@ -28,6 +31,7 @@
     }
   },
   "menu": "Menu",
+  "groupesNav": "Groups",
   "signIn": "Sign In",
   "myAccount": "My Account",
   "heroEyebrow": "11 Rue de Berri · Paris 8",

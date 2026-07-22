@@ -16,7 +16,10 @@
     "verifyPending": "支付处理中",
     "verifyPendingHint": "余额稍后更新,可刷新账户查看。",
     "backToAccount": "返回账户",
-    "cat": { "paid": "充值", "bonus": "返利" },
+    "cat": {
+      "paid": "充值",
+      "bonus": "返利"
+    },
     "src": {
       "recharge": "充值",
       "cashback": "返现",
@@ -28,6 +31,7 @@
     }
   },
   "menu": "菜单",
+  "groupesNav": "团体预定",
   "signIn": "登录",
   "myAccount": "我的账户",
   "heroEyebrow": "巴黎香榭丽舍旁 · 11 Rue de Berri",

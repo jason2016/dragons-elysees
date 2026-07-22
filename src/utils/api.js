@@ -177,6 +177,24 @@ export const api = {
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     return res.json()   // { accounts:[{ id, name, company, email, phone, status, discount_pct, created_at, approved_at }] }
   },
+  // P3-B — read-only list of EVERY registered member (customers) + guide role.
+  // Separate from adminGetContacts (which aggregates bookings): a member who registered
+  // but never booked appears only here. params: { search, page, page_size }.
+  adminGetMembers: async (params = {}) => {
+    const qs = new URLSearchParams(params).toString()
+    const res = await adminFetch(`/admin/members${qs ? `?${qs}` : ''}`)
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return res.json()   // { members:[…], total, page, page_size, stats:{ total_members, total_guides } }
+  },
+  // P3-C — promote a registered member into an APPROVED guide account (no OTP/approval wait).
+  // payload: { user_id*, name*, company?, phone?, discount_pct?, menu_tiers? }
+  // 409 = already a guide (idempotency guard). Writes one admin_audit_log row server-side.
+  adminPromoteGuide: async (payload) => {
+    const res = await adminFetch('/admin/groupes/promote', { method: 'POST', body: JSON.stringify(payload) })
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new Error(data.message || data.error || `HTTP ${res.status}`)
+    return data
+  },
   adminGroupesAccountAction: async (accountId, action) => {   // action: 'approve' | 'reject'
     const res = await adminFetch('/admin/groupes/accounts', { method: 'POST', body: JSON.stringify({ account_id: accountId, action }) })
     const data = await res.json().catch(() => ({}))

@@ -16,7 +16,10 @@
     "verifyPending": "Paiement en cours de traitement",
     "verifyPendingHint": "Votre solde sera mis à jour sous peu. Vous pouvez actualiser votre compte.",
     "backToAccount": "Retour au compte",
-    "cat": { "paid": "Rechargé", "bonus": "Fidélité" },
+    "cat": {
+      "paid": "Rechargé",
+      "bonus": "Fidélité"
+    },
     "src": {
       "recharge": "Rechargement",
       "cashback": "Cashback",
@@ -28,6 +31,7 @@
     }
   },
   "menu": "Menu",
+  "groupesNav": "Groupes",
   "signIn": "Connexion",
   "myAccount": "Mon compte",
   "heroEyebrow": "11 Rue de Berri · Paris 8e",
