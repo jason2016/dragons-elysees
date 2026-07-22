@@ -102,6 +102,46 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  /* Nothing inside a tab may widen the page on mobile (P3-R2). */
+  min-width: 0;
+}
+
+/* ── Admin tab strip ──────────────────────────────────────────────
+   6 tabs don't fit a 375px viewport. The strip scrolls horizontally on its
+   own (scrollbar hidden) so it never widens the page; the active tab is
+   centred via scrollIntoView({inline:'center'}) — see AdminPanel.jsx. */
+.tabStrip {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-color, #2a2a2a);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.tabStrip::-webkit-scrollbar { display: none; }
+
+.tabBtn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: 10px 18px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.tabBtnActive {
+  color: var(--accent-gold, #d4a300);
+  border-bottom-color: var(--accent-gold, #d4a300);
+}
+@media (max-width: 600px) {
+  .tabBtn { padding: 10px 12px; font-size: 14px; }
 }
 
 /* Stats */

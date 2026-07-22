@@ -81,12 +81,12 @@ function PromoteModal({ member, tiers, defaultDiscount, onClose, onDone }) {
   return (
     <div onClick={onClose} style={{
       position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.62)', zIndex: 900,
-      display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16,
+      display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 12,
     }}>
       <div onClick={e => e.stopPropagation()} style={{
-        width: 'min(560px, 100%)', maxHeight: '88vh', overflowY: 'auto',
+        width: 'min(560px, 100%)', maxHeight: '88vh', overflowY: 'auto', overflowX: 'hidden',
         background: 'var(--bg-elevated, #16181d)', border: '1px solid rgba(201,168,76,0.35)',
-        borderRadius: 16, padding: '20px 22px',
+        borderRadius: 16, padding: 'clamp(14px, 4vw, 22px)',
       }}>
         <h3 style={{ margin: '0 0 4px', fontSize: 18, color: 'var(--accent-gold, #f5c518)' }}>
           Promouvoir en compte groupe · 提升为团体账户
@@ -107,10 +107,10 @@ function PromoteModal({ member, tiers, defaultDiscount, onClose, onDone }) {
           </div>
           {grid.map((t, i) => (
             <div key={t.tier} style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
-              <span style={{ flex: 1, fontSize: 13, color: 'var(--text-secondary)' }}>{t.label || `${t.tier} plats`}</span>
+              <span style={{ flex: '1 1 auto', minWidth: 0, fontSize: 13, color: 'var(--text-secondary)', overflowWrap: 'anywhere' }}>{t.label || `${t.tier} plats`}</span>
               <input value={t.price} onChange={e => setPrice(i, e.target.value)} inputMode="decimal"
                 style={{
-                  width: 90, padding: '6px 9px', borderRadius: 8, textAlign: 'right',
+                  width: 84, flex: '0 0 auto', padding: '6px 9px', borderRadius: 8, textAlign: 'right',
                   background: 'rgba(255,255,255,0.05)', color: 'var(--text-primary,#fff)',
                   border: '1px solid ' + (String(tiers[i]?.price) !== String(t.price) ? 'rgba(245,197,24,0.7)' : 'rgba(255,255,255,0.14)'),
                 }} />
@@ -126,7 +126,7 @@ function PromoteModal({ member, tiers, defaultDiscount, onClose, onDone }) {
 
         {err && <p style={{ margin: '12px 0 0', fontSize: 13, color: '#e08a8a' }}>{err}</p>}
 
-        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 18 }}>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 18, flexWrap: 'wrap' }}>
           <button onClick={onClose} disabled={busy} style={btn(false)}>Annuler · 取消</button>
           <button onClick={submit} disabled={busy} style={btn(true)}>
             {busy ? '…' : 'Confirmer · 确认提升'}
@@ -139,6 +139,7 @@ function PromoteModal({ member, tiers, defaultDiscount, onClose, onDone }) {
 
 const btn = (primary) => ({
   padding: '8px 16px', borderRadius: 10, fontSize: 13.5, fontWeight: 700, cursor: 'pointer',
+  whiteSpace: 'nowrap',
   border: '1px solid ' + (primary ? 'rgba(201,168,76,0.6)' : 'rgba(255,255,255,0.18)'),
   background: primary ? 'rgba(201,168,76,0.18)' : 'transparent',
   color: primary ? 'var(--accent-gold, #f5c518)' : 'var(--text-muted)',
@@ -228,12 +229,13 @@ export default function MembersView() {
           padding: '11px 13px', marginBottom: 8, borderRadius: 12,
           background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(201,168,76,0.16)',
         }}>
-          <div style={{ flex: '1 1 220px', minWidth: 0 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary,#fff)', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {/* Long names / e-mail addresses must WRAP, never widen the row (375px baseline). */}
+          <div style={{ flex: '1 1 200px', minWidth: 0 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary,#fff)', overflowWrap: 'anywhere' }}>
               {m.name || <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(sans nom · 无姓名)</span>}
             </div>
-            <div style={{ fontSize: 12.5, color: 'var(--text-muted)' }}>{m.email}</div>
-            {m.phone && <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{m.phone}</div>}
+            <div style={{ fontSize: 12.5, color: 'var(--text-muted)', overflowWrap: 'anywhere' }}>{m.email}</div>
+            {m.phone && <div style={{ fontSize: 12, color: 'var(--text-muted)', overflowWrap: 'anywhere' }}>{m.phone}</div>}
           </div>
           <div style={{ flex: '0 0 auto', fontSize: 11.5, color: 'var(--text-muted)' }}>
             Inscrit · 注册<br />{fmtWhen(m.created_at)}

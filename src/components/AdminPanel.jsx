@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { api, formatPrice, getAdminToken, clearAdminToken } from '../utils/api'
 import { useLang } from '../hooks/useLang'
 import BookingsView from './BookingsView'
@@ -16,6 +16,14 @@ const STATUS_COLOR = {
   ordered: '#d4a300', pending: '#6b6355', paid: '#4285F4', preparing: '#ff7a44', ready: '#4caf7d',
   delivering: '#ff9944', completed: '#6b6355', cancelled: '#c13b3b',
 }
+const TABS = [
+  ['orders', 'Commandes'],
+  ['bookings', 'Réservations'],
+  ['contacts', 'Clients / 客户'],
+  ['members', 'Inscrits · 注册用户'],
+  ['reviews', 'Avis · 评价'],
+  ['groupes', 'Groupes · 团体'],
+]
 
 export default function AdminPanel() {
   const { t, lang } = useLang()
@@ -52,6 +60,18 @@ export default function AdminPanel() {
   useEffect(() => {
     if (unlocked) fetchData()
   }, [unlocked, dateFilter])
+
+  // Keep the active tab visible on the mobile strip: centre it when it changes (smooth) and
+  // on first paint (instant). block:'nearest' so the page itself never jumps vertically.
+  const tabRefs = useRef({})
+  const firstTabScroll = useRef(true)
+  useEffect(() => {
+    if (!unlocked) return
+    const el = tabRefs.current[view]
+    if (!el || typeof el.scrollIntoView !== 'function') return
+    el.scrollIntoView({ inline: 'center', block: 'nearest', behavior: firstTabScroll.current ? 'auto' : 'smooth' })
+    firstTabScroll.current = false
+  }, [view, unlocked])
 
   // Any admin request that 401s (expired/invalid token) → drop back to the login screen.
   useEffect(() => {
@@ -145,16 +165,15 @@ export default function AdminPanel() {
       </div>
 
       <div className={styles.content}>
-        {/* Tabs: orders / reservations */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 16, borderBottom: '1px solid var(--border-color, #2a2a2a)' }}>
-          {[['orders', 'Commandes'], ['bookings', 'Réservations'], ['contacts', 'Clients / 客户'], ['members', 'Inscrits · 注册用户'], ['reviews', 'Avis · 评价'], ['groupes', 'Groupes · 团体']].map(([k, lbl]) => (
-            <button key={k} onClick={() => setView(k)}
-              style={{
-                padding: '10px 18px', background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: 15, fontWeight: 700, marginBottom: -1,
-                color: view === k ? 'var(--accent-gold, #d4a300)' : 'var(--text-muted)',
-                borderBottom: view === k ? '2px solid var(--accent-gold, #d4a300)' : '2px solid transparent',
-              }}>
+        {/* Tabs — horizontally scrollable strip; the active one is auto-centred (P3-R2). */}
+        <div className={styles.tabStrip}>
+          {TABS.map(([k, lbl]) => (
+            <button
+              key={k}
+              ref={el => { tabRefs.current[k] = el }}
+              onClick={() => setView(k)}
+              className={`${styles.tabBtn} ${view === k ? styles.tabBtnActive : ''}`}
+            >
               {lbl}
             </button>
           ))}
