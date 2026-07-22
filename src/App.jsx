@@ -23,6 +23,7 @@ import AdminPanel from './components/AdminPanel'
 import DeliveryPanel from './components/DeliveryPanel'
 import OrderTrack from './components/OrderTrack'
 import InstallPrompt from './components/InstallPrompt'
+import UpdateBanner from './components/UpdateBanner'
 import ReviewLanding from './components/ReviewLanding'
 import GroupesPage from './components/GroupesPage'
 import IntroOverlay from './components/IntroOverlay'
@@ -62,6 +63,7 @@ function AppRoutes() {
       <Header />
       <Cart />
       <InstallPrompt />
+      <UpdateBanner />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/reservation" element={<ReservationPage />} />

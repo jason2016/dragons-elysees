@@ -45,18 +45,32 @@ async function request(path, options = {}) {
 
 // Admin fetch for the /api/dragons namespace (bookings v2). Always carries the
 // admin Bearer token; 401 → admin logout. Returns the raw Response (callers parse).
+// HF3 — typed admin failures. fetch() rejects ONLY on a transport-level problem (offline,
+// DNS, TLS, blocked/failed service-worker interception); an HTTP error status still resolves.
+// Tagging the two apart lets the UI say "device can't reach the network" vs "server said N",
+// so a customer screenshot is already the diagnosis.
+export const adminErrKind = (e) => (e && e.kind) || 'unknown'
 async function adminFetch(path, options = {}) {
   const token = getAdminToken()
-  const res = await fetch(`${ADMIN_BASE}${path}`, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-  })
-  if (res.status === 401) { onAdminUnauthorized(); throw new Error('unauthorized') }
+  let res
+  try {
+    res = await fetch(`${ADMIN_BASE}${path}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    })
+  } catch {
+    const err = new Error('network_unreachable'); err.kind = 'network'; throw err
+  }
+  if (res.status === 401) { onAdminUnauthorized(); const e = new Error('unauthorized'); e.kind = 'auth'; throw e }
   return res
+}
+// Raise a typed HTTP failure from a non-OK admin response.
+function adminHttpError(res) {
+  const e = new Error(`http_${res.status}`); e.kind = 'http'; e.status = res.status; return e
 }
 
 // Guide-side fetch for /api/dragons/groupes/* — carries the SESSION groupes token.
@@ -213,7 +227,7 @@ export const api = {
   },
   adminGroupesConfig: async () => {
     const res = await adminFetch('/admin/groupes/config')
-    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    if (!res.ok) throw adminHttpError(res)
     return res.json()   // { ok, config:{…} }
   },
   adminGroupesConfigSave: async (config) => {

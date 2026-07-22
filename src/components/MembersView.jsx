@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
-import { api } from '../utils/api'
+import { api, adminErrKind } from '../utils/api'
+import { useLang } from '../hooks/useLang'
 import styles from './AdminPanel.module.css'
 
 const PAGE_SIZE = 20
@@ -49,7 +50,7 @@ function RoleChip({ m }) {
 // editable — any change is persisted as a per-account grid AND recorded in admin_audit_log.
 const toGrid = (tiers) => (tiers || []).map(t => ({ ...t, price: t.price == null ? '' : String(t.price) }))
 
-function PromoteModal({ member, tiers, defaultDiscount, cfgState, onRetryCfg, onClose, onDone }) {
+function PromoteModal({ member, tiers, defaultDiscount, cfgState, cfgErr, onRetryCfg, onClose, onDone }) {
   const [name, setName] = useState(member.name || '')
   const [company, setCompany] = useState('')
   const [phone, setPhone] = useState(member.phone || '')
@@ -75,7 +76,8 @@ function PromoteModal({ member, tiers, defaultDiscount, cfgState, onRetryCfg, on
 
   const pricesReady = grid.length > 0 && grid.every(t => String(t.price).trim() !== '')
   const priceNotice = cfgState === 'loading' ? 'Chargement des tarifs standard… · 正在载入标准价'
-    : !pricesReady ? 'Tarifs standard indisponibles — promotion impossible. · 标准价加载失败,无法提升' : ''
+    // HF3: surface WHY (network vs HTTP status) instead of a generic "unavailable".
+    : !pricesReady ? (cfgErr || 'Tarifs standard indisponibles — promotion impossible. · 标准价加载失败,无法提升') : ''
 
   const submit = async () => {
     setErr(''); setNameBad(false)
@@ -195,6 +197,7 @@ function Field({ label, value, onChange, placeholder, invalid }) {
 
 // P3-B — every registered member, with role. Read-only except the P3-C promote action.
 export default function MembersView() {
+  const { t } = useLang()
   const [members, setMembers] = useState([])
   const [stats, setStats] = useState(null)
   const [total, setTotal] = useState(0)
@@ -205,6 +208,7 @@ export default function MembersView() {
   const [promo, setPromo] = useState(null)      // member being promoted
   const [cfg, setCfg] = useState(null)          // global groupes config (tier prefill)
   const [cfgState, setCfgState] = useState('loading')   // loading | ready | error
+  const [cfgErr, setCfgErr] = useState('')              // HF3: typed reason, shown verbatim
   const [flash, setFlash] = useState('')
 
   const load = async (p = page, s = search) => {
@@ -219,10 +223,17 @@ export default function MembersView() {
   // Standard tier prices for the promote form. A failure here used to be swallowed, leaving the
   // form silently price-less — track the state so the modal can say so and block (HF1).
   const loadCfg = () => {
-    setCfgState('loading')
+    setCfgState('loading'); setCfgErr('')
     api.adminGroupesConfig()
       .then(d => { setCfg(d?.config || d); setCfgState('ready') })
-      .catch(() => setCfgState('error'))
+      .catch(e => {
+        // HF3 — name the failure so a screenshot is already the diagnosis.
+        const kind = adminErrKind(e)
+        setCfgErr(kind === 'network' ? t('admErrNetwork')
+          : kind === 'http' ? t('admErrHttp', { status: e.status })
+          : t('admErrUnknown'))
+        setCfgState('error')
+      })
   }
   useEffect(() => { loadCfg() }, [])
 
@@ -312,6 +323,7 @@ export default function MembersView() {
           tiers={tiers}
           defaultDiscount={defaultDiscount}
           cfgState={cfgState}
+          cfgErr={cfgErr}
           onRetryCfg={loadCfg}
           onClose={() => setPromo(null)}
           onDone={(r) => {
