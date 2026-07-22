@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { api } from '../utils/api'
 import styles from './AdminPanel.module.css'
 
@@ -47,23 +47,43 @@ function RoleChip({ m }) {
 
 // Promotion form. Standard tier prices are pre-filled from the live global config and stay
 // editable — any change is persisted as a per-account grid AND recorded in admin_audit_log.
-function PromoteModal({ member, tiers, defaultDiscount, onClose, onDone }) {
+const toGrid = (tiers) => (tiers || []).map(t => ({ ...t, price: t.price == null ? '' : String(t.price) }))
+
+function PromoteModal({ member, tiers, defaultDiscount, cfgState, onRetryCfg, onClose, onDone }) {
   const [name, setName] = useState(member.name || '')
   const [company, setCompany] = useState('')
   const [phone, setPhone] = useState(member.phone || '')
   const [discount, setDiscount] = useState(String(defaultDiscount ?? 10))
-  const [grid, setGrid] = useState(() => (tiers || []).map(t => ({ ...t, price: String(t.price) })))
+  const [grid, setGrid] = useState(() => toGrid(tiers))
+  const [priceTouched, setPriceTouched] = useState(false)
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState('')
+  const [nameBad, setNameBad] = useState(false)
 
-  const setPrice = (i, v) => setGrid(g => g.map((t, k) => (k === i ? { ...t, price: v } : t)))
-  const changed = (tiers || []).some((t, i) => String(t.price) !== String(grid[i]?.price))
+  // HF1: the standard prices arrive asynchronously (config fetch). If the modal was opened
+  // before that resolved, the initial grid was empty — re-seed it whenever the tiers land,
+  // as long as the owner hasn't edited a price yet.
+  useEffect(() => {
+    if (!priceTouched) setGrid(toGrid(tiers))
+  }, [tiers, priceTouched])
+
+  const setPrice = (i, v) => { setPriceTouched(true); setGrid(g => g.map((t, k) => (k === i ? { ...t, price: v } : t))) }
+  // Only a value that actually DIFFERS from its standard price counts as a change — an empty
+  // or not-yet-loaded grid must never be reported as "modified" (HF1 defect 1).
+  const isChanged = (i, v) => { const std = tiers?.[i]?.price; return std != null && String(v) !== '' && String(std) !== String(v) }
+  const changed = grid.length > 0 && grid.some((t, i) => isChanged(i, t.price))
+
+  const pricesReady = grid.length > 0 && grid.every(t => String(t.price).trim() !== '')
+  const priceNotice = cfgState === 'loading' ? 'Chargement des tarifs standard… · 正在载入标准价'
+    : !pricesReady ? 'Tarifs standard indisponibles — promotion impossible. · 标准价加载失败,无法提升' : ''
 
   const submit = async () => {
-    setErr('')
-    if (!name.trim()) { setErr('Nom requis · 姓名必填'); return }
+    setErr(''); setNameBad(false)
+    if (!name.trim()) { setErr('Nom requis · 姓名必填'); setNameBad(true); return }
     const d = parseFloat(discount)
     if (isNaN(d) || d < 0 || d > 100) { setErr('Remise 0–100 · 折扣需 0–100'); return }
+    // Never submit an empty / unloaded price grid.
+    if (!pricesReady) { setErr('Tarifs standard non chargés — réessayez. · 标准价未加载,请重试'); return }
     const menu_tiers = grid.map(t => ({ tier: Number(t.tier), label: t.label, price: parseFloat(t.price) }))
     if (menu_tiers.some(t => isNaN(t.price) || t.price < 0)) { setErr('Prix invalide · 价格无效'); return }
     setBusy(true)
@@ -95,9 +115,13 @@ function PromoteModal({ member, tiers, defaultDiscount, onClose, onDone }) {
           {member.email} · ID {member.id}
         </p>
 
-        <Field label="Nom du guide · 导游姓名 *" value={name} onChange={setName} placeholder="Li Jilei" />
-        <Field label="Société / agence · 公司" value={company} onChange={setCompany} placeholder="—" />
-        <Field label="Téléphone · 电话" value={phone} onChange={setPhone} placeholder="—" />
+        {/* HF1: the placeholder used to be a realistic name ("Li Jilei"), which on a phone reads
+            as an already-filled value — the owner tapped Confirmer and hit "Nom requis" on what
+            looked like a completed field. Placeholders are now unmistakably instructions. */}
+        <Field label="Nom du guide · 导游姓名 *" value={name} placeholder="Saisir le nom · 请输入姓名" invalid={nameBad}
+          onChange={v => { setName(v); if (nameBad) setNameBad(false) }} />
+        <Field label="Société / agence · 公司" value={company} onChange={setCompany} placeholder="Optionnel · 可留空" />
+        <Field label="Téléphone · 电话" value={phone} onChange={setPhone} placeholder="Optionnel · 可留空" />
         <Field label="Remise % · 折扣百分比" value={discount} onChange={setDiscount} placeholder="10" />
 
         <div style={{ marginTop: 14 }}>
@@ -112,11 +136,20 @@ function PromoteModal({ member, tiers, defaultDiscount, onClose, onDone }) {
                 style={{
                   width: 84, flex: '0 0 auto', padding: '6px 9px', borderRadius: 8, textAlign: 'right',
                   background: 'rgba(255,255,255,0.05)', color: 'var(--text-primary,#fff)',
-                  border: '1px solid ' + (String(tiers[i]?.price) !== String(t.price) ? 'rgba(245,197,24,0.7)' : 'rgba(255,255,255,0.14)'),
+                  border: '1px solid ' + (isChanged(i, t.price) ? 'rgba(245,197,24,0.7)' : 'rgba(255,255,255,0.14)'),
                 }} />
               <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>€</span>
             </div>
           ))}
+          {/* Prefill must never fail silently: say so and block the action. */}
+          {priceNotice && (
+            <p style={{ margin: '6px 0 0', fontSize: 12, color: cfgState === 'loading' ? 'var(--text-muted)' : '#e08a8a', display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <span>{cfgState === 'loading' ? '⏳' : '⚠️'} {priceNotice}</span>
+              {cfgState !== 'loading' && onRetryCfg && (
+                <button onClick={onRetryCfg} style={{ ...btn(false), padding: '4px 10px', fontSize: 12 }}>Réessayer · 重试</button>
+              )}
+            </p>
+          )}
           {changed && (
             <p style={{ margin: '4px 0 0', fontSize: 11.5, color: '#f5c518' }}>
               Prix modifiés — enregistrés pour ce compte et tracés dans l'audit · 改价将入审计
@@ -128,7 +161,8 @@ function PromoteModal({ member, tiers, defaultDiscount, onClose, onDone }) {
 
         <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end', marginTop: 18, flexWrap: 'wrap' }}>
           <button onClick={onClose} disabled={busy} style={btn(false)}>Annuler · 取消</button>
-          <button onClick={submit} disabled={busy} style={btn(true)}>
+          <button onClick={submit} disabled={busy || !pricesReady} style={{ ...btn(true), opacity: (busy || !pricesReady) ? 0.45 : 1, cursor: (busy || !pricesReady) ? 'not-allowed' : 'pointer' }}
+            title={!pricesReady ? 'Tarifs standard non chargés · 标准价未加载' : undefined}>
             {busy ? '…' : 'Confirmer · 确认提升'}
           </button>
         </div>
@@ -145,15 +179,15 @@ const btn = (primary) => ({
   color: primary ? 'var(--accent-gold, #f5c518)' : 'var(--text-muted)',
 })
 
-function Field({ label, value, onChange, placeholder }) {
+function Field({ label, value, onChange, placeholder, invalid }) {
   return (
     <label style={{ display: 'block', marginBottom: 10 }}>
-      <span style={{ display: 'block', fontSize: 12.5, fontWeight: 700, color: 'var(--text-secondary)', marginBottom: 4 }}>{label}</span>
+      <span style={{ display: 'block', fontSize: 12.5, fontWeight: 700, color: invalid ? '#e08a8a' : 'var(--text-secondary)', marginBottom: 4 }}>{label}</span>
       <input value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder}
         style={{
           width: '100%', padding: '8px 10px', borderRadius: 8, fontSize: 14,
           background: 'rgba(255,255,255,0.05)', color: 'var(--text-primary,#fff)',
-          border: '1px solid rgba(255,255,255,0.14)',
+          border: '1px solid ' + (invalid ? '#e08a8a' : 'rgba(255,255,255,0.14)'),
         }} />
     </label>
   )
@@ -170,6 +204,7 @@ export default function MembersView() {
   const [err, setErr] = useState('')
   const [promo, setPromo] = useState(null)      // member being promoted
   const [cfg, setCfg] = useState(null)          // global groupes config (tier prefill)
+  const [cfgState, setCfgState] = useState('loading')   // loading | ready | error
   const [flash, setFlash] = useState('')
 
   const load = async (p = page, s = search) => {
@@ -181,14 +216,24 @@ export default function MembersView() {
   }
 
   useEffect(() => { load(1, '') }, [])
-  useEffect(() => { api.adminGroupesConfig().then(d => setCfg(d?.config || d)).catch(() => {}) }, [])
+  // Standard tier prices for the promote form. A failure here used to be swallowed, leaving the
+  // form silently price-less — track the state so the modal can say so and block (HF1).
+  const loadCfg = () => {
+    setCfgState('loading')
+    api.adminGroupesConfig()
+      .then(d => { setCfg(d?.config || d); setCfgState('ready') })
+      .catch(() => setCfgState('error'))
+  }
+  useEffect(() => { loadCfg() }, [])
 
-  const tiers = (() => {
+  // Memoised so its identity only changes when the config does — the modal re-seeds its price
+  // grid on [tiers], which would otherwise fire on every render and wipe the owner's edits.
+  const tiers = useMemo(() => {
     try {
       const raw = cfg?.groupes_menu_tiers
       return typeof raw === 'string' ? JSON.parse(raw) : (raw || [])
     } catch { return [] }
-  })()
+  }, [cfg])
   const defaultDiscount = Number(cfg?.groupes_discount_pct ?? 10)
 
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE))
@@ -266,6 +311,8 @@ export default function MembersView() {
           member={promo}
           tiers={tiers}
           defaultDiscount={defaultDiscount}
+          cfgState={cfgState}
+          onRetryCfg={loadCfg}
           onClose={() => setPromo(null)}
           onDone={(r) => {
             setPromo(null)
