@@ -1,1 +1,0 @@
-import{b as e,j as r,r as t,L as o}from"./api-FFP8FVA4.js";import{A as s}from"./AdminPanel-pwrRyUUB.js";e.createRoot(document.getElementById("root")).render(r.jsx(t.StrictMode,{children:r.jsx(o,{children:r.jsx(s,{})})}));
