@@ -1,0 +1,1 @@
+import{b as t,j as r,r as e,L as o}from"./api-FFP8FVA4.js";import{K as s}from"./KitchenDisplay-CJB4H2H-.js";t.createRoot(document.getElementById("root")).render(r.jsx(e.StrictMode,{children:r.jsx(o,{children:r.jsx(s,{})})}));
