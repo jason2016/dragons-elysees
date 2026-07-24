@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import { useLang } from '../hooks/useLang'
 import { api, formatPrice } from '../utils/api'
+import AccountGroupeBlock from './AccountGroupeBlock'
 import styles from './AccountDashboard.module.css'
 
 export default function AccountDashboard() {
@@ -131,6 +132,10 @@ export default function AccountDashboard() {
             </div>
           )}
         </div>
+
+        {/* P6 — a groupe-account owner (e.g. 李总) sees their professional statement here.
+            Renders nothing for an ordinary member (account:null). */}
+        <AccountGroupeBlock />
 
         {/* My orders — incl. post-pay dine_in awaiting table settlement (Non réglé) */}
         <div className={styles.card}>

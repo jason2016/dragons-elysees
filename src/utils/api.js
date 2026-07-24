@@ -95,6 +95,20 @@ async function groupesFetch(path, options = {}) {
   return res
 }
 
+// Customer-token fetch for the /api/dragons-elysees namespace, with the same typed-error
+// contract as adminFetch (P6/HF1): transport reject → kind:'network', HTTP status → kind:'http'.
+async function meFetch(path, options = {}) {
+  const token = localStorage.getItem('de-token')
+  let res
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
+      ...options,
+      headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}), ...options.headers },
+    })
+  } catch { const e = new Error('network_unreachable'); e.kind = 'network'; throw e }
+  return res
+}
+
 export const api = {
   // Auth
   sendOtp: (email) => request('/auth/send-otp', { method: 'POST', body: JSON.stringify({ email }) }),
@@ -103,6 +117,23 @@ export const api = {
     body: JSON.stringify({ email, code, ...(referralCode ? { referral_code: referralCode } : {}) }),
   }),
   getMe: () => request('/auth/me'),
+
+  // P6 — unified login. A personal customer may ALSO own a groupe account (#9 for 李总).
+  // GET /me/statement (Bearer de-token) → { account, summary, entries } (same shape as the
+  // groupes statement); a plain member with no groupe account gets { account:null, … }.
+  meStatement: async () => {
+    const res = await meFetch('/me/statement')
+    if (res.status === 401) { const e = new Error('unauthorized'); e.kind = 'auth'; throw e }
+    if (!res.ok) throw adminHttpError(res)
+    return res.json()
+  },
+  // Silent session refresh (backend TTL 365d) — POST /auth/refresh → { token, expires_days }.
+  // Returns the new token; the caller (useAuth) updates its state so localStorage follows.
+  authRefresh: async () => {
+    const res = await meFetch('/auth/refresh', { method: 'POST', body: '{}' })
+    if (!res.ok) throw adminHttpError(res)
+    return res.json()
+  },
 
   // Orders
   // RED LINE: GET /api/dragons-elysees/orders is the SHARED no-token endpoint
