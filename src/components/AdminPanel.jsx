@@ -35,6 +35,7 @@ export default function AdminPanel() {
   const [orders, setOrders] = useState([])
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [loadErr, setLoadErr] = useState('')
   const [dateFilter, setDateFilter] = useState(() => new Date().toISOString().split('T')[0])
   const [statusFilter, setStatusFilter] = useState('')
   const [expandedId, setExpandedId] = useState(null)
@@ -50,8 +51,15 @@ export default function AdminPanel() {
       ])
       setOrders(ordersRes.orders || [])
       setStats(statsRes)
-    } catch {
+      setLoadErr('')
+    } catch (e) {
+      // Ce catch remettait la liste a zero sans rien dire. Du 22 au 27 aout
+      // l'API a repondu 503 a chaque appel, et cet ecran a affiche « aucune
+      // commande » dix-huit fois de suite : une panne rendue comme une journee
+      // calme. Une panne doit se voir ; une journee calme aussi, mais pas de la
+      // meme facon.
       setOrders([])
+      setLoadErr(String(e?.message || e) || 'erreur')
     } finally {
       setLoading(false)
     }
@@ -188,20 +196,22 @@ export default function AdminPanel() {
         {view === 'orders' && (<>
         {/* Stats */}
         <div className={styles.stats}>
-          <StatCard icon="📦" value={stats?.total_orders ?? orders.length} label={t('adminOrders')} />
-          <StatCard icon="💰" value={formatPrice(stats?.revenue ?? 0)} label={t('adminRevenue')} />
-          <StatCard icon="🎁" value={formatPrice(stats?.cashback_issued ?? 0)} label={t('adminCashback')} />
-          <StatCard icon="🍽️" value={stats?.by_type?.dine_in ?? '—'} label={t('adminDineIn')} />
-          <StatCard icon="🚗" value={stats?.by_type?.delivery ?? '—'} label={t('adminDelivery')} />
-          <StatCard icon="💳" value={stats?.by_type?.balance_only ?? '—'} label={t('adminBalance')} />
+          {/* Une panne ne doit pas se lire « 0 EUR de chiffre d'affaires » :
+              le bandeau dirait echec et les cartes diraient journee vide. */}
+          <StatCard icon="📦" value={loadErr ? '—' : (stats?.total_orders ?? orders.length)} label={t('adminOrders')} />
+          <StatCard icon="💰" value={loadErr ? '—' : formatPrice(stats?.revenue ?? 0)} label={t('adminRevenue')} />
+          <StatCard icon="🎁" value={loadErr ? '—' : formatPrice(stats?.cashback_issued ?? 0)} label={t('adminCashback')} />
+          <StatCard icon="🍽️" value={loadErr ? '—' : (stats?.by_type?.dine_in ?? '—')} label={t('adminDineIn')} />
+          <StatCard icon="🚗" value={loadErr ? '—' : (stats?.by_type?.delivery ?? '—')} label={t('adminDelivery')} />
+          <StatCard icon="💳" value={loadErr ? '—' : (stats?.by_type?.balance_only ?? '—')} label={t('adminBalance')} />
         </div>
 
         {/* Daily by-status summary — always counts ALL orders (incl. settled), independent of the
             "hide settled" row toggle below. */}
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', margin: '2px 0 4px' }}>
-          <SummaryChip color="#d4a300" label={t('adminEnCours')} value={sumEnCours} />
-          <SummaryChip color="#4caf7d" label={t('adminReady')} value={sumReady} />
-          <SummaryChip color="#4285F4" label={t('adminSettled')} value={sumSettled} />
+          <SummaryChip color="#d4a300" label={t('adminEnCours')} value={loadErr ? '—' : sumEnCours} />
+          <SummaryChip color="#4caf7d" label={t('adminReady')} value={loadErr ? '—' : sumReady} />
+          <SummaryChip color="#4285F4" label={t('adminSettled')} value={loadErr ? '—' : sumSettled} />
         </div>
 
         {/* À encaisser — dine_in post-pay settlement queue */}
@@ -244,6 +254,15 @@ export default function AdminPanel() {
 
           {loading ? (
             <div className={styles.loading}>Chargement…</div>
+          ) : loadErr ? (
+            <div style={{ textAlign: 'center', padding: 16, margin: '0 0 12px', color: '#b91c1c',
+              background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, fontSize: 13 }}>
+              ⚠️ Connexion au serveur impossible. Cette liste n'est pas à jour.{' '}
+              <span style={{ opacity: .7 }}>({loadErr})</span>{' '}
+              <button onClick={fetchData} style={{ marginLeft: 6, padding: '4px 12px',
+                borderRadius: 8, border: '1px solid #b91c1c', background: 'white', color: '#b91c1c',
+                fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>Réessayer</button>
+            </div>
           ) : displayed.length === 0 ? (
             <div className={styles.empty}>Aucune commande pour cette date.</div>
           ) : (

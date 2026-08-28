@@ -37,8 +37,12 @@ async function request(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, { ...init, headers })
   if (res.status === 401 && admin) { onAdminUnauthorized(); throw new Error('unauthorized') }
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ message: 'Network error' }))
-    throw new Error(err.message || `HTTP ${res.status}`)
+    // Le serveur nomme ce champ `error` : server.py:591 renvoie
+    // {"error": "Dragons DB unavailable"}. Ne lire que `message` revenait a
+    // jeter sa phrase pour n'afficher qu'un code — pendant les six jours de
+    // panne d'aout, la seule information qui remontait etait « HTTP 503 ».
+    const err = await res.json().catch(() => ({ error: 'Network error' }))
+    throw new Error(err.error || err.message || `HTTP ${res.status}`)
   }
   return res.json()
 }
